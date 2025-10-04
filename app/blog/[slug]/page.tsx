@@ -1,0 +1,174 @@
+import { notFound } from "next/navigation"
+import Link from "next/link"
+import { getPost, getPosts, formatDate, stripHtml } from "@/lib/wordpress"
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "@/components/ui/card"
+import { ArticleCard } from "@/components/article-card"
+import { ArrowLeft, Calendar, User, Share2 } from "lucide-react"
+import { Suspense } from "react"
+
+interface ArticlePageProps {
+  params: {
+    slug: string
+  }
+}
+
+async function RelatedArticles({ currentSlug }: { currentSlug: string }) {
+  const { posts } = await getPosts({ per_page: 3, orderby: "date", order: "desc" })
+  const relatedPosts = posts.filter((post) => post.slug !== currentSlug).slice(0, 3)
+
+  if (relatedPosts.length === 0) return null
+
+  return (
+    <section className="py-12 border-t border-border">
+      <div className="max-w-4xl mx-auto">
+        <h2 className="text-2xl font-semibold text-foreground mb-8">Articles similaires</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {relatedPosts.map((post) => (
+            <ArticleCard key={post.id} post={post} />
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+export default async function ArticlePage({ params }: ArticlePageProps) {
+  const post = await getPost(params.slug)
+
+  if (!post) {
+    notFound()
+  }
+
+  const featuredImage = post._embedded?.["wp:featuredmedia"]?.[0]
+  const categories = post._embedded?.["wp:term"]?.[0] || []
+  const author = post._embedded?.author?.[0]
+
+  return (
+    <article className="min-h-screen">
+      {/* Article Header */}
+      <header className="py-12 lg:py-16">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="space-y-6">
+            {/* Back Button */}
+            <Button asChild variant="ghost" size="sm" className="mb-4">
+              <Link href="/blog" className="flex items-center gap-2">
+                <ArrowLeft className="h-4 w-4" />
+                Retour aux articles
+              </Link>
+            </Button>
+
+            {/* Categories */}
+            {categories.length > 0 && (
+              <div className="flex flex-wrap gap-2">
+                {categories.map((category) => (
+                  <Badge key={category.id} variant="secondary">
+                    {category.name}
+                  </Badge>
+                ))}
+              </div>
+            )}
+
+            {/* Title */}
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-semibold text-foreground leading-tight text-balance">
+              {post.title.rendered}
+            </h1>
+
+            {/* Meta Information */}
+            <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
+              <div className="flex items-center gap-2">
+                <Calendar className="h-4 w-4" />
+                <time dateTime={post.date}>{formatDate(post.date)}</time>
+              </div>
+              {author && (
+                <div className="flex items-center gap-2">
+                  <User className="h-4 w-4" />
+                  <span>{author.name}</span>
+                </div>
+              )}
+              <Button variant="ghost" size="sm" className="ml-auto">
+                <Share2 className="h-4 w-4 mr-2" />
+                Partager
+              </Button>
+            </div>
+
+            {/* Excerpt */}
+            {post.excerpt.rendered && (
+              <div className="text-lg text-muted-foreground leading-relaxed border-l-4 border-primary pl-6">
+                <div dangerouslySetInnerHTML={{ __html: post.excerpt.rendered }} />
+              </div>
+            )}
+          </div>
+        </div>
+      </header>
+
+      {/* Article Content */}
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="prose prose-lg max-w-none article-content prose-headings:text-foreground prose-p:text-foreground prose-strong:text-foreground prose-a:text-primary">
+          <div dangerouslySetInnerHTML={{ __html: post.content.rendered }} className="wordpress-content" />
+        </div>
+      </div>
+
+      {/* Article Footer */}
+      <footer className="mt-12 pt-8 border-t border-border">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div className="flex flex-wrap gap-2">
+            {categories.map((category) => (
+              <Link key={category.id} href={`/blog?category=${category.id}`}>
+                <Badge variant="outline" className="hover:bg-primary hover:text-primary-foreground transition-colors">
+                  {category.name}
+                </Badge>
+              </Link>
+            ))}
+          </div>
+          <Button variant="outline" size="sm">
+            <Share2 className="h-4 w-4 mr-2" />
+            Partager cet article
+          </Button>
+        </div>
+      </footer>
+
+      {/* Related Articles */}
+      <Suspense
+        fallback={
+          <section className="py-12 border-t border-border">
+            <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+              <h2 className="text-2xl font-semibold text-foreground mb-8">Articles similaires</h2>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {Array.from({ length: 3 }).map((_, i) => (
+                  <Card key={i} className="animate-pulse">
+                    <div className="h-48 bg-muted" />
+                    <CardContent className="p-6 space-y-3">
+                      <div className="h-4 bg-muted rounded w-1/3" />
+                      <div className="h-6 bg-muted rounded" />
+                      <div className="h-4 bg-muted rounded w-2/3" />
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </div>
+          </section>
+        }
+      >
+        <RelatedArticles currentSlug={params.slug} />
+      </Suspense>
+    </article>
+  )
+}
+
+// Generate metadata for SEO
+export async function generateMetadata({ params }: ArticlePageProps) {
+  const post = await getPost(params.slug)
+
+  if (!post) {
+    return {
+      title: "Article non trouvé",
+    }
+  }
+
+  return {
+    title: `${post.title.rendered} | Magazine Collectif`,
+    description: stripHtml(post.excerpt.rendered).substring(0, 160),
+  }
+}

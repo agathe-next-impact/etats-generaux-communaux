@@ -1,0 +1,538 @@
+{
+  "acf_field_group": {
+    "key": "group_les_egc",
+    "title": "Les EGC - États Généraux Communaux",
+    "fields": [
+      {
+        "key": "field_hero_section",
+        "label": "Section Hero",
+        "name": "hero_section",
+        "type": "group",
+        "sub_fields": [
+          {
+            "key": "field_hero_badge",
+            "label": "Badge",
+            "name": "badge",
+            "type": "text",
+            "default_value": "Initiative Citoyenne"
+          },
+          {
+            "key": "field_hero_title",
+            "label": "Titre principal",
+            "name": "title",
+            "type": "text",
+            "default_value": "Les États Généraux Communaux"
+          },
+          {
+            "key": "field_hero_subtitle",
+            "label": "Sous-titre",
+            "name": "subtitle",
+            "type": "text",
+            "default_value": "Construire ensemble • République démocratique • Avenir durable"
+          },
+          {
+            "key": "field_hero_description",
+            "label": "Description",
+            "name": "description",
+            "type": "textarea"
+          }
+        ]
+      },
+      {
+        "key": "field_what_section",
+        "label": "Section 'C'est quoi ?'",
+        "name": "what_section",
+        "type": "group",
+        "sub_fields": [
+          {
+            "key": "field_what_title",
+            "label": "Titre",
+            "name": "title",
+            "type": "text",
+            "default_value": "Les États Généraux Communaux, c'est quoi ?"
+          },
+          {
+            "key": "field_what_content",
+            "label": "Contenu",
+            "name": "content",
+            "type": "wysiwyg"
+          },
+          {
+            "key": "field_what_image",
+            "label": "Image",
+            "name": "image",
+            "type": "image",
+            "return_format": "array"
+          }
+        ]
+      },
+      {
+        "key": "field_who_section",
+        "label": "Section 'C'est qui ?'",
+        "name": "who_section",
+        "type": "group",
+        "sub_fields": [
+          {
+            "key": "field_who_title",
+            "label": "Titre",
+            "name": "title",
+            "type": "text",
+            "default_value": "Les États Généraux Communaux, c'est qui ?"
+          },
+          {
+            "key": "field_who_content",
+            "label": "Contenu",
+            "name": "content",
+            "type": "wysiwyg"
+          },
+          {
+            "key": "field_who_image",
+            "label": "Image",
+            "name": "image",
+            "type": "image",
+            "return_format": "array"
+          }
+        ]
+      },
+      {
+        "key": "field_context_section",
+        "label": "Section Contexte",
+        "name": "context_section",
+        "type": "group",
+        "sub_fields": [
+          {
+            "key": "field_context_title",
+            "label": "Titre",
+            "name": "title",
+            "type": "text",
+            "default_value": "Le contexte"
+          },
+          {
+            "key": "field_context_subtitle",
+            "label": "Sous-titre",
+            "name": "subtitle",
+            "type": "text",
+            "default_value": "Les prochaines élections municipales : un temps décisif pour reprendre la main"
+          },
+          {
+            "key": "field_context_election_title",
+            "label": "Titre élections",
+            "name": "election_title",
+            "type": "text",
+            "default_value": "Élections municipales 2026"
+          },
+          {
+            "key": "field_context_election_content",
+            "label": "Contenu élections",
+            "name": "election_content",
+            "type": "textarea"
+          },
+          {
+            "key": "field_context_highlight",
+            "label": "Texte mis en avant",
+            "name": "highlight",
+            "type": "textarea"
+          }
+        ]
+      },
+      {
+        "key": "field_why_commune_section",
+        "label": "Section 'Pourquoi la commune ?'",
+        "name": "why_commune_section",
+        "type": "group",
+        "sub_fields": [
+          {
+            "key": "field_why_commune_title",
+            "label": "Titre",
+            "name": "title",
+            "type": "text",
+            "default_value": "Pourquoi la commune ?"
+          },
+          {
+            "key": "field_why_commune_cards",
+            "label": "Cartes explicatives",
+            "name": "cards",
+            "type": "repeater",
+            "sub_fields": [
+              {
+                "key": "field_card_icon",
+                "label": "Icône",
+                "name": "icon",
+                "type": "select",
+                "choices": {
+                  "MapPin": "Localisation",
+                  "Heart": "Cœur",
+                  "Users": "Utilisateurs",
+                  "Target": "Cible",
+                  "Calendar": "Calendrier",
+                  "FileText": "Document"
+                }
+              },
+              {
+                "key": "field_card_title",
+                "label": "Titre",
+                "name": "title",
+                "type": "text"
+              },
+              {
+                "key": "field_card_content",
+                "label": "Contenu",
+                "name": "content",
+                "type": "textarea"
+              }
+            ],
+            "min": 3,
+            "max": 3
+          }
+        ]
+      },
+      {
+        "key": "field_how_to_act_section",
+        "label": "Section 'Comment agir ?'",
+        "name": "how_to_act_section",
+        "type": "group",
+        "sub_fields": [
+          {
+            "key": "field_how_to_act_title",
+            "label": "Titre",
+            "name": "title",
+            "type": "text",
+            "default_value": "Comment agir ?"
+          },
+          {
+            "key": "field_how_to_act_subtitle",
+            "label": "Sous-titre",
+            "name": "subtitle",
+            "type": "text",
+            "default_value": "En organisant une Assemblée Citoyenne Communale (ACC)"
+          },
+          {
+            "key": "field_how_to_act_points",
+            "label": "Points d'action",
+            "name": "action_points",
+            "type": "repeater",
+            "sub_fields": [
+              {
+                "key": "field_point_icon",
+                "label": "Icône",
+                "name": "icon",
+                "type": "select",
+                "choices": {
+                  "Target": "Cible",
+                  "FileText": "Document",
+                  "Users": "Utilisateurs"
+                }
+              },
+              {
+                "key": "field_point_title",
+                "label": "Titre",
+                "name": "title",
+                "type": "text"
+              },
+              {
+                "key": "field_point_content",
+                "label": "Contenu",
+                "name": "content",
+                "type": "textarea"
+              }
+            ]
+          },
+          {
+            "key": "field_how_to_act_highlight",
+            "label": "Texte mis en avant",
+            "name": "highlight",
+            "type": "textarea"
+          },
+          {
+            "key": "field_how_to_act_image",
+            "label": "Image",
+            "name": "image",
+            "type": "image",
+            "return_format": "array"
+          }
+        ]
+      },
+      {
+        "key": "field_doleances_section",
+        "label": "Section Cahiers de doléances",
+        "name": "doleances_section",
+        "type": "group",
+        "sub_fields": [
+          {
+            "key": "field_doleances_title",
+            "label": "Titre",
+            "name": "title",
+            "type": "text",
+            "default_value": "Les cahiers de doléances 2018/2019"
+          },
+          {
+            "key": "field_doleances_subtitle",
+            "label": "Sous-titre",
+            "name": "subtitle",
+            "type": "text",
+            "default_value": "Un trésor national pour amorcer les travaux citoyens"
+          },
+          {
+            "key": "field_doleances_content",
+            "label": "Contenu",
+            "name": "content",
+            "type": "wysiwyg"
+          },
+          {
+            "key": "field_doleances_highlight",
+            "label": "Texte mis en avant",
+            "name": "highlight",
+            "type": "textarea"
+          }
+        ]
+      },
+      {
+        "key": "field_who_can_organize_section",
+        "label": "Section 'Qui peut organiser ?'",
+        "name": "who_can_organize_section",
+        "type": "group",
+        "sub_fields": [
+          {
+            "key": "field_who_can_organize_title",
+            "label": "Titre",
+            "name": "title",
+            "type": "text",
+            "default_value": "Qui peut organiser une ACC ?"
+          },
+          {
+            "key": "field_who_can_organize_cards",
+            "label": "Cartes des acteurs",
+            "name": "actor_cards",
+            "type": "repeater",
+            "sub_fields": [
+              {
+                "key": "field_actor_icon",
+                "label": "Icône",
+                "name": "icon",
+                "type": "select",
+                "choices": {
+                  "Users": "Utilisateurs",
+                  "Badge": "Badge",
+                  "Heart": "Cœur",
+                  "Target": "Cible"
+                }
+              },
+              {
+                "key": "field_actor_title",
+                "label": "Titre",
+                "name": "title",
+                "type": "text"
+              },
+              {
+                "key": "field_actor_description",
+                "label": "Description",
+                "name": "description",
+                "type": "textarea"
+              }
+            ],
+            "min": 4,
+            "max": 4
+          },
+          {
+            "key": "field_condition_title",
+            "label": "Titre condition",
+            "name": "condition_title",
+            "type": "text",
+            "default_value": "Condition sine qua non"
+          },
+          {
+            "key": "field_condition_content",
+            "label": "Contenu condition",
+            "name": "condition_content",
+            "type": "textarea"
+          }
+        ]
+      },
+      {
+        "key": "field_after_elections_section",
+        "label": "Section 'Après les élections'",
+        "name": "after_elections_section",
+        "type": "group",
+        "sub_fields": [
+          {
+            "key": "field_after_elections_title",
+            "label": "Titre",
+            "name": "title",
+            "type": "text",
+            "default_value": "Et après les élections municipales ?"
+          },
+          {
+            "key": "field_scenario_adopted_title",
+            "label": "Titre scénario adopté",
+            "name": "scenario_adopted_title",
+            "type": "text",
+            "default_value": "Si le manifeste est adopté"
+          },
+          {
+            "key": "field_scenario_adopted_content",
+            "label": "Contenu scénario adopté",
+            "name": "scenario_adopted_content",
+            "type": "textarea"
+          },
+          {
+            "key": "field_scenario_not_adopted_title",
+            "label": "Titre scénario non adopté",
+            "name": "scenario_not_adopted_title",
+            "type": "text",
+            "default_value": "Si le manifeste n'est pas adopté"
+          },
+          {
+            "key": "field_scenario_not_adopted_content",
+            "label": "Contenu scénario non adopté",
+            "name": "scenario_not_adopted_content",
+            "type": "textarea"
+          }
+        ]
+      },
+      {
+        "key": "field_link_egc_acc_section",
+        "label": "Section 'Lien EGC et ACC'",
+        "name": "link_egc_acc_section",
+        "type": "group",
+        "sub_fields": [
+          {
+            "key": "field_link_title",
+            "label": "Titre",
+            "name": "title",
+            "type": "text",
+            "default_value": "Le lien entre EGC et ACC"
+          },
+          {
+            "key": "field_link_content",
+            "label": "Contenu",
+            "name": "content",
+            "type": "wysiwyg"
+          },
+          {
+            "key": "field_link_highlight",
+            "label": "Texte mis en avant",
+            "name": "highlight",
+            "type": "textarea"
+          }
+        ]
+      },
+      {
+        "key": "field_help_section",
+        "label": "Section 'Comment se faire aider ?'",
+        "name": "help_section",
+        "type": "group",
+        "sub_fields": [
+          {
+            "key": "field_help_title",
+            "label": "Titre",
+            "name": "title",
+            "type": "text",
+            "default_value": "Comment se faire aider ?"
+          },
+          {
+            "key": "field_help_content",
+            "label": "Contenu",
+            "name": "content",
+            "type": "wysiwyg"
+          },
+          {
+            "key": "field_help_website_url",
+            "label": "URL du site web",
+            "name": "website_url",
+            "type": "url",
+            "default_value": "https://www.doleances.org"
+          },
+          {
+            "key": "field_help_website_text",
+            "label": "Texte du lien site web",
+            "name": "website_text",
+            "type": "text",
+            "default_value": "Visiter doleances.org"
+          },
+          {
+            "key": "field_help_phone",
+            "label": "Numéro de téléphone",
+            "name": "phone",
+            "type": "text",
+            "default_value": "0606060606"
+          },
+          {
+            "key": "field_help_phone_text",
+            "label": "Texte du lien téléphone",
+            "name": "phone_text",
+            "type": "text",
+            "default_value": "Appeler le 06 06 06 06 06"
+          }
+        ]
+      },
+      {
+        "key": "field_cta_section",
+        "label": "Section Call-to-Action",
+        "name": "cta_section",
+        "type": "group",
+        "sub_fields": [
+          {
+            "key": "field_cta_title",
+            "label": "Titre",
+            "name": "title",
+            "type": "text",
+            "default_value": "Rejoignez le mouvement des EGC"
+          },
+          {
+            "key": "field_cta_description",
+            "label": "Description",
+            "name": "description",
+            "type": "textarea"
+          },
+          {
+            "key": "field_cta_buttons",
+            "label": "Boutons d'action",
+            "name": "buttons",
+            "type": "repeater",
+            "sub_fields": [
+              {
+                "key": "field_button_text",
+                "label": "Texte du bouton",
+                "name": "text",
+                "type": "text"
+              },
+              {
+                "key": "field_button_url",
+                "label": "URL",
+                "name": "url",
+                "type": "text"
+              },
+              {
+                "key": "field_button_style",
+                "label": "Style",
+                "name": "style",
+                "type": "select",
+                "choices": {
+                  "primary": "Principal",
+                  "outline": "Contour"
+                }
+              }
+            ],
+            "min": 2,
+            "max": 2
+          }
+        ]
+      }
+    ],
+    "location": [
+      [
+        {
+          "param": "page_template",
+          "operator": "==",
+          "value": "page-les-egc.php"
+        }
+      ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": ["the_content"]
+  }
+}
