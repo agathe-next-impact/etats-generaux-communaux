@@ -6,7 +6,6 @@ import { ArticlesCarousel } from "@/components/articles-carousel"
 import { MiniEventTimeline } from "@/components/mini-event-timeline"
 import { EventsCarousel } from "@/components/events-carousel"
 import { GoogleMap } from "@/components/google-map"
-import { LatestNews } from "@/components/latest-news"
 import { getPosts, getEvents, getLocalGroups, getHomePageData } from "@/lib/wordpress"
 import type { HomePageACF } from "@/lib/wordpress"
 import Link from "next/link"
@@ -211,16 +210,6 @@ async function MapAndEventsSection({ acfData }: { acfData?: HomePageACF["section
   )
 }
 
-async function LatestNewsSection() {
-  const { posts } = await getPosts({ per_page: 6, orderby: "date", order: "desc" })
-
-  if (posts.length === 0) {
-    return null
-  }
-
-  return <LatestNews posts={posts} />
-}
-
 export default async function HomePage() {
   const homePageData = await getHomePageData()
   const acf = homePageData?.acf
@@ -333,34 +322,6 @@ export default async function HomePage() {
           </div>
         </section>
       )}
-
-      {/* Latest News Section */}
-      <Suspense
-        fallback={
-          <section className="py-16 lg:py-24 bg-background">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="h-8 bg-muted rounded w-64 mb-12 animate-pulse" />
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {Array.from({ length: 6 }).map((_, i) => (
-                  <Card key={i} className="animate-pulse">
-                    <div className="bg-muted h-48" />
-                    <CardContent className="p-6">
-                      <div className="space-y-3">
-                        <div className="h-4 bg-muted rounded w-32" />
-                        <div className="h-6 bg-muted rounded" />
-                        <div className="h-4 bg-muted rounded w-full" />
-                        <div className="h-4 bg-muted rounded w-3/4" />
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            </div>
-          </section>
-        }
-      >
-        <LatestNewsSection />
-      </Suspense>
 
       {/* Articles and Events Section */}
       <Suspense
