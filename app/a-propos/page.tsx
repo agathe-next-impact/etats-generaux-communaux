@@ -8,7 +8,7 @@ export default function AboutPage() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="py-16 lg:py-24">
+      <section className="py-16 lg:py-24 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="space-y-8">
             <div className="space-y-4">
@@ -29,7 +29,7 @@ export default function AboutPage() {
       </section>
 
       {/* Mission Section */}
-      <section className="py-16 bg-muted/30">
+      <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-semibold text-foreground mb-4">Notre mission</h2>
@@ -82,7 +82,7 @@ export default function AboutPage() {
       </section>
 
       {/* Values Section */}
-      <section className="py-16 lg:py-24">
+      <section className="py-16 lg:py-24 bg-white">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-8">
@@ -159,7 +159,7 @@ export default function AboutPage() {
       </section>
 
       {/* Team Section */}
-      <section className="py-16 bg-muted/30">
+      <section className="py-16 bg-white">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-semibold text-foreground mb-4">Notre équipe</h2>
@@ -215,7 +215,7 @@ export default function AboutPage() {
       </section>
 
       {/* History Section */}
-      <section className="py-16 lg:py-24">
+      <section className="py-16 lg:py-24 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-semibold text-foreground mb-4">Notre histoire</h2>
@@ -279,7 +279,7 @@ export default function AboutPage() {
       </section>
 
       {/* Contact Section */}
-      <section className="py-16 bg-muted/30">
+      <section className="py-16 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="space-y-8">
             <div>

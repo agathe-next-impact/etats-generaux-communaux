@@ -2,14 +2,16 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { GlobalSearch } from "@/components/global-search"
-import { Menu, X } from "lucide-react"
+import { Menu, X, Search } from "lucide-react"
 import Image from "next/image"
 
 export function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isSearchOpen, setIsSearchOpen] = useState(false)
+  const router = useRouter()
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -22,6 +24,10 @@ export function Navigation() {
     document.addEventListener("keydown", handleKeyDown)
     return () => document.removeEventListener("keydown", handleKeyDown)
   }, [])
+
+  const handleSearchClick = () => {
+    router.push("/recherche")
+  }
 
   return (
     <>
@@ -59,6 +65,22 @@ export function Navigation() {
             </div>
 
             <div className="hidden md:flex items-center space-x-3">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setIsSearchOpen(true)}
+                onContextMenu={(e) => {
+                  e.preventDefault()
+                  handleSearchClick()
+                }}
+                className="gap-2"
+              >
+                <Search className="h-4 w-4" />
+                <span className="hidden lg:inline">Rechercher</span>
+                <kbd className="hidden lg:inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100">
+                  <span className="text-xs">⌘</span>K
+                </kbd>
+              </Button>
               <Button asChild variant="outline">
                 <Link href="/contact">Contact</Link>
               </Button>
@@ -69,6 +91,9 @@ export function Navigation() {
 
             {/* Mobile menu button */}
             <div className="md:hidden flex items-center gap-2">
+              <Button variant="ghost" size="sm" onClick={handleSearchClick}>
+                <Search className="h-5 w-5" />
+              </Button>
               <Button variant="ghost" size="sm" asChild>
                 <Link href="/contact">Contact</Link>
               </Button>

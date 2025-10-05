@@ -159,6 +159,96 @@ export interface WordPressTaxonomy {
   count: number
 }
 
+export interface HomePageACF {
+  section_hero?: {
+    titre?: string
+    "sous-titre"?: string
+    chapeau?: string
+    cta_de_gauche?: {
+      libelle_de_gauche?: string
+      lien_de_gauche?: {
+        url: string
+        title: string
+        target: string
+      }
+    }
+    cta_de_droite?: {
+      libelle_de_droite?: string
+      lien_de_droite?: {
+        url: string
+        title: string
+        target: string
+      }
+    }
+    image?: {
+      url: string
+      alt: string
+      width: number
+      height: number
+    }
+  }
+  groupe_de_liens?: {
+    liste_des_liens?: Array<{
+      libelle?: string
+      lien?: {
+        url: string
+        title: string
+        target: string
+      }
+      icone?: {
+        url: string
+        alt: string
+        width: number
+        height: number
+      }
+    }>
+  }
+  section_actus_evenements?: {
+    titre_actus?: string
+    soustitre_actus?: string
+    titre_evenements?: string
+    soustitre_evenements?: string
+  }
+  section_groupes_evenements?: {
+    titre_groupes_locaux?: string
+    soustitre_groupes_locaux?: string
+    titre_evenements?: string
+    soustitre_evenements?: string
+  }
+  section_manifeste?: {
+    titre?: string
+    chapeau?: string
+    texte?: string
+    cta_de_gauche?: {
+      libelle_de_gauche?: string
+      lien_de_gauche?: {
+        url: string
+        title: string
+        target: string
+      }
+    }
+    cta_de_droite?: {
+      libelle_de_droite?: string
+      lien_de_droite?: {
+        url: string
+        title: string
+        target: string
+      }
+    }
+  }
+}
+
+export interface HomePageData {
+  id: number
+  title: {
+    rendered: string
+  }
+  content: {
+    rendered: string
+  }
+  acf?: HomePageACF
+}
+
 const WP_API_URL = process.env.NEXT_PUBLIC_WORDPRESS_API_URL || "https://demo.wp-api.org/wp-json/wp/v2"
 
 async function validateJsonResponse(response: Response): Promise<any> {
@@ -792,12 +882,33 @@ export async function getPageBySlug(slug: string): Promise<any | null> {
     console.log(`[v0] Pages found:`, pages.length)
 
     if (Array.isArray(pages) && pages.length > 0) {
+      const page = pages[0]
       console.log(`[v0] Page data retrieved successfully for "${slug}"`)
-      console.log(`[v0] Page ACF fields:`, Object.keys(pages[0].acf || {}))
 
-      if (pages[0].acf) {
+      console.log(`[v0] Complete page object keys:`, Object.keys(page))
+      console.log(`[v0] Page ID:`, page.id)
+      console.log(`[v0] Page title:`, page.title?.rendered)
+
+      console.log(`[v0] Checking ACF data locations:`)
+      console.log(`[v0] - page.acf exists:`, !!page.acf)
+      console.log(`[v0] - page.acf type:`, typeof page.acf)
+      console.log(`[v0] - page.acf value:`, JSON.stringify(page.acf, null, 2))
+
+      if (page.meta) {
+        console.log(`[v0] - page.meta exists:`, !!page.meta)
+        console.log(`[v0] - page.meta:`, JSON.stringify(page.meta, null, 2))
+      }
+
+      Object.keys(page).forEach((key) => {
+        if (key.startsWith("acf") || key.includes("field") || key.startsWith("_")) {
+          console.log(`[v0] - page.${key}:`, JSON.stringify(page[key], null, 2))
+        }
+      })
+
+      if (page.acf && Object.keys(page.acf).length > 0) {
+        console.log(`[v0] ACF fields found:`, Object.keys(page.acf))
         console.log(`[v0] ACF field values:`)
-        Object.entries(pages[0].acf).forEach(([key, value]) => {
+        Object.entries(page.acf).forEach(([key, value]) => {
           if (typeof value === "object" && value !== null) {
             console.log(`[v0] - ${key}:`, JSON.stringify(value, null, 2))
           } else {
@@ -805,16 +916,118 @@ export async function getPageBySlug(slug: string): Promise<any | null> {
           }
         })
       } else {
-        console.log(`[v0] No ACF data found - check if ACF plugin is installed and fields are configured`)
+        console.log(`[v0] ⚠️ No ACF data found in page.acf field`)
+        console.log(`[v0] Possible reasons:`)
+        console.log(`[v0] 1. ACF plugin is not installed or activated`)
+        console.log(`[v0] 2. ACF fields are not configured to show in REST API`)
+        console.log(`[v0] 3. ACF fields are not assigned to this page`)
+        console.log(`[v0] 4. ACF to REST API plugin is not installed`)
+        console.log(`[v0] `)
+        console.log(`[v0] To fix this, please:`)
+        console.log(`[v0] 1. Install and activate ACF plugin in WordPress`)
+        console.log(`[v0] 2. In ACF field group settings, enable "Show in REST API"`)
+        console.log(`[v0] 3. Or install "ACF to REST API" plugin`)
+        console.log(`[v0] 4. Verify fields are assigned to the page template or location`)
       }
 
-      return pages[0]
+      return page
     } else {
       console.log(`[v0] No pages found with slug "${slug}"`)
       return null
     }
   } catch (error) {
     console.error(`[v0] Error fetching WordPress page "${slug}":`, error)
+    return null
+  }
+}
+
+export async function getHomePageData(): Promise<HomePageData | null> {
+  try {
+    console.log("[v0] Fetching homepage ACF data")
+
+    // Method 1: Try slug "accueil"
+    let page = await getPageBySlug("accueil")
+
+    if (page) {
+      console.log("[v0] Homepage found with slug 'accueil'")
+      console.log("[v0] Homepage ACF data:", page.acf ? "found" : "not found")
+      return page as HomePageData
+    }
+
+    // Method 2: Try by page ID 771 (from ACF export)
+    console.log("[v0] Trying to fetch homepage by ID 771")
+    try {
+      const response = await fetch(`${WP_API_URL}/pages/771?acf_format=standard`, {
+        next: { revalidate: 300 },
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      })
+
+      if (response.ok) {
+        page = await validateJsonResponse(response)
+        console.log("[v0] Homepage found with ID 771")
+        console.log("[v0] Homepage ACF data:", page.acf ? "found" : "not found")
+        return page as HomePageData
+      }
+    } catch (error) {
+      console.log("[v0] Failed to fetch by ID 771:", error)
+    }
+
+    // Method 3: Try other common slugs
+    const commonSlugs = ["home", "homepage", "index", "front-page"]
+    for (const slug of commonSlugs) {
+      console.log(`[v0] Trying slug: ${slug}`)
+      page = await getPageBySlug(slug)
+      if (page) {
+        console.log(`[v0] Homepage found with slug '${slug}'`)
+        console.log("[v0] Homepage ACF data:", page.acf ? "found" : "not found")
+        return page as HomePageData
+      }
+    }
+
+    // Method 4: Try to get the front page from WordPress settings
+    console.log("[v0] Trying to fetch front page from WordPress settings")
+    try {
+      const response = await fetch(`${WP_API_URL}/pages?per_page=100&acf_format=standard`, {
+        next: { revalidate: 300 },
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      })
+
+      if (response.ok) {
+        const pages = await validateJsonResponse(response)
+        console.log(`[v0] Found ${pages.length} pages in WordPress`)
+
+        // Log all page slugs to help debug
+        if (Array.isArray(pages) && pages.length > 0) {
+          console.log("[v0] Available page slugs:")
+          pages.forEach((p: any) => {
+            console.log(`[v0] - ID: ${p.id}, Slug: ${p.slug}, Title: ${p.title?.rendered}`)
+          })
+
+          // Return the first page as a fallback
+          console.log("[v0] Using first page as homepage fallback")
+          return pages[0] as HomePageData
+        }
+      }
+    } catch (error) {
+      console.log("[v0] Failed to fetch pages list:", error)
+    }
+
+    console.log("[v0] No homepage found with any method")
+    console.log("[v0] Please ensure:")
+    console.log("[v0] 1. A page exists in WordPress with slug 'accueil' or ID 771")
+    console.log("[v0] 2. The page is published (not draft)")
+    console.log("[v0] 3. ACF fields are properly configured on the page")
+    console.log("[v0] 4. WordPress REST API is accessible at:", WP_API_URL)
+
+    return null
+  } catch (error) {
+    console.error("[v0] Error fetching homepage data:", error)
     return null
   }
 }

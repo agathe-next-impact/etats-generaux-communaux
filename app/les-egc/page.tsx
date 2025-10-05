@@ -137,7 +137,7 @@ export default async function LesEGCPage() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative py-20 lg:py-32 overflow-hidden">
+      <section className="relative py-20 lg:py-32 overflow-hidden bg-white">
         <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-background to-secondary/10" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center space-y-8">
@@ -164,7 +164,7 @@ export default async function LesEGCPage() {
       </section>
 
       {/* What are EGC Section */}
-      <section className="py-16 lg:py-24">
+      <section className="py-16 lg:py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-6">
@@ -180,6 +180,7 @@ export default async function LesEGCPage() {
                 src={
                   acf.what_section?.image?.url ||
                   "/placeholder.svg?height=400&width=600&query=assemblée citoyenne village français démocratie participative" ||
+                  "/placeholder.svg" ||
                   "/placeholder.svg"
                 }
                 alt={acf.what_section?.image?.alt || "Assemblée citoyenne"}
@@ -193,7 +194,7 @@ export default async function LesEGCPage() {
       </section>
 
       {/* Who Section */}
-      <section className="py-16 lg:py-24 bg-muted/30">
+      <section className="py-16 lg:py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="relative order-2 lg:order-1">
@@ -201,6 +202,7 @@ export default async function LesEGCPage() {
                 src={
                   acf.who_section?.image?.url ||
                   "/placeholder.svg?height=400&width=600&query=citoyens français engagement collectif associations" ||
+                  "/placeholder.svg" ||
                   "/placeholder.svg"
                 }
                 alt={acf.who_section?.image?.alt || "Citoyens engagés"}
@@ -222,7 +224,7 @@ export default async function LesEGCPage() {
       </section>
 
       {/* Context Section */}
-      <section className="py-16 lg:py-24">
+      <section className="py-16 lg:py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-semibold text-foreground mb-4">
@@ -255,7 +257,7 @@ export default async function LesEGCPage() {
       </section>
 
       {/* Why the commune Section */}
-      <section className="py-16 lg:py-24 bg-muted/30">
+      <section className="py-16 lg:py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-semibold text-foreground mb-4">
@@ -281,7 +283,7 @@ export default async function LesEGCPage() {
       </section>
 
       {/* How to act Section */}
-      <section className="py-16 lg:py-24">
+      <section className="py-16 lg:py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-semibold text-foreground mb-4">
@@ -317,6 +319,7 @@ export default async function LesEGCPage() {
                 src={
                   acf.how_to_act_section?.image?.url ||
                   "/placeholder.svg?height=400&width=600&query=assemblée citoyenne communale débat démocratique local" ||
+                  "/placeholder.svg" ||
                   "/placeholder.svg"
                 }
                 alt={acf.how_to_act_section?.image?.alt || "Assemblée citoyenne communale"}
@@ -330,7 +333,7 @@ export default async function LesEGCPage() {
       </section>
 
       {/* Cahiers de doléances Section */}
-      <section className="py-16 lg:py-24 bg-muted/30">
+      <section className="py-16 lg:py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-semibold text-foreground mb-4">
@@ -355,7 +358,7 @@ export default async function LesEGCPage() {
       </section>
 
       {/* Who can organize Section */}
-      <section className="py-16 lg:py-24">
+      <section className="py-16 lg:py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-semibold text-foreground mb-4">
@@ -394,7 +397,7 @@ export default async function LesEGCPage() {
       </section>
 
       {/* After elections Section */}
-      <section className="py-16 lg:py-24 bg-muted/30">
+      <section className="py-16 lg:py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-semibold text-foreground mb-4">
@@ -438,7 +441,7 @@ export default async function LesEGCPage() {
       </section>
 
       {/* Link EGC and ACC Section */}
-      <section className="py-16 lg:py-24">
+      <section className="py-16 lg:py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-semibold text-foreground mb-4">
@@ -462,7 +465,7 @@ export default async function LesEGCPage() {
       </section>
 
       {/* How to get help Section */}
-      <section className="py-16 lg:py-24 bg-primary/5">
+      <section className="py-16 lg:py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-semibold text-foreground mb-4">
@@ -500,7 +503,7 @@ export default async function LesEGCPage() {
       </section>
 
       {/* Call to Action */}
-      <section className="py-16 lg:py-24">
+      <section className="py-16 lg:py-24 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="space-y-8">
             <h2 className="text-3xl md:text-4xl font-semibold text-foreground">

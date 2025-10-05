@@ -10,11 +10,7 @@ interface MiniEventTimelineProps {
 
 export function MiniEventTimeline({ events }: MiniEventTimelineProps) {
   if (events.length === 0) {
-    return (
-      <div className="text-center py-12">
-        <p className="text-muted-foreground">Aucun événement récent.</p>
-      </div>
-    )
+    return null
   }
 
   return (

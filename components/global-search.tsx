@@ -8,11 +8,11 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Search, X, FileText, Download, Play } from "lucide-react"
+import { Search, X, FileText, Download, Play, Calendar, MapPin, ArrowRight } from "lucide-react"
 import { formatDate } from "@/lib/wordpress"
 
 interface SearchResult {
-  type: "article" | "resource"
+  type: "article" | "resource" | "event"
   id: number
   title: string
   excerpt: string
@@ -20,6 +20,7 @@ interface SearchResult {
   date?: string
   category?: string
   fileType?: string
+  location?: string
 }
 
 interface GlobalSearchProps {
@@ -36,69 +37,20 @@ export function GlobalSearch({ isOpen, onClose }: GlobalSearchProps) {
   const inputRef = useRef<HTMLInputElement>(null)
   const resultsRef = useRef<HTMLDivElement>(null)
 
-  // Mock search function - replace with actual WordPress API calls
   const performSearch = async (searchQuery: string): Promise<SearchResult[]> => {
     if (!searchQuery.trim()) return []
 
-    // Simulate API delay
-    await new Promise((resolve) => setTimeout(resolve, 300))
-
-    // Mock results - replace with actual API calls
-    const mockArticles: SearchResult[] = [
-      {
-        type: "article",
-        id: 1,
-        title: "L'engagement citoyen à l'ère numérique",
-        excerpt:
-          "Comment les nouvelles technologies transforment les formes d'engagement et de mobilisation citoyenne.",
-        url: "/blog/engagement-citoyen-numerique",
-        date: "2024-12-15",
-        category: "Numérique",
-      },
-      {
-        type: "article",
-        id: 2,
-        title: "Les mouvements écologistes en France",
-        excerpt: "Analyse des principales organisations écologistes françaises et de leurs stratégies d'action.",
-        url: "/blog/mouvements-ecologistes-france",
-        date: "2024-12-10",
-        category: "Écologie",
-      },
-    ]
-
-    const mockResources: SearchResult[] = [
-      {
-        type: "resource",
-        id: 1,
-        title: "Guide de l'engagement citoyen",
-        excerpt: "Un guide complet pour comprendre les différentes formes d'engagement citoyen.",
-        url: "/ressources/1",
-        fileType: "pdf",
-      },
-      {
-        type: "resource",
-        id: 2,
-        title: "Webinaire : Organiser une action collective",
-        excerpt: "Enregistrement d'un webinaire sur les meilleures pratiques pour organiser une action collective.",
-        url: "/ressources/2",
-        fileType: "video",
-      },
-    ]
-
-    // Filter results based on query
-    const filteredArticles = mockArticles.filter(
-      (article) =>
-        article.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        article.excerpt.toLowerCase().includes(searchQuery.toLowerCase()),
-    )
-
-    const filteredResources = mockResources.filter(
-      (resource) =>
-        resource.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        resource.excerpt.toLowerCase().includes(searchQuery.toLowerCase()),
-    )
-
-    return [...filteredArticles, ...filteredResources]
+    try {
+      const response = await fetch(`/api/search?q=${encodeURIComponent(searchQuery)}`)
+      if (!response.ok) {
+        throw new Error("Search failed")
+      }
+      const data = await response.json()
+      return data.results || []
+    } catch (error) {
+      console.error("[v0] Search error:", error)
+      return []
+    }
   }
 
   useEffect(() => {
@@ -138,6 +90,10 @@ export function GlobalSearch({ isOpen, onClose }: GlobalSearchProps) {
       const selectedResult = results[selectedIndex]
       router.push(selectedResult.url)
       onClose()
+    } else if (e.key === "Enter" && selectedIndex === -1 && query.trim()) {
+      e.preventDefault()
+      router.push(`/recherche?q=${encodeURIComponent(query)}`)
+      onClose()
     }
   }
 
@@ -146,9 +102,16 @@ export function GlobalSearch({ isOpen, onClose }: GlobalSearchProps) {
     onClose()
   }
 
+  const handleViewAllResults = () => {
+    router.push(`/recherche?q=${encodeURIComponent(query)}`)
+    onClose()
+  }
+
   const getResultIcon = (result: SearchResult) => {
     if (result.type === "article") {
       return <FileText className="h-4 w-4 text-primary" />
+    } else if (result.type === "event") {
+      return <Calendar className="h-4 w-4 text-[#4AAD33]" />
     } else {
       switch (result.fileType) {
         case "pdf":
@@ -159,6 +122,12 @@ export function GlobalSearch({ isOpen, onClose }: GlobalSearchProps) {
           return <Download className="h-4 w-4 text-green-600" />
       }
     }
+  }
+
+  const getResultTypeLabel = (result: SearchResult) => {
+    if (result.type === "article") return "Article"
+    if (result.type === "event") return "Événement"
+    return result.fileType?.toUpperCase() || "Ressource"
   }
 
   if (!isOpen) return null
@@ -176,7 +145,7 @@ export function GlobalSearch({ isOpen, onClose }: GlobalSearchProps) {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder="Rechercher des articles, ressources..."
+                placeholder="Rechercher des articles, événements, ressources..."
                 className="border-0 focus-visible:ring-0 text-lg"
               />
               <Button variant="ghost" size="sm" onClick={onClose}>
@@ -207,7 +176,7 @@ export function GlobalSearch({ isOpen, onClose }: GlobalSearchProps) {
                           <div className="flex items-center gap-2 mb-1">
                             <h3 className="font-medium text-foreground truncate">{result.title}</h3>
                             <Badge variant="outline" className="text-xs">
-                              {result.type === "article" ? "Article" : result.fileType?.toUpperCase() || "Ressource"}
+                              {getResultTypeLabel(result)}
                             </Badge>
                           </div>
                           <p className="text-sm text-muted-foreground line-clamp-2 mb-2">{result.excerpt}</p>
@@ -219,11 +188,26 @@ export function GlobalSearch({ isOpen, onClose }: GlobalSearchProps) {
                                 <span>{result.category}</span>
                               </>
                             )}
+                            {result.location && (
+                              <>
+                                {(result.date || result.category) && <span>•</span>}
+                                <span className="flex items-center gap-1">
+                                  <MapPin className="h-3 w-3" />
+                                  {result.location}
+                                </span>
+                              </>
+                            )}
                           </div>
                         </div>
                       </div>
                     </button>
                   ))}
+                  <div className="p-4 border-t">
+                    <Button variant="outline" className="w-full bg-transparent" onClick={handleViewAllResults}>
+                      Voir tous les résultats
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </Button>
+                  </div>
                 </div>
               ) : query.trim() ? (
                 <div className="p-8 text-center">
@@ -238,6 +222,16 @@ export function GlobalSearch({ isOpen, onClose }: GlobalSearchProps) {
                       className="text-primary hover:underline"
                     >
                       articles
+                    </button>
+                    ,{" "}
+                    <button
+                      onClick={() => {
+                        router.push("/evenements")
+                        onClose()
+                      }}
+                      className="text-primary hover:underline"
+                    >
+                      événements
                     </button>{" "}
                     et{" "}
                     <button

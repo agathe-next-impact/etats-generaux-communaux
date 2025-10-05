@@ -2,14 +2,16 @@ import { Suspense } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { EventCard } from "@/components/event-card"
-import { ResourceCard } from "@/components/resource-card"
 import { ArticlesCarousel } from "@/components/articles-carousel"
 import { MiniEventTimeline } from "@/components/mini-event-timeline"
 import { EventsCarousel } from "@/components/events-carousel"
 import { GoogleMap } from "@/components/google-map"
-import { getPosts, getResources, getEvents, getLocalGroups } from "@/lib/wordpress"
+import { LatestNews } from "@/components/latest-news"
+import { getPosts, getEvents, getLocalGroups, getHomePageData } from "@/lib/wordpress"
+import type { HomePageACF } from "@/lib/wordpress"
 import Link from "next/link"
-import { ArrowRight, Users, BookOpen, MapPin, FileText, Mail } from "lucide-react"
+import { ArrowRight, Users } from "lucide-react"
+import Image from "next/image"
 
 async function UpcomingEvents() {
   const events = await getEvents()
@@ -59,28 +61,7 @@ async function UpcomingEvents() {
   )
 }
 
-async function FeaturedResources() {
-  const resources = await getResources()
-  const featuredResources = resources.slice(0, 3)
-
-  if (featuredResources.length === 0) {
-    return (
-      <div className="text-center py-8">
-        <p className="text-muted-foreground">Aucune ressource disponible pour le moment.</p>
-      </div>
-    )
-  }
-
-  return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-      {featuredResources.map((resource) => (
-        <ResourceCard key={resource.id} resource={resource} />
-      ))}
-    </div>
-  )
-}
-
-async function ArticlesAndEvents() {
+async function ArticlesAndEvents({ acfData }: { acfData?: HomePageACF["section_actus_evenements"] }) {
   const { posts } = await getPosts({ per_page: 3, orderby: "date", order: "desc" })
   const events = await getEvents()
 
@@ -96,63 +77,73 @@ async function ArticlesAndEvents() {
       return eventDate < today
     })
     .sort((a, b) => {
-      // Sort by date descending (most recent first)
       const [dayA, monthA, yearA] = a.acf.date.split("/")
       const [dayB, monthB, yearB] = b.acf.date.split("/")
       const dateA = new Date(Number.parseInt(yearA), Number.parseInt(monthA) - 1, Number.parseInt(dayA))
       const dateB = new Date(Number.parseInt(yearB), Number.parseInt(monthB) - 1, Number.parseInt(dayB))
       return dateB.getTime() - dateA.getTime()
     })
-    .slice(0, 4) // Increased limit from 2 to 4 past events
+    .slice(0, 4)
+
+  if (posts.length === 0 && pastEvents.length === 0) {
+    return null
+  }
 
   return (
-    <section className="py-16 lg:py-24" style={{ backgroundColor: "#4AAD33" }}>
+    <section className="py-16 lg:py-24 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Left Column - Articles Carousel */}
-          <div>
-            <div className="mb-6">
-              <h2 className="text-2xl md:text-3xl font-extrabold uppercase text-foreground mb-2">
-                <span className="bg-[#E73628] text-white px-4 py-2">DERNIERS</span>
-                <span> articles</span>
-              </h2>
-              <p className="text-muted-foreground">Les dernières réflexions et analyses</p>
+          {posts.length > 0 && (
+            <div>
+              <div className="mb-6">
+                {acfData?.titre_actus && (
+                  <h2 className="text-2xl md:text-3xl font-extrabold uppercase text-foreground mb-2">
+                    <span className="bg-[#E73628] text-white px-4 py-2">{acfData.titre_actus}</span>
+                  </h2>
+                )}
+                {acfData?.soustitre_actus && <p className="text-muted-foreground">{acfData.soustitre_actus}</p>}
+              </div>
+              <ArticlesCarousel posts={posts} />
             </div>
-            <ArticlesCarousel posts={posts} />
-          </div>
+          )}
 
           {/* Right Column - Events Timeline */}
-          <div>
-            <div className="mb-6 flex items-center justify-between">
-              <div>
-                <h2 className="text-2xl md:text-3xl font-extrabold uppercase text-foreground mb-2">
-                  <span className="bg-[#E73628] text-white px-4 py-2">DERNIERS</span>
-                  <span> événements</span>
-                </h2>
-                <p className="text-muted-foreground">Les événements récents</p>
+          {pastEvents.length > 0 && (
+            <div>
+              <div className="mb-6 flex items-center justify-between">
+                <div>
+                  {acfData?.titre_evenements && (
+                    <h2 className="text-2xl md:text-3xl font-extrabold uppercase text-foreground mb-2">
+                      <span className="bg-[#E73628] text-white px-4 py-2">{acfData.titre_evenements}</span>
+                    </h2>
+                  )}
+                  {acfData?.soustitre_evenements && (
+                    <p className="text-muted-foreground">{acfData.soustitre_evenements}</p>
+                  )}
+                </div>
+                <Button asChild variant="outline" size="sm">
+                  <Link href="/evenements">
+                    Tous
+                    <ArrowRight className="ml-2 h-3 w-3" />
+                  </Link>
+                </Button>
               </div>
-              <Button asChild variant="outline" size="sm">
-                <Link href="/evenements">
-                  Tous
-                  <ArrowRight className="ml-2 h-3 w-3" />
-                </Link>
-              </Button>
+              <MiniEventTimeline events={pastEvents} />
             </div>
-            <MiniEventTimeline events={pastEvents} />
-          </div>
+          )}
         </div>
       </div>
     </section>
   )
 }
 
-async function MapAndEventsSection() {
+async function MapAndEventsSection({ acfData }: { acfData?: HomePageACF["section_groupes_evenements"] }) {
   const groups = await getLocalGroups()
   const events = await getEvents()
 
   const recentEvents = events
     .sort((a, b) => {
-      // Sort by date descending (most recent first)
       if (!a.acf?.date || !b.acf?.date) return 0
 
       const [dayA, monthA, yearA] = a.acf.date.split("/")
@@ -161,22 +152,25 @@ async function MapAndEventsSection() {
       const dateB = new Date(Number.parseInt(yearB), Number.parseInt(monthB) - 1, Number.parseInt(dayB))
       return dateB.getTime() - dateA.getTime()
     })
-    .slice(0, 5) // Show 5 most recent events
+    .slice(0, 5)
 
   return (
-    <section className="py-16 lg:py-24" style={{ backgroundColor: "#F4E63C" }}>
+    <section className="py-16 lg:py-24 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Left Column - Map (2/3) */}
           <div className="lg:col-span-2">
             <div className="mb-6">
-              <h2 className="text-2xl md:text-3xl font-extrabold uppercase text-foreground mb-2">
-                <span className="bg-[#4AAD33] text-white px-4 py-2">CARTE</span>
-                <span> des groupes locaux</span>
-              </h2>
-              <p className="text-muted-foreground">Trouvez un groupe près de chez vous</p>
+              {acfData?.titre_groupes_locaux && (
+                <h2 className="text-2xl md:text-3xl font-extrabold uppercase text-foreground mb-2">
+                  <span className="bg-[#4AAD33] text-white px-4 py-2">{acfData.titre_groupes_locaux}</span>
+                </h2>
+              )}
+              {acfData?.soustitre_groupes_locaux && (
+                <p className="text-muted-foreground">{acfData.soustitre_groupes_locaux}</p>
+              )}
             </div>
-            <div className="h-[500px] w-full rounded-lg overflow-hidden border shadow-lg">
+            <div className="h-[500px] w-full overflow-hidden border shadow-lg">
               <GoogleMap groups={groups} />
             </div>
             <div className="mt-4 text-center">
@@ -192,13 +186,14 @@ async function MapAndEventsSection() {
           {/* Right Column - Events (1/3) */}
           <div className="lg:col-span-1">
             <div className="mb-6">
-              <h2 className="text-2xl md:text-3xl font-extrabold uppercase text-foreground mb-2">
-                <span className="bg-[#E73628] text-white px-4 py-2">DERNIERS</span>
-                <span> événements</span>
-              </h2>
-              <p className="text-muted-foreground">Les plus récents</p>
+              {acfData?.titre_evenements && (
+                <h2 className="text-2xl md:text-3xl font-extrabold uppercase text-foreground mb-2">
+                  <span className="bg-[#E73628] text-white px-4 py-2">{acfData.titre_evenements}</span>
+                </h2>
+              )}
+              {acfData?.soustitre_evenements && <p className="text-muted-foreground">{acfData.soustitre_evenements}</p>}
             </div>
-            <div className="bg-card rounded-lg border p-6 shadow-lg">
+            <div className="bg-card border p-6 shadow-lg">
               <EventsCarousel events={recentEvents} />
             </div>
             <div className="mt-4 text-center">
@@ -216,140 +211,161 @@ async function MapAndEventsSection() {
   )
 }
 
-export default function HomePage() {
+async function LatestNewsSection() {
+  const { posts } = await getPosts({ per_page: 6, orderby: "date", order: "desc" })
+
+  if (posts.length === 0) {
+    return null
+  }
+
+  return <LatestNews posts={posts} />
+}
+
+export default async function HomePage() {
+  const homePageData = await getHomePageData()
+  const acf = homePageData?.acf
+
+  console.log("[v0] Homepage ACF data:", acf ? "loaded" : "not found")
+
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative py-20 lg:py-32 overflow-hidden" style={{ backgroundColor: "#4AAD33" }}>
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center space-y-8">
-            <div className="space-y-4">
-              <h1 className="text-4xl md:text-6xl lg:text-7xl uppercase leading-tight text-white inline-block">
-                <span className="bg-[#E73628] px-4 py-2">LES</span> <span>Etats Généraux Communaux</span>
-              </h1>
-              <p className="magazine-subtitle text-sm md:text-base text-foreground/80 max-w-2xl mx-auto font-medium">
-                Engagement • Action Collective • Mouvement
-              </p>
-            </div>
+      {acf?.section_hero && (
+        <section className="relative py-20 lg:py-32 overflow-hidden bg-white">
+          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center space-y-8">
+              <div className="space-y-4">
+                <h1 className="text-4xl md:text-6xl lg:text-7xl uppercase leading-tight text-white inline-block">
+                  <span className="bg-[#E73628] px-4 py-2">{acf.section_hero.titre}</span>
+                </h1>
+                {acf.section_hero["sous-titre"] && (
+                  <p className="magazine-subtitle text-sm md:text-base text-foreground/80 max-w-2xl mx-auto font-medium">
+                    {acf.section_hero["sous-titre"]}
+                  </p>
+                )}
+              </div>
 
-            <div className="max-w-3xl mx-auto">
-              <p className="text-lg md:text-xl text-foreground/90 leading-relaxed font-medium">
-                Un espace dédié à l'engagement citoyen, aux initiatives collectives et aux mouvements qui transforment
-                notre société. Découvrez des analyses, des témoignages et des ressources pour agir ensemble.
-              </p>
-            </div>
+              {acf.section_hero.chapeau && (
+                <div className="max-w-3xl mx-auto">
+                  <p className="text-lg md:text-xl text-foreground/90 leading-relaxed font-medium">
+                    {acf.section_hero.chapeau}
+                  </p>
+                </div>
+              )}
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button asChild size="lg" className="text-base bg-[var(--brand-red)] hover:bg-[var(--brand-red)]/90">
-                <Link href="/blog">
-                  Découvrir les articles
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
-              </Button>
-              <Button asChild variant="outline" className="border-foreground/20 hover:bg-foreground/5 bg-transparent">
-                <Link href="/a-propos">En savoir plus</Link>
-              </Button>
+              {(acf.section_hero.cta_de_gauche?.libelle_de_gauche ||
+                acf.section_hero.cta_de_droite?.libelle_de_droite) && (
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                  {acf.section_hero.cta_de_gauche?.libelle_de_gauche && (
+                    <Button
+                      asChild
+                      size="lg"
+                      className="text-base bg-[var(--brand-red)] hover:bg-[var(--brand-red)]/90"
+                    >
+                      <Link
+                        href={acf.section_hero.cta_de_gauche.lien_de_gauche?.url || "#"}
+                        target={acf.section_hero.cta_de_gauche.lien_de_gauche?.target || "_self"}
+                      >
+                        {acf.section_hero.cta_de_gauche.libelle_de_gauche}
+                        <ArrowRight className="ml-2 h-4 w-4" />
+                      </Link>
+                    </Button>
+                  )}
+                  {acf.section_hero.cta_de_droite?.libelle_de_droite && (
+                    <Button
+                      asChild
+                      variant="outline"
+                      className="border-foreground/20 hover:bg-foreground/5 bg-transparent"
+                    >
+                      <Link
+                        href={acf.section_hero.cta_de_droite.lien_de_droite?.url || "#"}
+                        target={acf.section_hero.cta_de_droite.lien_de_droite?.target || "_self"}
+                      >
+                        {acf.section_hero.cta_de_droite.libelle_de_droite}
+                      </Link>
+                    </Button>
+                  )}
+                </div>
+              )}
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* Call to Action Section */}
-      <section className="py-12 lg:py-16 border-b border-border" style={{ backgroundColor: "#E73628" }}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[50px]">
-            <Link href="/groupes-locaux" className="group flex items-center transition-all duration-300">
-              <div className="relative flex-shrink-0">
-                {/* Yellow speech bubble */}
-                <div className="w-32 h-32 rounded-3xl bg-[#F4E63C] flex items-center justify-center relative">
-                  {/* Red exclamation marks */}
-                  <div className="absolute top-2 left-1/2 -translate-x-1/2 flex gap-2">
-                    <div className="w-3 h-8 bg-[#E73628] rounded-full" />
-                    <div className="w-3 h-8 bg-[#E73628] rounded-full" />
+      {acf?.groupe_de_liens?.liste_des_liens && acf.groupe_de_liens.liste_des_liens.length > 0 && (
+        <section className="py-12 lg:py-16 border-b border-border bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[50px]">
+              {acf.groupe_de_liens.liste_des_liens.map((link, index) => (
+                <Link
+                  key={index}
+                  href={link.lien?.url || "#"}
+                  target={link.lien?.target || "_self"}
+                  className="group flex items-center transition-all duration-300"
+                >
+                  <div className="relative flex-shrink-0">
+                    <div className="w-32 h-32 rounded-3xl bg-[#F4E63C] flex items-center justify-center relative">
+                      <div className="absolute top-2 left-1/2 -translate-x-1/2 flex gap-2">
+                        <div className="w-3 h-8 bg-[#E73628] rounded-full" />
+                        <div className="w-3 h-8 bg-[#E73628] rounded-full" />
+                      </div>
+                      {link.icone?.url ? (
+                        <Image
+                          src={link.icone.url || "/placeholder.svg"}
+                          alt={link.icone.alt || ""}
+                          width={48}
+                          height={48}
+                          className="mt-4"
+                        />
+                      ) : (
+                        <Users className="w-12 h-12 text-[#E73628] mt-4" />
+                      )}
+                      <div className="absolute -bottom-2 left-8 w-6 h-6 bg-[#F4E63C] transform rotate-45 rounded-sm" />
+                    </div>
                   </div>
-                  <Users className="w-12 h-12 text-[#E73628] mt-4" />
-                  {/* Speech bubble tail */}
-                  <div className="absolute -bottom-2 left-8 w-6 h-6 bg-[#F4E63C] transform rotate-45 rounded-sm" />
-                </div>
-              </div>
-              <div className="bg-[#4AAD33] px-4 py-3 rounded -ml-8 z-10 shadow-lg group-hover:shadow-xl transition-shadow">
-                <span className="text-sm font-bold uppercase text-white whitespace-nowrap">Créer un groupe local</span>
-              </div>
-            </Link>
-
-            <Link href="/blog" className="group flex items-center transition-all duration-300">
-              <div className="relative flex-shrink-0">
-                <div className="w-32 h-32 rounded-3xl bg-[#F4E63C] flex items-center justify-center relative">
-                  <div className="absolute top-2 left-1/2 -translate-x-1/2 flex gap-2">
-                    <div className="w-3 h-8 bg-[#E73628] rounded-full" />
-                    <div className="w-3 h-8 bg-[#E73628] rounded-full" />
+                  <div className="bg-[#4AAD33] px-4 py-3 rounded -ml-8 z-10 shadow-lg group-hover:shadow-xl transition-shadow">
+                    <span className="text-sm font-bold uppercase text-white whitespace-nowrap">{link.libelle}</span>
                   </div>
-                  <BookOpen className="w-12 h-12 text-[#E73628] mt-4" />
-                  <div className="absolute -bottom-2 left-8 w-6 h-6 bg-[#F4E63C] transform rotate-45 rounded-sm" />
-                </div>
-              </div>
-              <div className="bg-[#4AAD33] px-4 py-3 rounded -ml-8 z-10 shadow-lg group-hover:shadow-xl transition-shadow">
-                <span className="text-sm font-bold uppercase text-white whitespace-nowrap">Lire les articles</span>
-              </div>
-            </Link>
-
-            <Link href="/evenements" className="group flex items-center transition-all duration-300">
-              <div className="relative flex-shrink-0">
-                <div className="w-32 h-32 rounded-3xl bg-[#F4E63C] flex items-center justify-center relative">
-                  <div className="absolute top-2 left-1/2 -translate-x-1/2 flex gap-2">
-                    <div className="w-3 h-8 bg-[#E73628] rounded-full" />
-                    <div className="w-3 h-8 bg-[#E73628] rounded-full" />
-                  </div>
-                  <MapPin className="w-12 h-12 text-[#E73628] mt-4" />
-                  <div className="absolute -bottom-2 left-8 w-6 h-6 bg-[#F4E63C] transform rotate-45 rounded-sm" />
-                </div>
-              </div>
-              <div className="bg-[#4AAD33] px-4 py-3 rounded -ml-8 z-10 shadow-lg group-hover:shadow-xl transition-shadow">
-                <span className="text-sm font-bold uppercase text-white whitespace-nowrap">Voir les événements</span>
-              </div>
-            </Link>
-
-            <Link href="/ressources" className="group flex items-center transition-all duration-300">
-              <div className="relative flex-shrink-0">
-                <div className="w-32 h-32 rounded-3xl bg-[#F4E63C] flex items-center justify-center relative">
-                  <div className="absolute top-2 left-1/2 -translate-x-1/2 flex gap-2">
-                    <div className="w-3 h-8 bg-[#E73628] rounded-full" />
-                    <div className="w-3 h-8 bg-[#E73628] rounded-full" />
-                  </div>
-                  <FileText className="w-12 h-12 text-[#E73628] mt-4" />
-                  <div className="absolute -bottom-2 left-8 w-6 h-6 bg-[#F4E63C] transform rotate-45 rounded-sm" />
-                </div>
-              </div>
-              <div className="bg-[#4AAD33] px-4 py-3 rounded -ml-8 z-10 shadow-lg group-hover:shadow-xl transition-shadow">
-                <span className="text-sm font-bold uppercase text-white whitespace-nowrap">
-                  Consulter les ressources
-                </span>
-              </div>
-            </Link>
-
-            <Link href="/contact" className="group flex items-center transition-all duration-300">
-              <div className="relative flex-shrink-0">
-                <div className="w-32 h-32 rounded-3xl bg-[#F4E63C] flex items-center justify-center relative">
-                  <div className="absolute top-2 left-1/2 -translate-x-1/2 flex gap-2">
-                    <div className="w-3 h-8 bg-[#E73628] rounded-full" />
-                    <div className="w-3 h-8 bg-[#E73628] rounded-full" />
-                  </div>
-                  <Mail className="w-12 h-12 text-[#E73628] mt-4" />
-                  <div className="absolute -bottom-2 left-8 w-6 h-6 bg-[#F4E63C] transform rotate-45 rounded-sm" />
-                </div>
-              </div>
-              <div className="bg-[#4AAD33] px-4 py-3 rounded -ml-8 z-10 shadow-lg group-hover:shadow-xl transition-shadow">
-                <span className="text-sm font-bold uppercase text-white whitespace-nowrap">Nous contacter</span>
-              </div>
-            </Link>
+                </Link>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
+
+      {/* Latest News Section */}
+      <Suspense
+        fallback={
+          <section className="py-16 lg:py-24 bg-background">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="h-8 bg-muted rounded w-64 mb-12 animate-pulse" />
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {Array.from({ length: 6 }).map((_, i) => (
+                  <Card key={i} className="animate-pulse">
+                    <div className="bg-muted h-48" />
+                    <CardContent className="p-6">
+                      <div className="space-y-3">
+                        <div className="h-4 bg-muted rounded w-32" />
+                        <div className="h-6 bg-muted rounded" />
+                        <div className="h-4 bg-muted rounded w-full" />
+                        <div className="h-4 bg-muted rounded w-3/4" />
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </div>
+          </section>
+        }
+      >
+        <LatestNewsSection />
+      </Suspense>
 
       {/* Articles and Events Section */}
       <Suspense
         fallback={
-          <section className="py-16 lg:py-24 bg-background">
+          <section className="py-16 lg:py-24 bg-white">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 <div className="animate-pulse">
@@ -378,13 +394,13 @@ export default function HomePage() {
           </section>
         }
       >
-        <ArticlesAndEvents />
+        <ArticlesAndEvents acfData={acf?.section_actus_evenements} />
       </Suspense>
 
       {/* Map and Events Section */}
       <Suspense
         fallback={
-          <section className="py-16 lg:py-24 bg-background">
+          <section className="py-16 lg:py-24 bg-white">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 <div className="lg:col-span-2 animate-pulse">
@@ -400,82 +416,65 @@ export default function HomePage() {
           </section>
         }
       >
-        <MapAndEventsSection />
+        <MapAndEventsSection acfData={acf?.section_groupes_evenements} />
       </Suspense>
 
       <Suspense fallback={null}>
         <UpcomingEvents />
       </Suspense>
 
-      {/* Resources Preview Section */}
-      <section className="py-16 lg:py-24" style={{ backgroundColor: "var(--brand-green)" }}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between mb-12">
-            <div>
-              <h2 className="text-3xl md:text-4xl font-extrabold uppercase mb-4 text-white">
-                <span className="bg-[#E73628] px-4 py-2">RESSOURCES</span>
-                <span> utiles</span>
-              </h2>
-              <p className="text-white/90 text-lg font-medium">
-                Guides, outils et documents pour accompagner votre engagement
-              </p>
-            </div>
-            <Button asChild variant="outline" className="border-white text-white hover:bg-white/10 bg-transparent">
-              <Link href="/ressources">
-                Toutes les ressources
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
-            </Button>
-          </div>
-
-          <Suspense
-            fallback={
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {Array.from({ length: 3 }).map((_, i) => (
-                  <Card key={i} className="animate-pulse">
-                    <CardContent className="p-6">
-                      <div className="flex items-start gap-4">
-                        <div className="w-12 h-12 bg-muted rounded-lg" />
-                        <div className="flex-1 space-y-2">
-                          <div className="h-5 bg-muted rounded" />
-                          <div className="h-4 bg-muted rounded w-2/3" />
-                          <div className="h-6 bg-muted rounded w-16" />
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            }
-          >
-            <FeaturedResources />
-          </Suspense>
-        </div>
-      </section>
-
       {/* Call to Action Section */}
-      <section className="py-16 lg:py-24" style={{ backgroundColor: "var(--brand-red)" }}>
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="space-y-8">
-            <h2 className="text-3xl md:text-4xl font-extrabold uppercase text-white inline-block">
-              <span className="bg-[#E73628] px-4 py-2">REJOIGNEZ</span>
-              <span> le mouvement</span>
-            </h2>
-            <p className="text-lg text-white/90 leading-relaxed font-medium">
-              L'engagement collectif commence par des actions individuelles. Découvrez comment vous pouvez contribuer au
-              changement et rejoindre une communauté engagée pour un avenir meilleur.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button asChild size="lg" className="bg-white text-[var(--brand-red)] hover:bg-white/90">
-                <Link href="/blog">Lire nos articles</Link>
-              </Button>
-              <Button asChild variant="outline" className="border-white text-white hover:bg-white/10 bg-transparent">
-                <Link href="/a-propos">Notre démarche</Link>
-              </Button>
+      {acf?.section_manifeste && (
+        <section className="py-16 lg:py-24 bg-white">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div className="space-y-8">
+              {acf.section_manifeste.titre && (
+                <h2 className="text-3xl md:text-4xl font-extrabold uppercase text-white inline-block">
+                  <span className="bg-[#E73628] px-4 py-2">{acf.section_manifeste.titre}</span>
+                </h2>
+              )}
+              {acf.section_manifeste.chapeau && (
+                <p className="text-lg leading-relaxed font-medium">{acf.section_manifeste.chapeau}</p>
+              )}
+              {acf.section_manifeste.texte && (
+                <div
+                  className="leading-relaxed prose prose-invert max-w-none"
+                  dangerouslySetInnerHTML={{ __html: acf.section_manifeste.texte }}
+                />
+              )}
+              {(acf.section_manifeste.cta_de_gauche?.libelle_de_gauche ||
+                acf.section_manifeste.cta_de_droite?.libelle_de_droite) && (
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                  {acf.section_manifeste.cta_de_gauche?.libelle_de_gauche && (
+                    <Button asChild size="lg" className="bg-white text-[var(--brand-red)] hover:bg-white/90">
+                      <Link
+                        href={acf.section_manifeste.cta_de_gauche.lien_de_gauche?.url || "#"}
+                        target={acf.section_manifeste.cta_de_gauche.lien_de_gauche?.target || "_self"}
+                      >
+                        {acf.section_manifeste.cta_de_gauche.libelle_de_gauche}
+                      </Link>
+                    </Button>
+                  )}
+                  {acf.section_manifeste.cta_de_droite?.libelle_de_droite && (
+                    <Button
+                      asChild
+                      variant="outline"
+                      className="border-white text-white hover:bg-white/10 bg-transparent"
+                    >
+                      <Link
+                        href={acf.section_manifeste.cta_de_droite.lien_de_droite?.url || "#"}
+                        target={acf.section_manifeste.cta_de_droite.lien_de_droite?.target || "_self"}
+                      >
+                        {acf.section_manifeste.cta_de_droite.libelle_de_droite}
+                      </Link>
+                    </Button>
+                  )}
+                </div>
+              )}
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
     </div>
   )
 }
