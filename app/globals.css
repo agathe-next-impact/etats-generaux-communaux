@@ -4,80 +4,95 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  /* Updated color scheme inspired by the magazine design references */
-  --background: oklch(0.98 0.005 85);
-  --foreground: oklch(0.15 0.02 85);
-  --card: oklch(0.99 0.003 85);
-  --card-foreground: oklch(0.15 0.02 85);
-  --popover: oklch(0.99 0.003 85);
-  --popover-foreground: oklch(0.15 0.02 85);
-  --primary: oklch(0.45 0.15 25); /* Warm terracotta/coral accent */
-  --primary-foreground: oklch(0.98 0.005 85);
-  --secondary: oklch(0.25 0.08 180); /* Deep teal/forest green */
-  --secondary-foreground: oklch(0.98 0.005 85);
-  --muted: oklch(0.94 0.01 85);
-  --muted-foreground: oklch(0.55 0.02 85);
-  --accent: oklch(0.65 0.12 45); /* Golden accent */
-  --accent-foreground: oklch(0.15 0.02 85);
+  /* Updated color scheme based on Proposition n°2 brand guidelines */
+  /* Main colors: Yellow (#F4E63C), Red (#E73628), Green (#4AAD33) */
+  /* Additional green variations: Dark Green (#44843F), Medium Green (#94BF7E), Light Green (#B4D19F) */
+  --background: oklch(0.99 0.002 85); /* Near white background */
+  --foreground: oklch(0.15 0.01 85); /* Near black text */
+  --card: oklch(0.99 0.002 85);
+  --card-foreground: oklch(0.15 0.01 85);
+  --popover: oklch(0.99 0.002 85);
+  --popover-foreground: oklch(0.15 0.01 85);
+  --primary: oklch(0.58 0.18 15); /* Red accent (#E73628) */
+  --primary-foreground: oklch(0.99 0.002 85);
+  --secondary: oklch(0.55 0.15 145); /* Green (#4AAD33) */
+  --secondary-foreground: oklch(0.99 0.002 85);
+  --muted: oklch(0.95 0.005 85);
+  --muted-foreground: oklch(0.45 0.01 85);
+  --accent: oklch(0.88 0.15 95); /* Yellow accent (#F4E63C) */
+  --accent-foreground: oklch(0.15 0.01 85);
+
+  /* Brand colors for sections */
+  --brand-yellow: #f4e63c;
+  --brand-red: #e73628;
+  --brand-green: #4aad33;
+
+  /* Added green color variations for harmonious design */
+  --brand-green-dark: #44843f;
+  --brand-green-medium: #94bf7e;
+  --brand-green-light: #b4d19f;
+
   --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.98 0.005 85);
-  --border: oklch(0.88 0.01 85);
-  --input: oklch(0.94 0.01 85);
-  --ring: oklch(0.45 0.15 25);
-  --chart-1: oklch(0.45 0.15 25);
-  --chart-2: oklch(0.25 0.08 180);
-  --chart-3: oklch(0.65 0.12 45);
-  --chart-4: oklch(0.35 0.1 120);
-  --chart-5: oklch(0.55 0.08 300);
-  --radius: 0.5rem;
-  --sidebar: oklch(0.98 0.005 85);
-  --sidebar-foreground: oklch(0.15 0.02 85);
-  --sidebar-primary: oklch(0.45 0.15 25);
-  --sidebar-primary-foreground: oklch(0.98 0.005 85);
-  --sidebar-accent: oklch(0.94 0.01 85);
-  --sidebar-accent-foreground: oklch(0.15 0.02 85);
-  --sidebar-border: oklch(0.88 0.01 85);
-  --sidebar-ring: oklch(0.45 0.15 25);
+  --destructive-foreground: oklch(0.99 0.002 85);
+  --border: oklch(0.9 0.005 85);
+  --input: oklch(0.95 0.005 85);
+  --ring: oklch(0.58 0.18 15);
+  --chart-1: oklch(0.58 0.18 15); /* Red */
+  --chart-2: oklch(0.55 0.15 145); /* Green */
+  --chart-3: oklch(0.88 0.15 95); /* Yellow */
+  --chart-4: oklch(0.45 0.01 85); /* Gray */
+  --chart-5: oklch(0.7 0.15 15); /* Light Red */
+  --radius: 0.25rem; /* Minimal radius for clean, modern look */
+  --sidebar: oklch(0.99 0.002 85);
+  --sidebar-foreground: oklch(0.15 0.01 85);
+  --sidebar-primary: oklch(0.58 0.18 15);
+  --sidebar-primary-foreground: oklch(0.99 0.002 85);
+  --sidebar-accent: oklch(0.95 0.005 85);
+  --sidebar-accent-foreground: oklch(0.15 0.01 85);
+  --sidebar-border: oklch(0.9 0.005 85);
+  --sidebar-ring: oklch(0.58 0.18 15);
+  --font-raleway: "Raleway", sans-serif;
 }
 
 .dark {
-  /* Dark mode colors maintaining the sophisticated magazine aesthetic */
-  --background: oklch(0.08 0.01 85);
-  --foreground: oklch(0.92 0.005 85);
-  --card: oklch(0.1 0.01 85);
-  --card-foreground: oklch(0.92 0.005 85);
-  --popover: oklch(0.1 0.01 85);
-  --popover-foreground: oklch(0.92 0.005 85);
-  --primary: oklch(0.55 0.18 25);
-  --primary-foreground: oklch(0.08 0.01 85);
-  --secondary: oklch(0.35 0.12 180);
-  --secondary-foreground: oklch(0.92 0.005 85);
-  --muted: oklch(0.15 0.02 85);
-  --muted-foreground: oklch(0.65 0.02 85);
-  --accent: oklch(0.75 0.15 45);
-  --accent-foreground: oklch(0.08 0.01 85);
+  /* Dark mode colors maintaining brand identity */
+  --background: oklch(0.1 0.01 85);
+  --foreground: oklch(0.95 0.005 85);
+  --card: oklch(0.12 0.01 85);
+  --card-foreground: oklch(0.95 0.005 85);
+  --popover: oklch(0.12 0.01 85);
+  --popover-foreground: oklch(0.95 0.005 85);
+  --primary: oklch(0.65 0.2 15);
+  --primary-foreground: oklch(0.1 0.01 85);
+  --secondary: oklch(0.35 0.1 145);
+  --secondary-foreground: oklch(0.95 0.005 85);
+  --muted: oklch(0.18 0.01 85);
+  --muted-foreground: oklch(0.65 0.01 85);
+  --accent: oklch(0.65 0.2 95);
+  --accent-foreground: oklch(0.1 0.01 85);
   --destructive: oklch(0.65 0.25 25);
-  --destructive-foreground: oklch(0.92 0.005 85);
-  --border: oklch(0.2 0.02 85);
-  --input: oklch(0.15 0.02 85);
-  --ring: oklch(0.55 0.18 25);
-  --chart-1: oklch(0.55 0.18 25);
-  --chart-2: oklch(0.35 0.12 180);
-  --chart-3: oklch(0.75 0.15 45);
-  --chart-4: oklch(0.45 0.12 120);
-  --chart-5: oklch(0.65 0.1 300);
-  --sidebar: oklch(0.1 0.01 85);
-  --sidebar-foreground: oklch(0.92 0.005 85);
-  --sidebar-primary: oklch(0.55 0.18 25);
-  --sidebar-primary-foreground: oklch(0.08 0.01 85);
-  --sidebar-accent: oklch(0.15 0.02 85);
-  --sidebar-accent-foreground: oklch(0.92 0.005 85);
-  --sidebar-border: oklch(0.2 0.02 85);
-  --sidebar-ring: oklch(0.55 0.18 25);
+  --destructive-foreground: oklch(0.95 0.005 85);
+  --border: oklch(0.22 0.01 85);
+  --input: oklch(0.18 0.01 85);
+  --ring: oklch(0.65 0.2 15);
+  --chart-1: oklch(0.65 0.2 15);
+  --chart-2: oklch(0.35 0.1 145);
+  --chart-3: oklch(0.65 0.2 95);
+  --chart-4: oklch(0.65 0.01 85);
+  --chart-5: oklch(0.75 0.18 15);
+  --sidebar: oklch(0.12 0.01 85);
+  --sidebar-foreground: oklch(0.95 0.005 85);
+  --sidebar-primary: oklch(0.65 0.2 15);
+  --sidebar-primary-foreground: oklch(0.1 0.01 85);
+  --sidebar-accent: oklch(0.18 0.01 85);
+  --sidebar-accent-foreground: oklch(0.95 0.005 85);
+  --sidebar-border: oklch(0.22 0.01 85);
+  --sidebar-ring: oklch(0.65 0.2 15);
 }
 
 @theme inline {
-  --font-sans: var(--font-geist-sans);
+  /* Updated font-sans to use Raleway */
+  --font-sans: var(--font-raleway);
   --font-mono: var(--font-geist-mono);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -124,34 +139,68 @@
   body {
     @apply bg-background text-foreground;
   }
+  /* Updated typography rules: red background with no padding/margin, white text, 700 weight, uppercase for all titles */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-black uppercase;
+  }
+
+  p,
+  span,
+  div,
+  a,
+  li {
+    @apply font-medium;
+  }
 }
 
-/* Added custom typography styles for magazine aesthetic */
+.section-title {
+  font-family: "Raleway", sans-serif;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  background-color: var(--brand-red);
+  color: white;
+  padding: 0;
+  margin: 0;
+  display: inline-block;
+  position: relative;
+  line-height: 1.2;
+}
+
+/* Updated magazine typography to match brand guidelines with no padding */
 .magazine-title {
-  font-family: "Playfair Display", serif;
-  font-weight: 400;
-  letter-spacing: 0.02em;
+  font-family: "Raleway", sans-serif;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  background-color: var(--brand-red);
+  color: white;
+  padding: 0;
+  margin: 0;
+  display: inline-block;
+  position: relative;
+  line-height: 1.2;
 }
 
 .magazine-subtitle {
-  font-family: "Inter", sans-serif;
-  font-weight: 300;
+  font-family: "Raleway", sans-serif;
+  font-weight: 500;
   letter-spacing: 0.05em;
   text-transform: uppercase;
 }
 
 .article-content {
-  font-family: "Inter", sans-serif;
+  font-family: "Raleway", sans-serif;
+  font-weight: 500;
   line-height: 1.7;
 }
 
 /* Enhanced WordPress content styling to preserve admin formatting */
-.article-content {
-  font-family: "Inter", sans-serif;
-  line-height: 1.7;
-}
-
-/* WordPress block editor styles preservation */
 .article-content .wp-block-image {
   margin: 2rem 0;
 }
@@ -276,7 +325,7 @@
   margin-right: calc(50% - 50vw);
 }
 
-/* WordPress text formatting */
+/* Updated WordPress content heading styles: red background with no padding, white text, 700 weight */
 .article-content h1,
 .article-content h2,
 .article-content h3,
@@ -284,28 +333,14 @@
 .article-content h5,
 .article-content h6 {
   color: var(--foreground);
-  font-weight: 600;
-  line-height: 1.3;
+  background-color: transparent;
+  font-weight: 700;
+  text-transform: uppercase;
+  line-height: 1.2;
   margin: 2rem 0 1rem 0;
-}
-
-.article-content h1 {
-  font-size: 2.25rem;
-}
-.article-content h2 {
-  font-size: 1.875rem;
-}
-.article-content h3 {
-  font-size: 1.5rem;
-}
-.article-content h4 {
-  font-size: 1.25rem;
-}
-.article-content h5 {
-  font-size: 1.125rem;
-}
-.article-content h6 {
-  font-size: 1rem;
+  padding: 0;
+  display: block;
+  position: relative;
 }
 
 .article-content p {
@@ -377,9 +412,11 @@
   .article-content h1 {
     font-size: 1.875rem;
   }
+
   .article-content h2 {
     font-size: 1.5rem;
   }
+
   .article-content h3 {
     font-size: 1.25rem;
   }

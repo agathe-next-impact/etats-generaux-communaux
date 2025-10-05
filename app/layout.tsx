@@ -1,6 +1,6 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Inter, Playfair_Display } from "next/font/google"
+import { Raleway } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
@@ -8,15 +8,10 @@ import { Suspense } from "react"
 import { ScrollToTop } from "@/components/scroll-to-top"
 import "./globals.css"
 
-const inter = Inter({
+const raleway = Raleway({
   subsets: ["latin"],
-  variable: "--font-inter",
-  display: "swap",
-})
-
-const playfair = Playfair_Display({
-  subsets: ["latin"],
-  variable: "--font-playfair",
+  variable: "--font-raleway",
+  weight: ["500", "600", "700"], // Updated Raleway to include weight 700 for bold titles
   display: "swap",
 })
 
@@ -32,7 +27,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="fr" className={`${inter.variable} ${playfair.variable}`}>
+    <html lang="fr" className={raleway.variable}>
       <body className="font-sans antialiased">
         <Suspense fallback={<div>Loading...</div>}>
           <Navigation />
