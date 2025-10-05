@@ -91,7 +91,7 @@ export default function ResourcePageClient({ resource }: ResourcePageClientProps
               {getResourceIcon(resourceType)}
             </div>
             <div className="flex-1">
-              <h1 className="text-3xl md:text-4xl font-semibold text-foreground mb-4 leading-tight">
+              <h1 className="text-3xl md:text-4xl font-black text-foreground mb-4 leading-tight">
                 {resource.title.rendered}
               </h1>
               <Badge variant="outline" className="mb-4">
@@ -135,12 +135,12 @@ export default function ResourcePageClient({ resource }: ResourcePageClientProps
         {hasFiles && (
           <Card className="mb-8">
             <CardContent className="p-6">
-              <h2 className="text-xl font-semibold mb-4">Fichiers disponibles</h2>
+              <h2 className="text-xl font-black mb-4">Fichiers disponibles</h2>
               <div className="space-y-4">
                 {resource.acf.fichiers.map((file, index) => (
                   <div key={index} className="flex items-center justify-between p-4 border rounded-lg">
                     <div className="flex-1">
-                      <h3 className="font-medium">{file.titre_du_document || `Fichier ${index + 1}`}</h3>
+                      <h3 className="font-black">{file.titre_du_document || `Fichier ${index + 1}`}</h3>
                       {file.descriptif_du_document && (
                         <p className="text-sm text-muted-foreground mt-1">{file.descriptif_du_document}</p>
                       )}

@@ -12,6 +12,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Search, FileText, Calendar, Download, Play, MapPin, ArrowRight, Loader2 } from "lucide-react"
 import Link from "next/link"
 import { formatDate } from "@/lib/wordpress"
+import { UnderlinedH1 } from "@/components/ui/underlined-heading"
 
 interface SearchResult {
   type: "article" | "resource" | "event"
@@ -101,14 +102,12 @@ function SearchPageContent() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background pt-[150px]">
       {/* Hero Section with Search */}
       <section className="py-12 lg:py-16 bg-white border-b">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-8">
-            <h1 className="text-4xl md:text-5xl font-extrabold uppercase text-white inline-block mb-4">
-              <span className="bg-[#E73628] px-4 py-2">Recherche</span>
-            </h1>
+            <UnderlinedH1 className="text-4xl md:text-5xl uppercase text-foreground mb-4">Recherche</UnderlinedH1>
             <p className="text-lg text-muted-foreground">
               Trouvez des articles, événements et ressources sur l'engagement citoyen
             </p>
@@ -185,7 +184,7 @@ function SearchPageContent() {
                                         </Badge>
                                       )}
                                     </div>
-                                    <h3 className="text-xl font-bold text-foreground group-hover:text-primary transition-colors mb-2">
+                                    <h3 className="text-xl font-black text-foreground group-hover:text-primary transition-colors mb-2">
                                       {result.title}
                                     </h3>
                                   </div>
@@ -234,7 +233,7 @@ function SearchPageContent() {
             <div className="text-center py-16">
               <div className="mb-6">
                 <Search className="h-16 w-16 text-muted-foreground/50 mx-auto mb-4" />
-                <h2 className="text-2xl font-bold mb-2">Aucun résultat trouvé</h2>
+                <h2 className="text-2xl font-black mb-2">Aucun résultat trouvé</h2>
                 <p className="text-muted-foreground mb-6">Nous n'avons pas trouvé de résultats pour "{query}"</p>
               </div>
 
@@ -274,7 +273,7 @@ function SearchPageContent() {
           ) : (
             <div className="text-center py-16">
               <Search className="h-16 w-16 text-muted-foreground/50 mx-auto mb-4" />
-              <h2 className="text-2xl font-bold mb-2">Commencez votre recherche</h2>
+              <h2 className="text-2xl font-black mb-2">Commencez votre recherche</h2>
               <p className="text-muted-foreground mb-6">
                 Entrez des mots-clés pour trouver des articles, événements et ressources
               </p>

@@ -1,7 +1,6 @@
 import type React from "react"
 import type { Metadata } from "next"
 import { Raleway } from "next/font/google"
-import { Analytics } from "@vercel/analytics/next"
 import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
 import { Suspense } from "react"
@@ -11,7 +10,7 @@ import "./globals.css"
 const raleway = Raleway({
   subsets: ["latin"],
   variable: "--font-raleway",
-  weight: ["500", "600", "700"], // Updated Raleway to include weight 700 for bold titles
+  weight: ["500", "600", "700", "800"], // Added weight 800 for bold button text
   display: "swap",
 })
 
@@ -33,7 +32,6 @@ export default function RootLayout({
           <Navigation />
           <main className="min-h-screen">{children}</main>
           <Footer />
-          <Analytics />
           <ScrollToTop />
         </Suspense>
       </body>

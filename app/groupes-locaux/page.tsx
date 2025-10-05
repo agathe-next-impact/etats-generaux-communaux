@@ -6,6 +6,7 @@ import { getLocalGroups } from "@/lib/wordpress"
 import { MapPin, Mail, Phone, Globe, Users } from "lucide-react"
 import Link from "next/link"
 import { GoogleMap } from "@/components/google-map"
+import { UnderlinedH1 } from "@/components/ui/underlined-heading"
 
 async function LocalGroupsMap() {
   const groups = await getLocalGroups()
@@ -111,11 +112,11 @@ async function LocalGroupsMap() {
 
 export default function LocalGroupsPage() {
   return (
-    <div className="min-h-screen py-12">
+    <div className="min-h-screen py-12 pt-[150px]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center space-y-4 mb-12">
-          <h1 className="magazine-title text-4xl md:text-5xl font-light text-foreground">Groupes Locaux</h1>
+          <UnderlinedH1 className="magazine-title text-4xl md:text-5xl text-foreground">Groupes Locaux</UnderlinedH1>
           <p className="text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed">
             Découvrez les groupes locaux de notre réseau partout en France. Rejoignez une communauté engagée près de
             chez vous et participez aux actions citoyennes locales.

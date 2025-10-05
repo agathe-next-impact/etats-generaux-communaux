@@ -24,7 +24,7 @@ async function RelatedEvents({ currentSlug }: { currentSlug: string }) {
   return (
     <section className="py-12 border-t border-border">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-2xl font-semibold text-foreground mb-8">Événements similaires</h2>
+        <h2 className="text-2xl font-black text-foreground mb-8">Événements similaires</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {filteredEvents.map((event) => (
             <EventCard key={event.id} event={event} />
@@ -128,7 +128,7 @@ export default async function EventPage({ params }: EventPageProps) {
                 </div>
 
                 {/* Event Title */}
-                <h1 className="text-3xl md:text-4xl lg:text-5xl font-semibold text-foreground leading-tight text-balance">
+                <h1 className="text-3xl md:text-4xl lg:text-5xl font-black text-foreground leading-tight text-balance">
                   {eventTitle}
                 </h1>
 
@@ -170,7 +170,7 @@ export default async function EventPage({ params }: EventPageProps) {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
         <Card>
           <CardContent className="p-6">
-            <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+            <h3 className="text-lg font-black mb-4 flex items-center gap-2">
               <Users className="h-5 w-5" />
               Détails de l'événement
             </h3>
@@ -229,7 +229,7 @@ export default async function EventPage({ params }: EventPageProps) {
         fallback={
           <section className="py-12 border-t border-border">
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-              <h2 className="text-2xl font-semibold text-foreground mb-8">Événements similaires</h2>
+              <h2 className="text-2xl font-black text-foreground mb-8">Événements similaires</h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {Array.from({ length: 3 }).map((_, i) => (
                   <Card key={i} className="animate-pulse">

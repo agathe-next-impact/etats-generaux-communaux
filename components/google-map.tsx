@@ -34,6 +34,7 @@ export function GoogleMap({ groups }: GoogleMapProps) {
       return
     }
 
+    // Security is handled by domain restrictions in Google Cloud Console, not by hiding the key
     const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY
 
     if (!apiKey || apiKey === "YOUR_API_KEY") {

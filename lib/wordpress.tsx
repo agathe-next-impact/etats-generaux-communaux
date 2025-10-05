@@ -51,20 +51,8 @@ export interface WordPressResource {
   }
   featured_media: number
   categories: number[]
-  acf?: {
-    descriptif?: string
-    video?: string
-    fichiers?: Array<{
-      document?: {
-        url: string
-        filename: string
-        filesize: number
-        mime_type: string
-      }
-      titre_du_document?: string
-      descriptif_du_document?: string
-    }>
-  }
+  tags: number[]
+  author: number
   _embedded?: {
     "wp:featuredmedia"?: Array<{
       source_url: string
@@ -77,6 +65,10 @@ export interface WordPressResource {
         slug: string
       }>
     >
+    author?: Array<{
+      name: string
+      slug: string
+    }>
   }
 }
 
@@ -89,23 +81,24 @@ export interface WordPressLocalGroup {
     rendered: string
   }
   featured_media: number
-  acf?: {
-    nom_de_groupe?: string
-    localisation?: {
-      address: string
-      lat: number
-      lng: number
-    }
-    descriptif?: string
-    nom_de_contact?: string
-    email_de_contact?: string
-    telephone_de_contact?: string
-    site_web?: string
-  }
+  categories: number[]
+  tags: number[]
+  author: number
   _embedded?: {
     "wp:featuredmedia"?: Array<{
       source_url: string
       alt_text: string
+    }>
+    "wp:term"?: Array<
+      Array<{
+        id: number
+        name: string
+        slug: string
+      }>
+    >
+    author?: Array<{
+      name: string
+      slug: string
     }>
   }
 }
@@ -125,18 +118,8 @@ export interface WordPressEvent {
   slug: string
   featured_media: number
   categories: number[]
-  acf?: {
-    description?: string // Description field from ACF
-    lien_vers_levenement_en_ligne?: string // Online event link (oembed)
-    date?: string // Date field (d/m/Y format)
-    heure?: string // Time field (g:i a format)
-    lieu?: {
-      // Google Map field
-      address: string
-      lat: number
-      lng: number
-    }
-  }
+  tags: number[]
+  author: number
   _embedded?: {
     "wp:featuredmedia"?: Array<{
       source_url: string
@@ -149,6 +132,10 @@ export interface WordPressEvent {
         slug: string
       }>
     >
+    author?: Array<{
+      name: string
+      slug: string
+    }>
   }
 }
 
@@ -195,6 +182,24 @@ export interface HomePageACF {
         title: string
         target: string
       }
+      texte?: string
+      icone?: {
+        url: string
+        alt: string
+        width: number
+        height: number
+      }
+    }>
+  }
+  historique?: {
+    liste_des_liens?: Array<{
+      libelle?: string
+      lien?: {
+        url: string
+        title: string
+        target: string
+      }
+      texte?: string
       icone?: {
         url: string
         alt: string

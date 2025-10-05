@@ -5,6 +5,7 @@ import { ResourceCard } from "@/components/resource-card"
 import { ResourceFilters } from "@/components/resource-filters"
 import { Card, CardContent } from "@/components/ui/card"
 import { getResources, type WordPressResource } from "@/lib/wordpress"
+import { UnderlinedH1 } from "@/components/ui/underlined-heading"
 
 export default function ResourcesPage() {
   const [resources, setResources] = useState<WordPressResource[]>([])
@@ -117,7 +118,7 @@ export default function ResourcesPage() {
 
   if (error) {
     return (
-      <div className="min-h-screen py-12">
+      <div className="min-h-screen py-12 pt-[150px]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center py-12">
             <h3 className="text-lg font-semibold text-foreground mb-2">Erreur de chargement</h3>
@@ -135,11 +136,11 @@ export default function ResourcesPage() {
   }
 
   return (
-    <div className="min-h-screen py-12">
+    <div className="min-h-screen py-12 pt-[150px]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-semibold text-foreground mb-4">Ressources</h1>
+          <UnderlinedH1 className="text-4xl md:text-5xl text-foreground mb-4">Ressources</UnderlinedH1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Découvrez notre collection de guides, outils et documents pour accompagner votre engagement et vos actions
             collectives.
@@ -190,7 +191,7 @@ export default function ResourcesPage() {
         {/* Call to Action */}
         <section className="mt-16 py-12 bg-muted/30 rounded-lg">
           <div className="text-center space-y-4">
-            <h2 className="text-2xl font-semibold text-foreground">Vous avez une ressource à partager ?</h2>
+            <h2 className="text-2xl font-black text-foreground">Vous avez une ressource à partager ?</h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
               Nous sommes toujours à la recherche de nouvelles ressources pour enrichir notre collection. Contactez-nous
               si vous souhaitez contribuer.

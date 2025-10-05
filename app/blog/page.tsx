@@ -4,6 +4,7 @@ import { ArticleCard } from "@/components/article-card"
 import { BlogFilters } from "@/components/blog-filters"
 import { Pagination } from "@/components/pagination"
 import { Card, CardContent } from "@/components/ui/card"
+import { UnderlinedH1 } from "@/components/ui/underlined-heading"
 
 interface BlogPageProps {
   searchParams: {
@@ -73,11 +74,12 @@ async function BlogContent({ searchParams }: BlogPageProps) {
 
 export default function BlogPage({ searchParams }: BlogPageProps) {
   return (
-    <div className="min-h-screen py-12">
+    <div className="min-h-screen py-12 pt-[150px]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-semibold text-foreground mb-4">Tous les articles</h1>
+          {/* Replace h1 with UnderlinedH1 */}
+          <UnderlinedH1 className="text-4xl md:text-5xl text-foreground mb-4">Tous les articles</UnderlinedH1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Explorez nos analyses, témoignages et réflexions sur l'engagement collectif et les mouvements sociaux.
           </p>

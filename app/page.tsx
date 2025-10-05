@@ -11,6 +11,9 @@ import type { HomePageACF } from "@/lib/wordpress"
 import Link from "next/link"
 import { ArrowRight, Users } from "lucide-react"
 import Image from "next/image"
+import { Highlighter } from "@/components/ui/highlighter"
+import { LatestNews } from "@/components/latest-news"
+import { HorizontalTimeline } from "@/components/horizontal-timeline"
 
 async function UpcomingEvents() {
   const events = await getEvents()
@@ -39,12 +42,33 @@ async function UpcomingEvents() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between mb-12">
           <div>
-            <h2 className="text-3xl md:text-4xl font-extrabold text-foreground mb-4">Événements à venir</h2>
+            <h2 className="text-3xl md:text-4xl text-foreground mb-4">
+              <Highlighter
+                action="underline"
+                color="#E73628"
+                strokeWidth={3}
+                animationDuration={600}
+                iterations={1}
+                isView={true}
+              >
+                Événements à venir
+              </Highlighter>
+            </h2>
             <p className="text-muted-foreground text-lg">Les prochains rendez-vous pour s'engager ensemble</p>
           </div>
           <Button asChild variant="outline">
             <Link href="/evenements">
-              Tous les événements
+              <Highlighter
+                action="highlight"
+                color="#B4D19F"
+                strokeWidth={4}
+                animationDuration={600}
+                iterations={1}
+                padding={12}
+                isView={true}
+              >
+                Tous les événements
+              </Highlighter>
               <ArrowRight className="ml-2 h-4 w-4" />
             </Link>
           </Button>
@@ -97,8 +121,17 @@ async function ArticlesAndEvents({ acfData }: { acfData?: HomePageACF["section_a
             <div>
               <div className="mb-6">
                 {acfData?.titre_actus && (
-                  <h2 className="text-2xl md:text-3xl font-extrabold uppercase text-foreground mb-2">
-                    <span className="bg-[#E73628] text-white px-4 py-2">{acfData.titre_actus}</span>
+                  <h2 className="text-2xl md:text-3xl uppercase text-foreground mb-2">
+                    <Highlighter
+                      action="underline"
+                      color="#E73628"
+                      strokeWidth={3}
+                      animationDuration={600}
+                      iterations={1}
+                      isView={true}
+                    >
+                      {acfData.titre_actus}
+                    </Highlighter>
                   </h2>
                 )}
                 {acfData?.soustitre_actus && <p className="text-muted-foreground">{acfData.soustitre_actus}</p>}
@@ -113,8 +146,17 @@ async function ArticlesAndEvents({ acfData }: { acfData?: HomePageACF["section_a
               <div className="mb-6 flex items-center justify-between">
                 <div>
                   {acfData?.titre_evenements && (
-                    <h2 className="text-2xl md:text-3xl font-extrabold uppercase text-foreground mb-2">
-                      <span className="bg-[#E73628] text-white px-4 py-2">{acfData.titre_evenements}</span>
+                    <h2 className="text-2xl md:text-3xl uppercase text-foreground mb-2">
+                      <Highlighter
+                        action="underline"
+                        color="#E73628"
+                        strokeWidth={3}
+                        animationDuration={600}
+                        iterations={1}
+                        isView={true}
+                      >
+                        {acfData.titre_evenements}
+                      </Highlighter>
                     </h2>
                   )}
                   {acfData?.soustitre_evenements && (
@@ -123,7 +165,17 @@ async function ArticlesAndEvents({ acfData }: { acfData?: HomePageACF["section_a
                 </div>
                 <Button asChild variant="outline" size="sm">
                   <Link href="/evenements">
-                    Tous
+                    <Highlighter
+                      action="highlight"
+                      color="#B4D19F"
+                      strokeWidth={4}
+                      animationDuration={600}
+                      iterations={1}
+                      padding={12}
+                      isView={true}
+                    >
+                      Tous
+                    </Highlighter>
                     <ArrowRight className="ml-2 h-3 w-3" />
                   </Link>
                 </Button>
@@ -161,8 +213,17 @@ async function MapAndEventsSection({ acfData }: { acfData?: HomePageACF["section
           <div className="lg:col-span-2">
             <div className="mb-6">
               {acfData?.titre_groupes_locaux && (
-                <h2 className="text-2xl md:text-3xl font-extrabold uppercase text-foreground mb-2">
-                  <span className="bg-[#4AAD33] text-white px-4 py-2">{acfData.titre_groupes_locaux}</span>
+                <h2 className="text-2xl md:text-3xl uppercase text-foreground mb-2">
+                  <Highlighter
+                    action="underline"
+                    color="#E73628"
+                    strokeWidth={3}
+                    animationDuration={600}
+                    iterations={1}
+                    isView={true}
+                  >
+                    {acfData.titre_groupes_locaux}
+                  </Highlighter>
                 </h2>
               )}
               {acfData?.soustitre_groupes_locaux && (
@@ -175,7 +236,17 @@ async function MapAndEventsSection({ acfData }: { acfData?: HomePageACF["section
             <div className="mt-4 text-center">
               <Button asChild variant="outline">
                 <Link href="/groupes-locaux">
-                  Voir tous les groupes
+                  <Highlighter
+                    action="highlight"
+                    color="#B4D19F"
+                    strokeWidth={4}
+                    animationDuration={600}
+                    iterations={1}
+                    padding={12}
+                    isView={true}
+                  >
+                    Voir tous les groupes
+                  </Highlighter>
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
@@ -186,8 +257,17 @@ async function MapAndEventsSection({ acfData }: { acfData?: HomePageACF["section
           <div className="lg:col-span-1">
             <div className="mb-6">
               {acfData?.titre_evenements && (
-                <h2 className="text-2xl md:text-3xl font-extrabold uppercase text-foreground mb-2">
-                  <span className="bg-[#E73628] text-white px-4 py-2">{acfData.titre_evenements}</span>
+                <h2 className="text-2xl md:text-3xl uppercase text-foreground mb-2">
+                  <Highlighter
+                    action="underline"
+                    color="#E73628"
+                    strokeWidth={3}
+                    animationDuration={600}
+                    iterations={1}
+                    isView={true}
+                  >
+                    {acfData.titre_evenements}
+                  </Highlighter>
                 </h2>
               )}
               {acfData?.soustitre_evenements && <p className="text-muted-foreground">{acfData.soustitre_evenements}</p>}
@@ -198,7 +278,17 @@ async function MapAndEventsSection({ acfData }: { acfData?: HomePageACF["section
             <div className="mt-4 text-center">
               <Button asChild variant="outline" size="sm">
                 <Link href="/evenements">
-                  Tous les événements
+                  <Highlighter
+                    action="highlight"
+                    color="#94BF7E"
+                    strokeWidth={4}
+                    animationDuration={600}
+                    iterations={1}
+                    padding={12}
+                    isView={true}
+                  >
+                    Tous les événements
+                  </Highlighter>
                   <ArrowRight className="ml-2 h-3 w-3" />
                 </Link>
               </Button>
@@ -210,6 +300,16 @@ async function MapAndEventsSection({ acfData }: { acfData?: HomePageACF["section
   )
 }
 
+async function LatestNewsSection() {
+  const { posts } = await getPosts({ per_page: 6, orderby: "date", order: "desc" })
+
+  if (posts.length === 0) {
+    return null
+  }
+
+  return <LatestNews posts={posts} />
+}
+
 export default async function HomePage() {
   const homePageData = await getHomePageData()
   const acf = homePageData?.acf
@@ -217,26 +317,45 @@ export default async function HomePage() {
   console.log("[v0] Homepage ACF data:", acf ? "loaded" : "not found")
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen pt-[150px]">
       {/* Hero Section */}
       {acf?.section_hero && (
         <section className="relative py-20 lg:py-32 overflow-hidden bg-white">
           <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center space-y-8">
               <div className="space-y-4">
-                <h1 className="text-4xl md:text-6xl lg:text-7xl uppercase leading-tight text-white inline-block">
-                  <span className="bg-[#E73628] px-4 py-2">{acf.section_hero.titre}</span>
+                <h1 className="text-4xl md:text-6xl lg:text-7xl uppercase leading-tight text-foreground font-black">
+                  <Highlighter
+                    action="highlight"
+                    color="#F4E63C"
+                    strokeWidth={3}
+                    animationDuration={800}
+                    iterations={3}
+                    padding={8}
+                    isView={true}
+                  >
+                    {acf.section_hero.titre}
+                  </Highlighter>
                 </h1>
                 {acf.section_hero["sous-titre"] && (
-                  <p className="magazine-subtitle text-sm md:text-base text-foreground/80 max-w-2xl mx-auto font-medium">
-                    {acf.section_hero["sous-titre"]}
+                  <p className="text-lg md:text-xl text-foreground/90 leading-relaxed font-medium max-w-2xl mx-auto">
+                    <Highlighter
+                      action="underline"
+                      color="#E73628"
+                      strokeWidth={3}
+                      animationDuration={600}
+                      iterations={1}
+                      isView={true}
+                    >
+                      {acf.section_hero["sous-titre"]}
+                    </Highlighter>
                   </p>
                 )}
               </div>
 
               {acf.section_hero.chapeau && (
                 <div className="max-w-3xl mx-auto">
-                  <p className="text-lg md:text-xl text-foreground/90 leading-relaxed font-medium">
+                  <p className="magazine-subtitle text-sm md:text-base text-foreground/80 font-medium">
                     {acf.section_hero.chapeau}
                   </p>
                 </div>
@@ -246,16 +365,22 @@ export default async function HomePage() {
                 acf.section_hero.cta_de_droite?.libelle_de_droite) && (
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   {acf.section_hero.cta_de_gauche?.libelle_de_gauche && (
-                    <Button
-                      asChild
-                      size="lg"
-                      className="text-base bg-[var(--brand-red)] hover:bg-[var(--brand-red)]/90"
-                    >
+                    <Button asChild size="lg" className="text-lg bg-[var(--brand-red)] hover:bg-[var(--brand-red)]/90">
                       <Link
                         href={acf.section_hero.cta_de_gauche.lien_de_gauche?.url || "#"}
                         target={acf.section_hero.cta_de_gauche.lien_de_gauche?.target || "_self"}
                       >
-                        {acf.section_hero.cta_de_gauche.libelle_de_gauche}
+                        <Highlighter
+                          action="highlight"
+                          color="#B4D19F"
+                          strokeWidth={4}
+                          animationDuration={600}
+                          iterations={1}
+                          padding={12}
+                          isView={true}
+                        >
+                          {acf.section_hero.cta_de_gauche.libelle_de_gauche}
+                        </Highlighter>
                         <ArrowRight className="ml-2 h-4 w-4" />
                       </Link>
                     </Button>
@@ -264,13 +389,24 @@ export default async function HomePage() {
                     <Button
                       asChild
                       variant="outline"
+                      size="lg"
                       className="border-foreground/20 hover:bg-foreground/5 bg-transparent"
                     >
                       <Link
                         href={acf.section_hero.cta_de_droite.lien_de_droite?.url || "#"}
                         target={acf.section_hero.cta_de_droite.lien_de_droite?.target || "_self"}
                       >
-                        {acf.section_hero.cta_de_droite.libelle_de_droite}
+                        <Highlighter
+                          action="highlight"
+                          color="#94BF7E"
+                          strokeWidth={4}
+                          animationDuration={600}
+                          iterations={1}
+                          padding={12}
+                          isView={true}
+                        >
+                          {acf.section_hero.cta_de_droite.libelle_de_droite}
+                        </Highlighter>
                       </Link>
                     </Button>
                   )}
@@ -279,6 +415,12 @@ export default async function HomePage() {
             </div>
           </div>
         </section>
+      )}
+
+      {/* Horizontal Timeline Section */}
+      {((acf?.historique?.liste_des_liens && acf.historique.liste_des_liens.length > 0) ||
+        (acf?.groupe_de_liens?.liste_des_liens && acf.groupe_de_liens.liste_des_liens.length > 0)) && (
+        <HorizontalTimeline links={acf?.historique?.liste_des_liens || acf?.groupe_de_liens?.liste_des_liens || []} />
       )}
 
       {/* Call to Action Section */}
@@ -295,10 +437,6 @@ export default async function HomePage() {
                 >
                   <div className="relative flex-shrink-0">
                     <div className="w-32 h-32 rounded-3xl bg-[#F4E63C] flex items-center justify-center relative">
-                      <div className="absolute top-2 left-1/2 -translate-x-1/2 flex gap-2">
-                        <div className="w-3 h-8 bg-[#E73628] rounded-full" />
-                        <div className="w-3 h-8 bg-[#E73628] rounded-full" />
-                      </div>
                       {link.icone?.url ? (
                         <Image
                           src={link.icone.url || "/placeholder.svg"}
@@ -384,14 +522,48 @@ export default async function HomePage() {
         <UpcomingEvents />
       </Suspense>
 
+      {/* Latest News Section */}
+      <Suspense
+        fallback={
+          <section className="py-16 lg:py-24 bg-background">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="h-8 bg-muted rounded w-64 mb-12 animate-pulse" />
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {Array.from({ length: 6 }).map((_, i) => (
+                  <div key={i} className="animate-pulse">
+                    <div className="h-48 bg-muted rounded-lg mb-4" />
+                    <div className="space-y-3">
+                      <div className="h-4 bg-muted rounded w-32" />
+                      <div className="h-6 bg-muted rounded" />
+                      <div className="h-4 bg-muted rounded w-full" />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+        }
+      >
+        <LatestNewsSection />
+      </Suspense>
+
       {/* Call to Action Section */}
       {acf?.section_manifeste && (
         <section className="py-16 lg:py-24 bg-white">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <div className="space-y-8">
               {acf.section_manifeste.titre && (
-                <h2 className="text-3xl md:text-4xl font-extrabold uppercase text-white inline-block">
-                  <span className="bg-[#E73628] px-4 py-2">{acf.section_manifeste.titre}</span>
+                <h2 className="text-3xl md:text-4xl uppercase text-foreground">
+                  <Highlighter
+                    action="underline"
+                    color="#E73628"
+                    strokeWidth={3}
+                    animationDuration={600}
+                    iterations={1}
+                    isView={true}
+                  >
+                    {acf.section_manifeste.titre}
+                  </Highlighter>
                 </h2>
               )}
               {acf.section_manifeste.chapeau && (
@@ -400,7 +572,11 @@ export default async function HomePage() {
               {acf.section_manifeste.texte && (
                 <div
                   className="leading-relaxed prose prose-invert max-w-none"
-                  dangerouslySetInnerHTML={{ __html: acf.section_manifeste.texte }}
+                  dangerouslySetInnerHTML={{
+                    __html: acf.section_manifeste.texte
+                      .replace(/\$\{/g, "&#36;{") // Escape template literal syntax
+                      .replace(/\}\}/g, "&#125;}"), // Escape double closing braces
+                  }}
                 />
               )}
               {(acf.section_manifeste.cta_de_gauche?.libelle_de_gauche ||
@@ -412,7 +588,17 @@ export default async function HomePage() {
                         href={acf.section_manifeste.cta_de_gauche.lien_de_gauche?.url || "#"}
                         target={acf.section_manifeste.cta_de_gauche.lien_de_gauche?.target || "_self"}
                       >
-                        {acf.section_manifeste.cta_de_gauche.libelle_de_gauche}
+                        <Highlighter
+                          action="highlight"
+                          color="#B4D19F"
+                          strokeWidth={4}
+                          animationDuration={600}
+                          iterations={1}
+                          padding={12}
+                          isView={true}
+                        >
+                          {acf.section_manifeste.cta_de_gauche.libelle_de_gauche}
+                        </Highlighter>
                       </Link>
                     </Button>
                   )}
@@ -420,13 +606,24 @@ export default async function HomePage() {
                     <Button
                       asChild
                       variant="outline"
+                      size="lg"
                       className="border-white text-white hover:bg-white/10 bg-transparent"
                     >
                       <Link
                         href={acf.section_manifeste.cta_de_droite.lien_de_droite?.url || "#"}
                         target={acf.section_manifeste.cta_de_droite.lien_de_droite?.target || "_self"}
                       >
-                        {acf.section_manifeste.cta_de_droite.libelle_de_droite}
+                        <Highlighter
+                          action="highlight"
+                          color="#94BF7E"
+                          strokeWidth={4}
+                          animationDuration={600}
+                          iterations={1}
+                          padding={12}
+                          isView={true}
+                        >
+                          {acf.section_manifeste.cta_de_droite.libelle_de_droite}
+                        </Highlighter>
                       </Link>
                     </Button>
                   )}

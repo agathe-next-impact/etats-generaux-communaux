@@ -23,7 +23,7 @@ async function RelatedArticles({ currentSlug }: { currentSlug: string }) {
   return (
     <section className="py-12 border-t border-border">
       <div className="max-w-4xl mx-auto">
-        <h2 className="text-2xl font-semibold text-foreground mb-8">Articles similaires</h2>
+        <h2 className="text-2xl font-black text-foreground mb-8">Articles similaires</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {relatedPosts.map((post) => (
             <ArticleCard key={post.id} post={post} />
@@ -71,7 +71,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
             )}
 
             {/* Title */}
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-semibold text-foreground leading-tight text-balance">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-black text-foreground leading-tight text-balance">
               {post.title.rendered}
             </h1>
 
@@ -134,7 +134,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
         fallback={
           <section className="py-12 border-t border-border">
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-              <h2 className="text-2xl font-semibold text-foreground mb-8">Articles similaires</h2>
+              <h2 className="text-2xl font-black text-foreground mb-8">Articles similaires</h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {Array.from({ length: 3 }).map((_, i) => (
                   <Card key={i} className="animate-pulse">
