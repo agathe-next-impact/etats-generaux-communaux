@@ -1,5 +1,7 @@
 "use client"
 
+import type React from "react"
+
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
@@ -8,14 +10,56 @@ import { GlobalSearch } from "@/components/global-search"
 import { Search, ChevronDown } from "lucide-react"
 import Image from "next/image"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import {
-  Navbar,
-  NavBody,
-  MobileNav,
-  MobileNavMenu,
-  MobileNavToggle,
-  NavbarButton,
-} from "@/components/ui/resizable-navbar"
+import { Navbar, NavBody, MobileNav, MobileNavMenu, MobileNavToggle } from "@/components/ui/resizable-navbar"
+
+function NavItemWithBrush({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+  return (
+    <span className={`relative inline-block font-semibold text-black group ${className}`}>
+      <span className="relative z-10">{children}</span>
+      <span
+        className="absolute inset-0 -inset-x-1 -inset-y-0.5 bg-[#F4E63C] opacity-0 group-hover:opacity-60 transition-opacity duration-150 -z-10 rounded-sm"
+        style={{
+          clipPath:
+            "polygon(0% 10%, 2% 8%, 5% 12%, 8% 6%, 12% 10%, 15% 5%, 18% 11%, 22% 7%, 25% 12%, 28% 8%, 32% 11%, 35% 6%, 38% 10%, 42% 8%, 45% 12%, 48% 7%, 52% 11%, 55% 9%, 58% 13%, 62% 8%, 65% 11%, 68% 7%, 72% 10%, 75% 6%, 78% 11%, 82% 8%, 85% 12%, 88% 7%, 92% 10%, 95% 8%, 98% 11%, 100% 9%, 100% 90%, 98% 92%, 95% 88%, 92% 94%, 88% 90%, 85% 95%, 82% 89%, 78% 93%, 75% 88%, 72% 94%, 68% 90%, 65% 95%, 62% 91%, 58% 94%, 55% 89%, 52% 93%, 48% 88%, 45% 92%, 42% 87%, 38% 91%, 35% 86%, 32% 90%, 28% 85%, 25% 89%, 22% 84%, 18% 88%, 15% 83%, 12% 87%, 8% 82%, 5% 86%, 2% 81%, 0% 85%)",
+        }}
+      />
+    </span>
+  )
+}
+
+function DropdownItemWithBrush({ children, href }: { children: React.ReactNode; href: string }) {
+  return (
+    <DropdownMenuItem asChild className="cursor-pointer p-0 focus:bg-transparent">
+      <Link href={href} className="w-full block">
+        <span className="relative inline-block font-semibold text-black group w-full px-3 py-2">
+          <span className="relative z-10">{children}</span>
+          <span
+            className="absolute inset-0 bg-[#F4E63C] opacity-0 group-hover:opacity-60 transition-opacity duration-150 -z-10 rounded-sm"
+            style={{
+              clipPath:
+                "polygon(0% 10%, 2% 8%, 5% 12%, 8% 6%, 12% 10%, 15% 5%, 18% 11%, 22% 7%, 25% 12%, 28% 8%, 32% 11%, 35% 6%, 38% 10%, 42% 8%, 45% 12%, 48% 7%, 52% 11%, 55% 9%, 58% 13%, 62% 8%, 65% 11%, 68% 7%, 72% 10%, 75% 6%, 78% 11%, 82% 8%, 85% 12%, 88% 7%, 92% 10%, 95% 8%, 98% 11%, 100% 9%, 100% 90%, 98% 92%, 95% 88%, 92% 94%, 88% 90%, 85% 95%, 82% 89%, 78% 93%, 75% 88%, 72% 94%, 68% 90%, 65% 95%, 62% 91%, 58% 94%, 55% 89%, 52% 93%, 48% 88%, 45% 92%, 42% 87%, 38% 91%, 35% 86%, 32% 90%, 28% 85%, 25% 89%, 22% 84%, 18% 88%, 15% 83%, 12% 87%, 8% 82%, 5% 86%, 2% 81%, 0% 85%)",
+            }}
+          />
+        </span>
+      </Link>
+    </DropdownMenuItem>
+  )
+}
+
+function ContactButtonWithHighlight({ children }: { children: React.ReactNode }) {
+  return (
+    <span className="relative inline-block font-semibold">
+      <span className="relative z-10">{children}</span>
+      <span
+        className="absolute inset-0 -inset-x-3 -inset-y-2 bg-[#B4D19F] opacity-80 -z-10 rounded-sm"
+        style={{
+          clipPath:
+            "polygon(2% 5%, 5% 3%, 8% 6%, 12% 2%, 15% 7%, 18% 4%, 22% 8%, 25% 3%, 28% 6%, 32% 4%, 35% 8%, 38% 5%, 42% 9%, 45% 4%, 48% 7%, 52% 3%, 55% 8%, 58% 5%, 62% 9%, 65% 4%, 68% 7%, 72% 3%, 75% 8%, 78% 5%, 82% 9%, 85% 4%, 88% 7%, 92% 3%, 95% 6%, 98% 4%, 100% 7%, 100% 93%, 98% 96%, 95% 94%, 92% 97%, 88% 93%, 85% 96%, 82% 91%, 78% 95%, 75% 92%, 72% 97%, 68% 93%, 65% 96%, 62% 91%, 58% 95%, 55% 92%, 52% 97%, 48% 93%, 45% 96%, 42% 91%, 38% 95%, 35% 92%, 32% 96%, 28% 94%, 25% 97%, 22% 92%, 18% 96%, 15% 93%, 12% 98%, 8% 94%, 5% 97%, 2% 95%, 0% 93%)",
+        }}
+      />
+    </span>
+  )
+}
 
 export function Navigation() {
   const [isSearchOpen, setIsSearchOpen] = useState(false)
@@ -39,7 +83,7 @@ export function Navigation() {
 
   return (
     <>
-      <Navbar>
+      <Navbar className="bg-white border-b-2 border-[#E73628]">
         <NavBody>
           <Link href="/" className="flex items-center space-x-2">
             <Image
@@ -53,94 +97,71 @@ export function Navigation() {
           </Link>
 
           <div className="hidden md:flex items-center space-x-1">
-            {/* Qui sommes nous ? - direct link */}
-            <Link
-              href="/les-egc"
-              className="text-sm text-foreground/80 hover:text-foreground transition-colors px-3 py-2 rounded-md hover:bg-accent/50"
-            >
-              Qui sommes nous ?
+            <Link href="/les-egc" className="text-sm text-black transition-colors px-3 py-2 rounded-md">
+              <NavItemWithBrush>Qui sommes nous ?</NavItemWithBrush>
             </Link>
 
-            {/* S'organiser et agir - dropdown */}
-            <DropdownMenu>
+            <DropdownMenu modal={false}>
               <DropdownMenuTrigger asChild>
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="gap-1 text-sm font-normal text-foreground/80 hover:text-foreground hover:bg-accent/50"
+                  className="gap-1 text-sm text-black hover:bg-transparent relative group"
                 >
-                  S'organiser et agir
-                  <ChevronDown className="h-3.5 w-3.5 opacity-50" />
+                  <NavItemWithBrush>
+                    <span className="flex items-center gap-1">
+                      S'organiser et agir
+                      <ChevronDown className="h-3.5 w-3.5" />
+                    </span>
+                  </NavItemWithBrush>
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="start" className="min-w-[180px]">
-                <DropdownMenuItem asChild>
-                  <Link href="/ressources" className="cursor-pointer text-sm">
-                    Ressources
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link href="/evenements" className="cursor-pointer text-sm">
-                    Evénements
-                  </Link>
-                </DropdownMenuItem>
+              <DropdownMenuContent align="start" className="min-w-[180px] border-2 border-[#E73628] bg-white">
+                <DropdownItemWithBrush href="/ressources">Ressources</DropdownItemWithBrush>
+                <DropdownItemWithBrush href="/evenements">Evénements</DropdownItemWithBrush>
               </DropdownMenuContent>
             </DropdownMenu>
 
-            {/* S'informer - dropdown */}
-            <DropdownMenu>
+            <DropdownMenu modal={false}>
               <DropdownMenuTrigger asChild>
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="gap-1 text-sm font-normal text-foreground/80 hover:text-foreground hover:bg-accent/50"
+                  className="gap-1 text-sm text-black hover:bg-transparent relative group"
                 >
-                  S'informer
-                  <ChevronDown className="h-3.5 w-3.5 opacity-50" />
+                  <NavItemWithBrush>
+                    <span className="flex items-center gap-1">
+                      S'informer
+                      <ChevronDown className="h-3.5 w-3.5" />
+                    </span>
+                  </NavItemWithBrush>
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="start" className="min-w-[180px]">
-                <DropdownMenuItem asChild>
-                  <Link href="/blog" className="cursor-pointer text-sm">
-                    Actus
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link href="/a-propos" className="cursor-pointer text-sm">
-                    A propos
-                  </Link>
-                </DropdownMenuItem>
+              <DropdownMenuContent align="start" className="min-w-[180px] border-2 border-[#E73628] bg-white">
+                <DropdownItemWithBrush href="/blog">Actus</DropdownItemWithBrush>
+                <DropdownItemWithBrush href="/a-propos">A propos</DropdownItemWithBrush>
               </DropdownMenuContent>
             </DropdownMenu>
 
-            {/* Le rhizome - dropdown */}
-            <DropdownMenu>
+            <DropdownMenu modal={false}>
               <DropdownMenuTrigger asChild>
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="gap-1 text-sm font-normal text-foreground/80 hover:text-foreground hover:bg-accent/50"
+                  className="gap-1 text-sm text-black hover:bg-transparent relative group"
                 >
-                  Le rhizome
-                  <ChevronDown className="h-3.5 w-3.5 opacity-50" />
+                  <NavItemWithBrush>
+                    <span className="flex items-center gap-1">
+                      Le rhizome
+                      <ChevronDown className="h-3.5 w-3.5" />
+                    </span>
+                  </NavItemWithBrush>
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="start" className="min-w-[180px]">
-                <DropdownMenuItem asChild>
-                  <Link href="/groupes-locaux" className="cursor-pointer text-sm">
-                    Groupes locaux
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link href="/soutiens" className="cursor-pointer text-sm">
-                    Soutiens
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link href="/participer" className="cursor-pointer text-sm">
-                    Participer
-                  </Link>
-                </DropdownMenuItem>
+              <DropdownMenuContent align="start" className="min-w-[180px] border-2 border-[#E73628] bg-white">
+                <DropdownItemWithBrush href="/groupes-locaux">Groupes locaux</DropdownItemWithBrush>
+                <DropdownItemWithBrush href="/soutiens">Soutiens</DropdownItemWithBrush>
+                <DropdownItemWithBrush href="/participer">Participer</DropdownItemWithBrush>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
@@ -154,7 +175,7 @@ export function Navigation() {
                 e.preventDefault()
                 handleSearchClick()
               }}
-              className="gap-2 text-sm"
+              className="gap-2 text-sm font-semibold hover:bg-[#F4E63C]/20 hover:text-[#E73628]"
             >
               <Search className="h-4 w-4" />
               <span className="hidden lg:inline">Rechercher</span>
@@ -162,23 +183,28 @@ export function Navigation() {
                 <span className="text-xs">⌘</span>K
               </kbd>
             </Button>
-            <NavbarButton href="/contact" variant="secondary" as={Link}>
-              Contact
-            </NavbarButton>
-            <NavbarButton href="/participer" variant="primary" as={Link}>
-              Participer
-            </NavbarButton>
+            <Button
+              asChild
+              variant="outline"
+              size="sm"
+              className="border-transparent hover:bg-transparent bg-transparent"
+            >
+              <Link href="/contact">
+                <ContactButtonWithHighlight>Contact</ContactButtonWithHighlight>
+              </Link>
+            </Button>
           </div>
 
           <div className="md:hidden flex items-center gap-2">
-            <Button variant="ghost" size="sm" onClick={handleSearchClick}>
+            <Button variant="ghost" size="sm" onClick={handleSearchClick} className="hover:bg-[#F4E63C]/20">
               <Search className="h-5 w-5" />
             </Button>
-            <Button variant="ghost" size="sm" asChild>
-              <Link href="/contact">Contact</Link>
-            </Button>
-            <Button variant="ghost" size="sm" asChild>
-              <Link href="/participer">Participer</Link>
+            <Button variant="ghost" size="sm" asChild className="hover:bg-transparent">
+              <Link href="/contact">
+                <ContactButtonWithHighlight>
+                  <span className="text-sm">Contact</span>
+                </ContactButtonWithHighlight>
+              </Link>
             </Button>
             <MobileNavToggle />
           </div>
@@ -186,56 +212,59 @@ export function Navigation() {
 
         <MobileNav>
           <MobileNavMenu>
-            <Link href="/les-egc" className="text-foreground hover:text-primary transition-colors font-medium px-4">
+            <Link href="/les-egc" className="text-foreground hover:text-[#E73628] transition-colors font-semibold px-4">
               Qui sommes nous ?
             </Link>
 
             <div className="space-y-2 px-4">
-              <div className="font-semibold text-sm text-muted-foreground">S'organiser et agir</div>
+              <div className="font-bold text-sm text-[#44843F] uppercase">S'organiser et agir</div>
               <Link
                 href="/ressources"
-                className="block pl-4 text-sm text-foreground hover:text-primary transition-colors"
+                className="block pl-4 text-sm text-foreground hover:text-[#E73628] transition-colors font-medium"
               >
                 Ressources
               </Link>
               <Link
                 href="/evenements"
-                className="block pl-4 text-sm text-foreground hover:text-primary transition-colors"
+                className="block pl-4 text-sm text-foreground hover:text-[#E73628] transition-colors font-medium"
               >
                 Evénements
               </Link>
             </div>
 
             <div className="space-y-2 px-4">
-              <div className="font-semibold text-sm text-muted-foreground">S'informer</div>
-              <Link href="/blog" className="block pl-4 text-sm text-foreground hover:text-primary transition-colors">
+              <div className="font-bold text-sm text-[#44843F] uppercase">S'informer</div>
+              <Link
+                href="/blog"
+                className="block pl-4 text-sm text-foreground hover:text-[#E73628] transition-colors font-medium"
+              >
                 Actus
               </Link>
               <Link
                 href="/a-propos"
-                className="block pl-4 text-sm text-foreground hover:text-primary transition-colors"
+                className="block pl-4 text-sm text-foreground hover:text-[#E73628] transition-colors font-medium"
               >
                 A propos
               </Link>
             </div>
 
             <div className="space-y-2 px-4">
-              <div className="font-semibold text-sm text-muted-foreground">Le rhizome</div>
+              <div className="font-bold text-sm text-[#44843F] uppercase">Le rhizome</div>
               <Link
                 href="/groupes-locaux"
-                className="block pl-4 text-sm text-foreground hover:text-primary transition-colors"
+                className="block pl-4 text-sm text-foreground hover:text-[#E73628] transition-colors font-medium"
               >
                 Groupes locaux
               </Link>
               <Link
                 href="/soutiens"
-                className="block pl-4 text-sm text-foreground hover:text-primary transition-colors"
+                className="block pl-4 text-sm text-foreground hover:text-[#E73628] transition-colors font-medium"
               >
                 Soutiens
               </Link>
               <Link
                 href="/participer"
-                className="block pl-4 text-sm text-foreground hover:text-primary transition-colors"
+                className="block pl-4 text-sm text-foreground hover:text-[#E73628] transition-colors font-medium"
               >
                 Participer
               </Link>

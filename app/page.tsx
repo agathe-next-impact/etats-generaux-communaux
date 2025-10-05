@@ -522,30 +522,7 @@ export default async function HomePage() {
         <UpcomingEvents />
       </Suspense>
 
-      {/* Latest News Section */}
-      <Suspense
-        fallback={
-          <section className="py-16 lg:py-24 bg-background">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="h-8 bg-muted rounded w-64 mb-12 animate-pulse" />
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {Array.from({ length: 6 }).map((_, i) => (
-                  <div key={i} className="animate-pulse">
-                    <div className="h-48 bg-muted rounded-lg mb-4" />
-                    <div className="space-y-3">
-                      <div className="h-4 bg-muted rounded w-32" />
-                      <div className="h-6 bg-muted rounded" />
-                      <div className="h-4 bg-muted rounded w-full" />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </section>
-        }
-      >
-        <LatestNewsSection />
-      </Suspense>
+
 
       {/* Call to Action Section */}
       {acf?.section_manifeste && (
@@ -607,7 +584,7 @@ export default async function HomePage() {
                       asChild
                       variant="outline"
                       size="lg"
-                      className="border-white text-white hover:bg-white/10 bg-transparent"
+                      className="border-white text-black hover:bg-white/10 bg-transparent"
                     >
                       <Link
                         href={acf.section_manifeste.cta_de_droite.lien_de_droite?.url || "#"}

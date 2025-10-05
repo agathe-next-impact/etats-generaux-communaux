@@ -34,6 +34,7 @@ export function Highlighter({
   const elementRef = useRef<HTMLSpanElement>(null)
   const annotationRef = useRef<RoughAnnotation | null>(null)
   const [hasAnimated, setHasAnimated] = useState(false)
+  const [elementSize, setElementSize] = useState({ width: 0, height: 0 })
 
   const isInView = useInView(elementRef, {
     once: true,
@@ -43,17 +44,40 @@ export function Highlighter({
   const shouldShow = !isView || isInView
 
   useEffect(() => {
-    if (!shouldShow || hasAnimated) return
+    const element = elementRef.current
+    if (!element) return
+
+    const resizeObserver = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        const { width, height } = entry.contentRect
+        setElementSize({ width, height })
+      }
+    })
+
+    resizeObserver.observe(element)
+
+    return () => {
+      resizeObserver.disconnect()
+    }
+  }, [])
+
+  useEffect(() => {
+    if (!shouldShow) return
 
     const element = elementRef.current
     if (!element) return
+
+    // Remove old annotation if it exists
+    if (annotationRef.current) {
+      annotationRef.current.remove()
+    }
 
     const annotationConfig = {
       type: action,
       color,
       strokeWidth,
-      animationDuration,
-      iterations,
+      animationDuration: hasAnimated ? 0 : animationDuration,
+      iterations: hasAnimated ? 1 : iterations,
       padding,
       multiline,
     }
@@ -64,13 +88,42 @@ export function Highlighter({
     annotationRef.current.show()
 
     setTimeout(() => {
-      setHasAnimated(true)
-    }, animationDuration)
-  }, [shouldShow, hasAnimated, action, color, strokeWidth, animationDuration, iterations, padding, multiline])
+      const svg = element.querySelector("svg")
+      if (svg) {
+        svg.style.zIndex = "-1"
+        svg.style.pointerEvents = "none"
+      }
+    }, 0)
+
+    if (!hasAnimated) {
+      setTimeout(() => {
+        setHasAnimated(true)
+      }, animationDuration)
+    }
+  }, [
+    shouldShow,
+    elementSize,
+    action,
+    color,
+    strokeWidth,
+    animationDuration,
+    iterations,
+    padding,
+    multiline,
+    hasAnimated,
+  ])
+
+  useEffect(() => {
+    return () => {
+      if (annotationRef.current) {
+        annotationRef.current.remove()
+      }
+    }
+  }, [])
 
   return (
-    <span ref={elementRef} className="relative inline-block bg-transparent">
-      {children}
+    <span ref={elementRef} className="relative inline-block bg-transparent z-0">
+      <span className="relative z-10">{children}</span>
     </span>
   )
 }
