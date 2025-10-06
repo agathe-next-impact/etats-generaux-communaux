@@ -152,7 +152,7 @@ export function ParticiperForm({ emailDestination }: ParticiperFormProps) {
             </div>
           )}
 
-          <Button type="submit" size="lg" disabled={isSubmitting} className="w-full">
+          <Button type="submit" variant="ghost" size="lg" disabled={isSubmitting} className="w-full">
             <Highlighter
               action="highlight"
               color="#B4D19F"

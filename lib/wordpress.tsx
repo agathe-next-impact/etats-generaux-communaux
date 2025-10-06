@@ -885,24 +885,52 @@ export async function getEvent(slug: string): Promise<WordPressEvent | null> {
   }
 }
 
-export async function getResource(slug: string): Promise<WordPressResource | null> {
+export async function getResource(idOrSlug: string): Promise<WordPressResource | null> {
   try {
-    const response = await fetch(`${WP_API_URL}/ressource?slug=${slug}&_embed=true&acf_format=standard`, {
-      next: { revalidate: 300 },
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-    })
+    const isNumericId = /^\d+$/.test(idOrSlug)
+
+    let response: Response
+
+    if (isNumericId) {
+      // Fetch by ID
+      console.log(`[v0] Fetching resource by ID: ${idOrSlug}`)
+      response = await fetch(`${WP_API_URL}/ressource/${idOrSlug}?_embed=true&acf_format=standard`, {
+        next: { revalidate: 300 },
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      })
+    } else {
+      // Fetch by slug
+      console.log(`[v0] Fetching resource by slug: ${idOrSlug}`)
+      response = await fetch(`${WP_API_URL}/ressource?slug=${idOrSlug}&_embed=true&acf_format=standard`, {
+        next: { revalidate: 300 },
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      })
+    }
 
     if (!response.ok) {
+      console.error(`[v0] Failed to fetch resource: ${response.status} ${response.statusText}`)
       throw new Error(`Failed to fetch resource: ${response.status} ${response.statusText}`)
     }
 
-    const resources = await validateJsonResponse(response)
-    return Array.isArray(resources) && resources.length > 0 ? resources[0] : null
+    if (isNumericId) {
+      // When fetching by ID, the response is a single object
+      const resource = await validateJsonResponse(response)
+      console.log(`[v0] Resource fetched by ID:`, resource?.id)
+      return resource
+    } else {
+      // When fetching by slug, the response is an array
+      const resources = await validateJsonResponse(response)
+      console.log(`[v0] Resources fetched by slug:`, resources?.length)
+      return Array.isArray(resources) && resources.length > 0 ? resources[0] : null
+    }
   } catch (error) {
-    console.error("Error fetching WordPress resource:", error)
+    console.error("[v0] Error fetching WordPress resource:", error)
     return null
   }
 }

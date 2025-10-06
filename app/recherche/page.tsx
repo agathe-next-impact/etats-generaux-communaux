@@ -1,7 +1,7 @@
 "use client"
 
 import type React from "react"
-
+import { Highlighter } from "@/components/ui/highlighter"
 import { useState, useEffect, Suspense } from "react"
 import { useSearchParams, useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
@@ -12,7 +12,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Search, FileText, Calendar, Download, Play, MapPin, ArrowRight, Loader2 } from "lucide-react"
 import Link from "next/link"
 import { formatDate } from "@/lib/wordpress"
-import { UnderlinedH1 } from "@/components/ui/underlined-heading"
 
 interface SearchResult {
   type: "article" | "resource" | "event"
@@ -102,12 +101,24 @@ function SearchPageContent() {
   }
 
   return (
-    <div className="min-h-screen bg-background pt-[150px]">
+    <div className="min-h-screen bg-background pt-32">
       {/* Hero Section with Search */}
       <section className="py-12 lg:py-16 bg-white border-b">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-8">
-            <UnderlinedH1 className="text-4xl md:text-5xl uppercase text-foreground mb-4">Recherche</UnderlinedH1>
+            <h1 className="text-4xl md:text-5xl font-black uppercase text-foreground mb-4 font-[family-name:var(--font-raleway)]">
+              <Highlighter
+                action="underline"
+                color="#E73628"
+                strokeWidth={4}
+                animationDuration={600}
+                iterations={1}
+                isView={true}
+              >
+                Recherche
+              </Highlighter>
+            </h1>
+            {/* </CHANGE> */}
             <p className="text-lg text-muted-foreground">
               Trouvez des articles, événements et ressources sur l'engagement citoyen
             </p>
@@ -122,12 +133,24 @@ function SearchPageContent() {
                   value={searchInput}
                   onChange={(e) => setSearchInput(e.target.value)}
                   placeholder="Rechercher..."
-                  className="pl-12 h-14 text-lg"
+                  className="pl-12 h-14 text-lg border-2 border-[#E73628] focus-visible:ring-[#E73628]"
                 />
+                {/* </CHANGE> */}
               </div>
-              <Button type="submit" size="lg" className="h-14 px-8 bg-primary hover:bg-primary/90">
-                Rechercher
-              </Button>
+              <Highlighter
+                action="highlight"
+                color="#B4D19F"
+                strokeWidth={4}
+                animationDuration={600}
+                iterations={1}
+                padding={8}
+                isView={true}
+              >
+                <Button type="submit" size="lg" className="h-14 px-8 bg-[#4AAD33] hover:bg-[#44843F] text-white">
+                  Rechercher
+                </Button>
+              </Highlighter>
+              {/* </CHANGE> */}
             </div>
           </form>
 
@@ -166,29 +189,56 @@ function SearchPageContent() {
                 <TabsContent value={activeTab} className="space-y-6">
                   {filteredResults.length > 0 ? (
                     filteredResults.map((result) => (
-                      <Card key={`${result.type}-${result.id}`} className="hover:shadow-lg transition-shadow">
+                      <Card
+                        key={`${result.type}-${result.id}`}
+                        className="hover:shadow-lg transition-shadow border-2"
+                        style={{
+                          borderColor:
+                            result.type === "article" ? "#E73628" : result.type === "event" ? "#F4E63C" : "#4AAD33",
+                        }}
+                      >
+                        {/* </CHANGE> */}
                         <CardContent className="p-6">
-                          <Link href={result.url} className="group">
+                          <Link href={result.url} className="group block">
                             <div className="flex items-start gap-4">
                               <div className="mt-1 flex-shrink-0">{getResultIcon(result)}</div>
                               <div className="flex-1 min-w-0">
                                 <div className="flex items-start justify-between gap-4 mb-2">
                                   <div className="flex-1">
                                     <div className="flex items-center gap-2 mb-2">
-                                      <Badge variant="outline" className="text-xs">
+                                      <Badge
+                                        variant="outline"
+                                        className="text-xs"
+                                        style={{
+                                          borderColor:
+                                            result.type === "article"
+                                              ? "#E73628"
+                                              : result.type === "event"
+                                                ? "#F4E63C"
+                                                : "#4AAD33",
+                                          color:
+                                            result.type === "article"
+                                              ? "#E73628"
+                                              : result.type === "event"
+                                                ? "#F4E63C"
+                                                : "#4AAD33",
+                                        }}
+                                      >
                                         {getResultTypeLabel(result)}
                                       </Badge>
+                                      {/* </CHANGE> */}
                                       {result.category && (
                                         <Badge variant="secondary" className="text-xs">
                                           {result.category}
                                         </Badge>
                                       )}
                                     </div>
-                                    <h3 className="text-xl font-black text-foreground group-hover:text-primary transition-colors mb-2">
+                                    <h3 className="text-xl font-black text-foreground group-hover:text-[#E73628] transition-colors mb-2 font-[family-name:var(--font-raleway)] uppercase">
                                       {result.title}
                                     </h3>
+                                    {/* </CHANGE> */}
                                   </div>
-                                  <ArrowRight className="h-5 w-5 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all flex-shrink-0" />
+                                  <ArrowRight className="h-5 w-5 text-muted-foreground group-hover:text-[#E73628] group-hover:translate-x-1 transition-all flex-shrink-0" />
                                 </div>
 
                                 <p className="text-muted-foreground mb-3 line-clamp-2">{result.excerpt}</p>

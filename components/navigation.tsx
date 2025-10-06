@@ -160,7 +160,6 @@ export function Navigation() {
               </DropdownMenuTrigger>
               <DropdownMenuContent align="start" className="min-w-[180px] border-2 border-[#E73628] bg-white">
                 <DropdownItemWithBrush href="/groupes-locaux">Groupes locaux</DropdownItemWithBrush>
-                <DropdownItemWithBrush href="/soutiens">Soutiens</DropdownItemWithBrush>
                 <DropdownItemWithBrush href="/participer">Participer</DropdownItemWithBrush>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -255,12 +254,6 @@ export function Navigation() {
                 className="block pl-4 text-sm text-foreground hover:text-[#E73628] transition-colors font-medium"
               >
                 Groupes locaux
-              </Link>
-              <Link
-                href="/soutiens"
-                className="block pl-4 text-sm text-foreground hover:text-[#E73628] transition-colors font-medium"
-              >
-                Soutiens
               </Link>
               <Link
                 href="/participer"

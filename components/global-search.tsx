@@ -4,12 +4,14 @@ import type React from "react"
 
 import { useState, useEffect, useRef } from "react"
 import { useRouter } from "next/navigation"
+import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Search, X, FileText, Download, Play, Calendar, MapPin, ArrowRight } from "lucide-react"
+import { Search, X, FileText, Download, Calendar, MapPin, ArrowRight } from "lucide-react"
 import { formatDate } from "@/lib/wordpress"
+import { Highlighter } from "@/components/ui/highlighter"
 
 interface SearchResult {
   type: "article" | "resource" | "event"
@@ -98,6 +100,7 @@ export function GlobalSearch({ isOpen, onClose }: GlobalSearchProps) {
   }
 
   const handleResultClick = (result: SearchResult) => {
+    console.log("[v0] Navigating to result:", result.url)
     router.push(result.url)
     onClose()
   }
@@ -109,18 +112,11 @@ export function GlobalSearch({ isOpen, onClose }: GlobalSearchProps) {
 
   const getResultIcon = (result: SearchResult) => {
     if (result.type === "article") {
-      return <FileText className="h-4 w-4 text-primary" />
+      return <FileText className="h-4 w-4 text-[#E73628]" />
     } else if (result.type === "event") {
-      return <Calendar className="h-4 w-4 text-[#4AAD33]" />
+      return <Calendar className="h-4 w-4 text-[#F4E63C]" />
     } else {
-      switch (result.fileType) {
-        case "pdf":
-          return <FileText className="h-4 w-4 text-red-600" />
-        case "video":
-          return <Play className="h-4 w-4 text-blue-600" />
-        default:
-          return <Download className="h-4 w-4 text-green-600" />
-      }
+      return <Download className="h-4 w-4 text-[#4AAD33]" />
     }
   }
 
@@ -130,16 +126,27 @@ export function GlobalSearch({ isOpen, onClose }: GlobalSearchProps) {
     return result.fileType?.toUpperCase() || "Ressource"
   }
 
+  const getResultBorderColor = (result: SearchResult) => {
+    if (result.type === "article") return "border-l-[#E73628]"
+    if (result.type === "event") return "border-l-[#F4E63C]"
+    return "border-l-[#4AAD33]"
+  }
+
+  const getResultBadgeColor = (result: SearchResult) => {
+    if (result.type === "article") return "bg-[#E73628]/10 text-[#E73628] border-[#E73628]"
+    if (result.type === "event") return "bg-[#F4E63C]/10 text-[#F4E63C] border-[#F4E63C]"
+    return "bg-[#4AAD33]/10 text-[#4AAD33] border-[#4AAD33]"
+  }
+
   if (!isOpen) return null
 
   return (
     <div className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm">
       <div className="fixed top-20 left-1/2 -translate-x-1/2 w-full max-w-2xl mx-auto px-4">
-        <Card className="shadow-2xl border-2">
+        <Card className="shadow-2xl border-2 border-[#E73628]">
           <CardContent className="p-0">
-            {/* Search Input */}
-            <div className="flex items-center gap-3 p-4 border-b">
-              <Search className="h-5 w-5 text-muted-foreground" />
+            <div className="flex items-center gap-3 p-4 border-b border-[#E73628]">
+              <Search className="h-5 w-5 text-[#E73628]" />
               <Input
                 ref={inputRef}
                 value={query}
@@ -153,29 +160,34 @@ export function GlobalSearch({ isOpen, onClose }: GlobalSearchProps) {
               </Button>
             </div>
 
-            {/* Search Results */}
             <div ref={resultsRef} className="max-h-96 overflow-y-auto">
               {isLoading ? (
                 <div className="p-8 text-center">
-                  <div className="animate-spin w-6 h-6 border-2 border-primary border-t-transparent rounded-full mx-auto mb-2" />
+                  <div className="animate-spin w-6 h-6 border-2 border-[#E73628] border-t-transparent rounded-full mx-auto mb-2" />
                   <p className="text-sm text-muted-foreground">Recherche en cours...</p>
                 </div>
               ) : results.length > 0 ? (
                 <div className="py-2">
                   {results.map((result, index) => (
-                    <button
+                    <Link
                       key={`${result.type}-${result.id}`}
+                      href={result.url}
                       onClick={() => handleResultClick(result)}
-                      className={`w-full text-left p-4 hover:bg-muted/50 transition-colors ${
-                        index === selectedIndex ? "bg-muted" : ""
-                      }`}
+                      className={`block w-full text-left p-4 hover:bg-muted/50 transition-colors border-l-4 ${getResultBorderColor(
+                        result,
+                      )} ${index === selectedIndex ? "bg-muted" : ""}`}
                     >
                       <div className="flex items-start gap-3">
                         <div className="mt-1">{getResultIcon(result)}</div>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 mb-1">
-                            <h3 className="font-medium text-foreground truncate">{result.title}</h3>
-                            <Badge variant="outline" className="text-xs">
+                            <h3
+                              className="font-black text-foreground truncate uppercase"
+                              style={{ fontFamily: "Raleway, sans-serif" }}
+                            >
+                              {result.title}
+                            </h3>
+                            <Badge variant="outline" className={`text-xs ${getResultBadgeColor(result)}`}>
                               {getResultTypeLabel(result)}
                             </Badge>
                           </div>
@@ -200,11 +212,23 @@ export function GlobalSearch({ isOpen, onClose }: GlobalSearchProps) {
                           </div>
                         </div>
                       </div>
-                    </button>
+                    </Link>
                   ))}
                   <div className="p-4 border-t">
                     <Button variant="outline" className="w-full bg-transparent" onClick={handleViewAllResults}>
-                      Voir tous les résultats
+                      <Highlighter
+                        action="highlight"
+                        color="#B4D19F"
+                        strokeWidth={4}
+                        animationDuration={600}
+                        iterations={1}
+                        padding={8}
+                        isView={true}
+                      >
+                        <span className="font-black uppercase" style={{ fontFamily: "Raleway, sans-serif" }}>
+                          Voir tous les résultats
+                        </span>
+                      </Highlighter>
                       <ArrowRight className="ml-2 h-4 w-4" />
                     </Button>
                   </div>
@@ -214,51 +238,33 @@ export function GlobalSearch({ isOpen, onClose }: GlobalSearchProps) {
                   <p className="text-muted-foreground mb-2">Aucun résultat trouvé</p>
                   <p className="text-sm text-muted-foreground">
                     Essayez avec d'autres mots-clés ou parcourez nos{" "}
-                    <button
-                      onClick={() => {
-                        router.push("/blog")
-                        onClose()
-                      }}
-                      className="text-primary hover:underline"
-                    >
+                    <Link href="/blog" onClick={onClose} className="text-[#E73628] hover:underline font-medium">
                       articles
-                    </button>
+                    </Link>
                     ,{" "}
-                    <button
-                      onClick={() => {
-                        router.push("/evenements")
-                        onClose()
-                      }}
-                      className="text-primary hover:underline"
-                    >
+                    <Link href="/evenements" onClick={onClose} className="text-[#F4E63C] hover:underline font-medium">
                       événements
-                    </button>{" "}
+                    </Link>{" "}
                     et{" "}
-                    <button
-                      onClick={() => {
-                        router.push("/ressources")
-                        onClose()
-                      }}
-                      className="text-primary hover:underline"
-                    >
+                    <Link href="/ressources" onClick={onClose} className="text-[#4AAD33] hover:underline font-medium">
                       ressources
-                    </button>
+                    </Link>
                   </p>
                 </div>
               ) : (
                 <div className="p-8 text-center">
                   <p className="text-muted-foreground mb-4">Commencez à taper pour rechercher</p>
                   <div className="flex flex-wrap gap-2 justify-center">
-                    <Badge variant="outline" className="text-xs">
+                    <Badge variant="outline" className="text-xs bg-[#E73628]/10 text-[#E73628] border-[#E73628]">
                       engagement
                     </Badge>
-                    <Badge variant="outline" className="text-xs">
+                    <Badge variant="outline" className="text-xs bg-[#F4E63C]/10 text-[#F4E63C] border-[#F4E63C]">
                       action collective
                     </Badge>
-                    <Badge variant="outline" className="text-xs">
+                    <Badge variant="outline" className="text-xs bg-[#4AAD33]/10 text-[#4AAD33] border-[#4AAD33]">
                       mouvement social
                     </Badge>
-                    <Badge variant="outline" className="text-xs">
+                    <Badge variant="outline" className="text-xs bg-[#E73628]/10 text-[#E73628] border-[#E73628]">
                       guide
                     </Badge>
                   </div>
@@ -266,7 +272,6 @@ export function GlobalSearch({ isOpen, onClose }: GlobalSearchProps) {
               )}
             </div>
 
-            {/* Footer */}
             <div className="px-4 py-3 border-t bg-muted/30 text-xs text-muted-foreground">
               <div className="flex items-center justify-between">
                 <span>Utilisez ↑↓ pour naviguer, Entrée pour sélectionner</span>
