@@ -2,6 +2,12 @@ import { getParticiperPageData } from "@/lib/wordpress"
 import { Highlighter } from "@/components/ui/highlighter"
 import { ParticiperForm } from "./participer-form"
 
+export const metadata = {
+  title: "Participer",
+  description:
+    "Rejoignez le mouvement des États Généraux de la Conversion. Contactez-nous pour participer à nos actions citoyennes et contribuer à la transition écologique et sociale.",
+}
+
 export default async function ParticiperPage() {
   const pageData = await getParticiperPageData()
 

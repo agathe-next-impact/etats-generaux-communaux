@@ -6,8 +6,6 @@ import { ResourceFilters } from "@/components/resource-filters"
 import { Card, CardContent } from "@/components/ui/card"
 import { getResources, type WordPressResource } from "@/lib/wordpress"
 import { Highlighter } from "@/components/ui/highlighter"
-import { Button } from "@/components/ui/button"
-import Link from "next/link"
 
 export default function ResourcesPage() {
   const [resources, setResources] = useState<WordPressResource[]>([])
@@ -193,7 +191,6 @@ export default function ResourcesPage() {
             </div>
           )}
         </div>
-
       </div>
     </div>
   )

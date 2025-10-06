@@ -72,6 +72,12 @@ async function BlogContent({ searchParams }: BlogPageProps) {
   )
 }
 
+export const metadata = {
+  title: "Actualités",
+  description:
+    "Explorez nos analyses, témoignages et réflexions sur la conversion écologique et sociale, l'engagement collectif et les mouvements citoyens.",
+}
+
 export default function BlogPage({ searchParams }: BlogPageProps) {
   return (
     <div className="min-h-screen py-12 pt-[150px]">
