@@ -30,7 +30,7 @@ function NavItemWithBrush({ children, className = "" }: { children: React.ReactN
 function DropdownItemWithBrush({ children, href }: { children: React.ReactNode; href: string }) {
   return (
     <DropdownMenuItem asChild className="cursor-pointer p-0 focus:bg-transparent">
-      <Link href={href} className="w-full block">
+      <Link href={href} className="w-full block cursor-target">
         <span className="relative inline-block font-semibold text-black group w-full px-3 py-2">
           <span className="relative z-10">{children}</span>
           <span
@@ -85,7 +85,7 @@ export function Navigation() {
     <>
       <Navbar className="bg-white border-b-2 border-[#E73628]">
         <NavBody>
-          <Link href="/" className="flex items-center space-x-2">
+          <Link href="/" className="flex items-center space-x-2 cursor-target">
             <Image
               src="/images/logo-egc.png"
               alt="États Généraux Communaux"
@@ -97,7 +97,7 @@ export function Navigation() {
           </Link>
 
           <div className="hidden md:flex items-center space-x-1">
-            <Link href="/les-egc" className="text-sm text-black transition-colors px-3 py-2 rounded-md">
+            <Link href="/les-egc" className="text-sm text-black transition-colors px-3 py-2 rounded-md cursor-target">
               <NavItemWithBrush>Notre ambition</NavItemWithBrush>
             </Link>
 
@@ -106,7 +106,7 @@ export function Navigation() {
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="gap-1 text-sm text-black hover:bg-transparent relative group"
+                  className="gap-1 text-sm text-black hover:bg-transparent relative group cursor-target"
                 >
                   <NavItemWithBrush>
                     <span className="flex items-center gap-1">
@@ -127,7 +127,7 @@ export function Navigation() {
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="gap-1 text-sm text-black hover:bg-transparent relative group"
+                  className="gap-1 text-sm text-black hover:bg-transparent relative group cursor-target"
                 >
                   <NavItemWithBrush>
                     <span className="flex items-center gap-1">
@@ -148,7 +148,7 @@ export function Navigation() {
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="gap-1 text-sm text-black hover:bg-transparent relative group"
+                  className="gap-1 text-sm text-black hover:bg-transparent relative group cursor-target"
                 >
                   <NavItemWithBrush>
                     <span className="flex items-center gap-1">
@@ -174,7 +174,7 @@ export function Navigation() {
                 e.preventDefault()
                 handleSearchClick()
               }}
-              className="gap-2 text-sm font-semibold hover:bg-[#F4E63C]/20 hover:text-[#E73628]"
+              className="gap-2 text-sm font-semibold hover:bg-[#F4E63C]/20 hover:text-[#E73628] cursor-target"
             >
               <Search className="h-4 w-4" />
               <span className="hidden lg:inline">Rechercher</span>
@@ -186,7 +186,7 @@ export function Navigation() {
               asChild
               variant="outline"
               size="sm"
-              className="border-transparent hover:bg-transparent bg-transparent"
+              className="border-transparent hover:bg-transparent bg-transparent cursor-target"
             >
               <Link href="/participer">
                 <ContactButtonWithHighlight>Contact</ContactButtonWithHighlight>

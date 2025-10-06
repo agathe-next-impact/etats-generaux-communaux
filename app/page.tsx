@@ -378,9 +378,9 @@ export default async function HomePage() {
                   {acf.section_hero.cta_de_droite?.libelle_de_droite && (
                     <Button
                       asChild
-                      variant="outline"
+                      variant="ghost"
                       size="lg"
-                      className="border-foreground/20 hover:bg-foreground/5 bg-transparent"
+                      className="border-foreground/20 bg-transparent"
                     >
                       <Link
                         href={acf.section_hero.cta_de_droite.lien_de_droite?.url || "#"}

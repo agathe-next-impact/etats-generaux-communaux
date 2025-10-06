@@ -5,6 +5,7 @@ import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
 import { Suspense } from "react"
 import { ScrollToTop } from "@/components/scroll-to-top"
+import TargetCursor from "@/components/target-cursor"
 import "./globals.css"
 
 const raleway = Raleway({
@@ -82,6 +83,7 @@ export default function RootLayout({
   return (
     <html lang="fr" className={raleway.variable}>
       <body className="font-sans antialiased">
+        <TargetCursor spinDuration={2} hideDefaultCursor={true} />
         <Suspense fallback={<div>Loading...</div>}>
           <Navigation />
           <main className="min-h-screen">{children}</main>
