@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation"
-import { getResource } from "@/lib/wordpress"
+import { getResource, stripHtml } from "@/lib/wordpress"
 import ResourcePageClient from "./resource-client"
 
 interface ResourcePageProps {
@@ -30,11 +30,36 @@ export async function generateMetadata({ params }: ResourcePageProps) {
   const description =
     resource.acf?.descriptif ||
     (resource.content?.rendered
-      ? resource.content.rendered.replace(/<[^>]*>/g, "").substring(0, 160)
+      ? stripHtml(resource.content.rendered).substring(0, 160)
       : "Ressource disponible sur Magazine Collectif")
+
+  const featuredImage = resource._embedded?.["wp:featuredmedia"]?.[0]
 
   return {
     title: `${resource.title.rendered} | Ressources - Magazine Collectif`,
     description,
+    openGraph: {
+      title: resource.title.rendered,
+      description,
+      type: "article",
+      publishedTime: resource.date,
+      modifiedTime: resource.modified,
+      images: featuredImage
+        ? [
+            {
+              url: featuredImage.source_url,
+              width: featuredImage.media_details?.width,
+              height: featuredImage.media_details?.height,
+              alt: featuredImage.alt_text || resource.title.rendered,
+            },
+          ]
+        : undefined,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: resource.title.rendered,
+      description,
+      images: featuredImage ? [featuredImage.source_url] : undefined,
+    },
   }
 }

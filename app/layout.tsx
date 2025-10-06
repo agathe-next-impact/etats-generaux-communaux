@@ -16,13 +16,13 @@ const raleway = Raleway({
 
 export const metadata: Metadata = {
   title: {
-    default: "États Généraux Communaux",
-    template: "%s | États Généraux Communaux",
+    default: "États Généraux de la Conversion - Le Rhizome",
+    template: "%s | États Généraux de la Conversion",
   },
   description:
-    "Les États Généraux Communaux : un mouvement citoyen pour construire ensemble un avenir durable. Découvrez nos événements, ressources et groupes locaux.",
+    "Les États Généraux de la Conversion écologique et sociale (EGC) : un mouvement citoyen pour construire ensemble un avenir durable. Découvrez nos événements, ressources et groupes locaux.",
   keywords: [
-    "États Généraux Communaux",
+    "États Généraux de la Conversion",
     "EGC",
     "conversion écologique",
     "conversion sociale",
@@ -33,15 +33,15 @@ export const metadata: Metadata = {
     "groupes locaux",
     "événements citoyens",
   ],
-  authors: [{ name: "États Généraux Communaux" }],
-  creator: "États Généraux Communaux",
-  publisher: "États Généraux Communaux",
+  authors: [{ name: "États Généraux de la Conversion" }],
+  creator: "États Généraux de la Conversion",
+  publisher: "États Généraux de la Conversion",
   openGraph: {
     type: "website",
     locale: "fr_FR",
-    url: "https://lesetatsgenereuxcommunaux.org",
-    siteName: "États Généraux Communaux",
-    title: "États Généraux Communaux",
+    url: "https://etats-generaux-conversion.fr",
+    siteName: "États Généraux de la Conversion",
+    title: "États Généraux de la Conversion - Le Rhizome",
     description:
       "Un mouvement citoyen pour construire ensemble un avenir durable. Découvrez nos événements, ressources et groupes locaux.",
     images: [
@@ -49,13 +49,13 @@ export const metadata: Metadata = {
         url: "/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "États Généraux Communaux",
+        alt: "États Généraux de la Conversion",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "États Généraux Communaux",
+    title: "États Généraux de la Conversion - Le Rhizome",
     description:
       "Un mouvement citoyen pour construire ensemble un avenir durable. Découvrez nos événements, ressources et groupes locaux.",
     images: ["/og-image.jpg"],

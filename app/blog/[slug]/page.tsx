@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { ArticleCard } from "@/components/article-card"
-import { ArrowLeft, Calendar, User, Share2 } from "lucide-react"
+import { ArrowLeft, Calendar, User } from "lucide-react"
 import { Suspense } from "react"
 import Highlighter from "@/components/ui/highlighter"
 
@@ -167,8 +167,6 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
         </div>
       </div>
 
-
-
       {/* Related Articles */}
       <Suspense
         fallback={
@@ -221,8 +219,37 @@ export async function generateMetadata({ params }: ArticlePageProps) {
     }
   }
 
+  const description = stripHtml(post.excerpt.rendered).substring(0, 160)
+  const featuredImage = post._embedded?.["wp:featuredmedia"]?.[0]
+  const author = post._embedded?.author?.[0]
+
   return {
     title: `${post.title.rendered} | Magazine Collectif`,
-    description: stripHtml(post.excerpt.rendered).substring(0, 160),
+    description,
+    authors: author ? [{ name: author.name }] : undefined,
+    openGraph: {
+      title: post.title.rendered,
+      description,
+      type: "article",
+      publishedTime: post.date,
+      modifiedTime: post.modified,
+      authors: author ? [author.name] : undefined,
+      images: featuredImage
+        ? [
+            {
+              url: featuredImage.source_url,
+              width: featuredImage.media_details?.width,
+              height: featuredImage.media_details?.height,
+              alt: featuredImage.alt_text || post.title.rendered,
+            },
+          ]
+        : undefined,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title.rendered,
+      description,
+      images: featuredImage ? [featuredImage.source_url] : undefined,
+    },
   }
 }

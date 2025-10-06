@@ -4,7 +4,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { EventCard } from "@/components/event-card"
 import { ArticlesCarousel } from "@/components/articles-carousel"
 import { MiniEventTimeline } from "@/components/mini-event-timeline"
-import { EventsCarousel } from "@/components/events-carousel"
+import { LocalGroupCard } from "@/components/local-group-card"
 import { GoogleMap } from "@/components/google-map"
 import { getPosts, getEvents, getLocalGroups, getHomePageData } from "@/lib/wordpress"
 import type { HomePageACF } from "@/lib/wordpress"
@@ -191,19 +191,9 @@ async function ArticlesAndEvents({ acfData }: { acfData?: HomePageACF["section_a
 
 async function MapAndEventsSection({ acfData }: { acfData?: HomePageACF["section_groupes_evenements"] }) {
   const groups = await getLocalGroups()
-  const events = await getEvents()
 
-  const recentEvents = events
-    .sort((a, b) => {
-      if (!a.acf?.date || !b.acf?.date) return 0
-
-      const [dayA, monthA, yearA] = a.acf.date.split("/")
-      const [dayB, monthB, yearB] = b.acf.date.split("/")
-      const dateA = new Date(Number.parseInt(yearA), Number.parseInt(monthA) - 1, Number.parseInt(dayA))
-      const dateB = new Date(Number.parseInt(yearB), Number.parseInt(monthB) - 1, Number.parseInt(dayB))
-      return dateB.getTime() - dateA.getTime()
-    })
-    .slice(0, 5)
+  // Limit to 10 groups
+  const displayGroups = groups.slice(0, 10)
 
   return (
     <section className="py-16 lg:py-24 bg-white">
@@ -253,31 +243,31 @@ async function MapAndEventsSection({ acfData }: { acfData?: HomePageACF["section
             </div>
           </div>
 
-          {/* Right Column - Events (1/3) */}
+          {/* Right Column - Local Groups (1/3) */}
           <div className="lg:col-span-1">
             <div className="mb-6">
-              {acfData?.titre_evenements && (
-                <h2 className="text-2xl md:text-3xl uppercase text-foreground mb-2">
-                  <Highlighter
-                    action="underline"
-                    color="#E73628"
-                    strokeWidth={3}
-                    animationDuration={600}
-                    iterations={1}
-                    isView={true}
-                  >
-                    {acfData.titre_evenements}
-                  </Highlighter>
-                </h2>
-              )}
-              {acfData?.soustitre_evenements && <p className="text-muted-foreground">{acfData.soustitre_evenements}</p>}
+              <h2 className="text-2xl md:text-3xl uppercase text-foreground mb-2">
+                <Highlighter
+                  action="underline"
+                  color="#E73628"
+                  strokeWidth={3}
+                  animationDuration={600}
+                  iterations={1}
+                  isView={true}
+                >
+                  Groupes locaux
+                </Highlighter>
+              </h2>
+              <p className="text-muted-foreground">Rejoignez un collectif près de chez vous</p>
             </div>
-            <div className="bg-card border p-6 shadow-lg">
-              <EventsCarousel events={recentEvents} />
+            <div className="space-y-4">
+              {displayGroups.map((group, index) => (
+                <LocalGroupCard key={group.id} group={group} index={index} />
+              ))}
             </div>
             <div className="mt-4 text-center">
               <Button asChild variant="outline" size="sm">
-                <Link href="/evenements">
+                <Link href="/groupes-locaux">
                   <Highlighter
                     action="highlight"
                     color="#94BF7E"
@@ -287,7 +277,7 @@ async function MapAndEventsSection({ acfData }: { acfData?: HomePageACF["section
                     padding={12}
                     isView={true}
                   >
-                    Tous les événements
+                    Tous les groupes
                   </Highlighter>
                   <ArrowRight className="ml-2 h-3 w-3" />
                 </Link>
@@ -521,8 +511,6 @@ export default async function HomePage() {
       <Suspense fallback={null}>
         <UpcomingEvents />
       </Suspense>
-
-
 
       {/* Call to Action Section */}
       {acf?.section_manifeste && (

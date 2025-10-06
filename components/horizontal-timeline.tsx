@@ -96,9 +96,58 @@ export function HorizontalTimeline({ links }: HorizontalTimelineProps) {
                   data-index={index}
                   className="group flex-1 relative"
                 >
-                  <div className="flex flex-col items-center h-full">
+                  <div className="flex flex-col items-center gap-4 md:hidden">
+                    {/* Date label */}
+                    <div className="text-center">
+                      <div
+                        className="block w-48 px-6 py-3 rounded-lg transition-all duration-300 group-hover:shadow-lg"
+                        style={{ backgroundColor: `${bgColor}1A` }}
+                      >
+                        <span className="text-sm font-bold uppercase text-foreground">
+                          <Highlighter
+                            action="highlight"
+                            color={highlightColor}
+                            strokeWidth={3}
+                            animationDuration={600}
+                            iterations={1}
+                            padding={8}
+                            isView={true}
+                          >
+                            {link.libelle}
+                          </Highlighter>
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Icon circle */}
+                    <div
+                      className="relative z-10 w-32 h-32 rounded-full flex items-center justify-center transition-all duration-500 group-hover:scale-110 group-hover:shadow-xl flex-shrink-0"
+                      style={{ backgroundColor: bgColor }}
+                    >
+                      {link.icone?.url ? (
+                        <Image
+                          src={link.icone.url || "/placeholder.svg"}
+                          alt={link.icone.alt || ""}
+                          width={56}
+                          height={56}
+                          className="transition-transform duration-300 group-hover:scale-110"
+                        />
+                      ) : (
+                        <Users className="w-14 h-14 text-white transition-transform duration-300 group-hover:scale-110" />
+                      )}
+                    </div>
+
+                    {/* Description text */}
+                    {link.texte && (
+                      <div className="text-center max-w-[200px]">
+                        <p className="text-sm text-muted-foreground leading-relaxed">{link.texte}</p>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="hidden md:flex flex-col items-center h-full">
                     {/* Top section - date and icon for even indices, text for odd indices */}
-                    <div className={`flex flex-col items-center mb-8 ${isEven ? "md:mb-12" : "md:mb-8"}`}>
+                    <div className={`flex flex-col items-center ${isEven ? "h-[220px] justify-end mb-4" : "mb-4"}`}>
                       {isEven ? (
                         <>
                           {/* Date label */}
@@ -142,7 +191,7 @@ export function HorizontalTimeline({ links }: HorizontalTimelineProps) {
                         </>
                       ) : (
                         link.texte && (
-                          <div className="text-center max-w-[200px] min-h-[120px] flex items-end">
+                          <div className="text-center max-w-[200px] h-[160px] flex items-start justify-center">
                             <p className="text-sm text-muted-foreground leading-relaxed">{link.texte}</p>
                           </div>
                         )
@@ -150,13 +199,13 @@ export function HorizontalTimeline({ links }: HorizontalTimelineProps) {
                     </div>
 
                     {/* Center dot on timeline */}
-                    <div className="hidden md:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-white border-4 border-foreground transition-all duration-300 group-hover:scale-150 group-hover:border-[#E73628] z-20" />
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-white border-4 border-foreground transition-all duration-300 group-hover:scale-150 group-hover:border-[#E73628] z-20" />
 
                     {/* Bottom section - text for even indices, date and icon for odd indices */}
-                    <div className={`flex flex-col items-center mt-8 ${isEven ? "md:mt-8" : "md:mt-12"}`}>
+                    <div className={`flex flex-col items-center ${isEven ? "mt-4" : "h-[220px] justify-start mt-4"}`}>
                       {isEven ? (
                         link.texte && (
-                          <div className="text-center max-w-[200px] min-h-[120px] flex items-start">
+                          <div className="text-center max-w-[200px] h-[160px] flex items-start justify-center">
                             <p className="text-sm text-muted-foreground leading-relaxed">{link.texte}</p>
                           </div>
                         )

@@ -3,9 +3,10 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import Link from "next/link"
 import Image from "next/image"
-import { ArrowRight, Users, MapPin, Calendar, FileText, Target, Heart } from "lucide-react"
+import { Users, MapPin, Calendar, FileText, Target, Heart } from "lucide-react"
 import { getPageBySlug } from "@/lib/wordpress"
 import Highlighter from "@/components/ui/highlighter"
+import type { Metadata } from "next"
 
 interface EGCPageData {
   acf: {
@@ -120,6 +121,25 @@ function getIconComponent(iconName: string) {
   return icons[iconName] || Users
 }
 
+export async function generateMetadata(): Promise<Metadata> {
+  const pageData = (await getPageBySlug("les-egc")) as EGCPageData
+
+  const title = pageData?.acf?.hero_section?.title || "Les États Généraux Communaux"
+  const description =
+    pageData?.acf?.hero_section?.description ||
+    "Construisons ensemble une République plus juste, écologique et démocratique. Découvrez les États Généraux Communaux."
+
+  return {
+    title: `${title} | Magazine Collectif`,
+    description,
+    openGraph: {
+      title: `${title} | Magazine Collectif`,
+      description,
+      type: "website",
+    },
+  }
+}
+
 export default async function LesEGCPage() {
   const pageData = (await getPageBySlug("les-egc")) as EGCPageData
 
@@ -204,6 +224,7 @@ export default async function LesEGCPage() {
                   "/placeholder.svg?height=400&width=600&query=assemblée citoyenne village français démocratie participative" ||
                   "/placeholder.svg" ||
                   "/placeholder.svg" ||
+                  "/placeholder.svg" ||
                   "/placeholder.svg"
                 }
                 alt={acf.what_section?.image?.alt || "Assemblée citoyenne"}
@@ -225,6 +246,7 @@ export default async function LesEGCPage() {
                 src={
                   acf.who_section?.image?.url ||
                   "/placeholder.svg?height=400&width=600&query=citoyens français engagement collectif associations" ||
+                  "/placeholder.svg" ||
                   "/placeholder.svg" ||
                   "/placeholder.svg" ||
                   "/placeholder.svg"
@@ -389,6 +411,7 @@ export default async function LesEGCPage() {
                 src={
                   acf.how_to_act_section?.image?.url ||
                   "/placeholder.svg?height=400&width=600&query=assemblée citoyenne communale débat démocratique local" ||
+                  "/placeholder.svg" ||
                   "/placeholder.svg" ||
                   "/placeholder.svg" ||
                   "/placeholder.svg"

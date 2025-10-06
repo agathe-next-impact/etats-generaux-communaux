@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react"
 import type { WordPressLocalGroup } from "@/lib/wordpress"
+import { getGoogleMapsApiKey } from "@/app/actions/maps"
 
 interface GoogleMapProps {
   groups: WordPressLocalGroup[]
@@ -20,10 +21,25 @@ export function GoogleMap({ groups }: GoogleMapProps) {
   const [error, setError] = useState<string | null>(null)
   const [mapInstance, setMapInstance] = useState<any>(null)
   const [isMounted, setIsMounted] = useState(false)
+  const [apiKey, setApiKey] = useState<string | null>(null)
 
   useEffect(() => {
     setIsMounted(true)
     return () => setIsMounted(false)
+  }, [])
+
+  useEffect(() => {
+    const fetchApiKey = async () => {
+      try {
+        const key = await getGoogleMapsApiKey()
+        setApiKey(key)
+      } catch (err) {
+        console.error("[v0] Failed to fetch Google Maps API key:", err)
+        setError("Erreur lors de la récupération de la clé API")
+      }
+    }
+
+    fetchApiKey()
   }, [])
 
   useEffect(() => {
@@ -34,29 +50,22 @@ export function GoogleMap({ groups }: GoogleMapProps) {
       return
     }
 
-    // Security is handled by domain restrictions in Google Cloud Console, not by hiding the key
-    const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY
-
-    if (!apiKey || apiKey === "YOUR_API_KEY") {
+    if (!apiKey) {
       console.log("[v0] Google Maps API key not configured, showing demo mode")
       setError("Clé API Google Maps non configurée")
       return
     }
 
-    // Check if Google Maps is already loaded and fully available
     if (typeof window !== "undefined" && window.google && window.google.maps && window.google.maps.Map) {
       console.log("[v0] Google Maps already loaded, initializing...")
       setIsLoaded(true)
       return
     }
 
-    // Load Google Maps API
     const loadGoogleMaps = () => {
       return new Promise<void>((resolve, reject) => {
-        // Check if script is already loading
         const existingScript = document.querySelector('script[src*="maps.googleapis.com"]')
         if (existingScript) {
-          // Wait for existing script to load
           const checkLoaded = () => {
             if (window.google && window.google.maps && window.google.maps.Map) {
               resolve()
@@ -76,7 +85,6 @@ export function GoogleMap({ groups }: GoogleMapProps) {
 
         script.onload = () => {
           console.log("[v0] Google Maps script loaded, waiting for API...")
-          // Wait for the API to be fully available
           const checkApiReady = () => {
             if (window.google && window.google.maps && window.google.maps.Map) {
               console.log("[v0] Google Maps API fully loaded and ready")
@@ -105,12 +113,11 @@ export function GoogleMap({ groups }: GoogleMapProps) {
         console.error("[v0] Google Maps loading error:", err)
         setError("Erreur lors du chargement de Google Maps")
       })
-  }, [isMounted])
+  }, [isMounted, apiKey])
 
   useEffect(() => {
     if (isLoaded && !error && groups.length > 0 && isMounted) {
       console.log("[v0] Groups data updated, initializing map...")
-      // Small delay to ensure DOM is ready
       setTimeout(() => {
         initializeMap()
       }, 100)

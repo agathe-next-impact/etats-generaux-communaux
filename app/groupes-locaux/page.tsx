@@ -8,6 +8,18 @@ import Link from "next/link"
 import { GoogleMap } from "@/components/google-map"
 import { Highlighter } from "@/components/ui/highlighter"
 
+export const metadata = {
+  title: "Groupes Locaux | Magazine Collectif",
+  description:
+    "Découvrez les groupes locaux de notre réseau partout en France. Rejoignez une communauté engagée près de chez vous et participez aux actions citoyennes locales.",
+  openGraph: {
+    title: "Groupes Locaux | Magazine Collectif",
+    description:
+      "Découvrez les groupes locaux de notre réseau partout en France. Rejoignez une communauté engagée près de chez vous.",
+    type: "website",
+  },
+}
+
 async function LocalGroupsMap() {
   const groups = await getLocalGroups()
 

@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { EventCard } from "@/components/event-card"
-import { ArrowLeft, MapPin, ExternalLink, Share2 } from "lucide-react"
+import { ArrowLeft, MapPin, ExternalLink } from "lucide-react"
 import { Suspense } from "react"
 import Highlighter from "@/components/ui/highlighter"
 
@@ -263,12 +263,13 @@ export async function generateMetadata({ params }: EventPageProps) {
   }
 
   const eventDate = parseEventDate(event.acf?.date || "")
-
   const eventTitle = event.title?.rendered || "Événement"
   const eventExcerpt = event.excerpt?.rendered ? stripHtml(event.excerpt.rendered) : ""
-
   const description =
     event.acf?.description || (eventExcerpt ? eventExcerpt.substring(0, 160) : `Découvrez ${eventTitle}`)
+
+  const featuredImage = event._embedded?.["wp:featuredmedia"]?.[0]
+  const eventLocation = event.acf?.lieu
 
   return {
     title: `${eventTitle} | Magazine Collectif`,
@@ -279,6 +280,28 @@ export async function generateMetadata({ params }: EventPageProps) {
       type: "article",
       publishedTime: event.date,
       ...(eventDate && { modifiedTime: eventDate.toISOString() }),
+      images: featuredImage
+        ? [
+            {
+              url: featuredImage.source_url,
+              width: featuredImage.media_details?.width,
+              height: featuredImage.media_details?.height,
+              alt: featuredImage.alt_text || eventTitle,
+            },
+          ]
+        : undefined,
     },
+    twitter: {
+      card: "summary_large_image",
+      title: eventTitle,
+      description,
+      images: featuredImage ? [featuredImage.source_url] : undefined,
+    },
+    ...(eventLocation && {
+      other: {
+        "event:location": eventLocation.address,
+        ...(eventDate && { "event:start_time": eventDate.toISOString() }),
+      },
+    }),
   }
 }
