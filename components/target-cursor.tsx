@@ -3,7 +3,7 @@
 import type React from "react"
 import { useEffect, useRef, useCallback, useMemo } from "react"
 import { gsap } from "gsap"
-import "./TargetCursor.css"
+import "./target-cursor.css"
 
 export interface TargetCursorProps {
   targetSelector?: string
