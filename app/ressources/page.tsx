@@ -5,7 +5,9 @@ import { ResourceCard } from "@/components/resource-card"
 import { ResourceFilters } from "@/components/resource-filters"
 import { Card, CardContent } from "@/components/ui/card"
 import { getResources, type WordPressResource } from "@/lib/wordpress"
-import { UnderlinedH1 } from "@/components/ui/underlined-heading"
+import { Highlighter } from "@/components/ui/highlighter"
+import { Button } from "@/components/ui/button"
+import Link from "next/link"
 
 export default function ResourcesPage() {
   const [resources, setResources] = useState<WordPressResource[]>([])
@@ -18,9 +20,7 @@ export default function ResourcesPage() {
       try {
         setIsLoading(true)
         setError(null)
-        console.log("[v0] Fetching resources from WordPress CPT...")
         const fetchedResources = await getResources()
-        console.log("[v0] Fetched resources:", fetchedResources.length, "resources")
         setResources(fetchedResources)
         setFilteredResources(fetchedResources)
       } catch (err) {
@@ -38,8 +38,6 @@ export default function ResourcesPage() {
     setIsLoading(true)
 
     try {
-      console.log("[v0] Applying filters:", filters)
-
       // Build API parameters for taxonomy filtering
       const apiParams: { categories?: string; search?: string } = {}
 
@@ -52,7 +50,6 @@ export default function ResourcesPage() {
 
       // Fetch filtered resources from WordPress API
       const filteredData = await getResources(apiParams)
-      console.log("[v0] Resources fetched with filters:", filteredData.length, "resources")
 
       // Apply client-side sorting
       const sorted = [...filteredData].sort((a, b) => {
@@ -69,7 +66,6 @@ export default function ResourcesPage() {
       })
 
       setFilteredResources(sorted)
-      console.log("[v0] Filtered resources:", sorted.length, "results")
     } catch (err) {
       console.error("[v0] Error filtering resources:", err)
       let filtered = [...resources]
@@ -110,7 +106,6 @@ export default function ResourcesPage() {
       })
 
       setFilteredResources(filtered)
-      console.log("[v0] Client-side filtered resources:", filtered.length, "results")
     } finally {
       setIsLoading(false)
     }
@@ -140,7 +135,18 @@ export default function ResourcesPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-12">
-          <UnderlinedH1 className="text-4xl md:text-5xl text-foreground mb-4">Ressources</UnderlinedH1>
+          <h1 className="text-4xl md:text-5xl uppercase font-black text-foreground mb-4">
+            <Highlighter
+              action="underline"
+              color="#E73628"
+              strokeWidth={3}
+              animationDuration={600}
+              iterations={1}
+              isView={true}
+            >
+              Ressources
+            </Highlighter>
+          </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Découvrez notre collection de guides, outils et documents pour accompagner votre engagement et vos actions
             collectives.
@@ -188,24 +194,6 @@ export default function ResourcesPage() {
           )}
         </div>
 
-        {/* Call to Action */}
-        <section className="mt-16 py-12 bg-muted/30 rounded-lg">
-          <div className="text-center space-y-4">
-            <h2 className="text-2xl font-black text-foreground">Vous avez une ressource à partager ?</h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
-              Nous sommes toujours à la recherche de nouvelles ressources pour enrichir notre collection. Contactez-nous
-              si vous souhaitez contribuer.
-            </p>
-            <div className="pt-4">
-              <a
-                href="mailto:contact@magazine-collectif.fr"
-                className="inline-flex items-center px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors"
-              >
-                Nous contacter
-              </a>
-            </div>
-          </div>
-        </section>
       </div>
     </div>
   )

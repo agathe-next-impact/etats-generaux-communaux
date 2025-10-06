@@ -75,15 +75,15 @@ export function BlogFilters({ categories, totalPosts }: BlogFiltersProps) {
           placeholder="Rechercher dans les articles..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="pr-12"
+          className="pr-12 border-2 border-[#E73628] focus-visible:ring-[#E73628]"
         />
         <Button
           type="submit"
           size="sm"
           variant="ghost"
-          className="absolute right-1 top-1/2 -translate-y-1/2 h-8 w-8 p-0"
+          className="absolute right-1 top-1/2 -translate-y-1/2 h-8 w-8 p-0 hover:bg-[#E73628]/10"
         >
-          <Search className="h-4 w-4" />
+          <Search className="h-4 w-4 text-[#E73628]" />
         </Button>
       </form>
 
@@ -94,13 +94,18 @@ export function BlogFilters({ categories, totalPosts }: BlogFiltersProps) {
             {totalPosts} article{totalPosts !== 1 ? "s" : ""}
           </span>
           {hasActiveFilters && (
-            <Badge variant="secondary" className="text-xs">
+            <Badge variant="secondary" className="text-xs bg-[#F4E63C] text-black hover:bg-[#F4E63C]/80">
               Filtres actifs
             </Badge>
           )}
         </div>
 
-        <Button variant="outline" size="sm" onClick={() => setIsFiltersOpen(!isFiltersOpen)} className="md:hidden">
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => setIsFiltersOpen(!isFiltersOpen)}
+          className="md:hidden border-[#E73628] text-[#E73628] hover:bg-[#E73628]/10"
+        >
           <Filter className="h-4 w-4 mr-2" />
           Filtres
         </Button>
@@ -112,7 +117,7 @@ export function BlogFilters({ categories, totalPosts }: BlogFiltersProps) {
           {/* Category Filter */}
           <div className="flex-1">
             <Select value={selectedCategory} onValueChange={handleCategoryChange}>
-              <SelectTrigger>
+              <SelectTrigger className="border-2 border-[#F4E63C] focus:ring-[#F4E63C]">
                 <SelectValue placeholder="Toutes les catégories" />
               </SelectTrigger>
               <SelectContent>
@@ -129,7 +134,7 @@ export function BlogFilters({ categories, totalPosts }: BlogFiltersProps) {
           {/* Sort Filter */}
           <div className="flex-1">
             <Select value={sortBy} onValueChange={handleSortChange}>
-              <SelectTrigger>
+              <SelectTrigger className="border-2 border-[#4AAD33] focus:ring-[#4AAD33]">
                 <SelectValue placeholder="Trier par" />
               </SelectTrigger>
               <SelectContent>
@@ -147,7 +152,7 @@ export function BlogFilters({ categories, totalPosts }: BlogFiltersProps) {
               variant="outline"
               size="sm"
               onClick={clearFilters}
-              className="flex items-center gap-2 bg-transparent"
+              className="flex items-center gap-2 bg-transparent border-[#E73628] text-[#E73628] hover:bg-[#E73628]/10"
             >
               <X className="h-4 w-4" />
               Effacer
@@ -159,28 +164,34 @@ export function BlogFilters({ categories, totalPosts }: BlogFiltersProps) {
         {hasActiveFilters && (
           <div className="flex flex-wrap gap-2">
             {searchQuery && (
-              <Badge variant="secondary" className="flex items-center gap-1">
+              <Badge
+                variant="secondary"
+                className="flex items-center gap-1 bg-[#4AAD33] text-white hover:bg-[#4AAD33]/80"
+              >
                 Recherche: "{searchQuery}"
                 <button
                   onClick={() => {
                     setSearchQuery("")
                     updateURL({ search: "", category: selectedCategory, sort: sortBy })
                   }}
-                  className="ml-1 hover:bg-secondary-foreground/20 rounded-full p-0.5"
+                  className="ml-1 hover:bg-white/20 rounded-full p-0.5"
                 >
                   <X className="h-3 w-3" />
                 </button>
               </Badge>
             )}
             {selectedCategory && (
-              <Badge variant="secondary" className="flex items-center gap-1">
+              <Badge
+                variant="secondary"
+                className="flex items-center gap-1 bg-[#F4E63C] text-black hover:bg-[#F4E63C]/80"
+              >
                 {categories.find((c) => c.id.toString() === selectedCategory)?.name}
                 <button
                   onClick={() => {
                     setSelectedCategory("")
                     updateURL({ search: searchQuery, category: "", sort: sortBy })
                   }}
-                  className="ml-1 hover:bg-secondary-foreground/20 rounded-full p-0.5"
+                  className="ml-1 hover:bg-black/20 rounded-full p-0.5"
                 >
                   <X className="h-3 w-3" />
                 </button>

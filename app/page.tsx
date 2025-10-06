@@ -338,7 +338,7 @@ export default async function HomePage() {
                   </Highlighter>
                 </h1>
                 {acf.section_hero["sous-titre"] && (
-                  <p className="text-lg md:text-xl text-foreground/90 leading-relaxed font-medium max-w-2xl mx-auto">
+                  <p className="text-xl md:text-2xl text-foreground/90 leading-relaxed font-medium max-w-2xl mx-auto">
                     <Highlighter
                       action="underline"
                       color="#E73628"
@@ -355,7 +355,7 @@ export default async function HomePage() {
 
               {acf.section_hero.chapeau && (
                 <div className="max-w-3xl mx-auto">
-                  <p className="magazine-subtitle text-sm md:text-base text-foreground/80 font-medium">
+                  <p className="magazine-subtitle text-base md:text-lg text-foreground/80 font-medium">
                     {acf.section_hero.chapeau}
                   </p>
                 </div>

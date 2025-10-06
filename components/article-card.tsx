@@ -16,7 +16,7 @@ export function ArticleCard({ post, featured = false }: ArticleCardProps) {
 
   return (
     <Card
-      className={`group overflow-hidden hover:shadow-lg transition-all duration-300 ${featured ? "md:col-span-2 md:row-span-2" : ""}`}
+      className={`group overflow-hidden hover:shadow-lg transition-all duration-300 border-2 border-[#E73628] ${featured ? "md:col-span-2 md:row-span-2" : ""}`}
     >
       <Link href={`/blog/${post.slug}`}>
         <div className={`relative ${featured ? "h-64 md:h-80" : "h-48"} overflow-hidden`}>
@@ -38,11 +38,7 @@ export function ArticleCard({ post, featured = false }: ArticleCardProps) {
           {categories.length > 0 && (
             <div className="absolute top-4 left-4 flex flex-wrap gap-2">
               {categories.slice(0, 2).map((category) => (
-                <Badge
-                  key={category.id}
-                  variant="secondary"
-                  className="bg-primary/90 text-primary-foreground hover:bg-primary"
-                >
+                <Badge key={category.id} className="bg-[#F4E63C] text-black hover:bg-[#F4E63C]/90 font-semibold">
                   {category.name}
                 </Badge>
               ))}
@@ -63,7 +59,8 @@ export function ArticleCard({ post, featured = false }: ArticleCardProps) {
             </div>
 
             <h3
-              className={`font-semibold leading-tight group-hover:text-primary transition-colors ${featured ? "text-2xl md:text-3xl" : "text-lg"}`}
+              className={`font-black leading-tight group-hover:text-[#E73628] transition-colors uppercase ${featured ? "text-2xl md:text-3xl" : "text-lg"}`}
+              style={{ fontFamily: "Raleway, sans-serif" }}
             >
               {post.title.rendered}
             </h3>

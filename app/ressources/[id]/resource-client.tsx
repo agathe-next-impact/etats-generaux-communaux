@@ -5,8 +5,9 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
-import { ArrowLeft, Download, Play, FileText, ExternalLink, Video } from "lucide-react"
+import { ArrowLeft, Download, FileText, Video } from "lucide-react"
 import type { WordPressResource } from "@/lib/wordpress"
+import { Highlighter } from "@/components/ui/highlighter"
 
 interface ResourcePageClientProps {
   resource: WordPressResource | null
@@ -36,11 +37,11 @@ export default function ResourcePageClient({ resource }: ResourcePageClientProps
   const getResourceColor = (type: string) => {
     switch (type) {
       case "video":
-        return "bg-blue-500/10 text-blue-600 border-blue-200"
+        return "bg-[#E73628]/10 text-[#E73628] border-[#E73628]"
       case "document":
-        return "bg-red-500/10 text-red-600 border-red-200"
+        return "bg-[#F4E63C]/10 text-[#44843F] border-[#F4E63C]"
       default:
-        return "bg-green-500/10 text-green-600 border-green-200"
+        return "bg-[#4AAD33]/10 text-[#4AAD33] border-[#4AAD33]"
     }
   }
 
@@ -74,55 +75,72 @@ export default function ResourcePageClient({ resource }: ResourcePageClientProps
     }
   }
 
+  const handleShare = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: resource.title.rendered,
+          text: description || resource.title.rendered,
+          url: window.location.href,
+        })
+      } catch (error) {
+        console.error("Erreur lors du partage:", error)
+      }
+    } else {
+      navigator.clipboard.writeText(window.location.href)
+      alert("Lien copié dans le presse-papier!")
+    }
+  }
+
   return (
-    <div className="min-h-screen py-12">
+    <div className="min-h-screen pt-32 pb-12">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-8">
-          <Button asChild variant="ghost" size="sm" className="mb-6">
-            <Link href="/ressources" className="flex items-center gap-2">
-              <ArrowLeft className="h-4 w-4" />
-              Retour aux ressources
-            </Link>
-          </Button>
+          <Highlighter
+            action="highlight"
+            color="#B4D19F"
+            strokeWidth={2}
+            animationDuration={600}
+            iterations={1}
+            padding={6}
+            isView={true}
+          >
+            <Button asChild variant="ghost" size="sm" className="mb-0">
+              <Link href="/ressources" className="flex items-center gap-2">
+                <ArrowLeft className="h-4 w-4" />
+                Retour aux ressources
+              </Link>
+            </Button>
+          </Highlighter>
 
-          <div className="flex items-start gap-6 mb-6">
-            <div className={`p-4 rounded-lg border ${getResourceColor(resourceType)}`}>
+          <div className="flex items-start gap-6 pt-4 mb-6">
+            <div className={`p-4 rounded-lg border-2 ${getResourceColor(resourceType)}`}>
               {getResourceIcon(resourceType)}
             </div>
             <div className="flex-1">
-              <h1 className="text-3xl md:text-4xl font-black text-foreground mb-4 leading-tight">
-                {resource.title.rendered}
+              <h1 className="text-3xl md:text-4xl font-black text-foreground mb-4 leading-tight uppercase font-[family-name:var(--font-raleway)]">
+                <Highlighter
+                  action="underline"
+                  color="#E73628"
+                  strokeWidth={4}
+                  animationDuration={600}
+                  iterations={1}
+                  isView={true}
+                >
+                  {resource.title.rendered}
+                </Highlighter>
               </h1>
-              <Badge variant="outline" className="mb-4">
+              <Badge variant="outline" className="mb-4 border-[#E73628] text-[#E73628]">
                 {resourceType.toUpperCase()}
               </Badge>
               {description && <p className="text-lg text-muted-foreground leading-relaxed">{description}</p>}
             </div>
           </div>
-
-          <div className="flex gap-4">
-            {hasVideo && (
-              <Button onClick={handleVideoAction} size="lg">
-                <Play className="h-4 w-4 mr-2" />
-                Regarder la vidéo
-              </Button>
-            )}
-            {hasFiles && (
-              <Button onClick={handleFileDownloads} size="lg">
-                <Download className="h-4 w-4 mr-2" />
-                Télécharger {resource.acf.fichiers.length > 1 ? `(${resource.acf.fichiers.length})` : ""}
-              </Button>
-            )}
-            <Button variant="outline" size="lg">
-              <ExternalLink className="h-4 w-4 mr-2" />
-              Partager
-            </Button>
-          </div>
         </div>
 
         {resource.content?.rendered && resource.content.rendered.trim() && (
-          <Card className="mb-8">
+          <Card className="mb-8 border-2 border-[#E73628]">
             <CardContent className="p-8">
               <div
                 className="prose prose-lg max-w-none article-content"
@@ -133,12 +151,17 @@ export default function ResourcePageClient({ resource }: ResourcePageClientProps
         )}
 
         {hasFiles && (
-          <Card className="mb-8">
+          <Card className="mb-8 border-2 border-[#F4E63C]">
             <CardContent className="p-6">
-              <h2 className="text-xl font-black mb-4">Fichiers disponibles</h2>
+              <h2 className="text-xl font-black mb-4 uppercase font-[family-name:var(--font-raleway)]">
+                Fichiers disponibles
+              </h2>
               <div className="space-y-4">
                 {resource.acf.fichiers.map((file, index) => (
-                  <div key={index} className="flex items-center justify-between p-4 border rounded-lg">
+                  <div
+                    key={index}
+                    className="flex items-center justify-between p-4 border-2 border-[#4AAD33] rounded-lg"
+                  >
                     <div className="flex-1">
                       <h3 className="font-black">{file.titre_du_document || `Fichier ${index + 1}`}</h3>
                       {file.descriptif_du_document && (
@@ -154,6 +177,7 @@ export default function ResourcePageClient({ resource }: ResourcePageClientProps
                       <Button
                         variant="outline"
                         size="sm"
+                        className="cursor-pointer hover:bg-[#4AAD33]/10 hover:border-[#4AAD33] transition-all duration-300 bg-transparent"
                         onClick={() => {
                           const link = document.createElement("a")
                           link.href = file.document.url

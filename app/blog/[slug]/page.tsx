@@ -7,6 +7,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { ArticleCard } from "@/components/article-card"
 import { ArrowLeft, Calendar, User, Share2 } from "lucide-react"
 import { Suspense } from "react"
+import Highlighter from "@/components/ui/highlighter"
 
 interface ArticlePageProps {
   params: {
@@ -15,7 +16,7 @@ interface ArticlePageProps {
 }
 
 async function RelatedArticles({ currentSlug }: { currentSlug: string }) {
-  const { posts } = await getPosts({ per_page: 3, orderby: "date", order: "desc" })
+  const { posts } = await getPosts({ per_page: 2, orderby: "date", order: "desc" })
   const relatedPosts = posts.filter((post) => post.slug !== currentSlug).slice(0, 3)
 
   if (relatedPosts.length === 0) return null
@@ -23,7 +24,21 @@ async function RelatedArticles({ currentSlug }: { currentSlug: string }) {
   return (
     <section className="py-12 border-t border-border">
       <div className="max-w-4xl mx-auto">
-        <h2 className="text-2xl font-black text-foreground mb-8">Articles similaires</h2>
+        <h2
+          className="text-2xl font-black uppercase text-foreground mb-8"
+          style={{ fontFamily: "Raleway, sans-serif" }}
+        >
+          <Highlighter
+            action="underline"
+            color="#E73628"
+            strokeWidth={4}
+            animationDuration={600}
+            iterations={1}
+            isView={true}
+          >
+            Articles similaires
+          </Highlighter>
+        </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {relatedPosts.map((post) => (
             <ArticleCard key={post.id} post={post} />
@@ -46,24 +61,40 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
   const author = post._embedded?.author?.[0]
 
   return (
-    <article className="min-h-screen">
+    <article className="min-h-screen pt-32">
       {/* Article Header */}
       <header className="py-12 lg:py-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="space-y-6">
             {/* Back Button */}
-            <Button asChild variant="ghost" size="sm" className="mb-4">
-              <Link href="/blog" className="flex items-center gap-2">
-                <ArrowLeft className="h-4 w-4" />
-                Retour aux articles
-              </Link>
-            </Button>
+            <Highlighter
+              action="highlight"
+              color="#B4D19F"
+              strokeWidth={4}
+              animationDuration={600}
+              iterations={1}
+              padding={6}
+              isView={true}
+            >
+              <Button asChild variant="ghost" size="sm" className="mb-4">
+                <Link href="/blog" className="flex items-center gap-2">
+                  <ArrowLeft className="h-4 w-4" />
+                  Retour aux articles
+                </Link>
+              </Button>
+            </Highlighter>
 
             {/* Categories */}
             {categories.length > 0 && (
               <div className="flex flex-wrap gap-2">
-                {categories.map((category) => (
-                  <Badge key={category.id} variant="secondary">
+                {categories.map((category, index) => (
+                  <Badge
+                    key={category.id}
+                    style={{
+                      backgroundColor: index % 3 === 0 ? "#E73628" : index % 3 === 1 ? "#F4E63C" : "#4AAD33",
+                      color: index % 3 === 1 ? "#000" : "#fff",
+                    }}
+                  >
                     {category.name}
                   </Badge>
                 ))}
@@ -71,8 +102,20 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
             )}
 
             {/* Title */}
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-black text-foreground leading-tight text-balance">
-              {post.title.rendered}
+            <h1
+              className="text-3xl md:text-4xl lg:text-5xl font-black uppercase text-foreground leading-tight text-balance"
+              style={{ fontFamily: "Raleway, sans-serif" }}
+            >
+              <Highlighter
+                action="underline"
+                color="#E73628"
+                strokeWidth={4}
+                animationDuration={600}
+                iterations={1}
+                isView={true}
+              >
+                {post.title.rendered}
+              </Highlighter>
             </h1>
 
             {/* Meta Information */}
@@ -87,15 +130,29 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                   <span>{author.name}</span>
                 </div>
               )}
-              <Button variant="ghost" size="sm" className="ml-auto">
-                <Share2 className="h-4 w-4 mr-2" />
-                Partager
-              </Button>
+              {/*
+              <Highlighter
+                action="highlight"
+                color="#94BF7E"
+                strokeWidth={4}
+                animationDuration={600}
+                iterations={1}
+                padding={8}
+                isView={true}
+              >
+                <Button variant="ghost" size="sm" className="ml-auto">
+                  <Share2 className="h-4 w-4 mr-2" />
+                  Partager
+                </Button>
+              </Highlighter>*/}
             </div>
 
             {/* Excerpt */}
             {post.excerpt.rendered && (
-              <div className="text-lg text-muted-foreground leading-relaxed border-l-4 border-primary pl-6">
+              <div
+                className="text-lg text-muted-foreground leading-relaxed border-l-4 pl-6"
+                style={{ borderColor: "#E73628" }}
+              >
                 <div dangerouslySetInnerHTML={{ __html: post.excerpt.rendered }} />
               </div>
             )}
@@ -110,31 +167,28 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
         </div>
       </div>
 
-      {/* Article Footer */}
-      <footer className="mt-12 pt-8 border-t border-border">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <div className="flex flex-wrap gap-2">
-            {categories.map((category) => (
-              <Link key={category.id} href={`/blog?category=${category.id}`}>
-                <Badge variant="outline" className="hover:bg-primary hover:text-primary-foreground transition-colors">
-                  {category.name}
-                </Badge>
-              </Link>
-            ))}
-          </div>
-          <Button variant="outline" size="sm">
-            <Share2 className="h-4 w-4 mr-2" />
-            Partager cet article
-          </Button>
-        </div>
-      </footer>
+
 
       {/* Related Articles */}
       <Suspense
         fallback={
           <section className="py-12 border-t border-border">
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-              <h2 className="text-2xl font-black text-foreground mb-8">Articles similaires</h2>
+              <h2
+                className="text-2xl font-black uppercase text-foreground mb-8"
+                style={{ fontFamily: "Raleway, sans-serif" }}
+              >
+                <Highlighter
+                  action="underline"
+                  color="#E73628"
+                  strokeWidth={4}
+                  animationDuration={600}
+                  iterations={1}
+                  isView={true}
+                >
+                  Articles similaires
+                </Highlighter>
+              </h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {Array.from({ length: 3 }).map((_, i) => (
                   <Card key={i} className="animate-pulse">

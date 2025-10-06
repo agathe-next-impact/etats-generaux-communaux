@@ -98,7 +98,7 @@ export function Navigation() {
 
           <div className="hidden md:flex items-center space-x-1">
             <Link href="/les-egc" className="text-sm text-black transition-colors px-3 py-2 rounded-md">
-              <NavItemWithBrush>Qui sommes nous ?</NavItemWithBrush>
+              <NavItemWithBrush>Notre ambition</NavItemWithBrush>
             </Link>
 
             <DropdownMenu modal={false}>
@@ -189,7 +189,7 @@ export function Navigation() {
               size="sm"
               className="border-transparent hover:bg-transparent bg-transparent"
             >
-              <Link href="/contact">
+              <Link href="/participer">
                 <ContactButtonWithHighlight>Contact</ContactButtonWithHighlight>
               </Link>
             </Button>
@@ -200,7 +200,7 @@ export function Navigation() {
               <Search className="h-5 w-5" />
             </Button>
             <Button variant="ghost" size="sm" asChild className="hover:bg-transparent">
-              <Link href="/contact">
+              <Link href="/participer">
                 <ContactButtonWithHighlight>
                   <span className="text-sm">Contact</span>
                 </ContactButtonWithHighlight>
@@ -213,7 +213,7 @@ export function Navigation() {
         <MobileNav>
           <MobileNavMenu>
             <Link href="/les-egc" className="text-foreground hover:text-[#E73628] transition-colors font-semibold px-4">
-              Qui sommes nous ?
+              Notre ambition
             </Link>
 
             <div className="space-y-2 px-4">

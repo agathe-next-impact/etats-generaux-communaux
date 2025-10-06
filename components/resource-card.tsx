@@ -34,11 +34,11 @@ export function ResourceCard({ resource }: ResourceCardProps) {
   const getResourceColor = (type: string) => {
     switch (type) {
       case "video":
-        return "bg-blue-500/10 text-blue-600 border-blue-200"
+        return "bg-[#E73628]/10 text-[#E73628] border-[#E73628]"
       case "document":
-        return "bg-red-500/10 text-red-600 border-red-200"
+        return "bg-[#4AAD33]/10 text-[#4AAD33] border-[#4AAD33]"
       default:
-        return "bg-green-500/10 text-green-600 border-green-200"
+        return "bg-[#F4E63C]/10 text-black border-[#F4E63C]"
     }
   }
 
@@ -90,16 +90,19 @@ export function ResourceCard({ resource }: ResourceCardProps) {
   }
 
   return (
-    <Card className="group hover:shadow-lg transition-all duration-300 h-full">
+    <Card className="group hover:shadow-lg transition-all duration-300 h-full border-2 border-[#E73628]">
       <CardContent className="p-6 h-full flex flex-col">
         <div className="flex items-start gap-4 mb-4">
           <div
-            className={`p-3 rounded-lg border ${getResourceColor(resourceType)} group-hover:scale-105 transition-transform`}
+            className={`p-3 rounded-lg border-2 ${getResourceColor(resourceType)} group-hover:scale-105 transition-transform`}
           >
             {getResourceIcon(resourceType)}
           </div>
           <div className="flex-1 min-w-0">
-            <h3 className="font-semibold text-lg leading-tight group-hover:text-primary transition-colors mb-2">
+            <h3
+              className="font-black text-lg leading-tight group-hover:text-[#E73628] transition-colors mb-2 uppercase"
+              style={{ fontFamily: "Raleway, sans-serif" }}
+            >
               {resource.title.rendered}
             </h3>
             <Badge variant="outline" className="text-xs">
@@ -132,12 +135,12 @@ export function ResourceCard({ resource }: ResourceCardProps) {
 
         <div className="flex gap-2 mt-auto">
           {hasVideo || hasFiles ? (
-            <Button onClick={handleAction} size="sm" className="flex-1">
+            <Button onClick={handleAction} size="sm" className="flex-1 bg-[#4AAD33] hover:bg-[#44843F] text-white">
               {getActionIcon()}
               {getActionLabel()}
             </Button>
           ) : (
-            <Button asChild size="sm" className="flex-1">
+            <Button asChild size="sm" className="flex-1 bg-[#4AAD33] hover:bg-[#44843F] text-white">
               <Link href={`/ressources/${resource.slug}`}>
                 <Eye className="h-4 w-4 mr-2" />
                 Voir plus
@@ -145,7 +148,12 @@ export function ResourceCard({ resource }: ResourceCardProps) {
             </Button>
           )}
 
-          <Button asChild variant="outline" size="sm">
+          <Button
+            asChild
+            variant="outline"
+            size="sm"
+            className="border-2 border-[#E73628] text-[#E73628] hover:bg-[#E73628] hover:text-white bg-transparent"
+          >
             <Link href={`/ressources/${resource.slug}`}>
               <ExternalLink className="h-4 w-4" />
             </Link>

@@ -6,7 +6,7 @@ import { getLocalGroups } from "@/lib/wordpress"
 import { MapPin, Mail, Phone, Globe, Users } from "lucide-react"
 import Link from "next/link"
 import { GoogleMap } from "@/components/google-map"
-import { UnderlinedH1 } from "@/components/ui/underlined-heading"
+import { Highlighter } from "@/components/ui/highlighter"
 
 async function LocalGroupsMap() {
   const groups = await getLocalGroups()
@@ -21,21 +21,30 @@ async function LocalGroupsMap() {
     )
   }
 
+  const borderColors = ["#E73628", "#F4E63C", "#4AAD33"]
+
   return (
     <div className="space-y-8">
       {/* Map Section */}
-      <div className="h-96 w-full rounded-lg overflow-hidden border">
+      <div className="h-96 w-full rounded-lg overflow-hidden border-4" style={{ borderColor: "#E73628" }}>
         <GoogleMap groups={groups} />
       </div>
 
       {/* Groups List */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {groups.map((group) => (
-          <Card key={group.id} className="group hover:shadow-lg transition-all duration-300">
+        {groups.map((group, index) => (
+          <Card
+            key={group.id}
+            className="group hover:shadow-lg transition-all duration-300 border-4"
+            style={{ borderColor: borderColors[index % borderColors.length] }}
+          >
             <CardHeader>
               <div className="flex items-start justify-between">
                 <div className="space-y-2">
-                  <CardTitle className="text-lg group-hover:text-primary transition-colors">
+                  <CardTitle
+                    className="text-lg group-hover:text-primary transition-colors font-black uppercase"
+                    style={{ fontFamily: "Raleway, sans-serif" }}
+                  >
                     {group.acf?.nom_de_groupe || group.title.rendered}
                   </CardTitle>
                   <div className="flex items-center gap-2 text-sm text-muted-foreground">
@@ -43,7 +52,11 @@ async function LocalGroupsMap() {
                     <span>{group.acf?.localisation?.address || "Localisation non définie"}</span>
                   </div>
                 </div>
-                <Badge variant="outline" className="text-xs">
+                <Badge
+                  variant="outline"
+                  className="text-xs border-2"
+                  style={{ borderColor: "#4AAD33", color: "#4AAD33" }}
+                >
                   <Users className="h-3 w-3 mr-1" />
                   Groupe local
                 </Badge>
@@ -85,21 +98,41 @@ async function LocalGroupsMap() {
               {/* Actions */}
               <div className="flex gap-2 pt-2">
                 {group.acf?.site_web && (
-                  <Button asChild variant="outline" size="sm">
-                    <Link href={group.acf.site_web} target="_blank" rel="noopener noreferrer">
-                      <Globe className="h-4 w-4 mr-1" />
-                      Site web
-                    </Link>
-                  </Button>
+                  <Highlighter
+                    action="highlight"
+                    color="#B4D19F"
+                    strokeWidth={4}
+                    animationDuration={600}
+                    iterations={1}
+                    padding={6}
+                    isView={true}
+                  >
+                    <Button asChild variant="outline" size="sm">
+                      <Link href={group.acf.site_web} target="_blank" rel="noopener noreferrer">
+                        <Globe className="h-4 w-4 mr-1" />
+                        Site web
+                      </Link>
+                    </Button>
+                  </Highlighter>
                 )}
 
                 {group.acf?.email_de_contact && (
-                  <Button asChild size="sm">
-                    <Link href={`mailto:${group.acf.email_de_contact}`}>
-                      <Mail className="h-4 w-4 mr-1" />
-                      Contacter
-                    </Link>
-                  </Button>
+                  <Highlighter
+                    action="highlight"
+                    color="#94BF7E"
+                    strokeWidth={4}
+                    animationDuration={600}
+                    iterations={1}
+                    padding={6}
+                    isView={true}
+                  >
+                    <Button asChild size="sm" variant="ghost">
+                      <Link href={`mailto:${group.acf.email_de_contact}`}>
+                        <Mail className="h-4 w-4 mr-1" />
+                        Contacter
+                      </Link>
+                    </Button>
+                  </Highlighter>
                 )}
               </div>
             </CardContent>
@@ -112,11 +145,23 @@ async function LocalGroupsMap() {
 
 export default function LocalGroupsPage() {
   return (
-    <div className="min-h-screen py-12 pt-[150px]">
+    <div className="min-h-screen pt-32 pb-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center space-y-4 mb-12">
-          <UnderlinedH1 className="magazine-title text-4xl md:text-5xl text-foreground">Groupes Locaux</UnderlinedH1>
+          <h1 className="text-4xl md:text-5xl font-black uppercase" style={{ fontFamily: "Raleway, sans-serif" }}>
+            <Highlighter
+              action="underline"
+              color="#E73628"
+              strokeWidth={4}
+              animationDuration={600}
+              iterations={1}
+              padding={8}
+              isView={true}
+            >
+              Groupes Locaux
+            </Highlighter>
+          </h1>
           <p className="text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed">
             Découvrez les groupes locaux de notre réseau partout en France. Rejoignez une communauté engagée près de
             chez vous et participez aux actions citoyennes locales.

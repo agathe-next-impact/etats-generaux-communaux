@@ -78,72 +78,135 @@ export function HorizontalTimeline({ links }: HorizontalTimelineProps) {
         </div>
 
         <div ref={timelineRef} className="relative">
-          {/* Timeline line */}
-          <div className="absolute top-16 left-0 right-0 h-1 bg-gradient-to-r from-[#F4E63C] via-[#4AAD33] to-[#E73628] hidden md:block" />
+          <div className="absolute top-1/2 -translate-y-1/2 left-0 right-0 h-1 bg-gradient-to-r from-[#F4E63C] via-[#4AAD33] to-[#E73628] hidden md:block" />
 
-          {/* Timeline items */}
-          <div className="flex flex-col md:flex-row md:justify-between gap-12 md:gap-4">
-            {links.map((link, index) => (
-              <Link
-                key={index}
-                href={link.lien?.url || "#"}
-                target={link.lien?.target || "_self"}
-                data-timeline-item
-                data-index={index}
-                className="group flex flex-col items-center relative max-w-xs mx-auto md:mx-0"
-              >
-                {/* Icon circle */}
-                <div
-                  className={`relative z-10 w-32 h-32 rounded-full flex items-center justify-center transition-all duration-500 ${
-                    index % 3 === 0 ? "bg-[#F4E63C]" : index % 3 === 1 ? "bg-[#4AAD33]" : "bg-[#E73628]"
-                  } group-hover:scale-110 group-hover:shadow-xl`}
+          <div className="flex flex-col md:flex-row md:justify-between gap-8 md:gap-4">
+            {links.map((link, index) => {
+              const isEven = index % 2 === 0
+              const colorIndex = index % 3
+              const bgColor = colorIndex === 0 ? "#F4E63C" : colorIndex === 1 ? "#4AAD33" : "#E73628"
+              const highlightColor = colorIndex === 0 ? "#F4E63C" : colorIndex === 1 ? "#B4D19F" : "#E73628"
+
+              return (
+                <Link
+                  key={index}
+                  href={link.lien?.url || "#"}
+                  target={link.lien?.target || "_self"}
+                  data-timeline-item
+                  data-index={index}
+                  className="group flex-1 relative"
                 >
-                  {link.icone?.url ? (
-                    <Image
-                      src={link.icone.url || "/placeholder.svg"}
-                      alt={link.icone.alt || ""}
-                      width={56}
-                      height={56}
-                      className="transition-transform duration-300 group-hover:scale-110"
-                    />
-                  ) : (
-                    <Users className="w-14 h-14 text-white transition-transform duration-300 group-hover:scale-110" />
-                  )}
-                </div>
+                  <div className="flex flex-col items-center h-full">
+                    {/* Top section - date and icon for even indices, text for odd indices */}
+                    <div className={`flex flex-col items-center mb-8 ${isEven ? "md:mb-12" : "md:mb-8"}`}>
+                      {isEven ? (
+                        <>
+                          {/* Date label */}
+                          <div className="text-center mb-4">
+                            <div
+                              className="block w-48 px-6 py-3 rounded-lg transition-all duration-300 group-hover:shadow-lg"
+                              style={{ backgroundColor: `${bgColor}1A` }}
+                            >
+                              <span className="text-sm md:text-base font-bold uppercase text-foreground">
+                                <Highlighter
+                                  action="highlight"
+                                  color={highlightColor}
+                                  strokeWidth={3}
+                                  animationDuration={600}
+                                  iterations={1}
+                                  padding={8}
+                                  isView={true}
+                                >
+                                  {link.libelle}
+                                </Highlighter>
+                              </span>
+                            </div>
+                          </div>
+                          {/* Icon circle */}
+                          <div
+                            className="relative z-10 w-32 h-32 rounded-full flex items-center justify-center transition-all duration-500 group-hover:scale-110 group-hover:shadow-xl flex-shrink-0"
+                            style={{ backgroundColor: bgColor }}
+                          >
+                            {link.icone?.url ? (
+                              <Image
+                                src={link.icone.url || "/placeholder.svg"}
+                                alt={link.icone.alt || ""}
+                                width={56}
+                                height={56}
+                                className="transition-transform duration-300 group-hover:scale-110"
+                              />
+                            ) : (
+                              <Users className="w-14 h-14 text-white transition-transform duration-300 group-hover:scale-110" />
+                            )}
+                          </div>
+                        </>
+                      ) : (
+                        link.texte && (
+                          <div className="text-center max-w-[200px] min-h-[120px] flex items-end">
+                            <p className="text-sm text-muted-foreground leading-relaxed">{link.texte}</p>
+                          </div>
+                        )
+                      )}
+                    </div>
 
-                {/* Label */}
-                <div className="mt-6 text-center">
-                  <div
-                    className={`inline-block px-6 py-3 rounded-lg transition-all duration-300 ${
-                      index % 3 === 0 ? "bg-[#F4E63C]/10" : index % 3 === 1 ? "bg-[#4AAD33]/10" : "bg-[#E73628]/10"
-                    } group-hover:shadow-lg`}
-                  >
-                    <span className="text-sm md:text-base font-bold uppercase text-foreground">
-                      <Highlighter
-                        action="highlight"
-                        color={index % 3 === 0 ? "#F4E63C" : index % 3 === 1 ? "#B4D19F" : "#E73628"}
-                        strokeWidth={3}
-                        animationDuration={600}
-                        iterations={1}
-                        padding={8}
-                        isView={true}
-                      >
-                        {link.libelle}
-                      </Highlighter>
-                    </span>
+                    {/* Center dot on timeline */}
+                    <div className="hidden md:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-white border-4 border-foreground transition-all duration-300 group-hover:scale-150 group-hover:border-[#E73628] z-20" />
+
+                    {/* Bottom section - text for even indices, date and icon for odd indices */}
+                    <div className={`flex flex-col items-center mt-8 ${isEven ? "md:mt-8" : "md:mt-12"}`}>
+                      {isEven ? (
+                        link.texte && (
+                          <div className="text-center max-w-[200px] min-h-[120px] flex items-start">
+                            <p className="text-sm text-muted-foreground leading-relaxed">{link.texte}</p>
+                          </div>
+                        )
+                      ) : (
+                        <>
+                          {/* Icon circle */}
+                          <div
+                            className="relative z-10 w-32 h-32 rounded-full flex items-center justify-center transition-all duration-500 group-hover:scale-110 group-hover:shadow-xl flex-shrink-0 mb-4"
+                            style={{ backgroundColor: bgColor }}
+                          >
+                            {link.icone?.url ? (
+                              <Image
+                                src={link.icone.url || "/placeholder.svg"}
+                                alt={link.icone.alt || ""}
+                                width={56}
+                                height={56}
+                                className="transition-transform duration-300 group-hover:scale-110"
+                              />
+                            ) : (
+                              <Users className="w-14 h-14 text-white transition-transform duration-300 group-hover:scale-110" />
+                            )}
+                          </div>
+                          {/* Date label */}
+                          <div className="text-center">
+                            <div
+                              className="block w-48 px-6 py-3 rounded-lg transition-all duration-300 group-hover:shadow-lg"
+                              style={{ backgroundColor: `${bgColor}1A` }}
+                            >
+                              <span className="text-sm md:text-base font-bold uppercase text-foreground">
+                                <Highlighter
+                                  action="highlight"
+                                  color={highlightColor}
+                                  strokeWidth={3}
+                                  animationDuration={600}
+                                  iterations={1}
+                                  padding={8}
+                                  isView={true}
+                                >
+                                  {link.libelle}
+                                </Highlighter>
+                              </span>
+                            </div>
+                          </div>
+                        </>
+                      )}
+                    </div>
                   </div>
-                </div>
-
-                {link.texte && (
-                  <div className="mt-4 text-center">
-                    <p className="text-sm text-muted-foreground leading-relaxed">{link.texte}</p>
-                  </div>
-                )}
-
-                {/* Connector dot on timeline */}
-                <div className="hidden md:block absolute top-16 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-white border-4 border-foreground transition-all duration-300 group-hover:scale-150 group-hover:border-[#E73628]" />
-              </Link>
-            ))}
+                </Link>
+              )
+            })}
           </div>
         </div>
       </div>

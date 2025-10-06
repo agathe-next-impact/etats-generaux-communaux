@@ -1,7 +1,6 @@
 "use client"
 
 import { useState } from "react"
-import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { ChevronLeft, ChevronRight, Calendar, Clock, MapPin } from "lucide-react"
@@ -51,32 +50,31 @@ export function EventsCarousel({ events }: EventsCarouselProps) {
 
   const getTypeColor = (type: string) => {
     const lowerType = type.toLowerCase()
-    if (lowerType.includes("conférence")) return "bg-blue-100 text-blue-800"
-    if (lowerType.includes("atelier")) return "bg-green-100 text-green-800"
-    if (lowerType.includes("manifestation")) return "bg-red-100 text-red-800"
-    if (lowerType.includes("formation")) return "bg-purple-100 text-purple-800"
-    if (lowerType.includes("débat")) return "bg-orange-100 text-orange-800"
-    return "bg-gray-100 text-gray-800"
+    if (lowerType.includes("conférence")) return "bg-[#F4E63C] text-black"
+    if (lowerType.includes("atelier")) return "bg-[#4AAD33] text-white"
+    if (lowerType.includes("manifestation")) return "bg-[#E73628] text-white"
+    if (lowerType.includes("formation")) return "bg-[#94BF7E] text-black"
+    if (lowerType.includes("débat")) return "bg-[#44843F] text-white"
+    return "bg-[#B4D19F] text-black"
   }
 
   const eventType = getEventTypeFromCategories()
 
   return (
     <div className="relative">
-      <Card className="group overflow-hidden hover:shadow-lg transition-all duration-300">
+      <div className="group overflow-hidden border-[3px] border-[#E73628] rounded-lg">
         <Link href={`/evenements/${currentEvent.slug}`}>
-          <CardContent className="p-6">
+          <div className="p-6">
             <div className="space-y-4">
-              {/* Badges */}
               <div className="flex flex-wrap gap-2">
-                <Badge className={getTypeColor(eventType)}>{eventType}</Badge>
-                <Badge className={`text-white ${isUpcoming ? "bg-green-500" : "bg-gray-500"}`}>
+                <Badge className={`${getTypeColor(eventType)} font-bold`}>{eventType}</Badge>
+                <Badge className={`text-white font-bold ${isUpcoming ? "bg-[#4AAD33]" : "bg-gray-500"}`}>
                   {isUpcoming ? "À venir" : "Passé"}
                 </Badge>
               </div>
 
               {/* Title */}
-              <h3 className="text-lg font-bold leading-tight group-hover:text-primary transition-colors line-clamp-2">
+              <h3 className="text-lg font-bold leading-tight group-hover:text-[#E73628] transition-colors line-clamp-2">
                 {currentEvent.title.rendered}
               </h3>
 
@@ -107,14 +105,18 @@ export function EventsCarousel({ events }: EventsCarouselProps) {
                 <p className="text-sm text-muted-foreground line-clamp-3">{currentEvent.acf.description}</p>
               )}
             </div>
-          </CardContent>
+          </div>
         </Link>
-      </Card>
+      </div>
 
-      {/* Navigation Controls */}
       {events.length > 1 && (
         <div className="flex items-center justify-between mt-4">
-          <Button variant="outline" size="icon" onClick={prevSlide} className="h-10 w-10 bg-transparent">
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={prevSlide}
+            className="h-10 w-10 border-[#E73628] text-[#E73628] hover:bg-[#E73628] hover:text-white bg-transparent"
+          >
             <ChevronLeft className="h-4 w-4" />
           </Button>
 
@@ -124,14 +126,19 @@ export function EventsCarousel({ events }: EventsCarouselProps) {
                 key={index}
                 onClick={() => setCurrentIndex(index)}
                 className={`h-2 rounded-full transition-all ${
-                  index === currentIndex ? "w-8 bg-primary" : "w-2 bg-muted-foreground/30"
+                  index === currentIndex ? "w-8 bg-[#E73628]" : "w-2 bg-muted-foreground/30"
                 }`}
                 aria-label={`Aller à l'événement ${index + 1}`}
               />
             ))}
           </div>
 
-          <Button variant="outline" size="icon" onClick={nextSlide} className="h-10 w-10 bg-transparent">
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={nextSlide}
+            className="h-10 w-10 border-[#E73628] text-[#E73628] hover:bg-[#E73628] hover:text-white bg-transparent"
+          >
             <ChevronRight className="h-4 w-4" />
           </Button>
         </div>

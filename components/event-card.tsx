@@ -35,23 +35,26 @@ export function EventCard({ event }: EventCardProps) {
 
   const getTypeColor = (type: string) => {
     const lowerType = type.toLowerCase()
-    if (lowerType.includes("conférence")) return "bg-blue-100 text-blue-800"
-    if (lowerType.includes("atelier")) return "bg-green-100 text-green-800"
-    if (lowerType.includes("manifestation")) return "bg-red-100 text-red-800"
-    if (lowerType.includes("formation")) return "bg-purple-100 text-purple-800"
-    if (lowerType.includes("débat")) return "bg-orange-100 text-orange-800"
+    if (lowerType.includes("conférence")) return "bg-[#E73628] text-white"
+    if (lowerType.includes("atelier")) return "bg-[#4AAD33] text-white"
+    if (lowerType.includes("manifestation")) return "bg-[#F4E63C] text-black"
+    if (lowerType.includes("formation")) return "bg-[#94BF7E] text-black"
+    if (lowerType.includes("débat")) return "bg-[#44843F] text-white"
     return "bg-gray-100 text-gray-800"
   }
 
   const eventType = getEventTypeFromCategories()
 
   return (
-    <Card className="w-full hover:shadow-lg transition-shadow">
+    <Card className="w-full hover:shadow-lg transition-shadow border-2 border-[#E73628]">
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between gap-4">
           <div className="flex-1">
             <Link href={`/evenements/${event.slug}`} scroll={true}>
-              <CardTitle className="text-xl mb-2 text-balance hover:text-primary transition-colors cursor-pointer">
+              <CardTitle
+                className="text-xl mb-2 text-balance hover:text-[#E73628] transition-colors cursor-pointer font-black uppercase"
+                style={{ fontFamily: "Raleway, sans-serif" }}
+              >
                 {event.title.rendered}
               </CardTitle>
             </Link>
@@ -98,7 +101,7 @@ export function EventCard({ event }: EventCardProps) {
         {/* Actions */}
         <div className="flex gap-2">
           {event.acf?.lien_vers_levenement_en_ligne && (
-            <Button variant="outline" size="sm" asChild>
+            <Button variant="outline" size="xs" asChild>
               <a
                 href={event.acf.lien_vers_levenement_en_ligne}
                 target="_blank"
@@ -110,7 +113,7 @@ export function EventCard({ event }: EventCardProps) {
               </a>
             </Button>
           )}
-          <Button variant="outline" size="sm" asChild>
+          <Button variant="outline" size="xs" asChild>
             <Link href={`/evenements/${event.slug}`} scroll={true} className="flex items-center gap-2">
               <ExternalLink className="h-4 w-4" />
               Détails

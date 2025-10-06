@@ -6,8 +6,9 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { EventCard } from "@/components/event-card"
-import { ArrowLeft, MapPin, ExternalLink, Share2, Users } from "lucide-react"
+import { ArrowLeft, MapPin, ExternalLink, Share2 } from "lucide-react"
 import { Suspense } from "react"
+import Highlighter from "@/components/ui/highlighter"
 
 interface EventPageProps {
   params: {
@@ -24,7 +25,19 @@ async function RelatedEvents({ currentSlug }: { currentSlug: string }) {
   return (
     <section className="py-12 border-t border-border">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-2xl font-black text-foreground mb-8">Événements similaires</h2>
+        <h2 className="text-2xl font-black text-foreground mb-8 uppercase font-[family-name:var(--font-raleway)]">
+          <Highlighter
+            action="underline"
+            color="#E73628"
+            strokeWidth={4}
+            animationDuration={600}
+            iterations={1}
+            padding={8}
+            isView={true}
+          >
+            Événements similaires
+          </Highlighter>
+        </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {filteredEvents.map((event) => (
             <EventCard key={event.id} event={event} />
@@ -79,18 +92,28 @@ export default async function EventPage({ params }: EventPageProps) {
   const isPast = eventDate && eventDate < now
 
   return (
-    <article className="min-h-screen">
+    <article className="min-h-screen pt-32 pb-12">
       {/* Event Header */}
       <header className="py-12 lg:py-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="space-y-6">
             {/* Back Button */}
-            <Button asChild variant="ghost" size="sm" className="mb-4">
-              <Link href="/evenements" className="flex items-center gap-2">
-                <ArrowLeft className="h-4 w-4" />
-                Retour aux événements
-              </Link>
-            </Button>
+            <Highlighter
+              action="highlight"
+              color="#B4D19F"
+              strokeWidth={4}
+              animationDuration={600}
+              iterations={1}
+              padding={6}
+              isView={true}
+            >
+              <Button asChild variant="ghost" size="sm" className="mb-4">
+                <Link href="/evenements" className="flex items-center gap-2">
+                  <ArrowLeft className="h-4 w-4" />
+                  Retour aux événements
+                </Link>
+              </Button>
+            </Highlighter>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
               {/* Left Column - Featured Image */}
@@ -111,109 +134,86 @@ export default async function EventPage({ params }: EventPageProps) {
                 {/* Event Status & Categories */}
                 <div className="flex flex-wrap items-center gap-2">
                   {isUpcoming && (
-                    <Badge variant="default" className="bg-green-100 text-green-800 border-green-200">
+                    <Badge variant="default" className="bg-[#4AAD33] text-white border-[#4AAD33]">
                       À venir
                     </Badge>
                   )}
                   {isPast && (
-                    <Badge variant="secondary" className="bg-gray-100 text-gray-600 border-gray-200">
+                    <Badge variant="secondary" className="bg-[#E73628] text-white border-[#E73628]">
                       Passé
                     </Badge>
                   )}
                   {categories.map((category) => (
-                    <Badge key={category.id} variant="outline">
+                    <Badge key={category.id} variant="outline" className="border-[#F4E63C] text-foreground">
                       {category.name}
                     </Badge>
                   ))}
                 </div>
 
                 {/* Event Title */}
-                <h1 className="text-3xl md:text-4xl lg:text-5xl font-black text-foreground leading-tight text-balance">
-                  {eventTitle}
+                <h1 className="text-3xl md:text-4xl lg:text-5xl font-black text-foreground leading-tight text-balance uppercase font-[family-name:var(--font-raleway)]">
+                  <Highlighter
+                    action="underline"
+                    color="#E73628"
+                    strokeWidth={4}
+                    animationDuration={600}
+                    iterations={1}
+                    padding={8}
+                    isView={true}
+                  >
+                    {eventTitle}
+                  </Highlighter>
                 </h1>
 
                 {/* Action Buttons */}
                 <div className="flex flex-wrap gap-3">
                   {onlineLink && (
-                    <Button asChild>
-                      <a href={onlineLink} target="_blank" rel="noopener noreferrer">
-                        <ExternalLink className="h-4 w-4 mr-2" />
-                        Rejoindre en ligne
-                      </a>
-                    </Button>
+                    <Highlighter
+                      action="highlight"
+                      color="#94BF7E"
+                      strokeWidth={4}
+                      animationDuration={600}
+                      iterations={1}
+                      padding={8}
+                      isView={true}
+                    >
+                      <Button asChild variant="ghost">
+                        <a href={onlineLink} target="_blank" rel="noopener noreferrer">
+                          <ExternalLink className="h-4 w-4 mr-2" />
+                          Rejoindre en ligne
+                        </a>
+                      </Button>
+                    </Highlighter>
                   )}
 
                   {eventLocation && (
-                    <Button asChild variant="outline">
-                      <a
-                        href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(eventLocation.address)}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <MapPin className="h-4 w-4 mr-2" />
-                        Voir sur la carte
-                      </a>
-                    </Button>
+                    <Highlighter
+                      action="highlight"
+                      color="#B4D19F"
+                      strokeWidth={4}
+                      animationDuration={600}
+                      iterations={1}
+                      padding={8}
+                      isView={true}
+                    >
+                      <Button asChild variant="ghost">
+                        <a
+                          href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(eventLocation.address)}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <MapPin className="h-4 w-4 mr-2" />
+                          Voir sur la carte
+                        </a>
+                      </Button>
+                    </Highlighter>
                   )}
-
-                  <Button variant="ghost" size="sm">
-                    <Share2 className="h-4 w-4 mr-2" />
-                    Partager
-                  </Button>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </header>
-
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
-        <Card>
-          <CardContent className="p-6">
-            <h3 className="text-lg font-black mb-4 flex items-center gap-2">
-              <Users className="h-5 w-5" />
-              Détails de l'événement
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-              {eventDate && (
-                <div>
-                  <strong>Date :</strong>{" "}
-                  {eventDate.toLocaleDateString("fr-FR", {
-                    weekday: "long",
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                  })}
-                </div>
-              )}
-
-              {eventTime && (
-                <div>
-                  <strong>Heure :</strong> {eventTime}
-                </div>
-              )}
-
-              {eventLocation && (
-                <div className="md:col-span-2">
-                  <strong>Lieu :</strong> {eventLocation.address}
-                </div>
-              )}
-
-              {categories.length > 0 && (
-                <div className="md:col-span-2">
-                  <strong>Type :</strong>{" "}
-                  {categories.map((cat, index) => (
-                    <span key={cat.id}>
-                      {cat.name}
-                      {index < categories.length - 1 ? ", " : ""}
-                    </span>
-                  ))}
-                </div>
-              )}
-            </div>
-          </CardContent>
-        </Card>
-      </div>
 
       {/* Event Content */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">

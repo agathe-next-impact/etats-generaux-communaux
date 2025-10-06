@@ -4,7 +4,7 @@ import { ArticleCard } from "@/components/article-card"
 import { BlogFilters } from "@/components/blog-filters"
 import { Pagination } from "@/components/pagination"
 import { Card, CardContent } from "@/components/ui/card"
-import { UnderlinedH1 } from "@/components/ui/underlined-heading"
+import { Highlighter } from "@/components/ui/highlighter"
 
 interface BlogPageProps {
   searchParams: {
@@ -78,8 +78,18 @@ export default function BlogPage({ searchParams }: BlogPageProps) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-12">
-          {/* Replace h1 with UnderlinedH1 */}
-          <UnderlinedH1 className="text-4xl md:text-5xl text-foreground mb-4">Tous les articles</UnderlinedH1>
+          <h1 className="text-4xl md:text-5xl text-foreground mb-4 font-black uppercase font-raleway">
+            <Highlighter
+              action="underline"
+              color="#E73628"
+              strokeWidth={4}
+              animationDuration={600}
+              iterations={1}
+              isView={true}
+            >
+              Tous les articles
+            </Highlighter>
+          </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Explorez nos analyses, témoignages et réflexions sur l'engagement collectif et les mouvements sociaux.
           </p>

@@ -5,7 +5,7 @@ import { Calendar } from "lucide-react"
 import { getEvents, type WordPressEvent } from "@/lib/wordpress"
 import { EventFilters } from "@/components/event-filters"
 import { EventTimeline } from "@/components/event-timeline"
-import { UnderlinedH1 } from "@/components/ui/underlined-heading"
+import { Highlighter } from "@/components/ui/highlighter"
 
 export default function EventsPage() {
   const [events, setEvents] = useState<WordPressEvent[]>([])
@@ -113,8 +113,19 @@ export default function EventsPage() {
       {/* Header */}
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-4">
-          <Calendar className="h-8 w-8 text-primary" />
-          <UnderlinedH1 className="text-3xl">Événements</UnderlinedH1>
+          <Calendar className="h-8 w-8 text-[#E73628]" />
+          <h1 className="text-3xl font-black uppercase font-[family-name:var(--font-raleway)]">
+            <Highlighter
+              action="underline"
+              color="#E73628"
+              strokeWidth={4}
+              animationDuration={600}
+              iterations={1}
+              isView={true}
+            >
+              Événements
+            </Highlighter>
+          </h1>
         </div>
         <p className="text-muted-foreground text-lg">
           Découvrez tous nos événements, conférences, ateliers et manifestations.

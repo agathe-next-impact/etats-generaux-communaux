@@ -243,6 +243,38 @@ export interface HomePageACF {
   }
 }
 
+export interface AboutPageACF {
+  titre_principal?: string
+  "sous-titre_principal"?: string
+  chapeau?: string
+  fondateurs?: Array<{
+    nom?: string
+    descriptif?: string
+    logo?: {
+      url: string
+      alt: string
+      width: number
+      height: number
+    }
+  }>
+  partenaires?: Array<{
+    nom?: string
+    descriptif?: string
+    logo?: {
+      url: string
+      alt: string
+      width: number
+      height: number
+    }
+  }>
+}
+
+export interface ParticiperPageACF {
+  titre?: string
+  chapeau?: string
+  adresse_mail_denvoi_du_formulaire?: string
+}
+
 export interface HomePageData {
   id: number
   title: {
@@ -252,6 +284,28 @@ export interface HomePageData {
     rendered: string
   }
   acf?: HomePageACF
+}
+
+export interface AboutPageData {
+  id: number
+  title: {
+    rendered: string
+  }
+  content: {
+    rendered: string
+  }
+  acf?: AboutPageACF
+}
+
+export interface ParticiperPageData {
+  id: number
+  title: {
+    rendered: string
+  }
+  content: {
+    rendered: string
+  }
+  acf?: ParticiperPageACF
 }
 
 const WP_API_URL = process.env.NEXT_PUBLIC_WORDPRESS_API_URL || "https://demo.wp-api.org/wp-json/wp/v2"
@@ -1033,6 +1087,60 @@ export async function getHomePageData(): Promise<HomePageData | null> {
     return null
   } catch (error) {
     console.error("[v0] Error fetching homepage data:", error)
+    return null
+  }
+}
+
+export async function getAboutPageData(): Promise<AboutPageData | null> {
+  try {
+    console.log("[v0] Fetching about page ACF data")
+
+    // Try to fetch the about page by slug
+    const page = await getPageBySlug("a-propos")
+
+    if (page) {
+      console.log("[v0] About page found with slug 'a-propos'")
+      console.log("[v0] About page ACF data:", page.acf ? "found" : "not found")
+      return page as AboutPageData
+    }
+
+    console.log("[v0] No about page found with slug 'a-propos'")
+    console.log("[v0] Please ensure:")
+    console.log("[v0] 1. A page exists in WordPress with slug 'a-propos'")
+    console.log("[v0] 2. The page is published (not draft)")
+    console.log("[v0] 3. ACF fields are properly configured on the page")
+    console.log("[v0] 4. WordPress REST API is accessible at:", WP_API_URL)
+
+    return null
+  } catch (error) {
+    console.error("[v0] Error fetching about page data:", error)
+    return null
+  }
+}
+
+export async function getParticiperPageData(): Promise<ParticiperPageData | null> {
+  try {
+    console.log("[v0] Fetching participer page ACF data")
+
+    // Try to fetch the participer page by slug
+    const page = await getPageBySlug("participer")
+
+    if (page) {
+      console.log("[v0] Participer page found with slug 'participer'")
+      console.log("[v0] Participer page ACF data:", page.acf ? "found" : "not found")
+      return page as ParticiperPageData
+    }
+
+    console.log("[v0] No participer page found with slug 'participer'")
+    console.log("[v0] Please ensure:")
+    console.log("[v0] 1. A page exists in WordPress with slug 'participer'")
+    console.log("[v0] 2. The page is published (not draft)")
+    console.log("[v0] 3. ACF fields are properly configured on the page")
+    console.log("[v0] 4. WordPress REST API is accessible at:", WP_API_URL)
+
+    return null
+  } catch (error) {
+    console.error("[v0] Error fetching participer page data:", error)
     return null
   }
 }

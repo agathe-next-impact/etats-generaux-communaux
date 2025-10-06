@@ -14,9 +14,8 @@ export function MiniEventTimeline({ events }: MiniEventTimelineProps) {
   }
 
   return (
-    <div className="relative pl-6">
-      {/* Timeline Line */}
-      <div className="absolute left-2 top-0 bottom-0 w-0.5 bg-border"></div>
+    <div className="relative rounded-lg p-4">
+      <div className="absolute left-1 top-4 bottom-4 w-0.5 bg-[#E73628]"></div>
 
       <div className="space-y-6">
         {events.map((event) => {
@@ -36,13 +35,11 @@ export function MiniEventTimeline({ events }: MiniEventTimelineProps) {
 
           return (
             <div key={event.id} className="relative">
-              {/* Timeline Dot */}
-              <div className="absolute -left-5 top-2 w-3 h-3 bg-primary rounded-full border-2 border-background shadow-sm"></div>
+              <div className="absolute -left-5 top-2 w-4 h-4 bg-[#E73628] rounded-full border-2 border-white shadow-sm"></div>
 
-              {/* Event Content */}
               <Link
                 href={`/evenements/${event.slug}`}
-                className="block group hover:bg-muted/50 rounded-lg p-3 -ml-3 transition-colors"
+                className="block group hover:bg-[#B4D19F]/20 rounded-lg p-3 -ml-3 transition-colors"
               >
                 <div className="space-y-2">
                   <div className="flex items-center gap-2 text-xs text-muted-foreground">
@@ -50,7 +47,7 @@ export function MiniEventTimeline({ events }: MiniEventTimelineProps) {
                     <time dateTime={event.acf?.date || event.date}>{formattedDate}</time>
                   </div>
 
-                  <h3 className="font-bold text-sm leading-tight group-hover:text-primary transition-colors line-clamp-2">
+                  <h3 className="font-bold text-sm leading-tight group-hover:text-[#E73628] transition-colors line-clamp-2">
                     {event.title.rendered}
                   </h3>
 
