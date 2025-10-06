@@ -1,7 +1,7 @@
 "use client"
 
 import type React from "react"
-import { useEffect, useRef, useCallback, useMemo } from "react"
+import { useEffect, useRef, useCallback, useMemo, useState } from "react"
 import { gsap } from "gsap"
 import "./target-cursor.css"
 
@@ -16,6 +16,7 @@ const TargetCursor: React.FC<TargetCursorProps> = ({
   spinDuration = 2,
   hideDefaultCursor = true,
 }) => {
+  const [mounted, setMounted] = useState(false)
   const cursorRef = useRef<HTMLDivElement>(null)
   const cornersRef = useRef<NodeListOf<HTMLDivElement>>(null)
   const spinTl = useRef<gsap.core.Timeline>(null)
@@ -40,11 +41,31 @@ const TargetCursor: React.FC<TargetCursorProps> = ({
   }, [])
 
   useEffect(() => {
-    if (!cursorRef.current) return
+    setMounted(true)
+    console.log("[v0] TargetCursor mounting on client side")
+  }, [])
+
+  useEffect(() => {
+    if (!mounted) {
+      console.log("[v0] TargetCursor not yet mounted, skipping initialization")
+      return
+    }
+
+    console.log("[v0] TargetCursor component mounted")
+    console.log("[v0] cursorRef.current:", cursorRef.current)
+    console.log("[v0] GSAP available:", typeof gsap !== "undefined")
+
+    if (!cursorRef.current) {
+      console.log("[v0] cursorRef.current is null, cursor will not initialize")
+      return
+    }
+
+    console.log("[v0] Initializing cursor...")
 
     const originalCursor = document.body.style.cursor
     if (hideDefaultCursor) {
       document.body.style.cursor = "none"
+      console.log("[v0] Default cursor hidden")
     }
 
     const cursor = cursorRef.current
@@ -84,6 +105,7 @@ const TargetCursor: React.FC<TargetCursorProps> = ({
     }
 
     createSpinTimeline()
+    console.log("[v0] Spin timeline created")
 
     const moveHandler = (e: MouseEvent) => moveCursor(e.clientX, e.clientY)
     window.addEventListener("mousemove", moveHandler)
@@ -305,6 +327,7 @@ const TargetCursor: React.FC<TargetCursorProps> = ({
     window.addEventListener("mouseover", enterHandler, { passive: true })
 
     return () => {
+      console.log("[v0] TargetCursor cleanup")
       window.removeEventListener("mousemove", moveHandler)
       window.removeEventListener("mouseover", enterHandler)
       window.removeEventListener("scroll", scrollHandler)
@@ -316,9 +339,14 @@ const TargetCursor: React.FC<TargetCursorProps> = ({
       spinTl.current?.kill()
       document.body.style.cursor = originalCursor
     }
-  }, [targetSelector, spinDuration, moveCursor, constants, hideDefaultCursor])
+  }, [targetSelector, spinDuration, moveCursor, constants, hideDefaultCursor, mounted])
 
   useEffect(() => {
+    if (!mounted) {
+      console.log("[v0] TargetCursor not yet mounted, skipping initialization")
+      return
+    }
+
     if (!cursorRef.current || !spinTl.current) return
 
     if (spinTl.current.isActive()) {
@@ -327,7 +355,11 @@ const TargetCursor: React.FC<TargetCursorProps> = ({
         .timeline({ repeat: -1 })
         .to(cursorRef.current, { rotation: "+=360", duration: spinDuration, ease: "none" })
     }
-  }, [spinDuration])
+  }, [spinDuration, mounted])
+
+  if (!mounted) {
+    return null
+  }
 
   return (
     <div ref={cursorRef} className="target-cursor-wrapper">

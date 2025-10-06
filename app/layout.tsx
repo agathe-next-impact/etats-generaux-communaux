@@ -83,13 +83,13 @@ export default function RootLayout({
   return (
     <html lang="fr" className={raleway.variable}>
       <body className="font-sans antialiased">
-        <TargetCursor targetSelector=".cursor-target, a, button" spinDuration={2} hideDefaultCursor={true} />
         <Suspense fallback={<div>Loading...</div>}>
           <Navigation />
           <main className="min-h-screen">{children}</main>
           <Footer />
           <ScrollToTop />
         </Suspense>
+        <TargetCursor targetSelector=".cursor-target, a, button" spinDuration={2} hideDefaultCursor={true} />
       </body>
     </html>
   )
