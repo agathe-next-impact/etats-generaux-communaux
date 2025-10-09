@@ -120,6 +120,20 @@ async function ArticlesAndEvents({ acfData }: { acfData?: HomePageACF["section_a
 
           <div>
             <div className="space-y-6">
+              {/* Title */}
+              <h2 className="text-2xl md:text-3xl uppercase text-foreground">
+                <Highlighter
+                  action="underline"
+                  color="#E73628"
+                  strokeWidth={3}
+                  animationDuration={600}
+                  iterations={1}
+                  isView={true}
+                >
+                  Les Doléances
+                </Highlighter>
+              </h2>
+
               {/* YouTube Video Embed */}
               <div className="relative w-full aspect-video rounded-lg overflow-hidden shadow-lg border border-border">
                 <iframe
@@ -131,24 +145,10 @@ async function ArticlesAndEvents({ acfData }: { acfData?: HomePageACF["section_a
                 />
               </div>
 
-              {/* Title and Subtitle */}
-              <div className="space-y-2">
-                <h2 className="text-2xl md:text-3xl uppercase text-foreground">
-                  <Highlighter
-                    action="underline"
-                    color="#E73628"
-                    strokeWidth={3}
-                    animationDuration={600}
-                    iterations={1}
-                    isView={true}
-                  >
-                    Les Doléances
-                  </Highlighter>
-                </h2>
-                <p className="text-muted-foreground text-lg">
-                  le documentaire de Hélène Desplanques, reconnu d'utilité publique en 2025
-                </p>
-              </div>
+              {/* Subtitle */}
+              <p className="text-muted-foreground text-lg">
+                le documentaire de Hélène Desplanques, reconnu d'utilité publique en 2025
+              </p>
             </div>
           </div>
         </div>
@@ -458,7 +458,7 @@ export default async function HomePage() {
         <ArticlesAndEvents acfData={acf?.section_actus_evenements} />
       </Suspense>
 
-      {/* Map and Events Section 
+      {/* Map and Events Section */}
       <Suspense
         fallback={
           <section className="py-16 lg:py-24 bg-white">
@@ -483,8 +483,6 @@ export default async function HomePage() {
       <Suspense fallback={null}>
         <UpcomingEvents />
       </Suspense>
-
-      */}
 
       {/* Call to Action Section */}
       {acf?.section_manifeste && (
