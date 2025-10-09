@@ -167,17 +167,17 @@ export default async function DoleancesPage() {
                       {/* Decorative icons overlapping bottom right border */}
                       <div className="absolute -bottom-8 -right-8 flex gap-2">
                         <img
-                          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%201-ICHB7cWddege8JtlWxAOuhDFO1YX19.png"
+                          src="/images/design-mode/picto%201.png"
                           alt=""
                           className="w-16 h-16 object-contain"
                         />
                         <img
-                          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%205-3TREKNW3pkwjRwzPbqP2ksaTo0u3Dd.png"
+                          src="/images/design-mode/picto%205.png"
                           alt=""
                           className="w-16 h-16 object-contain"
                         />
                         <img
-                          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%207-4ThXo4CWq8LTSpIsZdzroZKR1mWEZQ.png"
+                          src="/images/design-mode/picto%207.png"
                           alt=""
                           className="w-16 h-16 object-contain"
                         />

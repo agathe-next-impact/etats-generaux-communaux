@@ -458,7 +458,7 @@ export default async function HomePage() {
         <ArticlesAndEvents acfData={acf?.section_actus_evenements} />
       </Suspense>
 
-      {/* Map and Events Section */}
+      {/* Map and Events Section 
       <Suspense
         fallback={
           <section className="py-16 lg:py-24 bg-white">
@@ -483,6 +483,8 @@ export default async function HomePage() {
       <Suspense fallback={null}>
         <UpcomingEvents />
       </Suspense>
+
+      */}
 
       {/* Call to Action Section */}
       {acf?.section_manifeste && (
