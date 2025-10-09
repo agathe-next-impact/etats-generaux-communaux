@@ -277,6 +277,23 @@ export interface ParticiperPageACF {
   adresse_mail_denvoi_du_formulaire?: string
 }
 
+export interface DoleancesPageACF {
+  titre?: string
+  chapeau?: string
+  axes?: Array<{
+    titre?: string
+    chapeau?: string
+    contenu?: Array<{
+      titre?: string
+      texte?: string
+    }>
+    encadre_comment_agir?: {
+      titre_comment_agir?: string
+      contenu?: string
+    }
+  }>
+}
+
 export interface HomePageData {
   id: number
   title: {
@@ -308,6 +325,17 @@ export interface ParticiperPageData {
     rendered: string
   }
   acf?: ParticiperPageACF
+}
+
+export interface DoleancesPageData {
+  id: number
+  title: {
+    rendered: string
+  }
+  content: {
+    rendered: string
+  }
+  acf?: DoleancesPageACF
 }
 
 const WP_API_URL = process.env.NEXT_PUBLIC_WORDPRESS_API_URL || "https://demo.wp-api.org/wp-json/wp/v2"
@@ -1114,6 +1142,33 @@ export async function getParticiperPageData(): Promise<ParticiperPageData | null
     return null
   } catch (error) {
     console.error("[v0] Error fetching participer page data:", error)
+    return null
+  }
+}
+
+export async function getDoleancesPageData(): Promise<DoleancesPageData | null> {
+  try {
+    console.log("[v0] Fetching les-doleances page ACF data")
+
+    // Try to fetch the doleances page by slug
+    const page = await getPageBySlug("les-doleances")
+
+    if (page) {
+      console.log("[v0] Les Doléances page found with slug 'les-doleances'")
+      console.log("[v0] Les Doléances page ACF data:", page.acf ? "found" : "not found")
+      return page as DoleancesPageData
+    }
+
+    console.log("[v0] No les-doleances page found with slug 'les-doleances'")
+    console.log("[v0] Please ensure:")
+    console.log("[v0] 1. A page exists in WordPress with slug 'les-doleances'")
+    console.log("[v0] 2. The page is published (not draft)")
+    console.log("[v0] 3. ACF fields are properly configured on the page")
+    console.log("[v0] 4. WordPress REST API is accessible at:", WP_API_URL)
+
+    return null
+  } catch (error) {
+    console.error("[v0] Error fetching les-doleances page data:", error)
     return null
   }
 }

@@ -33,8 +33,20 @@ export function HorizontalTimeline({ links, title, subtitle }: HorizontalTimelin
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
   const [activeIndex, setActiveIndex] = useState(0)
   const [popupPosition, setPopupPosition] = useState<"left" | "right">("right")
+  const [isMobile, setIsMobile] = useState(false)
   const timelineRef = useRef<HTMLDivElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
+
+    checkMobile()
+    window.addEventListener("resize", checkMobile)
+
+    return () => window.removeEventListener("resize", checkMobile)
+  }, [])
 
   const determinePopupPosition = (element: HTMLElement): "left" | "right" => {
     const rect = element.getBoundingClientRect()
@@ -136,7 +148,13 @@ export function HorizontalTimeline({ links, title, subtitle }: HorizontalTimelin
         </div>
 
         <div ref={timelineRef} className="relative">
-          <div className="absolute inset-0 hidden md:block" style={{ height: "200px" }}>
+          <div
+            className="absolute inset-x-0 hidden md:block"
+            style={{
+              top: "132px", // 100px padding + 32px (half of 64px icon)
+              height: "100px",
+            }}
+          >
             <svg
               className="w-full h-full"
               viewBox="0 0 100 100"
@@ -166,7 +184,7 @@ export function HorizontalTimeline({ links, title, subtitle }: HorizontalTimelin
             style={{ minHeight: "200px", paddingTop: "100px", paddingBottom: "100px" }}
           >
             {links.map((link, index) => {
-              const isAbove = index % 2 === 0
+              const isAbove = isMobile ? true : index % 2 === 0
 
               return (
                 <div
@@ -178,7 +196,9 @@ export function HorizontalTimeline({ links, title, subtitle }: HorizontalTimelin
                   onMouseEnter={(e) => handleMouseEnter(index, e)}
                   onMouseLeave={() => setHoveredIndex(null)}
                 >
-                  <div className={`flex flex-col items-center gap-3 relative ${isAbove ? "flex-col-reverse" : ""}`}>
+                  <div
+                    className={`flex flex-col items-center gap-3 relative ${!isMobile && !isAbove ? "flex-col-reverse" : ""}`}
+                  >
                     <div className="relative z-10 w-16 h-16 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg cursor-pointer bg-white overflow-hidden">
                       {link.icone?.url ? (
                         <Image
@@ -202,15 +222,33 @@ export function HorizontalTimeline({ links, title, subtitle }: HorizontalTimelin
                     <AnimatePresence>
                       {hoveredIndex === index && link.texte && (
                         <motion.div
-                          initial={{ opacity: 0, scale: 0.9, x: popupPosition === "right" ? -10 : 10 }}
-                          animate={{ opacity: 1, scale: 1, x: 0 }}
-                          exit={{ opacity: 0, scale: 0.9, x: popupPosition === "right" ? -10 : 10 }}
+                          initial={{
+                            opacity: 0,
+                            scale: 0.9,
+                            x: isMobile ? 0 : popupPosition === "right" ? -10 : 10,
+                            y: isMobile ? -10 : 0,
+                          }}
+                          animate={{ opacity: 1, scale: 1, x: 0, y: 0 }}
+                          exit={{
+                            opacity: 0,
+                            scale: 0.9,
+                            x: isMobile ? 0 : popupPosition === "right" ? -10 : 10,
+                            y: isMobile ? -10 : 0,
+                          }}
                           transition={{ duration: 0.2, ease: "easeOut" }}
-                          className={`absolute ${popupPosition === "right" ? "left-full ml-4" : "right-full mr-4"} top-1/2 -translate-y-1/2 z-[9999] w-80 max-w-[90vw] bg-white border-2 border-[#E73628] rounded-lg shadow-xl p-4`}
+                          className={`absolute z-[9999] w-80 max-w-[90vw] bg-white border-2 border-[#E73628] rounded-lg shadow-xl p-4 ${
+                            isMobile
+                              ? "top-full mt-4 left-1/2 -translate-x-1/2"
+                              : `${popupPosition === "right" ? "left-full ml-4" : "right-full mr-4"} top-1/2 -translate-y-1/2`
+                          }`}
                           style={{ pointerEvents: "auto" }}
                         >
                           <div
-                            className={`absolute ${popupPosition === "right" ? "-left-2" : "-right-2"} top-1/2 -translate-y-1/2 w-4 h-4 bg-white border-2 border-[#E73628] ${popupPosition === "right" ? "border-r-0 border-b-0 -rotate-45" : "border-l-0 border-t-0 rotate-45"}`}
+                            className={`absolute w-4 h-4 bg-white border-2 border-[#E73628] ${
+                              isMobile
+                                ? "-top-2 left-1/2 -translate-x-1/2 border-b-0 border-r-0 rotate-45"
+                                : `${popupPosition === "right" ? "-left-2" : "-right-2"} top-1/2 -translate-y-1/2 ${popupPosition === "right" ? "border-r-0 border-b-0 -rotate-45" : "border-l-0 border-t-0 rotate-45"}`
+                            }`}
                           />
                           <div className="mb-3">
                             <span className="text-sm font-bold text-foreground">

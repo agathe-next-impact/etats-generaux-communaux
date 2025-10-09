@@ -140,6 +140,7 @@ export function Navigation() {
               <DropdownMenuContent align="start" className="min-w-[180px] border-2 border-[#E73628] bg-white">
                 <DropdownItemWithBrush href="/blog">Actus</DropdownItemWithBrush>
                 <DropdownItemWithBrush href="/a-propos">A propos</DropdownItemWithBrush>
+                <DropdownItemWithBrush href="/les-doleances">Les Doléances</DropdownItemWithBrush>
               </DropdownMenuContent>
             </DropdownMenu>
 
@@ -244,6 +245,12 @@ export function Navigation() {
                 className="block pl-4 text-sm text-foreground hover:text-[#E73628] transition-colors font-medium"
               >
                 A propos
+              </Link>
+              <Link
+                href="/les-doleances"
+                className="block pl-4 text-sm text-foreground hover:text-[#E73628] transition-colors font-medium"
+              >
+                Les Doléances
               </Link>
             </div>
 

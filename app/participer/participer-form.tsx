@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Highlighter } from "@/components/highlighter"
+import { Highlighter } from "@/components/ui/highlighter"
 import { Loader2, CheckCircle2, AlertCircle } from "lucide-react"
 
 interface ParticiperFormProps {
