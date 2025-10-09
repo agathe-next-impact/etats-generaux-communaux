@@ -152,7 +152,7 @@ export function Navigation() {
                 >
                   <NavItemWithBrush>
                     <span className="flex items-center gap-1">
-                      Le rhizome
+                      Faire rhizome
                       <ChevronDown className="h-3.5 w-3.5" />
                     </span>
                   </NavItemWithBrush>
@@ -248,7 +248,7 @@ export function Navigation() {
             </div>
 
             <div className="space-y-2 px-4">
-              <div className="font-bold text-sm text-[#44843F] uppercase">Le rhizome</div>
+              <div className="font-bold text-sm text-[#44843F] uppercase">Faire rhizome</div>
               <Link
                 href="/groupes-locaux"
                 className="block pl-4 text-sm text-foreground hover:text-[#E73628] transition-colors font-medium"

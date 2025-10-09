@@ -89,7 +89,7 @@ export default function RootLayout({
           <Footer />
           <ScrollToTop />
         </Suspense>
-        <TargetCursor targetSelector=".cursor-target, a, button" spinDuration={2} hideDefaultCursor={true} />
+        <TargetCursor targetSelector=".cursor-target" spinDuration={2} hideDefaultCursor={true} />
       </body>
     </html>
   )

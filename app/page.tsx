@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { EventCard } from "@/components/event-card"
 import { ArticlesCarousel } from "@/components/articles-carousel"
-import { MiniEventTimeline } from "@/components/mini-event-timeline"
 import { LocalGroupCard } from "@/components/local-group-card"
 import { GoogleMap } from "@/components/google-map"
 import { getPosts, getEvents, getLocalGroups, getHomePageData } from "@/lib/wordpress"
@@ -86,29 +85,8 @@ async function UpcomingEvents() {
 
 async function ArticlesAndEvents({ acfData }: { acfData?: HomePageACF["section_actus_evenements"] }) {
   const { posts } = await getPosts({ per_page: 3, orderby: "date", order: "desc" })
-  const events = await getEvents()
 
-  const pastEvents = events
-    .filter((event) => {
-      if (!event.acf?.date) return false
-
-      const [day, month, year] = event.acf.date.split("/")
-      const eventDate = new Date(Number.parseInt(year), Number.parseInt(month) - 1, Number.parseInt(day))
-      const today = new Date()
-      today.setHours(0, 0, 0, 0)
-
-      return eventDate < today
-    })
-    .sort((a, b) => {
-      const [dayA, monthA, yearA] = a.acf.date.split("/")
-      const [dayB, monthB, yearB] = b.acf.date.split("/")
-      const dateA = new Date(Number.parseInt(yearA), Number.parseInt(monthA) - 1, Number.parseInt(dayA))
-      const dateB = new Date(Number.parseInt(yearB), Number.parseInt(monthB) - 1, Number.parseInt(dayB))
-      return dateB.getTime() - dateA.getTime()
-    })
-    .slice(0, 4)
-
-  if (posts.length === 0 && pastEvents.length === 0) {
+  if (posts.length === 0) {
     return null
   }
 
@@ -140,49 +118,39 @@ async function ArticlesAndEvents({ acfData }: { acfData?: HomePageACF["section_a
             </div>
           )}
 
-          {/* Right Column - Events Timeline */}
-          {pastEvents.length > 0 && (
-            <div>
-              <div className="mb-6 flex items-center justify-between">
-                <div>
-                  {acfData?.titre_evenements && (
-                    <h2 className="text-2xl md:text-3xl uppercase text-foreground mb-2">
-                      <Highlighter
-                        action="underline"
-                        color="#E73628"
-                        strokeWidth={3}
-                        animationDuration={600}
-                        iterations={1}
-                        isView={true}
-                      >
-                        {acfData.titre_evenements}
-                      </Highlighter>
-                    </h2>
-                  )}
-                  {acfData?.soustitre_evenements && (
-                    <p className="text-muted-foreground">{acfData.soustitre_evenements}</p>
-                  )}
-                </div>
-                <Button asChild variant="outline" size="sm">
-                  <Link href="/evenements">
-                    <Highlighter
-                      action="highlight"
-                      color="#B4D19F"
-                      strokeWidth={4}
-                      animationDuration={600}
-                      iterations={1}
-                      padding={12}
-                      isView={true}
-                    >
-                      Tous
-                    </Highlighter>
-                    <ArrowRight className="ml-2 h-3 w-3" />
-                  </Link>
-                </Button>
+          <div>
+            <div className="space-y-6">
+              {/* YouTube Video Embed */}
+              <div className="relative w-full aspect-video rounded-lg overflow-hidden shadow-lg border border-border">
+                <iframe
+                  src="https://www.youtube.com/embed/75DPKvfnGac"
+                  title="Les Doléances - Documentaire"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  className="absolute inset-0 w-full h-full"
+                />
               </div>
-              <MiniEventTimeline events={pastEvents} />
+
+              {/* Title and Subtitle */}
+              <div className="space-y-2">
+                <h2 className="text-2xl md:text-3xl uppercase text-foreground">
+                  <Highlighter
+                    action="underline"
+                    color="#E73628"
+                    strokeWidth={3}
+                    animationDuration={600}
+                    iterations={1}
+                    isView={true}
+                  >
+                    Les Doléances
+                  </Highlighter>
+                </h2>
+                <p className="text-muted-foreground text-lg">
+                  le documentaire de Hélène Desplanques, reconnu d'utilité publique en 2025
+                </p>
+              </div>
             </div>
-          )}
+          </div>
         </div>
       </div>
     </section>
@@ -410,7 +378,11 @@ export default async function HomePage() {
       {/* Horizontal Timeline Section */}
       {((acf?.historique?.liste_des_liens && acf.historique.liste_des_liens.length > 0) ||
         (acf?.groupe_de_liens?.liste_des_liens && acf.groupe_de_liens.liste_des_liens.length > 0)) && (
-        <HorizontalTimeline links={acf?.historique?.liste_des_liens || acf?.groupe_de_liens?.liste_des_liens || []} />
+        <HorizontalTimeline
+          links={acf?.historique?.liste_des_liens || acf?.groupe_de_liens?.liste_des_liens || []}
+          title={acf?.historique?.titre}
+          subtitle={acf?.historique?.["sous-titre"]}
+        />
       )}
 
       {/* Call to Action Section */}
