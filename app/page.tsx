@@ -1,3 +1,5 @@
+"use client"
+
 import { Suspense } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -13,6 +15,8 @@ import Image from "next/image"
 import { Highlighter } from "@/components/ui/highlighter"
 import { LatestNews } from "@/components/latest-news"
 import { HorizontalTimeline } from "@/components/horizontal-timeline"
+import { VerticalTimeline } from "@/components/vertical-timeline"
+import { motion } from "framer-motion"
 
 async function UpcomingEvents() {
   const events = await getEvents()
@@ -279,6 +283,60 @@ export default async function HomePage() {
       {/* Hero Section */}
       {acf?.section_hero && (
         <section className="relative py-20 lg:py-32 overflow-hidden bg-white">
+          <Image
+            src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%202-XT3JEJBM0RTr1nZ4p7W1zXmIKbvoE1.png"
+            alt=""
+            width={280}
+            height={280}
+            className="absolute left-1/3 top-8 -translate-x-1/2 z-0 opacity-80"
+          />
+
+          <motion.div
+            className="absolute top-4 right-8 z-10"
+            initial={{ scale: 0.05 }}
+            animate={{ scale: 1 }}
+            transition={{
+              type: "spring",
+              stiffness: 200,
+              damping: 15,
+              duration: 0.8,
+            }}
+          >
+            {acf.section_hero.cta_15?.url ? (
+              <Link
+                href={acf.section_hero.cta_15.url}
+                target={acf.section_hero.cta_15.target || "_self"}
+                className="group block"
+              >
+                <div className="relative">
+                  <div className="bg-[#E73628] text-white px-6 py-4 rounded-lg shadow-xl transform rotate-3 group-hover:rotate-6 transition-transform duration-300 border-4 border-white">
+                    <div className="text-center">
+                      <div className="text-xs font-bold uppercase tracking-wider mb-1">Appel du</div>
+                      <div className="text-2xl font-black">15 octobre</div>
+                      <div className="text-xl font-bold mb-2">2025</div>
+                      <div className="flex items-center justify-center gap-1 text-xs font-bold uppercase tracking-wide border-t border-white/30 pt-2 mt-2">
+                        <span>Lire l'appel</span>
+                        <ArrowRight className="h-3 w-3 group-hover:translate-x-1 transition-transform" />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="absolute inset-0 bg-[#E73628]/20 rounded-lg transform rotate-3 -z-10 blur-sm" />
+                </div>
+              </Link>
+            ) : (
+              <div className="relative">
+                <div className="bg-[#E73628] text-white px-6 py-4 rounded-lg shadow-xl transform rotate-3 border-4 border-white">
+                  <div className="text-center">
+                    <div className="text-xs font-bold uppercase tracking-wider mb-1">Appel du</div>
+                    <div className="text-2xl font-black">15 octobre</div>
+                    <div className="text-xl font-bold">2025</div>
+                  </div>
+                </div>
+                <div className="absolute inset-0 bg-[#E73628]/20 rounded-lg transform rotate-3 -z-10 blur-sm" />
+              </div>
+            )}
+          </motion.div>
+
           <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center space-y-8">
               <div className="space-y-4">
@@ -480,10 +538,6 @@ export default async function HomePage() {
         <MapAndEventsSection acfData={acf?.section_groupes_evenements} />
       </Suspense>
 
-      <Suspense fallback={null}>
-        <UpcomingEvents />
-      </Suspense>
-
       {/* Call to Action Section */}
       {acf?.section_manifeste && (
         <section className="py-16 lg:py-24 bg-white">
@@ -510,9 +564,7 @@ export default async function HomePage() {
                 <div
                   className="leading-relaxed prose prose-invert max-w-none"
                   dangerouslySetInnerHTML={{
-                    __html: acf.section_manifeste.texte
-                      .replace(/\$\{/g, "&#36;{") // Escape template literal syntax
-                      .replace(/\}\}/g, "&#125;}"), // Escape double closing braces
+                    __html: acf.section_manifeste.texte.replace(/\$\{/g, "&#36;{").replace(/\}\}/g, "&#125;}"),
                   }}
                 />
               )}
@@ -570,6 +622,19 @@ export default async function HomePage() {
           </div>
         </section>
       )}
+
+      {/* EGC Timeline Section */}
+      {acf?.historique_egc?.liste_des_liens && acf.historique_egc.liste_des_liens.length > 0 && (
+        <VerticalTimeline
+          links={acf.historique_egc.liste_des_liens}
+          title={acf.historique_egc.titre}
+          subtitle={acf.historique_egc["sous-titre"]}
+        />
+      )}
+
+      <Suspense fallback={null}>
+        <UpcomingEvents />
+      </Suspense>
     </div>
   )
 }

@@ -1,6 +1,5 @@
 @import "tailwindcss";
 @import "tw-animate-css";
-@custom-variant dark (&:is(.dark *));
 
 :root {
   /* Updated color scheme based on Proposition n°2 brand guidelines */

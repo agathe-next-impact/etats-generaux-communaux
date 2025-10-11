@@ -101,6 +101,19 @@ export interface WordPressLocalGroup {
       slug: string
     }>
   }
+  acf?: {
+    nom_de_groupe: string
+    localisation: {
+      address: string
+      lat: number
+      lng: number
+    }
+    descriptif: string
+    nom_de_contact: string
+    email_de_contact: string
+    telephone_de_contact: string
+    site_web: string
+  }
 }
 
 export interface WordPressEvent {
@@ -137,6 +150,17 @@ export interface WordPressEvent {
       slug: string
     }>
   }
+  acf?: {
+    description: string
+    lien_vers_levenement_en_ligne?: string
+    date: string
+    heure: string
+    lieu: {
+      address: string
+      lat: number
+      lng: number
+    }
+  }
 }
 
 export interface WordPressTaxonomy {
@@ -167,6 +191,11 @@ export interface HomePageACF {
         target: string
       }
     }
+    cta_15?: {
+      url: string
+      title: string
+      target: string
+    }
     image?: {
       url: string
       alt: string
@@ -192,6 +221,25 @@ export interface HomePageACF {
     }>
   }
   historique?: {
+    titre?: string
+    "sous-titre"?: string
+    liste_des_liens?: Array<{
+      libelle?: string
+      lien?: {
+        url: string
+        title: string
+        target: string
+      }
+      texte?: string
+      icone?: {
+        url: string
+        alt: string
+        width: number
+        height: number
+      }
+    }>
+  }
+  historique_egc?: {
     titre?: string
     "sous-titre"?: string
     liste_des_liens?: Array<{

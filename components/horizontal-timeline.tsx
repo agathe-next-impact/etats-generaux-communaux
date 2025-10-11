@@ -201,13 +201,33 @@ export function HorizontalTimeline({ links, title, subtitle }: HorizontalTimelin
                   >
                     <div className="relative z-10 w-16 h-16 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg cursor-pointer bg-white overflow-hidden">
                       {link.icone?.url ? (
-                        <Image
-                          src={link.icone.url || "/placeholder.svg"}
-                          alt={link.icone.alt || link.libelle || "Timeline icon"}
-                          width={64}
-                          height={64}
-                          className="w-full h-full object-cover"
-                        />
+                        index === links.length - 1 ? (
+                          <motion.div
+                            animate={{ rotate: 360 }}
+                            transition={{
+                              duration: 3,
+                              repeat: Number.POSITIVE_INFINITY,
+                              ease: "linear",
+                            }}
+                            className="w-full h-full"
+                          >
+                            <Image
+                              src={link.icone.url || "/placeholder.svg"}
+                              alt={link.icone.alt || link.libelle || "Timeline icon"}
+                              width={64}
+                              height={64}
+                              className="w-full h-full object-cover"
+                            />
+                          </motion.div>
+                        ) : (
+                          <Image
+                            src={link.icone.url || "/placeholder.svg"}
+                            alt={link.icone.alt || link.libelle || "Timeline icon"}
+                            width={64}
+                            height={64}
+                            className="w-full h-full object-cover"
+                          />
+                        )
                       ) : (
                         <div className="w-full h-full bg-muted flex items-center justify-center">
                           <span className="text-xs text-muted-foreground">?</span>
