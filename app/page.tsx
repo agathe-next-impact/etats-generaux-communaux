@@ -402,12 +402,7 @@ export default async function HomePage() {
                     </Button>
                   )}
                   {acf.section_hero.cta_de_droite?.libelle_de_droite && (
-                    <Button
-                      asChild
-                      variant="outline"
-                      size="lg"
-                      className="border-foreground/20 hover:bg-foreground/5 bg-transparent"
-                    >
+                    <Button asChild variant="outline" size="lg" className="border-foreground/20 bg-transparent">
                       <Link
                         href={acf.section_hero.cta_de_droite.lien_de_droite?.url || "#"}
                         target={acf.section_hero.cta_de_droite.lien_de_droite?.target || "_self"}
@@ -592,12 +587,7 @@ export default async function HomePage() {
                     </Button>
                   )}
                   {acf.section_manifeste.cta_de_droite?.libelle_de_droite && (
-                    <Button
-                      asChild
-                      variant="outline"
-                      size="lg"
-                      className="border-white text-black hover:bg-white/10 bg-transparent"
-                    >
+                    <Button asChild variant="outline" size="lg" className="border-white text-black bg-transparent">
                       <Link
                         href={acf.section_manifeste.cta_de_droite.lien_de_droite?.url || "#"}
                         target={acf.section_manifeste.cta_de_droite.lien_de_droite?.target || "_self"}
