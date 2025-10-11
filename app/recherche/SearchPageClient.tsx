@@ -103,8 +103,28 @@ function SearchPageContent() {
   return (
     <div className="min-h-screen bg-background pt-32">
       {/* Hero Section with Search */}
-      <section className="py-12 lg:py-16 bg-white border-b">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-12 lg:py-16 bg-white border-b relative overflow-hidden">
+        <img
+          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%201-YFeeOd4CBQ2S2bGA4pPLgNc6hMYIPd.png"
+          alt=""
+          className="absolute left-[5%] top-[10%] w-16 h-16 opacity-20 rotate-12 pointer-events-none"
+        />
+        <img
+          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%202-XT3JEJBM0RTr1nZ4p7W1zXmIKbvoE1.png"
+          alt=""
+          className="absolute right-[8%] top-[15%] w-20 h-20 opacity-15 -rotate-6 pointer-events-none"
+        />
+        <img
+          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%203-iph3iRcbh4GzoswUQo87W7giQs9vrW.png"
+          alt=""
+          className="absolute left-[15%] bottom-[10%] w-12 h-12 opacity-25 rotate-45 pointer-events-none"
+        />
+        <img
+          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%204-ac6W7GEoGBcgE6fyqHJLr2EBOsnw7u.png"
+          alt=""
+          className="absolute right-[12%] bottom-[15%] w-16 h-16 opacity-20 -rotate-12 pointer-events-none"
+        />
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center mb-8">
             <h1 className="text-4xl md:text-5xl font-black uppercase text-foreground mb-4 font-[family-name:var(--font-raleway)]">
               <Highlighter
@@ -118,7 +138,6 @@ function SearchPageContent() {
                 Recherche
               </Highlighter>
             </h1>
-            {/* </CHANGE> */}
             <p className="text-lg text-muted-foreground">
               Trouvez des articles, événements et ressources sur l'engagement citoyen
             </p>
@@ -135,7 +154,6 @@ function SearchPageContent() {
                   placeholder="Rechercher..."
                   className="pl-12 h-14 text-lg border-2 border-[#E73628] focus-visible:ring-[#E73628]"
                 />
-                {/* </CHANGE> */}
               </div>
               <Highlighter
                 action="highlight"
@@ -150,7 +168,6 @@ function SearchPageContent() {
                   Rechercher
                 </Button>
               </Highlighter>
-              {/* </CHANGE> */}
             </div>
           </form>
 
@@ -191,13 +208,25 @@ function SearchPageContent() {
                     filteredResults.map((result) => (
                       <Card
                         key={`${result.type}-${result.id}`}
-                        className="hover:shadow-lg transition-shadow border-2"
+                        className="hover:shadow-lg transition-shadow border-2 relative overflow-visible"
                         style={{
                           borderColor:
                             result.type === "article" ? "#E73628" : result.type === "event" ? "#F4E63C" : "#4AAD33",
                         }}
                       >
-                        {/* </CHANGE> */}
+                        <img
+                          src={
+                            [
+                              "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%201-YFeeOd4CBQ2S2bGA4pPLgNc6hMYIPd.png",
+                              "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%202-XT3JEJBM0RTr1nZ4p7W1zXmIKbvoE1.png",
+                              "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%203-iph3iRcbh4GzoswUQo87W7giQs9vrW.png",
+                              "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%204-ac6W7GEoGBcgE6fyqHJLr2EBOsnw7u.png",
+                              "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%205-1otn1kQK9Cg25uM98EKKPTXzxXhRq2.png",
+                            ][result.id % 5] || "/placeholder.svg"
+                          }
+                          alt=""
+                          className="absolute -top-6 -right-6 w-12 h-12 z-10 pointer-events-none"
+                        />
                         <CardContent className="p-6">
                           <Link href={result.url} className="group block">
                             <div className="flex items-start gap-4">
@@ -226,7 +255,6 @@ function SearchPageContent() {
                                       >
                                         {getResultTypeLabel(result)}
                                       </Badge>
-                                      {/* </CHANGE> */}
                                       {result.category && (
                                         <Badge variant="secondary" className="text-xs">
                                           {result.category}
@@ -236,7 +264,6 @@ function SearchPageContent() {
                                     <h3 className="text-xl font-black text-foreground group-hover:text-[#E73628] transition-colors mb-2 font-[family-name:var(--font-raleway)] uppercase">
                                       {result.title}
                                     </h3>
-                                    {/* </CHANGE> */}
                                   </div>
                                   <ArrowRight className="h-5 w-5 text-muted-foreground group-hover:text-[#E73628] group-hover:translate-x-1 transition-all flex-shrink-0" />
                                 </div>

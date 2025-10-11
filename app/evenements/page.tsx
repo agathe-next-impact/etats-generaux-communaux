@@ -6,6 +6,7 @@ import { getEvents, type WordPressEvent } from "@/lib/wordpress"
 import { EventFilters } from "@/components/event-filters"
 import { EventTimeline } from "@/components/event-timeline"
 import { Highlighter } from "@/components/ui/highlighter"
+import Image from "next/image"
 
 export default function EventsPage() {
   const [events, setEvents] = useState<WordPressEvent[]>([])
@@ -109,9 +110,64 @@ export default function EventsPage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 pt-[150px]">
+    <div className="container mx-auto px-4 py-8 pt-[150px] relative">
+      {/* Background decorative pictos */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden -z-10">
+        <Image
+          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%201-YFeeOd4CBQ2S2bGA4pPLgNc6hMYIPd.png"
+          alt=""
+          width={120}
+          height={120}
+          className="absolute top-[5%] left-[8%] opacity-20 rotate-12"
+        />
+        <Image
+          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%205-1otn1kQK9Cg25uM98EKKPTXzxXhRq2.png"
+          alt=""
+          width={100}
+          height={100}
+          className="absolute top-[15%] right-[10%] opacity-15 -rotate-6"
+        />
+        <Image
+          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%207-ortOMnxOuv7texPH3RxLJTGkLhXhuQ.png"
+          alt=""
+          width={80}
+          height={80}
+          className="absolute top-[40%] left-[5%] opacity-25 rotate-45"
+        />
+        <Image
+          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%204-ac6W7GEoGBcgE6fyqHJLr2EBOsnw7u.png"
+          alt=""
+          width={140}
+          height={140}
+          className="absolute bottom-[20%] right-[8%] opacity-20 -rotate-12"
+        />
+        <Image
+          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%203-iph3iRcbh4GzoswUQo87W7giQs9vrW.png"
+          alt=""
+          width={90}
+          height={90}
+          className="absolute bottom-[10%] left-[12%] opacity-15 rotate-6"
+        />
+      </div>
+
       {/* Header */}
-      <div className="mb-8">
+      <div className="mb-8 relative">
+        {/* Small decorative pictos to header corners */}
+        <Image
+          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%205-1otn1kQK9Cg25uM98EKKPTXzxXhRq2.png"
+          alt=""
+          width={16}
+          height={16}
+          className="absolute -top-4 -right-4 opacity-60 rotate-12"
+        />
+        <Image
+          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%207-ortOMnxOuv7texPH3RxLJTGkLhXhuQ.png"
+          alt=""
+          width={16}
+          height={16}
+          className="absolute -top-4 -left-4 opacity-60 -rotate-12"
+        />
+
         <div className="flex items-center gap-3 mb-4">
           <Calendar className="h-8 w-8 text-[#E73628]" />
           <h1 className="text-3xl font-black uppercase font-[family-name:var(--font-raleway)]">

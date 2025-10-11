@@ -7,6 +7,7 @@ import { MapPin, Mail, Phone, Globe, Users } from "lucide-react"
 import Link from "next/link"
 import { GoogleMap } from "@/components/google-map"
 import { Highlighter } from "@/components/ui/highlighter"
+import Image from "next/image"
 
 export const metadata = {
   title: "Groupes Locaux | Magazine Collectif",
@@ -34,6 +35,14 @@ async function LocalGroupsMap() {
   }
 
   const borderColors = ["#E73628", "#F4E63C", "#4AAD33"]
+  const pictos = [
+    "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%201-YFeeOd4CBQ2S2bGA4pPLgNc6hMYIPd.png", // picto 1
+    "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%202-XT3JEJBM0RTr1nZ4p7W1zXmIKbvoE1.png", // picto 2
+    "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%203-iph3iRcbh4GzoswUQo87W7giQs9vrW.png", // picto 3
+    "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%204-ac6W7GEoGBcgE6fyqHJLr2EBOsnw7u.png", // picto 4
+    "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%205-1otn1kQK9Cg25uM98EKKPTXzxXhRq2.png", // picto 5
+    "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%207-ortOMnxOuv7texPH3RxLJTGkLhXhuQ.png", // picto 7
+  ]
 
   return (
     <div className="space-y-8">
@@ -47,9 +56,17 @@ async function LocalGroupsMap() {
         {groups.map((group, index) => (
           <Card
             key={group.id}
-            className="group hover:shadow-lg transition-all duration-300 border-4"
+            className="group hover:shadow-lg transition-all duration-300 border-4 overflow-visible relative"
             style={{ borderColor: borderColors[index % borderColors.length] }}
           >
+            <Image
+              src={pictos[index % pictos.length] || "/placeholder.svg"}
+              alt=""
+              width={20}
+              height={20}
+              className="absolute top-0 left-0 -translate-x-1/2 -translate-y-1/2 z-30 pointer-events-none"
+            />
+
             <CardHeader>
               <div className="flex items-start justify-between">
                 <div className="space-y-2">
@@ -74,6 +91,7 @@ async function LocalGroupsMap() {
                 </Badge>
               </div>
             </CardHeader>
+
             <CardContent className="space-y-4">
               <p className="text-sm text-muted-foreground line-clamp-3">
                 {group.acf?.descriptif || "Description du groupe local"}
@@ -156,11 +174,49 @@ async function LocalGroupsMap() {
 }
 
 export default function LocalGroupsPage() {
+  const pictos = [
+    "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%201-YFeeOd4CBQ2S2bGA4pPLgNc6hMYIPd.png", // picto 1
+    "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%202-XT3JEJBM0RTr1nZ4p7W1zXmIKbvoE1.png", // picto 2
+    "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%203-iph3iRcbh4GzoswUQo87W7giQs9vrW.png", // picto 3
+    "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%204-ac6W7GEoGBcgE6fyqHJLr2EBOsnw7u.png", // picto 4
+    "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%205-1otn1kQK9Cg25uM98EKKPTXzxXhRq2.png", // picto 5
+    "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%207-ortOMnxOuv7texPH3RxLJTGkLhXhuQ.png", // picto 7
+  ]
+
   return (
     <div className="min-h-screen pt-32 pb-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="text-center space-y-4 mb-12">
+        <div className="text-center space-y-4 mb-12 relative">
+          <Image
+            src={pictos[0] || "/placeholder.svg"}
+            alt=""
+            width={80}
+            height={80}
+            className="absolute left-[5%] top-[10%] opacity-20 -rotate-12 pointer-events-none"
+          />
+          <Image
+            src={pictos[1] || "/placeholder.svg"}
+            alt=""
+            width={60}
+            height={60}
+            className="absolute right-[8%] top-[5%] opacity-15 rotate-6 pointer-events-none"
+          />
+          <Image
+            src={pictos[2] || "/placeholder.svg"}
+            alt=""
+            width={70}
+            height={70}
+            className="absolute left-[15%] bottom-[10%] opacity-10 rotate-12 pointer-events-none"
+          />
+          <Image
+            src={pictos[4] || "/placeholder.svg"}
+            alt=""
+            width={50}
+            height={50}
+            className="absolute right-[12%] bottom-[15%] opacity-20 -rotate-6 pointer-events-none"
+          />
+
           <h1 className="text-4xl md:text-5xl font-black uppercase" style={{ fontFamily: "Raleway, sans-serif" }}>
             <Highlighter
               action="underline"

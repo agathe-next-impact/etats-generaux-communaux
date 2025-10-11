@@ -2,6 +2,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { MapPin } from "lucide-react"
 import Link from "next/link"
 import type { WordPressLocalGroup } from "@/lib/wordpress"
+import Image from "next/image"
 
 interface LocalGroupCardProps {
   group: WordPressLocalGroup & {
@@ -44,9 +45,28 @@ export function LocalGroupCard({ group, index }: LocalGroupCardProps) {
   const city = getCity(group.acf?.localisation?.address)
   const description = group.acf?.descriptif || group.content.rendered.replace(/<[^>]*>/g, "").substring(0, 100)
 
+  const pictos = [
+    "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%201-YFeeOd4CBQ2S2bGA4pPLgNc6hMYIPd.png", // picto 1
+    "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%202-XT3JEJBM0RTr1nZ4p7W1zXmIKbvoE1.png", // picto 2
+    "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%203-iph3iRcbh4GzoswUQo87W7giQs9vrW.png", // picto 3
+    "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%204-ac6W7GEoGBcgE6fyqHJLr2EBOsnw7u.png", // picto 4
+    "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%205-1otn1kQK9Cg25uM98EKKPTXzxXhRq2.png", // picto 5
+    "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%207-ortOMnxOuv7texPH3RxLJTGkLhXhuQ.png", // picto 7
+  ]
+
   return (
     <Link href="/groupes-locaux" className="block group">
-      <Card className={`border-l-4 ${borderColor} hover:shadow-lg transition-shadow duration-300`}>
+      <Card
+        className={`border-l-4 ${borderColor} hover:shadow-lg transition-shadow duration-300 overflow-visible relative`}
+      >
+        <Image
+          src={pictos[index % pictos.length] || "/placeholder.svg"}
+          alt=""
+          width={48}
+          height={48}
+          className="absolute top-0 left-0 -translate-x-1/2 -translate-y-1/2 z-30 pointer-events-none"
+        />
+
         <CardContent className="p-4">
           <div className="flex items-start gap-3">
             <div className="flex-shrink-0 mt-1">

@@ -14,10 +14,28 @@ export function ArticleCard({ post, featured = false }: ArticleCardProps) {
   const categories = post._embedded?.["wp:term"]?.[0] || []
   const author = post._embedded?.author?.[0]
 
+  const pictos = [
+    "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%201-YFeeOd4CBQ2S2bGA4pPLgNc6hMYIPd.png", // picto 1
+    "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%202-XT3JEJBM0RTr1nZ4p7W1zXmIKbvoE1.png", // picto 2
+    "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%203-iph3iRcbh4GzoswUQo87W7giQs9vrW.png", // picto 3
+    "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%204-ac6W7GEoGBcgE6fyqHJLr2EBOsnw7u.png", // picto 4
+    "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%205-1otn1kQK9Cg25uM98EKKPTXzxXhRq2.png", // picto 5
+    "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%207-ortOMnxOuv7texPH3RxLJTGkLhXhuQ.png", // picto 7
+  ]
+  const pictoUrl = pictos[post.id % pictos.length]
+
   return (
     <Card
-      className={`group overflow-hidden hover:shadow-lg transition-all duration-300 border-2 border-[#E73628] ${featured ? "md:col-span-2 md:row-span-2" : ""}`}
+      className={`group overflow-visible relative hover:shadow-lg transition-all duration-300 border-2 border-[#E73628] ${featured ? "md:col-span-2 md:row-span-2" : ""}`}
     >
+      <Image
+        src={pictoUrl || "/placeholder.svg"}
+        alt=""
+        width={featured ? 40 : 32}
+        height={featured ? 40 : 32}
+        className="absolute top-0 left-0 -translate-x-1/2 -translate-y-1/2 z-30 pointer-events-none"
+      />
+
       <Link href={`/blog/${post.slug}`}>
         <div className={`relative ${featured ? "h-64 md:h-80" : "h-48"} overflow-hidden`}>
           {featuredImage ? (

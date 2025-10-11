@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import type { WordPressEvent } from "@/lib/wordpress"
+import Image from "next/image"
 
 interface EventCardProps {
   event: WordPressEvent
@@ -45,8 +46,27 @@ export function EventCard({ event }: EventCardProps) {
 
   const eventType = getEventTypeFromCategories()
 
+  const pictos = [
+    "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%201-YFeeOd4CBQ2S2bGA4pPLgNc6hMYIPd.png",
+    "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%202-XT3JEJBM0RTr1nZ4p7W1zXmIKbvoE1.png",
+    "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%203-iph3iRcbh4GzoswUQo87W7giQs9vrW.png",
+    "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%204-ac6W7GEoGBcgE6fyqHJLr2EBOsnw7u.png",
+    "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%205-1otn1kQK9Cg25uM98EKKPTXzxXhRq2.png",
+    "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%207-ortOMnxOuv7texPH3RxLJTGkLhXhuQ.png",
+  ]
+  const pictoIndex = event.id % pictos.length
+  const pictoUrl = pictos[pictoIndex]
+
   return (
-    <Card className="w-full hover:shadow-lg transition-shadow border-2 border-[#E73628]">
+    <Card className="w-full hover:shadow-lg transition-shadow border-2 border-[#E73628] relative overflow-visible">
+      <Image
+        src={pictoUrl || "/placeholder.svg"}
+        alt=""
+        width={12}
+        height={12}
+        className="absolute -top-3 -right-3 z-10 opacity-80"
+      />
+
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between gap-4">
           <div className="flex-1">

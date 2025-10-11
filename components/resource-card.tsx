@@ -6,10 +6,20 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import type { WordPressResource } from "@/lib/wordpress"
 import { Download, Play, FileText, ExternalLink, Eye, Video } from "lucide-react"
+import Image from "next/image"
 
 interface ResourceCardProps {
   resource: WordPressResource
 }
+
+const pictos = [
+  "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%201-YFeeOd4CBQ2S2bGA4pPLgNc6hMYIPd.png",
+  "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%202-XT3JEJBM0RTr1nZ4p7W1zXmIKbvoE1.png",
+  "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%203-iph3iRcbh4GzoswUQo87W7giQs9vrW.png",
+  "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%204-ac6W7GEoGBcgE6fyqHJLr2EBOsnw7u.png",
+  "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%205-1otn1kQK9Cg25uM98EKKPTXzxXhRq2.png",
+  "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%207-ortOMnxOuv7texPH3RxLJTGkLhXhuQ.png",
+]
 
 export function ResourceCard({ resource }: ResourceCardProps) {
   const description = resource.acf?.descriptif || "Aucune description disponible"
@@ -89,8 +99,18 @@ export function ResourceCard({ resource }: ResourceCardProps) {
     return <Eye className="h-4 w-4 mr-2" />
   }
 
+  const pictoUrl = pictos[resource.id % pictos.length]
+
   return (
-    <Card className="group hover:shadow-lg transition-all duration-300 h-full border-2 border-[#E73628]">
+    <Card className="group hover:shadow-lg transition-all duration-300 h-full border-2 border-[#E73628] relative overflow-visible">
+      <Image
+        src={pictoUrl || "/placeholder.svg"}
+        alt=""
+        width={48}
+        height={48}
+        className="absolute -top-6 -right-6 opacity-60 pointer-events-none z-10 group-hover:scale-110 group-hover:rotate-12 transition-transform"
+      />
+
       <CardContent className="p-6 h-full flex flex-col">
         <div className="flex items-start gap-4 mb-4">
           <div

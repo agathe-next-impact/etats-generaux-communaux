@@ -36,12 +36,49 @@ export default async function AboutPage() {
   }
 
   const colors = ["#E73628", "#F4E63C", "#4AAD33"]
+  const pictos = [
+    "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%201-YFeeOd4CBQ2S2bGA4pPLgNc6hMYIPd.png", // picto 1
+    "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%202-XT3JEJBM0RTr1nZ4p7W1zXmIKbvoE1.png", // picto 2
+    "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%203-iph3iRcbh4GzoswUQo87W7giQs9vrW.png", // picto 3
+    "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%204-ac6W7GEoGBcgE6fyqHJLr2EBOsnw7u.png", // picto 4
+    "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%205-1otn1kQK9Cg25uM98EKKPTXzxXhRq2.png", // picto 5
+    "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%207-ortOMnxOuv7texPH3RxLJTGkLhXhuQ.png", // picto 7
+  ]
 
   return (
     <div className="min-h-screen pt-[150px]">
       {/* Hero Section */}
-      <section className="py-16 lg:py-24 bg-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <section className="py-16 lg:py-24 bg-white relative overflow-hidden">
+        <Image
+          src={pictos[1] || "/placeholder.svg"}
+          alt=""
+          width={120}
+          height={120}
+          className="absolute left-[5%] top-[10%] opacity-20 rotate-12 pointer-events-none"
+        />
+        <Image
+          src={pictos[4] || "/placeholder.svg"}
+          alt=""
+          width={100}
+          height={100}
+          className="absolute right-[8%] top-[15%] opacity-15 -rotate-6 pointer-events-none"
+        />
+        <Image
+          src={pictos[2] || "/placeholder.svg"}
+          alt=""
+          width={80}
+          height={80}
+          className="absolute left-[10%] bottom-[20%] opacity-25 rotate-45 pointer-events-none"
+        />
+        <Image
+          src={pictos[3] || "/placeholder.svg"}
+          alt=""
+          width={90}
+          height={90}
+          className="absolute right-[12%] bottom-[10%] opacity-20 -rotate-12 pointer-events-none"
+        />
+
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
           <div className="space-y-8">
             <div className="space-y-4">
               {acf.titre_principal && (
@@ -106,9 +143,16 @@ export default async function AboutPage() {
               {acf.fondateurs.map((fondateur, index) => (
                 <Card
                   key={index}
-                  className="text-center hover:shadow-lg transition-all duration-300 border-2"
+                  className="text-center hover:shadow-lg transition-all duration-300 border-2 relative overflow-visible"
                   style={{ borderColor: colors[index % colors.length] }}
                 >
+                  <Image
+                    src={pictos[index % pictos.length] || "/placeholder.svg"}
+                    alt=""
+                    width={32}
+                    height={32}
+                    className="absolute top-0 left-0 -translate-x-1/2 -translate-y-1/2 z-30 pointer-events-none"
+                  />
                   <CardContent className="p-6">
                     {fondateur.logo?.url ? (
                       <div className="w-24 h-24 mx-auto mb-4 relative">
@@ -169,9 +213,16 @@ export default async function AboutPage() {
               {acf.partenaires.map((partenaire, index) => (
                 <Card
                   key={index}
-                  className="text-center hover:shadow-lg transition-all duration-300 border-2"
+                  className="text-center hover:shadow-lg transition-all duration-300 border-2 relative overflow-visible"
                   style={{ borderColor: colors[index % colors.length] }}
                 >
+                  <Image
+                    src={pictos[(index + 3) % pictos.length] || "/placeholder.svg"}
+                    alt=""
+                    width={32}
+                    height={32}
+                    className="absolute top-0 left-0 -translate-x-1/2 -translate-y-1/2 z-30 pointer-events-none"
+                  />
                   <CardContent className="p-6">
                     {partenaire.logo?.url ? (
                       <div className="w-32 h-32 mx-auto mb-4 relative">

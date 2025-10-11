@@ -9,10 +9,10 @@ export default async function DoleancesPage() {
   console.log("[v0] Les Doléances page ACF data:", acf ? "loaded" : "not found")
 
   const icons = [
-    "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%202-GTeirEZCZvI67Ke1C2izBtH9COkEKd.png", // picto 2
-    "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%203-wKp6eBacwzvpayn3cHRheoohDr7ySL.png", // picto 3
-    "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%204-Uuj5KcGGEXhXdpNX9GaK9oSJZthC8G.png", // picto 4
-    "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%206-GMw1ewUd1JNSHzQ5n0bwAWyLt8lwRz.png", // picto 6
+    "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%202-XT3JEJBM0RTr1nZ4p7W1zXmIKbvoE1.png", // picto 2
+    "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%203-iph3iRcbh4GzoswUQo87W7giQs9vrW.png", // picto 3
+    "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%204-ac6W7GEoGBcgE6fyqHJLr2EBOsnw7u.png", // picto 4
+    "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%205-1otn1kQK9Cg25uM98EKKPTXzxXhRq2.png", // picto 6 (using picto 5)
   ]
 
   // Function to get a random icon based on index for consistency
@@ -167,17 +167,17 @@ export default async function DoleancesPage() {
                       {/* Decorative icons overlapping bottom right border */}
                       <div className="absolute -bottom-8 -right-8 flex gap-2">
                         <img
-                          src="/images/design-mode/picto%201.png"
+                          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%201-YFeeOd4CBQ2S2bGA4pPLgNc6hMYIPd.png"
                           alt=""
                           className="w-16 h-16 object-contain"
                         />
                         <img
-                          src="/images/design-mode/picto%205.png"
+                          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%205-1otn1kQK9Cg25uM98EKKPTXzxXhRq2.png"
                           alt=""
                           className="w-16 h-16 object-contain"
                         />
                         <img
-                          src="/images/design-mode/picto%207.png"
+                          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%207-ortOMnxOuv7texPH3RxLJTGkLhXhuQ.png"
                           alt=""
                           className="w-16 h-16 object-contain"
                         />

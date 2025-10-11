@@ -73,7 +73,15 @@ export function ParticiperForm({ emailDestination }: ParticiperFormProps) {
   }
 
   return (
-    <Card className="border-4 border-[#E73628]">
+    <Card className="border-4 border-[#E73628] relative overflow-visible">
+      <div className="absolute -top-6 -right-6 z-10">
+        <img
+          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%201-YFeeOd4CBQ2S2bGA4pPLgNc6hMYIPd.png"
+          alt=""
+          className="w-12 h-12 object-contain"
+        />
+      </div>
+
       <CardHeader>
         <CardTitle className="text-2xl font-black uppercase font-[family-name:var(--font-raleway)]">
           Formulaire de contact

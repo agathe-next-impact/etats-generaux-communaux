@@ -6,6 +6,7 @@ import { ResourceFilters } from "@/components/resource-filters"
 import { Card, CardContent } from "@/components/ui/card"
 import { getResources, type WordPressResource } from "@/lib/wordpress"
 import { Highlighter } from "@/components/ui/highlighter"
+import Image from "next/image"
 
 export default function ResourcesPage() {
   const [resources, setResources] = useState<WordPressResource[]>([])
@@ -129,10 +130,61 @@ export default function ResourcesPage() {
   }
 
   return (
-    <div className="min-h-screen py-12 pt-[150px]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen py-12 pt-[150px] relative overflow-hidden">
+      <Image
+        src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%201-YFeeOd4CBQ2S2bGA4pPLgNc6hMYIPd.png"
+        alt=""
+        width={120}
+        height={120}
+        className="absolute top-20 left-[5%] opacity-20 pointer-events-none -rotate-12"
+      />
+      <Image
+        src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%205-1otn1kQK9Cg25uM98EKKPTXzxXhRq2.png"
+        alt=""
+        width={100}
+        height={100}
+        className="absolute top-[30%] right-[8%] opacity-15 pointer-events-none rotate-45"
+      />
+      <Image
+        src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%207-ortOMnxOuv7texPH3RxLJTGkLhXhuQ.png"
+        alt=""
+        width={80}
+        height={80}
+        className="absolute bottom-[20%] left-[10%] opacity-20 pointer-events-none rotate-12"
+      />
+      <Image
+        src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%204-ac6W7GEoGBcgE6fyqHJLr2EBOsnw7u.png"
+        alt=""
+        width={140}
+        height={140}
+        className="absolute bottom-[10%] right-[5%] opacity-15 pointer-events-none -rotate-6"
+      />
+      <Image
+        src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%203-iph3iRcbh4GzoswUQo87W7giQs9vrW.png"
+        alt=""
+        width={90}
+        height={90}
+        className="absolute top-[50%] left-[3%] opacity-10 pointer-events-none rotate-[25deg]"
+      />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}
-        <div className="text-center mb-12">
+        <div className="text-center mb-12 relative">
+          <Image
+            src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%202-XT3JEJBM0RTr1nZ4p7W1zXmIKbvoE1.png"
+            alt=""
+            width={60}
+            height={60}
+            className="absolute -top-8 -left-4 opacity-30 pointer-events-none rotate-12"
+          />
+          <Image
+            src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%207-ortOMnxOuv7texPH3RxLJTGkLhXhuQ.png"
+            alt=""
+            width={50}
+            height={50}
+            className="absolute -top-6 -right-6 opacity-25 pointer-events-none -rotate-12"
+          />
+
           <h1 className="text-4xl md:text-5xl uppercase font-black text-foreground mb-4">
             <Highlighter
               action="underline"

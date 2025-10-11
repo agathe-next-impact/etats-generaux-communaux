@@ -150,10 +150,31 @@ export default async function LesEGCPage() {
   const { acf } = pageData
   const colors = ["#E73628", "#F4E63C", "#4AAD33"]
 
+  const pictos = {
+    picto1: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%201-YFeeOd4CBQ2S2bGA4pPLgNc6hMYIPd.png",
+    picto2: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%202-XT3JEJBM0RTr1nZ4p7W1zXmIKbvoE1.png",
+    picto3: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%203-iph3iRcbh4GzoswUQo87W7giQs9vrW.png",
+    picto4: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%204-ac6W7GEoGBcgE6fyqHJLr2EBOsnw7u.png",
+    picto5: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%205-1otn1kQK9Cg25uM98EKKPTXzxXhRq2.png",
+    picto6: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%205-1otn1kQK9Cg25uM98EKKPTXzxXhRq2.png", // Using picto5 as picto6 wasn't provided
+    picto7: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%207-ortOMnxOuv7texPH3RxLJTGkLhXhuQ.png",
+  }
+
   return (
     <div className="min-h-screen pt-[150px]">
       {/* Hero Section */}
       <section className="relative py-20 lg:py-32 overflow-hidden bg-white">
+        <img
+          src={pictos.picto2 || "/placeholder.svg"}
+          alt=""
+          className="absolute top-[10%] left-[5%] w-32 h-32 object-contain opacity-20 pointer-events-none"
+        />
+        <img
+          src={pictos.picto7 || "/placeholder.svg"}
+          alt=""
+          className="absolute top-[20%] right-[8%] w-24 h-24 object-contain opacity-20 pointer-events-none"
+        />
+
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center space-y-8">
             <div className="space-y-4">
@@ -223,8 +244,6 @@ export default async function LesEGCPage() {
                   acf.what_section?.image?.url ||
                   "/placeholder.svg?height=400&width=600&query=assemblée citoyenne village français démocratie participative" ||
                   "/placeholder.svg" ||
-                  "/placeholder.svg" ||
-                  "/placeholder.svg" ||
                   "/placeholder.svg"
                 }
                 alt={acf.what_section?.image?.alt || "Assemblée citoyenne"}
@@ -246,8 +265,6 @@ export default async function LesEGCPage() {
                 src={
                   acf.who_section?.image?.url ||
                   "/placeholder.svg?height=400&width=600&query=citoyens français engagement collectif associations" ||
-                  "/placeholder.svg" ||
-                  "/placeholder.svg" ||
                   "/placeholder.svg" ||
                   "/placeholder.svg"
                 }
@@ -299,7 +316,7 @@ export default async function LesEGCPage() {
             </p>
           </div>
 
-          <Card className="max-w-4xl mx-auto border-2" style={{ borderColor: "#E73628" }}>
+          <Card className="max-w-4xl mx-auto border-2 relative overflow-visible" style={{ borderColor: "#E73628" }}>
             <CardContent className="p-8">
               <div className="flex items-start gap-4 mb-6">
                 <Calendar className="h-8 w-8 flex-shrink-0 mt-1" style={{ color: "#E73628" }} />
@@ -316,6 +333,9 @@ export default async function LesEGCPage() {
                 <p className="text-foreground font-medium">{acf.context_section?.highlight || ""}</p>
               </div>
             </CardContent>
+            <div className="absolute -top-6 -right-6 z-10">
+              <img src={pictos.picto5 || "/placeholder.svg"} alt="" className="w-16 h-16 object-contain" />
+            </div>
           </Card>
         </div>
       </section>
@@ -341,10 +361,11 @@ export default async function LesEGCPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {(acf.why_commune_section?.cards || []).map((card, index) => {
               const IconComponent = getIconComponent(card.icon)
+              const cardPictos = [pictos.picto1, pictos.picto4, pictos.picto7]
               return (
                 <Card
                   key={index}
-                  className="text-center border-2"
+                  className="text-center border-2 relative overflow-visible"
                   style={{ borderColor: colors[index % colors.length] }}
                 >
                   <CardContent className="p-6">
@@ -355,6 +376,9 @@ export default async function LesEGCPage() {
                     <h3 className="text-xl font-black mb-3 uppercase">{card.title}</h3>
                     <p className="text-muted-foreground">{card.content}</p>
                   </CardContent>
+                  <div className="absolute -top-6 -right-6 z-10">
+                    <img src={cardPictos[index] || "/placeholder.svg"} alt="" className="w-12 h-12 object-contain" />
+                  </div>
                 </Card>
               )
             })}
@@ -401,8 +425,11 @@ export default async function LesEGCPage() {
                 )
               })}
 
-              <div className="p-6 rounded-lg" style={{ backgroundColor: "#4AAD3310" }}>
+              <div className="p-6 rounded-lg relative" style={{ backgroundColor: "#4AAD3310" }}>
                 <p className="text-foreground font-medium">{acf.how_to_act_section?.highlight || ""}</p>
+                <div className="absolute -bottom-4 -right-4">
+                  <img src={pictos.picto3 || "/placeholder.svg"} alt="" className="w-12 h-12 object-contain" />
+                </div>
               </div>
             </div>
 
@@ -411,8 +438,6 @@ export default async function LesEGCPage() {
                 src={
                   acf.how_to_act_section?.image?.url ||
                   "/placeholder.svg?height=400&width=600&query=assemblée citoyenne communale débat démocratique local" ||
-                  "/placeholder.svg" ||
-                  "/placeholder.svg" ||
                   "/placeholder.svg" ||
                   "/placeholder.svg"
                 }
@@ -445,7 +470,7 @@ export default async function LesEGCPage() {
             <p className="text-lg text-muted-foreground">{acf.doleances_section?.subtitle || "Un trésor national"}</p>
           </div>
 
-          <Card className="max-w-4xl mx-auto border-2" style={{ borderColor: "#F4E63C" }}>
+          <Card className="max-w-4xl mx-auto border-2 relative overflow-visible" style={{ borderColor: "#F4E63C" }}>
             <CardContent className="p-8">
               <div className="space-y-6">
                 <div className="text-lg text-muted-foreground leading-relaxed">
@@ -456,6 +481,11 @@ export default async function LesEGCPage() {
                 </div>
               </div>
             </CardContent>
+            <div className="absolute -bottom-8 -right-8 flex gap-2">
+              <img src={pictos.picto1 || "/placeholder.svg"} alt="" className="w-16 h-16 object-contain" />
+              <img src={pictos.picto5 || "/placeholder.svg"} alt="" className="w-16 h-16 object-contain" />
+              <img src={pictos.picto7 || "/placeholder.svg"} alt="" className="w-16 h-16 object-contain" />
+            </div>
           </Card>
         </div>
       </section>
@@ -481,10 +511,11 @@ export default async function LesEGCPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {(acf.who_can_organize_section?.actor_cards || []).map((card, index) => {
               const IconComponent = getIconComponent(card.icon)
+              const cardPictos = [pictos.picto2, pictos.picto4, pictos.picto6, pictos.picto3]
               return (
                 <Card
                   key={index}
-                  className="text-center border-2"
+                  className="text-center border-2 relative overflow-visible"
                   style={{ borderColor: colors[index % colors.length] }}
                 >
                   <CardContent className="p-6">
@@ -495,12 +526,18 @@ export default async function LesEGCPage() {
                     <h3 className="font-black mb-2 uppercase">{card.title}</h3>
                     <p className="text-sm text-muted-foreground">{card.description}</p>
                   </CardContent>
+                  <div className="absolute -top-6 -right-6 z-10">
+                    <img src={cardPictos[index] || "/placeholder.svg"} alt="" className="w-12 h-12 object-contain" />
+                  </div>
                 </Card>
               )
             })}
           </div>
 
-          <Card className="mt-12 max-w-4xl mx-auto border-2" style={{ borderColor: "#4AAD33" }}>
+          <Card
+            className="mt-12 max-w-4xl mx-auto border-2 relative overflow-visible"
+            style={{ borderColor: "#4AAD33" }}
+          >
             <CardContent className="p-8">
               <div className="text-center">
                 <h3 className="text-xl font-black mb-4 uppercase">
@@ -511,6 +548,9 @@ export default async function LesEGCPage() {
                 </p>
               </div>
             </CardContent>
+            <div className="absolute -top-6 -right-6 z-10">
+              <img src={pictos.picto7 || "/placeholder.svg"} alt="" className="w-16 h-16 object-contain" />
+            </div>
           </Card>
         </div>
       </section>
@@ -534,7 +574,7 @@ export default async function LesEGCPage() {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <Card className="border-2" style={{ borderColor: "#4AAD33" }}>
+            <Card className="border-2 relative overflow-visible" style={{ borderColor: "#4AAD33" }}>
               <CardContent className="p-8">
                 <div className="flex items-start gap-4 mb-4">
                   <div
@@ -551,8 +591,11 @@ export default async function LesEGCPage() {
                   {acf.after_elections_section?.scenario_adopted_content || ""}
                 </p>
               </CardContent>
+              <div className="absolute -top-6 -right-6 z-10">
+                <img src={pictos.picto1 || "/placeholder.svg"} alt="" className="w-12 h-12 object-contain" />
+              </div>
             </Card>
-            <Card className="border-2" style={{ borderColor: "#F4E63C" }}>
+            <Card className="border-2 relative overflow-visible" style={{ borderColor: "#F4E63C" }}>
               <CardContent className="p-8">
                 <div className="flex items-start gap-4 mb-4">
                   <div
@@ -569,6 +612,9 @@ export default async function LesEGCPage() {
                   {acf.after_elections_section?.scenario_not_adopted_content || ""}
                 </p>
               </CardContent>
+              <div className="absolute -top-6 -right-6 z-10">
+                <img src={pictos.picto4 || "/placeholder.svg"} alt="" className="w-12 h-12 object-contain" />
+              </div>
             </Card>
           </div>
         </div>
@@ -592,7 +638,7 @@ export default async function LesEGCPage() {
             </h2>
           </div>
 
-          <Card className="max-w-4xl mx-auto border-2" style={{ borderColor: "#E73628" }}>
+          <Card className="max-w-4xl mx-auto border-2 relative overflow-visible" style={{ borderColor: "#E73628" }}>
             <CardContent className="p-8">
               <div className="space-y-6">
                 <div className="text-lg text-muted-foreground leading-relaxed">
@@ -603,6 +649,9 @@ export default async function LesEGCPage() {
                 </div>
               </div>
             </CardContent>
+            <div className="absolute -top-6 -right-6 z-10">
+              <img src={pictos.picto6 || "/placeholder.svg"} alt="" className="w-16 h-16 object-contain" />
+            </div>
           </Card>
         </div>
       </section>
@@ -625,7 +674,7 @@ export default async function LesEGCPage() {
             </h2>
           </div>
 
-          <Card className="max-w-4xl mx-auto border-2" style={{ borderColor: "#F4E63C" }}>
+          <Card className="max-w-4xl mx-auto border-2 relative overflow-visible" style={{ borderColor: "#F4E63C" }}>
             <CardContent className="p-8">
               <div className="space-y-6">
                 <div className="text-lg text-muted-foreground leading-relaxed">
@@ -669,13 +718,27 @@ export default async function LesEGCPage() {
                 </div>
               </div>
             </CardContent>
+            <div className="absolute -bottom-8 -right-8">
+              <img src={pictos.picto2 || "/placeholder.svg"} alt="" className="w-16 h-16 object-contain" />
+            </div>
           </Card>
         </div>
       </section>
 
       {/* Call to Action */}
-      <section className="py-16 lg:py-24 bg-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <section className="py-16 lg:py-24 bg-white relative">
+        <img
+          src={pictos.picto5 || "/placeholder.svg"}
+          alt=""
+          className="absolute bottom-[10%] left-[5%] w-24 h-24 object-contain opacity-20 pointer-events-none"
+        />
+        <img
+          src={pictos.picto3 || "/placeholder.svg"}
+          alt=""
+          className="absolute bottom-[15%] right-[8%] w-32 h-32 object-contain opacity-20 pointer-events-none"
+        />
+
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative">
           <div className="space-y-8">
             <h2 className="text-3xl md:text-4xl uppercase text-foreground font-black">
               <Highlighter
