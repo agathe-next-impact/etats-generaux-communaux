@@ -356,6 +356,14 @@ export interface DoleancesPageACF {
   }
 }
 
+export interface DemanderDoleancesPageACF {
+  titre?: string
+  contenu?: Array<{
+    "sous-titre"?: string
+    contenu?: string
+  }>
+}
+
 export interface HomePageData {
   id: number
   title: {
@@ -398,6 +406,17 @@ export interface DoleancesPageData {
     rendered: string
   }
   acf?: DoleancesPageACF
+}
+
+export interface DemanderDoleancesPageData {
+  id: number
+  title: {
+    rendered: string
+  }
+  content: {
+    rendered: string
+  }
+  acf?: DemanderDoleancesPageACF
 }
 
 const WP_API_URL = process.env.NEXT_PUBLIC_WORDPRESS_API_URL || "https://demo.wp-api.org/wp-json/wp/v2"
@@ -1231,6 +1250,26 @@ export async function getDoleancesPageData(): Promise<DoleancesPageData | null> 
     return null
   } catch (error) {
     console.error("[v0] Error fetching les-doleances page data:", error)
+    return null
+  }
+}
+
+export async function getDemanderDoleancesPageData(): Promise<DemanderDoleancesPageData | null> {
+  try {
+    console.log("[v0] Fetching demander-les-doleances page ACF data")
+
+    const page = await getPageBySlug("demander-les-doleances")
+
+    if (page) {
+      console.log("[v0] Demander les Doléances page found with slug 'demander-les-doleances'")
+      console.log("[v0] Demander les Doléances page ACF data:", page.acf ? "found" : "not found")
+      return page as DemanderDoleancesPageData
+    }
+
+    console.log("[v0] No demander-les-doleances page found with slug 'demander-les-doleances'")
+    return null
+  } catch (error) {
+    console.error("[v0] Error fetching demander-les-doleances page data:", error)
     return null
   }
 }

@@ -5,7 +5,7 @@ import Link from "next/link"
 import { ArrowRight } from "lucide-react"
 import Image from "next/image"
 import { Highlighter } from "@/components/ui/highlighter"
-import { motion } from "framer-motion"
+import { motion } from "motion/react"
 import type { HomePageACF } from "@/lib/wordpress"
 
 interface HeroSectionProps {

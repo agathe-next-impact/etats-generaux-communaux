@@ -17,10 +17,10 @@ export function DoleancesClient({ acf }: DoleancesClientProps) {
   console.log("[v0] Les Doléances CTA data:", acf?.cta)
 
   const icons = [
+    "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%201-YFeeOd4CBQ2S2bGA4pPLgNc6hMYIPd.png",
     "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%202-XT3JEJBM0RTr1nZ4p7W1zXmIKbvoE1.png",
-    "https://blob.v0.app/pCk88.png",
-    "https://blob.v0.app/pCk89.png",
-    "https://blob.v0.app/pCk90.png",
+    "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%203-iph3iRcbh4GzoswUQo87W7giQs9vrW.png",
+    "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%204-ac6W7GEoGBcgE6fyqHJLr2EBOsnw7u.png",
   ]
 
   const getRandomIcon = (index: number) => {
@@ -39,21 +39,21 @@ export function DoleancesClient({ acf }: DoleancesClientProps) {
             className="absolute left-[15%] top-12 z-0 opacity-20 rotate-12"
           />
           <Image
-            src="https://blob.v0.app/pCk88.png"
+            src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%203-iph3iRcbh4GzoswUQo87W7giQs9vrW.png"
             alt=""
             width={150}
             height={150}
             className="absolute right-[10%] top-24 z-0 opacity-15 -rotate-6"
           />
           <Image
-            src="https://blob.v0.app/pCk89.png"
+            src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%204-ac6W7GEoGBcgE6fyqHJLr2EBOsnw7u.png"
             alt=""
             width={180}
             height={180}
             className="absolute left-[8%] bottom-32 z-0 opacity-25 rotate-45"
           />
           <Image
-            src="https://blob.v0.app/pCk90.png"
+            src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%205-1otn1kQK9Cg25uM98EKKPTXzxXhRq2.png"
             alt=""
             width={160}
             height={160}
@@ -95,28 +95,28 @@ export function DoleancesClient({ acf }: DoleancesClientProps) {
           className="absolute left-[15%] top-12 z-0 opacity-20 rotate-12"
         />
         <Image
-          src="https://blob.v0.app/pCk88.png"
+          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%203-iph3iRcbh4GzoswUQo87W7giQs9vrW.png"
           alt=""
           width={150}
           height={150}
           className="absolute right-[10%] top-24 z-0 opacity-15 -rotate-6"
         />
         <Image
-          src="https://blob.v0.app/pCk89.png"
+          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%204-ac6W7GEoGBcgE6fyqHJLr2EBOsnw7u.png"
           alt=""
           width={180}
           height={180}
           className="absolute left-[8%] bottom-32 z-0 opacity-25 rotate-45"
         />
         <Image
-          src="https://blob.v0.app/pCk90.png"
+          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%205-1otn1kQK9Cg25uM98EKKPTXzxXhRq2.png"
           alt=""
           width={160}
           height={160}
           className="absolute right-[20%] bottom-20 z-0 opacity-20 -rotate-12"
         />
         <Image
-          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%202-XT3JEJBM0RTr1nZ4p7W1zXmIKbvoE1.png"
+          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%207-ortOMnxOuv7texPH3RxLJTGkLhXhuQ.png"
           alt=""
           width={140}
           height={140}
@@ -294,8 +294,16 @@ export function DoleancesClient({ acf }: DoleancesClientProps) {
                           alt=""
                           className="w-16 h-16 object-contain"
                         />
-                        <img src="https://blob.v0.app/pCk90.png" alt="" className="w-16 h-16 object-contain" />
-                        <img src="https://blob.v0.app/pCk89.png" alt="" className="w-16 h-16 object-contain" />
+                        <img
+                          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%205-1otn1kQK9Cg25uM98EKKPTXzxXhRq2.png"
+                          alt=""
+                          className="w-16 h-16 object-contain"
+                        />
+                        <img
+                          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%204-ac6W7GEoGBcgE6fyqHJLr2EBOsnw7u.png"
+                          alt=""
+                          className="w-16 h-16 object-contain"
+                        />
                       </div>
                     </div>
                   )}
