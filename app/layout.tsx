@@ -37,6 +37,11 @@ export const metadata: Metadata = {
   authors: [{ name: "États Généraux de la Conversion" }],
   creator: "États Généraux de la Conversion",
   publisher: "États Généraux de la Conversion",
+  icons: {
+    icon: "/images/logo-egc.png",
+    shortcut: "/images/logo-egc.png",
+    apple: "/images/logo-egc.png",
+  },
   openGraph: {
     type: "website",
     locale: "fr_FR",
