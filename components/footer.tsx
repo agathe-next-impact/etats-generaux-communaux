@@ -66,8 +66,8 @@ export function Footer() {
 
       <div className="w-full">
         <Image
-          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/horizon-iakGA5doUrXExE5mb3BcpMmKfBG6XT.png"
-          alt="Horizon communautaire"
+          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/fresque-VsYsqdaWmxKIfbwxBEhKS6ZEpRhGOE.png"
+          alt="Fresque communautaire"
           width={1920}
           height={200}
           className="w-full h-auto"

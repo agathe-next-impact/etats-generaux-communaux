@@ -340,6 +340,20 @@ export interface DoleancesPageACF {
       contenu?: string
     }
   }>
+  cta?: {
+    texte_du_cta_gauche?: string
+    lien_du_cta_de_gauche?: {
+      url: string
+      title: string
+      target: string
+    }
+    texte_du_cta_droite?: string
+    lien_du_cta_de_droite?: {
+      url: string
+      title: string
+      target: string
+    }
+  }
 }
 
 export interface HomePageData {
