@@ -4,6 +4,7 @@ import Highlighter from "@/components/ui/highlighter"
 import { Card, CardContent } from "@/components/ui/card"
 import Image from "next/image"
 import type { DemanderDoleancesPageACF } from "@/lib/wordpress"
+import { transformWordPressUrls } from "@/lib/wordpress"
 
 interface DemanderDoleancesClientProps {
   acf: DemanderDoleancesPageACF | null
@@ -154,7 +155,7 @@ export function DemanderDoleancesClient({ acf }: DemanderDoleancesClientProps) {
                     {item.contenu && (
                       <div
                         className="text-foreground/90 leading-relaxed prose prose-lg max-w-none [&_a]:relative [&_a]:inline-block [&_a]:text-foreground [&_a]:font-semibold [&_a]:no-underline [&_a]:px-1 [&_a]:bg-[#F4E63C]/40 [&_a]:transition-all [&_a]:duration-300 hover:[&_a]:bg-[#F4E63C]/60 [&_a]:shadow-[0_2px_0_0_#F4E63C] hover:[&_a]:shadow-[0_3px_0_0_#F4E63C]"
-                        dangerouslySetInnerHTML={{ __html: item.contenu }}
+                        dangerouslySetInnerHTML={{ __html: transformWordPressUrls(item.contenu) }}
                       />
                     )}
                   </CardContent>

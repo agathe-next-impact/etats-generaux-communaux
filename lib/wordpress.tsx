@@ -1273,3 +1273,19 @@ export async function getDemanderDoleancesPageData(): Promise<DemanderDoleancesP
     return null
   }
 }
+
+export function transformWordPressUrls(html: string): string {
+  if (!html) return html
+
+  // Get WordPress domain from API URL
+  const wpApiUrl = process.env.NEXT_PUBLIC_WORDPRESS_API_URL || ""
+  const wpDomain = wpApiUrl.replace("/wp-json/wp/v2", "").replace(/\/$/, "")
+
+  if (!wpDomain) return html
+
+  // Replace WordPress domain URLs with relative paths
+  // Match href="https://wordpress-domain.com/page-slug" or href="https://wordpress-domain.com/page-slug/"
+  const domainRegex = new RegExp(`href="${wpDomain.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}(/[^"]*)"`, "gi")
+
+  return html.replace(domainRegex, 'href="$1"')
+}
