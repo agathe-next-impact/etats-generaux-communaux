@@ -31,14 +31,14 @@ export function DemanderDoleancesClient({ acf }: DemanderDoleancesClientProps) {
       <div className="min-h-screen pt-[150px]">
         <section className="relative py-20 lg:py-32 overflow-hidden bg-white">
           <Image
-            src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%202-XT3JEJBM0RTr1nZ4p7W1zXmIKbvoE1.png"
+            src="/images/design-mode/picto%202.png"
             alt=""
             width={200}
             height={200}
             className="absolute left-[15%] top-12 z-0 opacity-20 rotate-12"
           />
           <Image
-            src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%203-iph3iRcbh4GzoswUQo87W7giQs9vrW.png"
+            src="/images/design-mode/picto%203.png"
             alt=""
             width={150}
             height={150}
@@ -73,35 +73,35 @@ export function DemanderDoleancesClient({ acf }: DemanderDoleancesClientProps) {
       {/* Hero Section */}
       <section className="relative py-20 lg:py-32 overflow-hidden bg-white">
         <Image
-          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%202-XT3JEJBM0RTr1nZ4p7W1zXmIKbvoE1.png"
+          src="/images/design-mode/picto%202.png"
           alt=""
           width={200}
           height={200}
           className="absolute left-[15%] top-12 z-0 opacity-20 rotate-12"
         />
         <Image
-          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%203-iph3iRcbh4GzoswUQo87W7giQs9vrW.png"
+          src="/images/design-mode/picto%203.png"
           alt=""
           width={150}
           height={150}
           className="absolute right-[10%] top-24 z-0 opacity-15 -rotate-6"
         />
         <Image
-          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%204-ac6W7GEoGBcgE6fyqHJLr2EBOsnw7u.png"
+          src="/images/design-mode/picto%204.png"
           alt=""
           width={180}
           height={180}
           className="absolute left-[8%] bottom-32 z-0 opacity-25 rotate-45"
         />
         <Image
-          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%205-1otn1kQK9Cg25uM98EKKPTXzxXhRq2.png"
+          src="/images/design-mode/picto%205(1).png"
           alt=""
           width={160}
           height={160}
           className="absolute right-[20%] bottom-20 z-0 opacity-20 -rotate-12"
         />
         <Image
-          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%207-ortOMnxOuv7texPH3RxLJTGkLhXhuQ.png"
+          src="/images/design-mode/picto%207(1).png"
           alt=""
           width={140}
           height={140}

@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import { ResourceCard } from "@/components/resource-card"
 import { ResourceFilters } from "@/components/resource-filters"
 import { Card, CardContent } from "@/components/ui/card"
-import { getResources, type WordPressResource } from "@/lib/wordpress"
+import { getResources, getArchivePageTitles, type WordPressResource } from "@/lib/wordpress"
 import { Highlighter } from "@/components/ui/highlighter"
 import Image from "next/image"
 
@@ -13,15 +13,29 @@ export default function ResourcesPage() {
   const [filteredResources, setFilteredResources] = useState<WordPressResource[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [pageTitle, setPageTitle] = useState("Ressources")
+  const [pageSubtitle, setPageSubtitle] = useState(
+    "Découvrez notre collection de guides, outils et documents pour accompagner votre engagement et vos actions collectives.",
+  )
 
   useEffect(() => {
     const fetchResources = async () => {
       try {
         setIsLoading(true)
         setError(null)
-        const fetchedResources = await getResources()
+        const [fetchedResources, pageTitles] = await Promise.all([getResources(), getArchivePageTitles()])
+
         setResources(fetchedResources)
         setFilteredResources(fetchedResources)
+
+        if (pageTitles?.page_ressources_et_kits) {
+          if (pageTitles.page_ressources_et_kits.titre) {
+            setPageTitle(pageTitles.page_ressources_et_kits.titre)
+          }
+          if (pageTitles.page_ressources_et_kits["sous-titre"]) {
+            setPageSubtitle(pageTitles.page_ressources_et_kits["sous-titre"])
+          }
+        }
       } catch (err) {
         console.error("[v0] Error fetching resources:", err)
         setError("Erreur lors du chargement des ressources")
@@ -37,7 +51,6 @@ export default function ResourcesPage() {
     setIsLoading(true)
 
     try {
-      // Build API parameters for taxonomy filtering
       const apiParams: { categories?: string; search?: string } = {}
 
       if (filters.category !== "all") {
@@ -47,10 +60,8 @@ export default function ResourcesPage() {
         apiParams.search = filters.search
       }
 
-      // Fetch filtered resources from WordPress API
       const filteredData = await getResources(apiParams)
 
-      // Apply client-side sorting
       const sorted = [...filteredData].sort((a, b) => {
         switch (filters.sort) {
           case "title":
@@ -59,7 +70,7 @@ export default function ResourcesPage() {
             return b.title.rendered.localeCompare(a.title.rendered)
           case "date_asc":
             return a.id - b.id
-          default: // date (newest first)
+          default:
             return b.id - a.id
         }
       })
@@ -69,7 +80,6 @@ export default function ResourcesPage() {
       console.error("[v0] Error filtering resources:", err)
       let filtered = [...resources]
 
-      // Apply search filter
       if (filters.search) {
         filtered = filtered.filter(
           (resource) =>
@@ -78,11 +88,9 @@ export default function ResourcesPage() {
         )
       }
 
-      // Apply category filter using embedded taxonomy data
       if (filters.category !== "all") {
         filtered = filtered.filter((resource) => {
           if (resource._embedded?.["wp:term"]) {
-            // Check if resource has the selected category in embedded terms
             const terms = resource._embedded["wp:term"]
             return terms.some((termGroup) => termGroup.some((term) => term.slug === filters.category))
           }
@@ -90,7 +98,6 @@ export default function ResourcesPage() {
         })
       }
 
-      // Apply sorting
       filtered.sort((a, b) => {
         switch (filters.sort) {
           case "title":
@@ -99,7 +106,7 @@ export default function ResourcesPage() {
             return b.title.rendered.localeCompare(a.title.rendered)
           case "date_asc":
             return a.id - b.id
-          default: // date (newest first)
+          default:
             return b.id - a.id
         }
       })
@@ -132,35 +139,35 @@ export default function ResourcesPage() {
   return (
     <div className="min-h-screen py-12 pt-[150px] relative overflow-hidden">
       <Image
-        src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%201-YFeeOd4CBQ2S2bGA4pPLgNc6hMYIPd.png"
+        src="/images/design-mode/picto%201(1).png"
         alt=""
         width={120}
         height={120}
         className="absolute top-20 left-[5%] opacity-20 pointer-events-none -rotate-12"
       />
       <Image
-        src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%205-1otn1kQK9Cg25uM98EKKPTXzxXhRq2.png"
+        src="/images/design-mode/picto%205(1).png"
         alt=""
         width={100}
         height={100}
         className="absolute top-[30%] right-[8%] opacity-15 pointer-events-none rotate-45"
       />
       <Image
-        src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%207-ortOMnxOuv7texPH3RxLJTGkLhXhuQ.png"
+        src="/images/design-mode/picto%207(1).png"
         alt=""
         width={80}
         height={80}
         className="absolute bottom-[20%] left-[10%] opacity-20 pointer-events-none rotate-12"
       />
       <Image
-        src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%204-ac6W7GEoGBcgE6fyqHJLr2EBOsnw7u.png"
+        src="/images/design-mode/picto%204.png"
         alt=""
         width={140}
         height={140}
         className="absolute bottom-[10%] right-[5%] opacity-15 pointer-events-none -rotate-6"
       />
       <Image
-        src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%203-iph3iRcbh4GzoswUQo87W7giQs9vrW.png"
+        src="/images/design-mode/picto%203.png"
         alt=""
         width={90}
         height={90}
@@ -168,17 +175,16 @@ export default function ResourcesPage() {
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        {/* Header */}
         <div className="text-center mb-12 relative">
           <Image
-            src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%202-XT3JEJBM0RTr1nZ4p7W1zXmIKbvoE1.png"
+            src="/images/design-mode/picto%202.png"
             alt=""
             width={60}
             height={60}
             className="absolute -top-8 -left-4 opacity-30 pointer-events-none rotate-12"
           />
           <Image
-            src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%207-ortOMnxOuv7texPH3RxLJTGkLhXhuQ.png"
+            src="/images/design-mode/picto%207(1).png"
             alt=""
             width={50}
             height={50}
@@ -194,13 +200,10 @@ export default function ResourcesPage() {
               iterations={1}
               isView={true}
             >
-              Ressources
+              {pageTitle}
             </Highlighter>
           </h1>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Découvrez notre collection de guides, outils et documents pour accompagner votre engagement et vos actions
-            collectives.
-          </p>
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">{pageSubtitle}</p>
         </div>
 
         <div className="space-y-8">

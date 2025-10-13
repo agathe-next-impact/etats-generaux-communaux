@@ -8,8 +8,7 @@ import { GoogleMap } from "@/components/google-map"
 import { getPosts, getEvents, getLocalGroups, getHomePageData } from "@/lib/wordpress"
 import type { HomePageACF } from "@/lib/wordpress"
 import Link from "next/link"
-import { ArrowRight, Users } from "lucide-react"
-import Image from "next/image"
+import { ArrowRight } from "lucide-react"
 import { Highlighter } from "@/components/ui/highlighter"
 import { LatestNews } from "@/components/latest-news"
 import { HorizontalTimeline } from "@/components/horizontal-timeline"
@@ -290,102 +289,7 @@ export default async function HomePage() {
         />
       )}
 
-      {/* Call to Action Section */}
-      {acf?.groupe_de_liens?.liste_des_liens && acf.groupe_de_liens.liste_des_liens.length > 0 && (
-        <section className="py-12 lg:py-16 border-b border-border bg-white">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[50px]">
-              {acf.groupe_de_liens.liste_des_liens.map((link, index) => (
-                <Link
-                  key={index}
-                  href={link.lien?.url || "#"}
-                  target={link.lien?.target || "_self"}
-                  className="group flex items-center transition-all duration-300"
-                >
-                  <div className="relative flex-shrink-0">
-                    <div className="w-32 h-32 rounded-3xl bg-[var(--brand-red)] flex items-center justify-center relative">
-                      {link.icone?.url ? (
-                        <Image
-                          src={link.icone.url || "/placeholder.svg"}
-                          alt={link.icone.alt || ""}
-                          width={48}
-                          height={48}
-                          className="mt-4"
-                        />
-                      ) : (
-                        <Users className="w-12 h-12 text-[#E73628] mt-4" />
-                      )}
-                      <div className="absolute -bottom-2 left-8 w-6 h-6 bg-[var(--brand-red)] transform rotate-45 rounded-sm" />
-                    </div>
-                  </div>
-                  <div className="bg-[#4AAD33] px-4 py-3 rounded -ml-8 z-10 shadow-lg group-hover:shadow-xl transition-shadow">
-                    <span className="text-sm font-bold uppercase text-white whitespace-nowrap">{link.libelle}</span>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* Articles and Events Section */}
-      <Suspense
-        fallback={
-          <section className="py-16 lg:py-24 bg-white">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <div className="animate-pulse">
-                  <div className="h-8 bg-muted rounded w-48 mb-6" />
-                  <Card>
-                    <div className="bg-muted h-64" />
-                    <CardContent className="p-6">
-                      <div className="space-y-3">
-                        <div className="h-4 bg-muted rounded w-32" />
-                        <div className="h-6 bg-muted rounded" />
-                        <div className="h-4 bg-muted rounded w-full" />
-                      </div>
-                    </CardContent>
-                  </Card>
-                </div>
-                <div className="animate-pulse">
-                  <div className="h-8 bg-muted rounded w-48 mb-6" />
-                  <div className="space-y-4">
-                    {Array.from({ length: 3 }).map((_, i) => (
-                      <div key={i} className="h-20 bg-muted rounded" />
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-        }
-      >
-        <ArticlesAndEvents acfData={acf?.section_actus_evenements} />
-      </Suspense>
-
-      {/* Map and Events Section */}
-      {/* <Suspense
-        fallback={
-          <section className="py-16 lg:py-24 bg-white">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <div className="lg:col-span-2 animate-pulse">
-                  <div className="h-8 bg-muted rounded w-64 mb-6" />
-                  <div className="h-[500px] bg-muted rounded-lg" />
-                </div>
-                <div className="lg:col-span-1 animate-pulse">
-                  <div className="h-8 bg-muted rounded w-48 mb-6" />
-                  <div className="h-[500px] bg-muted rounded-lg" />
-                </div>
-              </div>
-            </div>
-          </section>
-        }
-      >
-        <MapAndEventsSection acfData={acf?.section_groupes_evenements} />
-      </Suspense> */}
-
-      {/* Call to Action Section */}
+      {/* Call to Action Section - Notre plaidoyer */}
       {acf?.section_manifeste && (
         <section className="py-16 lg:py-24 bg-white">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -473,6 +377,41 @@ export default async function HomePage() {
           subtitle={acf.historique_egc["sous-titre"]}
         />
       )}
+
+      {/* Articles and Events Section */}
+      <Suspense
+        fallback={
+          <section className="py-16 lg:py-24 bg-white">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div className="animate-pulse">
+                  <div className="h-8 bg-muted rounded w-48 mb-6" />
+                  <Card>
+                    <div className="bg-muted h-64" />
+                    <CardContent className="p-6">
+                      <div className="space-y-3">
+                        <div className="h-4 bg-muted rounded w-32" />
+                        <div className="h-6 bg-muted rounded" />
+                        <div className="h-4 bg-muted rounded w-full" />
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+                <div className="animate-pulse">
+                  <div className="h-8 bg-muted rounded w-48 mb-6" />
+                  <div className="space-y-4">
+                    {Array.from({ length: 3 }).map((_, i) => (
+                      <div key={i} className="h-20 bg-muted rounded" />
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        }
+      >
+        <ArticlesAndEvents acfData={acf?.section_actus_evenements} />
+      </Suspense>
 
       <Suspense fallback={null}>
         <UpcomingEvents />

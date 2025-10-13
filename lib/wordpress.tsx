@@ -364,6 +364,25 @@ export interface DemanderDoleancesPageACF {
   }>
 }
 
+export interface ArchivePageTitles {
+  page_ressources_et_kits?: {
+    titre?: string
+    "sous-titre"?: string
+  }
+  page_blog?: {
+    titre?: string
+    "sous-titre"?: string
+  }
+  page_communes?: {
+    titre?: string
+    "sous-titre"?: string
+  }
+  page_evenements?: {
+    titre?: string
+    "sous-titre"?: string
+  }
+}
+
 export interface HomePageData {
   id: number
   title: {
@@ -1270,6 +1289,48 @@ export async function getDemanderDoleancesPageData(): Promise<DemanderDoleancesP
     return null
   } catch (error) {
     console.error("[v0] Error fetching demander-les-doleances page data:", error)
+    return null
+  }
+}
+
+export async function getArchivePageTitles(): Promise<ArchivePageTitles | null> {
+  try {
+    console.log("[v0] Fetching archive page titles from custom theme endpoint")
+
+    const baseUrl = WP_API_URL.replace(/\/wp\/v2\/?$/, "")
+    const customEndpoint = `${baseUrl}/mytheme/v1/titres-pages-darchives`
+
+    console.log("[v0] Custom endpoint URL:", customEndpoint)
+
+    const response = await fetch(customEndpoint, {
+      next: { revalidate: 3600 },
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    })
+
+    if (response.ok) {
+      const data = await validateJsonResponse(response)
+      console.log("[v0] ✓ Archive page titles loaded successfully")
+
+      const archiveTitles = data?.acf || data
+
+      console.log("[v0] page_ressources_et_kits:", archiveTitles?.page_ressources_et_kits)
+      console.log("[v0] page_blog:", archiveTitles?.page_blog)
+      console.log("[v0] page_communes:", archiveTitles?.page_communes)
+      console.log("[v0] page_evenements:", archiveTitles?.page_evenements)
+
+      if (archiveTitles && typeof archiveTitles === "object") {
+        return archiveTitles as ArchivePageTitles
+      }
+    } else {
+      console.log(`[v0] ✗ Custom endpoint returned ${response.status}`)
+    }
+
+    return null
+  } catch (error) {
+    console.error("[v0] Error fetching archive page titles:", error instanceof Error ? error.message : String(error))
     return null
   }
 }

@@ -2,7 +2,7 @@ import { Suspense } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { getLocalGroups } from "@/lib/wordpress"
+import { getLocalGroups, getArchivePageTitles } from "@/lib/wordpress"
 import { MapPin, Mail, Phone, Globe, Users } from "lucide-react"
 import Link from "next/link"
 import { GoogleMap } from "@/components/google-map"
@@ -173,6 +173,72 @@ async function LocalGroupsMap() {
   )
 }
 
+async function LocalGroupsHeader() {
+  const pageTitles = await getArchivePageTitles()
+
+  const title = pageTitles?.page_communes?.titre || "Groupes Locaux"
+  const subtitle =
+    pageTitles?.page_communes?.["sous-titre"] ||
+    "Découvrez les groupes locaux de notre réseau partout en France. Rejoignez une communauté engagée près de chez vous et participez aux actions citoyennes locales."
+
+  const pictos = [
+    "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%201-YFeeOd4CBQ2S2bGA4pPLgNc6hMYIPd.png", // picto 1
+    "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%202-XT3JEJBM0RTr1nZ4p7W1zXmIKbvoE1.png", // picto 2
+    "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%203-iph3iRcbh4GzoswUQo87W7giQs9vrW.png", // picto 3
+    "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%204-ac6W7GEoGBcgE6fyqHJLr2EBOsnw7u.png", // picto 4
+    "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%205-1otn1kQK9Cg25uM98EKKPTXzxXhRq2.png", // picto 5
+    "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%207-ortOMnxOuv7texPH3RxLJTGkLhXhuQ.png", // picto 7
+  ]
+
+  return (
+    <div className="text-center space-y-4 mb-12 relative">
+      <Image
+        src={pictos[0] || "/placeholder.svg"}
+        alt=""
+        width={80}
+        height={80}
+        className="absolute left-[5%] top-[10%] opacity-20 -rotate-12 pointer-events-none"
+      />
+      <Image
+        src={pictos[1] || "/placeholder.svg"}
+        alt=""
+        width={60}
+        height={60}
+        className="absolute right-[8%] top-[5%] opacity-15 rotate-6 pointer-events-none"
+      />
+      <Image
+        src={pictos[2] || "/placeholder.svg"}
+        alt=""
+        width={70}
+        height={70}
+        className="absolute left-[15%] bottom-[10%] opacity-10 rotate-12 pointer-events-none"
+      />
+      <Image
+        src={pictos[4] || "/placeholder.svg"}
+        alt=""
+        width={50}
+        height={50}
+        className="absolute right-[12%] bottom-[15%] opacity-20 -rotate-6 pointer-events-none"
+      />
+
+      <h1 className="text-4xl md:text-5xl font-black uppercase" style={{ fontFamily: "Raleway, sans-serif" }}>
+        <Highlighter
+          action="underline"
+          color="#E73628"
+          strokeWidth={4}
+          animationDuration={600}
+          iterations={1}
+          padding={8}
+          isView={true}
+        >
+          {title}
+        </Highlighter>
+      </h1>
+      <p className="text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed">{subtitle}</p>
+    </div>
+  )
+}
+
 export default function LocalGroupsPage() {
   const pictos = [
     "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%201-YFeeOd4CBQ2S2bGA4pPLgNc6hMYIPd.png", // picto 1
@@ -187,54 +253,16 @@ export default function LocalGroupsPage() {
     <div className="min-h-screen pt-32 pb-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="text-center space-y-4 mb-12 relative">
-          <Image
-            src={pictos[0] || "/placeholder.svg"}
-            alt=""
-            width={80}
-            height={80}
-            className="absolute left-[5%] top-[10%] opacity-20 -rotate-12 pointer-events-none"
-          />
-          <Image
-            src={pictos[1] || "/placeholder.svg"}
-            alt=""
-            width={60}
-            height={60}
-            className="absolute right-[8%] top-[5%] opacity-15 rotate-6 pointer-events-none"
-          />
-          <Image
-            src={pictos[2] || "/placeholder.svg"}
-            alt=""
-            width={70}
-            height={70}
-            className="absolute left-[15%] bottom-[10%] opacity-10 rotate-12 pointer-events-none"
-          />
-          <Image
-            src={pictos[4] || "/placeholder.svg"}
-            alt=""
-            width={50}
-            height={50}
-            className="absolute right-[12%] bottom-[15%] opacity-20 -rotate-6 pointer-events-none"
-          />
-
-          <h1 className="text-4xl md:text-5xl font-black uppercase" style={{ fontFamily: "Raleway, sans-serif" }}>
-            <Highlighter
-              action="underline"
-              color="#E73628"
-              strokeWidth={4}
-              animationDuration={600}
-              iterations={1}
-              padding={8}
-              isView={true}
-            >
-              Groupes Locaux
-            </Highlighter>
-          </h1>
-          <p className="text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            Découvrez les groupes locaux de notre réseau partout en France. Rejoignez une communauté engagée près de
-            chez vous et participez aux actions citoyennes locales.
-          </p>
-        </div>
+        <Suspense
+          fallback={
+            <div className="text-center space-y-4 mb-12">
+              <div className="h-12 bg-muted rounded animate-pulse" />
+              <div className="h-6 bg-muted rounded max-w-3xl mx-auto animate-pulse" />
+            </div>
+          }
+        >
+          <LocalGroupsHeader />
+        </Suspense>
 
         {/* Map and Groups */}
         <Suspense

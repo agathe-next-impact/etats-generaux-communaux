@@ -105,22 +105,22 @@ function SearchPageContent() {
       {/* Hero Section with Search */}
       <section className="py-12 lg:py-16 bg-white border-b relative overflow-hidden">
         <img
-          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%201-YFeeOd4CBQ2S2bGA4pPLgNc6hMYIPd.png"
+          src="/images/design-mode/picto%201(1).png"
           alt=""
           className="absolute left-[5%] top-[10%] w-16 h-16 opacity-20 rotate-12 pointer-events-none"
         />
         <img
-          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%202-XT3JEJBM0RTr1nZ4p7W1zXmIKbvoE1.png"
+          src="/images/design-mode/picto%202.png"
           alt=""
           className="absolute right-[8%] top-[15%] w-20 h-20 opacity-15 -rotate-6 pointer-events-none"
         />
         <img
-          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%203-iph3iRcbh4GzoswUQo87W7giQs9vrW.png"
+          src="/images/design-mode/picto%203.png"
           alt=""
           className="absolute left-[15%] bottom-[10%] w-12 h-12 opacity-25 rotate-45 pointer-events-none"
         />
         <img
-          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%204-ac6W7GEoGBcgE6fyqHJLr2EBOsnw7u.png"
+          src="/images/design-mode/picto%204.png"
           alt=""
           className="absolute right-[12%] bottom-[15%] w-16 h-16 opacity-20 -rotate-12 pointer-events-none"
         />

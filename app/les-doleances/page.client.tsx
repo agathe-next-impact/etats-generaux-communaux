@@ -33,7 +33,7 @@ export default function DoleancesClientPage() {
       <div className="min-h-screen pt-[150px]">
         <section className="relative py-20 lg:py-32 overflow-hidden bg-white">
           <Image
-            src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%202-XT3JEJBM0RTr1nZ4p7W1zXmIKbvoE1.png"
+            src="/images/design-mode/picto%202.png"
             alt=""
             width={200}
             height={200}
@@ -89,7 +89,7 @@ export default function DoleancesClientPage() {
       {/* Hero Section */}
       <section className="relative py-20 lg:py-32 overflow-hidden bg-white">
         <Image
-          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%202-XT3JEJBM0RTr1nZ4p7W1zXmIKbvoE1.png"
+          src="/images/design-mode/picto%202.png"
           alt=""
           width={200}
           height={200}
@@ -117,7 +117,7 @@ export default function DoleancesClientPage() {
           className="absolute right-[20%] bottom-20 z-0 opacity-20 -rotate-12"
         />
         <Image
-          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%202-XT3JEJBM0RTr1nZ4p7W1zXmIKbvoE1.png"
+          src="/images/design-mode/picto%202.png"
           alt=""
           width={140}
           height={140}
@@ -292,7 +292,7 @@ export default function DoleancesClientPage() {
                       {/* Decorative icons overlapping bottom right border */}
                       <div className="absolute -bottom-8 -right-8 flex gap-2">
                         <img
-                          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%201-YFeeOd4CBQ2S2bGA4pPLgNc6hMYIPd.png"
+                          src="/images/design-mode/picto%201(1).png"
                           alt=""
                           className="w-16 h-16 object-contain"
                         />

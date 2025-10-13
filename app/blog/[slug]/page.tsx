@@ -161,9 +161,9 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
       </header>
 
       {/* Article Content */}
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="prose prose-lg max-w-none article-content prose-headings:text-foreground prose-p:text-foreground prose-strong:text-foreground prose-a:text-primary">
-          <div dangerouslySetInnerHTML={{ __html: post.content.rendered }} className="wordpress-content" />
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+        <div className="wordpress-content">
+          <div dangerouslySetInnerHTML={{ __html: post.content.rendered }} />
         </div>
       </div>
 

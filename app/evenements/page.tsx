@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react"
 import { Calendar } from "lucide-react"
-import { getEvents, type WordPressEvent } from "@/lib/wordpress"
+import { getEvents, getArchivePageTitles, type WordPressEvent } from "@/lib/wordpress"
 import { EventFilters } from "@/components/event-filters"
 import { EventTimeline } from "@/components/event-timeline"
 import { Highlighter } from "@/components/ui/highlighter"
@@ -12,6 +12,10 @@ export default function EventsPage() {
   const [events, setEvents] = useState<WordPressEvent[]>([])
   const [filteredEvents, setFilteredEvents] = useState<WordPressEvent[]>([])
   const [isLoading, setIsLoading] = useState(true)
+  const [pageTitle, setPageTitle] = useState("Événements")
+  const [pageSubtitle, setPageSubtitle] = useState(
+    "Découvrez tous nos événements, conférences, ateliers et manifestations.",
+  )
   const [filters, setFilters] = useState({
     search: "",
     type: "all",
@@ -23,9 +27,19 @@ export default function EventsPage() {
     async function loadEvents() {
       try {
         console.log("[v0] Loading events...")
-        const eventsData = await getEvents()
+        const [eventsData, pageTitles] = await Promise.all([getEvents(), getArchivePageTitles()])
+
         console.log("[v0] Events loaded:", eventsData.length)
         setEvents(eventsData)
+
+        if (pageTitles?.page_evenements) {
+          if (pageTitles.page_evenements.titre) {
+            setPageTitle(pageTitles.page_evenements.titre)
+          }
+          if (pageTitles.page_evenements["sous-titre"]) {
+            setPageSubtitle(pageTitles.page_evenements["sous-titre"])
+          }
+        }
       } catch (error) {
         console.error("[v0] Error loading events:", error)
       } finally {
@@ -114,35 +128,35 @@ export default function EventsPage() {
       {/* Background decorative pictos */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden -z-10">
         <Image
-          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%201-YFeeOd4CBQ2S2bGA4pPLgNc6hMYIPd.png"
+          src="/images/design-mode/picto%201(1).png"
           alt=""
           width={120}
           height={120}
           className="absolute top-[5%] left-[8%] opacity-20 rotate-12"
         />
         <Image
-          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%205-1otn1kQK9Cg25uM98EKKPTXzxXhRq2.png"
+          src="/images/design-mode/picto%205(1).png"
           alt=""
           width={100}
           height={100}
           className="absolute top-[15%] right-[10%] opacity-15 -rotate-6"
         />
         <Image
-          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%207-ortOMnxOuv7texPH3RxLJTGkLhXhuQ.png"
+          src="/images/design-mode/picto%207(1).png"
           alt=""
           width={80}
           height={80}
           className="absolute top-[40%] left-[5%] opacity-25 rotate-45"
         />
         <Image
-          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%204-ac6W7GEoGBcgE6fyqHJLr2EBOsnw7u.png"
+          src="/images/design-mode/picto%204.png"
           alt=""
           width={140}
           height={140}
           className="absolute bottom-[20%] right-[8%] opacity-20 -rotate-12"
         />
         <Image
-          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%203-iph3iRcbh4GzoswUQo87W7giQs9vrW.png"
+          src="/images/design-mode/picto%203.png"
           alt=""
           width={90}
           height={90}
@@ -154,14 +168,14 @@ export default function EventsPage() {
       <div className="mb-8 relative">
         {/* Small decorative pictos to header corners */}
         <Image
-          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%205-1otn1kQK9Cg25uM98EKKPTXzxXhRq2.png"
+          src="/images/design-mode/picto%205(1).png"
           alt=""
           width={16}
           height={16}
           className="absolute -top-4 -right-4 opacity-60 rotate-12"
         />
         <Image
-          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%207-ortOMnxOuv7texPH3RxLJTGkLhXhuQ.png"
+          src="/images/design-mode/picto%207(1).png"
           alt=""
           width={16}
           height={16}
@@ -179,13 +193,11 @@ export default function EventsPage() {
               iterations={1}
               isView={true}
             >
-              Événements
+              {pageTitle}
             </Highlighter>
           </h1>
         </div>
-        <p className="text-muted-foreground text-lg">
-          Découvrez tous nos événements, conférences, ateliers et manifestations.
-        </p>
+        <p className="text-muted-foreground text-lg">{pageSubtitle}</p>
       </div>
 
       {/* Filters */}

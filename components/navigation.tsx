@@ -123,15 +123,15 @@ export function Navigation() {
                 >
                   <NavItemWithBrush>
                     <span className="flex items-center gap-1">
-                      S'organiser et agir
+                      S'organiser & Agir
                       <ChevronDown className="h-3.5 w-3.5" />
                     </span>
                   </NavItemWithBrush>
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="start" className="min-w-[180px] border-2 border-[#E73628] bg-white">
-                <DropdownItemWithBrush href="/ressources">Ressources</DropdownItemWithBrush>
-                <DropdownItemWithBrush href="/evenements">Evénements</DropdownItemWithBrush>
+                <DropdownItemWithBrush href="/les-doleances">Les Doléances</DropdownItemWithBrush>
+                <DropdownItemWithBrush href="/ressources">Assemblées générales citoyennes</DropdownItemWithBrush>
               </DropdownMenuContent>
             </DropdownMenu>
 
@@ -151,9 +151,8 @@ export function Navigation() {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="start" className="min-w-[180px] border-2 border-[#E73628] bg-white">
+                <DropdownItemWithBrush href="/evenements">Evénements</DropdownItemWithBrush>
                 <DropdownItemWithBrush href="/blog">Actus</DropdownItemWithBrush>
-                <DropdownItemWithBrush href="/a-propos">A propos</DropdownItemWithBrush>
-                <DropdownItemWithBrush href="/les-doleances">Les Doléances</DropdownItemWithBrush>
               </DropdownMenuContent>
             </DropdownMenu>
 
@@ -166,15 +165,15 @@ export function Navigation() {
                 >
                   <NavItemWithBrush>
                     <span className="flex items-center gap-1">
-                      Faire rhizome
+                      Faire Rhizome
                       <ChevronDown className="h-3.5 w-3.5" />
                     </span>
                   </NavItemWithBrush>
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="start" className="min-w-[180px] border-2 border-[#E73628] bg-white">
-                <DropdownItemWithBrush href="/groupes-locaux">Groupes locaux</DropdownItemWithBrush>
-                <DropdownItemWithBrush href="/participer">Participer</DropdownItemWithBrush>
+                <DropdownItemWithBrush href="/a-propos">A propos</DropdownItemWithBrush>
+                <DropdownItemWithBrush href="/groupes-locaux">Groupes communaux</DropdownItemWithBrush>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
@@ -203,7 +202,7 @@ export function Navigation() {
               className="border-transparent hover:bg-transparent bg-transparent cursor-target"
             >
               <Link href="/participer">
-                <ContactButtonWithHighlight>Contact</ContactButtonWithHighlight>
+                <ContactButtonWithHighlight>Participer</ContactButtonWithHighlight>
               </Link>
             </Button>
           </div>
@@ -215,7 +214,7 @@ export function Navigation() {
             <Button variant="ghost" size="sm" asChild className="hover:bg-transparent">
               <Link href="/participer">
                 <ContactButtonWithHighlight>
-                  <span className="text-sm">Contact</span>
+                  <span className="text-sm">Participer</span>
                 </ContactButtonWithHighlight>
               </Link>
             </Button>
@@ -230,29 +229,39 @@ export function Navigation() {
             </Link>
 
             <div className="space-y-2 px-4">
-              <div className="font-bold text-sm text-[#44843F] uppercase">S'organiser et agir</div>
+              <div className="font-bold text-sm text-[#44843F] uppercase">S'organiser & Agir</div>
+              <Link
+                href="/les-doleances"
+                className="block pl-4 text-sm text-foreground hover:text-[#E73628] transition-colors font-medium"
+              >
+                Les Doléances
+              </Link>
               <Link
                 href="/ressources"
                 className="block pl-4 text-sm text-foreground hover:text-[#E73628] transition-colors font-medium"
               >
-                Ressources
-              </Link>
-              <Link
-                href="/evenements"
-                className="block pl-4 text-sm text-foreground hover:text-[#E73628] transition-colors font-medium"
-              >
-                Evénements
+                Assemblées générales citoyennes
               </Link>
             </div>
 
             <div className="space-y-2 px-4">
               <div className="font-bold text-sm text-[#44843F] uppercase">S'informer</div>
               <Link
+                href="/evenements"
+                className="block pl-4 text-sm text-foreground hover:text-[#E73628] transition-colors font-medium"
+              >
+                Evénements
+              </Link>
+              <Link
                 href="/blog"
                 className="block pl-4 text-sm text-foreground hover:text-[#E73628] transition-colors font-medium"
               >
                 Actus
               </Link>
+            </div>
+
+            <div className="space-y-2 px-4">
+              <div className="font-bold text-sm text-[#44843F] uppercase">Faire Rhizome</div>
               <Link
                 href="/a-propos"
                 className="block pl-4 text-sm text-foreground hover:text-[#E73628] transition-colors font-medium"
@@ -260,26 +269,10 @@ export function Navigation() {
                 A propos
               </Link>
               <Link
-                href="/les-doleances"
-                className="block pl-4 text-sm text-foreground hover:text-[#E73628] transition-colors font-medium"
-              >
-                Les Doléances
-              </Link>
-            </div>
-
-            <div className="space-y-2 px-4">
-              <div className="font-bold text-sm text-[#44843F] uppercase">Faire rhizome</div>
-              <Link
                 href="/groupes-locaux"
                 className="block pl-4 text-sm text-foreground hover:text-[#E73628] transition-colors font-medium"
               >
-                Groupes locaux
-              </Link>
-              <Link
-                href="/participer"
-                className="block pl-4 text-sm text-foreground hover:text-[#E73628] transition-colors font-medium"
-              >
-                Participer
+                Groupes communaux
               </Link>
             </div>
           </MobileNavMenu>

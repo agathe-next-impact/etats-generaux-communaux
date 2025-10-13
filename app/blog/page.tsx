@@ -1,5 +1,5 @@
 import { Suspense } from "react"
-import { getPosts, getCategories } from "@/lib/wordpress"
+import { getPosts, getCategories, getArchivePageTitles } from "@/lib/wordpress"
 import { ArticleCard } from "@/components/article-card"
 import { BlogFilters } from "@/components/blog-filters"
 import { Pagination } from "@/components/pagination"
@@ -79,58 +79,77 @@ export const metadata = {
     "Explorez nos analyses, témoignages et réflexions sur la conversion écologique et sociale, l'engagement collectif et les mouvements citoyens.",
 }
 
+async function BlogHeader() {
+  const pageTitles = await getArchivePageTitles()
+
+  const title = pageTitles?.page_blog?.titre || "Tous les articles"
+  const subtitle =
+    pageTitles?.page_blog?.["sous-titre"] ||
+    "Explorez nos analyses, témoignages et réflexions sur l'engagement collectif et les mouvements sociaux."
+
+  return (
+    <div className="text-center mb-12 relative">
+      {/* Decorative pictos in background */}
+      <Image
+        src="/images/design-mode/picto%201(1).png"
+        alt=""
+        width={80}
+        height={80}
+        className="absolute -top-8 left-[10%] opacity-20 rotate-12 pointer-events-none"
+      />
+      <Image
+        src="/images/design-mode/picto%205(1).png"
+        alt=""
+        width={60}
+        height={60}
+        className="absolute top-0 right-[15%] opacity-15 -rotate-6 pointer-events-none"
+      />
+      <Image
+        src="/images/design-mode/picto%207(1).png"
+        alt=""
+        width={50}
+        height={50}
+        className="absolute -bottom-4 left-[20%] opacity-20 rotate-45 pointer-events-none"
+      />
+      <Image
+        src="/images/design-mode/picto%204.png"
+        alt=""
+        width={70}
+        height={70}
+        className="absolute bottom-0 right-[10%] opacity-15 -rotate-12 pointer-events-none"
+      />
+
+      <h1 className="text-4xl md:text-5xl text-foreground mb-4 font-black uppercase font-raleway">
+        <Highlighter
+          action="underline"
+          color="#E73628"
+          strokeWidth={4}
+          animationDuration={600}
+          iterations={1}
+          isView={true}
+        >
+          {title}
+        </Highlighter>
+      </h1>
+      <p className="text-lg text-muted-foreground max-w-2xl mx-auto">{subtitle}</p>
+    </div>
+  )
+}
+
 export default function BlogPage({ searchParams }: BlogPageProps) {
   return (
     <div className="min-h-screen py-12 pt-[150px]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="text-center mb-12 relative">
-          {/* Decorative pictos in background */}
-          <Image
-            src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%201-YFeeOd4CBQ2S2bGA4pPLgNc6hMYIPd.png"
-            alt=""
-            width={80}
-            height={80}
-            className="absolute -top-8 left-[10%] opacity-20 rotate-12 pointer-events-none"
-          />
-          <Image
-            src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%205-1otn1kQK9Cg25uM98EKKPTXzxXhRq2.png"
-            alt=""
-            width={60}
-            height={60}
-            className="absolute top-0 right-[15%] opacity-15 -rotate-6 pointer-events-none"
-          />
-          <Image
-            src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%207-ortOMnxOuv7texPH3RxLJTGkLhXhuQ.png"
-            alt=""
-            width={50}
-            height={50}
-            className="absolute -bottom-4 left-[20%] opacity-20 rotate-45 pointer-events-none"
-          />
-          <Image
-            src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%204-ac6W7GEoGBcgE6fyqHJLr2EBOsnw7u.png"
-            alt=""
-            width={70}
-            height={70}
-            className="absolute bottom-0 right-[10%] opacity-15 -rotate-12 pointer-events-none"
-          />
-
-          <h1 className="text-4xl md:text-5xl text-foreground mb-4 font-black uppercase font-raleway">
-            <Highlighter
-              action="underline"
-              color="#E73628"
-              strokeWidth={4}
-              animationDuration={600}
-              iterations={1}
-              isView={true}
-            >
-              Tous les articles
-            </Highlighter>
-          </h1>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Explorez nos analyses, témoignages et réflexions sur l'engagement collectif et les mouvements sociaux.
-          </p>
-        </div>
+        <Suspense
+          fallback={
+            <div className="text-center mb-12">
+              <div className="h-12 bg-muted rounded animate-pulse mb-4" />
+              <div className="h-6 bg-muted rounded max-w-2xl mx-auto animate-pulse" />
+            </div>
+          }
+        >
+          <BlogHeader />
+        </Suspense>
 
         <Suspense
           fallback={

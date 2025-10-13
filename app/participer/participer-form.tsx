@@ -76,7 +76,7 @@ export function ParticiperForm({ emailDestination }: ParticiperFormProps) {
     <Card className="border-4 border-[#E73628] relative overflow-visible">
       <div className="absolute -top-6 -right-6 z-10">
         <img
-          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%201-YFeeOd4CBQ2S2bGA4pPLgNc6hMYIPd.png"
+          src="/images/design-mode/picto%201(1).png"
           alt=""
           className="w-12 h-12 object-contain"
         />

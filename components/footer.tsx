@@ -9,42 +9,42 @@ export function Footer() {
       {/* Decorative background pictos */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <Image
-          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%201-YFeeOd4CBQ2S2bGA4pPLgNc6hMYIPd.png"
+          src="/images/design-mode/picto%201(1).png"
           alt=""
           width={40}
           height={40}
           className="absolute top-8 left-12 opacity-10 rotate-12"
         />
         <Image
-          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%202-XT3JEJBM0RTr1nZ4p7W1zXmIKbvoE1.png"
+          src="/images/design-mode/picto%202.png"
           alt=""
           width={32}
           height={32}
           className="absolute top-16 right-24 opacity-15 -rotate-6"
         />
         <Image
-          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%203-iph3iRcbh4GzoswUQo87W7giQs9vrW.png"
+          src="/images/design-mode/picto%203.png"
           alt=""
           width={36}
           height={36}
           className="absolute bottom-32 left-1/4 opacity-12 rotate-45"
         />
         <Image
-          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%204-ac6W7GEoGBcgE6fyqHJLr2EBOsnw7u.png"
+          src="/images/design-mode/picto%204.png"
           alt=""
           width={28}
           height={28}
           className="absolute top-24 right-1/3 opacity-10 -rotate-12"
         />
         <Image
-          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%205-1otn1kQK9Cg25uM98EKKPTXzxXhRq2.png"
+          src="/images/design-mode/picto%205(1).png"
           alt=""
           width={44}
           height={44}
           className="absolute bottom-24 right-16 opacity-15 rotate-20"
         />
         <Image
-          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%207-ortOMnxOuv7texPH3RxLJTGkLhXhuQ.png"
+          src="/images/design-mode/picto%207(1).png"
           alt=""
           width={38}
           height={38}
@@ -58,7 +58,7 @@ export function Footer() {
           <div className="space-y-4 relative">
             {/* Small picto on top left corner of brand section */}
             <Image
-              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%201-YFeeOd4CBQ2S2bGA4pPLgNc6hMYIPd.png"
+              src="/images/design-mode/picto%201(1).png"
               alt=""
               width={24}
               height={24}
@@ -94,7 +94,7 @@ export function Footer() {
           <div className="space-y-4 relative">
             {/* Small picto on top right corner of navigation section */}
             <Image
-              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%202-XT3JEJBM0RTr1nZ4p7W1zXmIKbvoE1.png"
+              src="/images/design-mode/picto%202.png"
               alt=""
               width={20}
               height={20}
@@ -116,7 +116,7 @@ export function Footer() {
         <div className="mt-8 pt-8 border-t border-black/20 relative">
           {/* Small picto on bottom right corner */}
           <Image
-            src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%205-1otn1kQK9Cg25uM98EKKPTXzxXhRq2.png"
+            src="/images/design-mode/picto%205(1).png"
             alt=""
             width={28}
             height={28}
@@ -136,7 +136,7 @@ export function Footer() {
 
       <div className="w-full">
         <Image
-          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/fresque-VsYsqdaWmxKIfbwxBEhKS6ZEpRhGOE.png"
+          src="/images/design-mode/fresque.png"
           alt="Fresque communautaire"
           width={1920}
           height={200}

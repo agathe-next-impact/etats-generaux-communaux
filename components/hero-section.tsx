@@ -18,11 +18,11 @@ export function HeroSection({ acf }: HeroSectionProps) {
   return (
     <section className="relative py-20 lg:py-32 overflow-hidden bg-white">
       <Image
-        src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%202-XT3JEJBM0RTr1nZ4p7W1zXmIKbvoE1.png"
+        src="/images/design-mode/picto%202.png"
         alt=""
         width={280}
         height={280}
-        className="absolute left-1/3 top-8 -translate-x-1/2 z-0 opacity-80"
+        className="absolute left-1/4 top-2 -translate-x-1/2 z-0 opacity-80"
       />
 
       <motion.div
