@@ -12,7 +12,7 @@ interface NavbarContextType {
 
 const NavbarContext = React.createContext<NavbarContextType | undefined>(undefined)
 
-function useNavbar() {
+export function useNavbar() {
   const context = React.useContext(NavbarContext)
   if (!context) {
     throw new Error("Navbar components must be used within a Navbar")

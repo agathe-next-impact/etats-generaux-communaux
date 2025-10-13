@@ -4,13 +4,13 @@ import type React from "react"
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
+import { useRouter, usePathname } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { GlobalSearch } from "@/components/global-search"
 import { Search, ChevronDown } from "lucide-react"
 import Image from "next/image"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { Navbar, NavBody, MobileNav, MobileNavMenu, MobileNavToggle } from "@/components/ui/resizable-navbar"
+import { Navbar, NavBody, MobileNav, MobileNavMenu, MobileNavToggle, useNavbar } from "@/components/ui/resizable-navbar"
 
 function NavItemWithBrush({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return (
@@ -54,11 +54,22 @@ function ContactButtonWithHighlight({ children }: { children: React.ReactNode })
         className="absolute inset-0 -inset-x-3 -inset-y-2 bg-[#B4D19F] opacity-80 -z-10 rounded-sm"
         style={{
           clipPath:
-            "polygon(2% 5%, 5% 3%, 8% 6%, 12% 2%, 15% 7%, 18% 4%, 22% 8%, 25% 3%, 28% 6%, 32% 4%, 35% 8%, 38% 5%, 42% 9%, 45% 4%, 48% 7%, 52% 3%, 55% 8%, 58% 5%, 62% 9%, 65% 4%, 68% 7%, 72% 3%, 75% 8%, 78% 5%, 82% 9%, 85% 4%, 88% 7%, 92% 3%, 95% 6%, 98% 4%, 100% 7%, 100% 93%, 98% 96%, 95% 94%, 92% 97%, 88% 93%, 85% 96%, 82% 91%, 78% 95%, 75% 92%, 72% 97%, 68% 93%, 65% 96%, 62% 91%, 58% 95%, 55% 92%, 52% 97%, 48% 93%, 45% 96%, 42% 91%, 38% 95%, 35% 92%, 32% 96%, 28% 94%, 25% 97%, 22% 92%, 18% 96%, 15% 93%, 12% 98%, 8% 94%, 5% 97%, 2% 95%, 0% 93%)",
+            "polygon(2% 5%, 5% 3%, 8% 6%, 12% 2%, 15% 7%, 18% 4%, 22% 8%, 25% 3%, 28% 6%, 32% 4%, 35% 8%, 38% 5%, 42% 9%, 45% 4%, 48% 7%, 52% 3%, 55% 8%, 58% 5%, 62% 9%, 65% 4%, 68% 7%, 72% 3%, 75% 8%, 78% 5%, 82% 9%, 85% 4%, 88% 7%, 92% 3%, 95% 6%, 98% 4%, 100% 7%, 100% 93%, 98% 96%, 95% 94%, 92% 97%, 88% 93%, 85% 96%, 82% 91%, 78% 95%, 75% 92%, 72% 97%, 68% 93%, 65% 96%, 62% 91%, 58% 95%, 55% 92%, 52% 97%, 48% 93%, 45% 96%, 42% 91%, 38% 95%, 35% 92%, 32% 96%, 28% 94%, 25% 97%, 22% 84%, 18% 96%, 15% 93%, 12% 98%, 8% 94%, 5% 97%, 2% 95%, 0% 93%)",
         }}
       />
     </span>
   )
+}
+
+function MobileMenuController() {
+  const pathname = usePathname()
+  const { setIsMobileMenuOpen } = useNavbar()
+
+  useEffect(() => {
+    setIsMobileMenuOpen(false)
+  }, [pathname, setIsMobileMenuOpen])
+
+  return null
 }
 
 export function Navigation() {
@@ -84,6 +95,8 @@ export function Navigation() {
   return (
     <>
       <Navbar className="bg-white border-b-2 border-[#E73628]">
+        <MobileMenuController />
+
         <NavBody>
           <Link href="/" className="flex items-center space-x-2 cursor-target">
             <Image
