@@ -1,10 +1,9 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+@custom-variant dark (&:is(.dark *));
+
 :root {
-  /* Updated color scheme based on Proposition n°2 brand guidelines */
-  /* Main colors: Yellow (#F4E63C), Red (#E73628), Green (#4AAD33) */
-  /* Additional green variations: Dark Green (#44843F), Medium Green (#94BF7E), Light Green (#B4D19F) */
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
@@ -41,7 +40,6 @@
 }
 
 .dark {
-  /* Dark mode colors maintaining brand identity */
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.145 0 0);

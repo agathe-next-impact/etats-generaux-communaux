@@ -32,6 +32,7 @@ interface HorizontalTimelineProps {
 export function HorizontalTimeline({ links, title, subtitle }: HorizontalTimelineProps) {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
   const [activeIndex, setActiveIndex] = useState(0)
+  const [clickedIndex, setClickedIndex] = useState<number | null>(null)
   const [popupPosition, setPopupPosition] = useState<"left" | "right">("right")
   const [isMobile, setIsMobile] = useState(false)
   const timelineRef = useRef<HTMLDivElement>(null)
@@ -62,9 +63,23 @@ export function HorizontalTimeline({ links, title, subtitle }: HorizontalTimelin
   }
 
   const handleMouseEnter = (index: number, event: React.MouseEvent<HTMLDivElement>) => {
-    setHoveredIndex(index)
-    const position = determinePopupPosition(event.currentTarget)
-    setPopupPosition(position)
+    if (!isMobile) {
+      setHoveredIndex(index)
+      const position = determinePopupPosition(event.currentTarget)
+      setPopupPosition(position)
+    }
+  }
+
+  const handleClick = (index: number, event: React.MouseEvent<HTMLDivElement>) => {
+    if (isMobile) {
+      if (clickedIndex === index) {
+        setClickedIndex(null)
+      } else {
+        setClickedIndex(index)
+        const position = determinePopupPosition(event.currentTarget)
+        setPopupPosition(position)
+      }
+    }
   }
 
   useEffect(() => {
@@ -180,11 +195,12 @@ export function HorizontalTimeline({ links, title, subtitle }: HorizontalTimelin
 
           <div
             ref={containerRef}
-            className="flex flex-col md:flex-row md:justify-between gap-12 md:gap-4 relative"
+            className="flex flex-col md:flex-row md:justify-between gap-16 md:gap-4 relative"
             style={{ minHeight: "200px", paddingTop: "100px", paddingBottom: "100px" }}
           >
             {links.map((link, index) => {
               const isAbove = isMobile ? true : index % 2 === 0
+              const showPopup = isMobile ? clickedIndex === index : hoveredIndex === index
 
               return (
                 <div
@@ -195,11 +211,12 @@ export function HorizontalTimeline({ links, title, subtitle }: HorizontalTimelin
                   style={{ minHeight: "200px" }}
                   onMouseEnter={(e) => handleMouseEnter(index, e)}
                   onMouseLeave={() => setHoveredIndex(null)}
+                  onClick={(e) => handleClick(index, e)}
                 >
                   <div
                     className={`flex flex-col items-center gap-3 relative ${!isMobile && !isAbove ? "flex-col-reverse" : ""}`}
                   >
-                    <div className="relative z-10 w-16 h-16 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg cursor-pointer bg-white overflow-hidden">
+                    <div className="relative z-10 w-16 h-16 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 hover:shadow-lg cursor-pointer bg-white overflow-hidden border-2 border-transparent hover:border-[#E73628] active:border-[#E73628]">
                       {link.icone?.url ? (
                         index === links.length - 1 ? (
                           <motion.div
@@ -240,7 +257,7 @@ export function HorizontalTimeline({ links, title, subtitle }: HorizontalTimelin
                     </div>
 
                     <AnimatePresence>
-                      {hoveredIndex === index && link.texte && (
+                      {showPopup && link.texte && (
                         <motion.div
                           initial={{
                             opacity: 0,
@@ -262,6 +279,7 @@ export function HorizontalTimeline({ links, title, subtitle }: HorizontalTimelin
                               : `${popupPosition === "right" ? "left-full ml-4" : "right-full mr-4"} top-1/2 -translate-y-1/2`
                           }`}
                           style={{ pointerEvents: "auto" }}
+                          onClick={(e) => e.stopPropagation()}
                         >
                           <div
                             className={`absolute w-4 h-4 bg-white border-2 border-[#E73628] ${

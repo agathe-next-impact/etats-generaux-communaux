@@ -26,7 +26,7 @@ export function HeroSection({ acf }: HeroSectionProps) {
       />
 
       <motion.div
-        className="absolute top-4 right-8 z-10"
+        className="absolute top-2 right-2 md:top-4 md:right-8 z-10 scale-75 md:scale-100"
         initial={{ scale: 0.05 }}
         animate={{ scale: 1 }}
         transition={{
@@ -39,12 +39,12 @@ export function HeroSection({ acf }: HeroSectionProps) {
         {acf.cta_15?.url ? (
           <Link href={acf.cta_15.url} target={acf.cta_15.target || "_self"} className="group block">
             <div className="relative">
-              <div className="bg-[#E73628] text-white px-6 py-4 rounded-lg shadow-xl transform rotate-3 group-hover:rotate-6 transition-transform duration-300 border-4 border-white">
+              <div className="bg-[#E73628] text-white px-4 py-3 md:px-6 md:py-4 rounded-lg shadow-xl transform rotate-3 group-hover:rotate-6 transition-transform duration-300 border-4 border-white">
                 <div className="text-center">
-                  <div className="text-xs font-bold uppercase tracking-wider mb-1">Appel du</div>
-                  <div className="text-2xl font-black">15 octobre</div>
-                  <div className="text-xl font-bold mb-2">2025</div>
-                  <div className="flex items-center justify-center gap-1 text-xs font-bold uppercase tracking-wide border-t border-white/30 pt-2 mt-2">
+                  <div className="text-[10px] md:text-xs font-bold uppercase tracking-wider mb-1">Appel du</div>
+                  <div className="text-xl md:text-2xl font-black">15 octobre</div>
+                  <div className="text-lg md:text-xl font-bold mb-2">2025</div>
+                  <div className="flex items-center justify-center gap-1 text-[10px] md:text-xs font-bold uppercase tracking-wide border-t border-white/30 pt-2 mt-2">
                     <span>Lire l'appel</span>
                     <ArrowRight className="h-3 w-3 group-hover:translate-x-1 transition-transform" />
                   </div>
@@ -55,19 +55,18 @@ export function HeroSection({ acf }: HeroSectionProps) {
           </Link>
         ) : (
           <div className="relative">
-            <div className="bg-[#E73628] text-white px-6 py-4 rounded-lg shadow-xl transform rotate-3 border-4 border-white">
+            <div className="bg-[#E73628] text-white px-4 py-3 md:px-6 md:py-4 rounded-lg shadow-xl transform rotate-3 border-4 border-white">
               <div className="text-center">
-                <div className="text-xs font-bold uppercase tracking-wider mb-1">Appel du</div>
-                <div className="text-2xl font-black">15 octobre</div>
-                <div className="text-xl font-bold">2025</div>
+                <div className="text-[10px] md:text-xs font-bold uppercase tracking-wider mb-1">Appel du</div>
+                <div className="text-xl md:text-2xl font-black">15 octobre</div>
+                <div className="text-lg md:text-xl font-bold">2025</div>
               </div>
             </div>
             <div className="absolute inset-0 bg-[#E73628]/20 rounded-lg transform rotate-3 -z-10 blur-sm" />
           </div>
         )}
       </motion.div>
-
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 md:pt-0">
         <div className="text-center space-y-8">
           <div className="space-y-4">
             <h1 className="text-4xl md:text-6xl lg:text-7xl uppercase leading-tight text-foreground font-black">
