@@ -131,7 +131,7 @@ export function Navigation() {
               </DropdownMenuTrigger>
               <DropdownMenuContent align="start" className="min-w-[180px] border-2 border-[#E73628] bg-white">
                 <DropdownItemWithBrush href="/les-doleances">Les Doléances</DropdownItemWithBrush>
-                <DropdownItemWithBrush href="/ressources">Assemblées générales citoyennes</DropdownItemWithBrush>
+                <DropdownItemWithBrush href="/ressources">Assemblées citoyennes communales</DropdownItemWithBrush>
               </DropdownMenuContent>
             </DropdownMenu>
 
@@ -240,7 +240,7 @@ export function Navigation() {
                 href="/ressources"
                 className="block pl-4 text-sm text-foreground hover:text-[#E73628] transition-colors font-medium"
               >
-                Assemblées générales citoyennes
+                Assemblées citoyennes communales
               </Link>
             </div>
 

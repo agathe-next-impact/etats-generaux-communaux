@@ -1,7 +1,5 @@
 import Link from "next/link"
 import Image from "next/image"
-import { Button } from "@/components/ui/button"
-import { Twitter, Facebook, Linkedin, Rss } from "lucide-react"
 
 export function Footer() {
   return (
@@ -74,20 +72,6 @@ export function Footer() {
               />
             </Link>
             <p className="text-sm text-black/80 leading-relaxed"></p>
-            <div className="flex space-x-2">
-              <Button variant="ghost" size="sm" className="h-8 w-8 p-0 hover:bg-[#E73628] hover:text-white">
-                <Twitter className="h-4 w-4 text-black" />
-              </Button>
-              <Button variant="ghost" size="sm" className="h-8 w-8 p-0 hover:bg-[#E73628] hover:text-white">
-                <Facebook className="h-4 w-4 text-black" />
-              </Button>
-              <Button variant="ghost" size="sm" className="h-8 w-8 p-0 hover:bg-[#E73628] hover:text-white">
-                <Linkedin className="h-4 w-4 text-black" />
-              </Button>
-              <Button variant="ghost" size="sm" className="h-8 w-8 p-0 hover:bg-[#E73628] hover:text-white">
-                <Rss className="h-4 w-4 text-black" />
-              </Button>
-            </div>
           </div>
 
           {/* Navigation */}
