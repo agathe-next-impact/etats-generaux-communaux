@@ -17,6 +17,7 @@ const TargetCursor: React.FC<TargetCursorProps> = ({
   hideDefaultCursor = true,
 }) => {
   const [mounted, setMounted] = useState(false)
+  const [hasMouseCapability, setHasMouseCapability] = useState(false)
   const cursorRef = useRef<HTMLDivElement>(null)
   const cornersRef = useRef<NodeListOf<HTMLDivElement>>(null)
   const spinTl = useRef<gsap.core.Timeline>(null)
@@ -42,12 +43,18 @@ const TargetCursor: React.FC<TargetCursorProps> = ({
 
   useEffect(() => {
     setMounted(true)
+    const hasHover = window.matchMedia("(hover: hover)").matches
+    const hasFinePointer = window.matchMedia("(pointer: fine)").matches
+    setHasMouseCapability(hasHover && hasFinePointer)
     console.log("[v0] TargetCursor mounting on client side")
+    console.log("[v0] Device has mouse capability:", hasHover && hasFinePointer)
   }, [])
 
   useEffect(() => {
-    if (!mounted) {
-      console.log("[v0] TargetCursor not yet mounted, skipping initialization")
+    if (!mounted || !hasMouseCapability) {
+      if (!hasMouseCapability) {
+        console.log("[v0] TargetCursor disabled on touch device")
+      }
       return
     }
 
@@ -339,7 +346,7 @@ const TargetCursor: React.FC<TargetCursorProps> = ({
       spinTl.current?.kill()
       document.body.style.cursor = originalCursor
     }
-  }, [targetSelector, spinDuration, moveCursor, constants, hideDefaultCursor, mounted])
+  }, [targetSelector, spinDuration, moveCursor, constants, hideDefaultCursor, mounted, hasMouseCapability])
 
   useEffect(() => {
     if (!mounted) {
@@ -357,7 +364,7 @@ const TargetCursor: React.FC<TargetCursorProps> = ({
     }
   }, [spinDuration, mounted])
 
-  if (!mounted) {
+  if (!mounted || !hasMouseCapability) {
     return null
   }
 

@@ -6,6 +6,15 @@
   z-index: 9999;
   width: 0;
   height: 0;
+  /* Hide cursor on touch devices, show only on devices with mouse */
+  display: none;
+}
+
+/* Show cursor only on devices with hover capability and fine pointer (mouse) */
+@media (hover: hover) and (pointer: fine) {
+  .target-cursor-wrapper {
+    display: block;
+  }
 }
 
 .target-cursor-dot {

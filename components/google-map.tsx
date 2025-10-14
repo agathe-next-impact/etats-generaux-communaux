@@ -20,128 +20,129 @@ export function GoogleMap({ groups }: GoogleMapProps) {
   const [isLoaded, setIsLoaded] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [mapInstance, setMapInstance] = useState<any>(null)
-  const [isMounted, setIsMounted] = useState(false)
-  const [apiKey, setApiKey] = useState<string | null>(null)
+  const mapInitializedRef = useRef(false)
 
   useEffect(() => {
-    setIsMounted(true)
-    return () => setIsMounted(false)
-  }, [])
+    let isMounted = true
+    let scriptAdded = false
 
-  useEffect(() => {
-    const fetchApiKey = async () => {
+    const loadAndInitialize = async () => {
       try {
-        const key = await getGoogleMapsApiKey()
-        setApiKey(key)
-      } catch (err) {
-        console.error("[v0] Failed to fetch Google Maps API key:", err)
-        setError("Erreur lors de la récupération de la clé API")
-      }
-    }
+        // Step 1: Fetch API key
+        console.log("[v0] Fetching Google Maps API key...")
+        const apiKey = await getGoogleMapsApiKey()
 
-    fetchApiKey()
-  }, [])
+        if (!isMounted) return
 
-  useEffect(() => {
-    console.log("[v0] GoogleMap component mounted with", groups.length, "groups")
-
-    if (!isMounted) {
-      console.log("[v0] Component not yet mounted, waiting...")
-      return
-    }
-
-    if (!apiKey) {
-      console.log("[v0] Google Maps API key not configured, showing demo mode")
-      setError("Clé API Google Maps non configurée")
-      return
-    }
-
-    if (typeof window !== "undefined" && window.google && window.google.maps && window.google.maps.Map) {
-      console.log("[v0] Google Maps already loaded, initializing...")
-      setIsLoaded(true)
-      return
-    }
-
-    const loadGoogleMaps = () => {
-      return new Promise<void>((resolve, reject) => {
-        const existingScript = document.querySelector('script[src*="maps.googleapis.com"]')
-        if (existingScript) {
-          const checkLoaded = () => {
-            if (window.google && window.google.maps && window.google.maps.Map) {
-              resolve()
-            } else {
-              setTimeout(checkLoaded, 100)
-            }
-          }
-          checkLoaded()
+        if (!apiKey) {
+          console.log("[v0] Google Maps API key not configured")
+          setError("Clé API Google Maps non configurée")
           return
         }
 
-        console.log("[v0] Loading Google Maps API...")
-        const script = document.createElement("script")
-        script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places&loading=async`
-        script.async = true
-        script.defer = true
+        console.log("[v0] API key fetched successfully")
 
-        script.onload = () => {
-          console.log("[v0] Google Maps script loaded, waiting for API...")
-          const checkApiReady = () => {
-            if (window.google && window.google.maps && window.google.maps.Map) {
-              console.log("[v0] Google Maps API fully loaded and ready")
-              resolve()
-            } else {
-              setTimeout(checkApiReady, 50)
+        // Step 2: Check if Google Maps is already loaded
+        if (typeof window !== "undefined" && window.google?.maps?.Map) {
+          console.log("[v0] Google Maps already loaded, initializing map...")
+          setIsLoaded(true)
+          return
+        }
+
+        // Step 3: Load Google Maps script
+        const existingScript = document.querySelector('script[src*="maps.googleapis.com"]')
+
+        if (existingScript) {
+          console.log("[v0] Google Maps script already exists, waiting for load...")
+          // Wait for existing script to load
+          await new Promise<void>((resolve) => {
+            const checkLoaded = () => {
+              if (window.google?.maps?.Map) {
+                resolve()
+              } else {
+                setTimeout(checkLoaded, 100)
+              }
             }
-          }
-          checkApiReady()
+            checkLoaded()
+          })
+        } else {
+          console.log("[v0] Loading Google Maps script...")
+          await new Promise<void>((resolve, reject) => {
+            const script = document.createElement("script")
+            script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places&loading=async`
+            script.async = true
+            script.defer = true
+
+            script.onload = () => {
+              console.log("[v0] Google Maps script loaded, waiting for API...")
+              scriptAdded = true
+              const checkApiReady = () => {
+                if (window.google?.maps?.Map) {
+                  console.log("[v0] Google Maps API ready")
+                  resolve()
+                } else {
+                  setTimeout(checkApiReady, 50)
+                }
+              }
+              checkApiReady()
+            }
+
+            script.onerror = () => {
+              console.error("[v0] Failed to load Google Maps script")
+              reject(new Error("Failed to load Google Maps script"))
+            }
+
+            document.head.appendChild(script)
+          })
         }
 
-        script.onerror = () => {
-          console.error("[v0] Failed to load Google Maps API")
-          reject(new Error("Failed to load Google Maps API"))
-        }
+        if (!isMounted) return
 
-        document.head.appendChild(script)
-      })
+        console.log("[v0] Google Maps loaded successfully")
+        setIsLoaded(true)
+      } catch (err) {
+        console.error("[v0] Error loading Google Maps:", err)
+        if (isMounted) {
+          setError("Erreur lors du chargement de Google Maps")
+        }
+      }
     }
 
-    loadGoogleMaps()
-      .then(() => {
-        setIsLoaded(true)
-      })
-      .catch((err) => {
-        console.error("[v0] Google Maps loading error:", err)
-        setError("Erreur lors du chargement de Google Maps")
-      })
-  }, [isMounted, apiKey])
+    loadAndInitialize()
+
+    return () => {
+      isMounted = false
+    }
+  }, []) // Only run once on mount
 
   useEffect(() => {
-    if (isLoaded && !error && groups.length > 0 && isMounted) {
-      console.log("[v0] Groups data updated, initializing map...")
-      setTimeout(() => {
-        initializeMap()
-      }, 100)
+    if (!isLoaded || error || groups.length === 0 || mapInitializedRef.current) {
+      return
     }
-  }, [groups, isLoaded, error, isMounted])
+
+    console.log("[v0] Initializing map with", groups.length, "groups")
+
+    // Small delay to ensure DOM is ready
+    const timer = setTimeout(() => {
+      initializeMap()
+    }, 100)
+
+    return () => clearTimeout(timer)
+  }, [isLoaded, error, groups])
 
   const initializeMap = () => {
+    if (mapInitializedRef.current) {
+      console.log("[v0] Map already initialized, skipping")
+      return
+    }
+
     if (!mapRef.current) {
       console.error("[v0] Map container ref is null")
       return
     }
 
-    if (!isMounted) {
-      console.error("[v0] Component not mounted yet")
-      return
-    }
-
-    if (!window.google || !window.google.maps || !window.google.maps.Map) {
-      console.error("[v0] Google Maps API not fully available")
-      console.log("[v0] Available objects:", {
-        google: !!window.google,
-        maps: !!(window.google && window.google.maps),
-        Map: !!(window.google && window.google.maps && window.google.maps.Map),
-      })
+    if (!window.google?.maps?.Map) {
+      console.error("[v0] Google Maps API not available")
       return
     }
 
@@ -153,8 +154,8 @@ export function GoogleMap({ groups }: GoogleMapProps) {
       return
     }
 
-    console.log("[v0] Initializing Google Maps with", groups.length, "groups")
-    console.log("[v0] Map container dimensions:", mapRef.current.offsetWidth, "x", mapRef.current.offsetHeight)
+    console.log("[v0] Creating map instance...")
+    mapInitializedRef.current = true
 
     try {
       const map = new window.google.maps.Map(mapRef.current, {
@@ -174,14 +175,8 @@ export function GoogleMap({ groups }: GoogleMapProps) {
 
       let markersAdded = 0
       groups.forEach((group, index) => {
-        console.log(`[v0] Processing group ${index + 1}:`, group.acf?.nom_de_groupe || group.title.rendered)
-
         if (group.acf?.localisation?.lat && group.acf?.localisation?.lng) {
-          console.log(
-            `[v0] Adding marker for group: ${group.acf?.nom_de_groupe || group.title.rendered} at`,
-            group.acf.localisation.lat,
-            group.acf.localisation.lng,
-          )
+          console.log(`[v0] Adding marker ${index + 1}:`, group.acf?.nom_de_groupe || group.title.rendered)
 
           const marker = new window.google.maps.Marker({
             position: {
@@ -258,8 +253,6 @@ export function GoogleMap({ groups }: GoogleMapProps) {
           marker.addListener("click", () => {
             infoWindow.open(map, marker)
           })
-        } else {
-          console.warn(`[v0] Group ${group.acf?.nom_de_groupe || group.title.rendered} has no valid location data`)
         }
       })
 
@@ -285,6 +278,7 @@ export function GoogleMap({ groups }: GoogleMapProps) {
     } catch (error) {
       console.error("[v0] Error initializing map:", error)
       setError("Erreur lors de l'initialisation de la carte")
+      mapInitializedRef.current = false
     }
   }
 
