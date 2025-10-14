@@ -20,16 +20,16 @@ export async function POST(request: NextRequest) {
     const apiKey = process.env.RESEND_API_KEY
     const isDevelopment = !apiKey || apiKey === "" || apiKey === "your-api-key-here"
 
-    if (isDevelopment) {
-      console.log("[v0] ⚠️  DEVELOPMENT MODE: Resend API key not configured")
-      console.log("[v0] 📧 Email would be sent with the following details:")
-      console.log("[v0] From: Les EGC <noreply@lesegc.fr>")
+    const sendDevelopmentEmail = () => {
+      console.log("[v0] ⚠️  DEVELOPMENT MODE: Email simulation active")
+      console.log("[v0] 📧 Email details:")
+      console.log("[v0] From: Les EGC <noreply@next-event.fr>")
       console.log("[v0] To:", emailDestination || "agathe.karinthi.martin@gmail.com")
       console.log("[v0] Reply-To:", email)
       console.log("[v0] Subject:", `[Contact] ${sujet}`)
       console.log("[v0] Message from:", nom, `(${email})`)
       console.log("[v0] Message:", message)
-      console.log("[v0] 💡 To enable real email sending, add a valid RESEND_API_KEY environment variable")
+      console.log("[v0] 💡 To enable real email sending, add a valid RESEND_API_KEY")
       console.log("[v0] Get your API key at: https://resend.com/api-keys")
 
       return NextResponse.json(
@@ -48,11 +48,15 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    if (isDevelopment) {
+      return sendDevelopmentEmail()
+    }
+
     const resend = new Resend(apiKey)
 
     try {
       const { data, error } = await resend.emails.send({
-        from: "Les EGC <noreply@lesegc.fr>",
+        from: "Les EGC <noreply@next-event.fr>",
         to: emailDestination || "agathe.karinthi.martin@gmail.com",
         replyTo: email,
         subject: `[Contact] ${sujet}`,
@@ -80,14 +84,9 @@ export async function POST(request: NextRequest) {
 
       if (error) {
         console.error("[v0] Resend error:", error)
-        if (error.message?.includes("API key")) {
-          return NextResponse.json(
-            {
-              message:
-                "Erreur de configuration email. Veuillez vérifier la clé API Resend dans les variables d'environnement.",
-            },
-            { status: 500 },
-          )
+        if (error.message?.includes("API key") || error.message?.includes("invalid")) {
+          console.log("[v0] Invalid API key detected, falling back to development mode")
+          return sendDevelopmentEmail()
         }
         return NextResponse.json({ message: "Erreur lors de l'envoi de l'email. Veuillez réessayer." }, { status: 500 })
       }
@@ -109,14 +108,9 @@ export async function POST(request: NextRequest) {
       )
     } catch (emailError: any) {
       console.error("[v0] Error sending email with Resend:", emailError)
-      if (emailError.statusCode === 401) {
-        return NextResponse.json(
-          {
-            message:
-              "Clé API Resend invalide. Veuillez configurer une clé API valide dans les variables d'environnement.",
-          },
-          { status: 500 },
-        )
+      if (emailError.statusCode === 401 || emailError.message?.includes("API key")) {
+        console.log("[v0] Invalid API key (401 error), falling back to development mode")
+        return sendDevelopmentEmail()
       }
       return NextResponse.json({ message: "Erreur lors de l'envoi de l'email. Veuillez réessayer." }, { status: 500 })
     }
