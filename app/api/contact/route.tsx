@@ -33,7 +33,7 @@ export async function POST(request: NextRequest) {
     try {
       const { data, error } = await resend.emails.send({
         from: "Les EGC <noreply@lesegc.fr>", // Replace with your verified domain
-        to: emailDestination || "contact@lesegc.fr", // Fallback to default email
+        to: emailDestination || "agathe.karinthi.martin@gmail.com", // Fallback to default email
         replyTo: email, // Allow recipient to reply directly to sender
         subject: `[Contact] ${sujet}`,
         html: `
