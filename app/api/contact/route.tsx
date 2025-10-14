@@ -17,13 +17,14 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ message: "Format d'email invalide" }, { status: 400 })
     }
 
+    const siteDomain = process.env.SITE_DOMAIN || "next-event.fr"
     const apiKey = process.env.RESEND_API_KEY
     const isDevelopment = !apiKey || apiKey === "" || apiKey === "your-api-key-here"
 
     const sendDevelopmentEmail = () => {
       console.log("[v0] ⚠️  DEVELOPMENT MODE: Email simulation active")
       console.log("[v0] 📧 Email details:")
-      console.log("[v0] From: Les EGC <noreply@next-event.fr>")
+      console.log(`[v0] From: Les EGC <noreply@${siteDomain}>`)
       console.log("[v0] To:", emailDestination || "agathe.karinthi.martin@gmail.com")
       console.log("[v0] Reply-To:", email)
       console.log("[v0] Subject:", `[Contact] ${sujet}`)
@@ -56,7 +57,7 @@ export async function POST(request: NextRequest) {
 
     try {
       const { data, error } = await resend.emails.send({
-        from: "Les EGC <noreply@next-event.fr>",
+        from: `Les EGC <noreply@${siteDomain}>`,
         to: emailDestination || "agathe.karinthi.martin@gmail.com",
         replyTo: email,
         subject: `[Contact] ${sujet}`,
