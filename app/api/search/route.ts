@@ -23,8 +23,10 @@ export async function GET(request: Request) {
     const articleResults = posts.slice(0, 5).map((post) => ({
       type: "article" as const,
       id: post.id,
-      title: post.title.rendered,
-      excerpt: stripHtml(post.excerpt.rendered).substring(0, 150) + "...",
+      title: post.title?.rendered || "Sans titre",
+      excerpt: post.excerpt?.rendered
+        ? stripHtml(post.excerpt.rendered).substring(0, 150) + "..."
+        : "Aucun extrait disponible",
       url: `/blog/${post.slug}`,
       date: post.date,
       category: post._embedded?.["wp:term"]?.[0]?.[0]?.name,
@@ -34,10 +36,12 @@ export async function GET(request: Request) {
     const eventResults = events.slice(0, 5).map((event) => ({
       type: "event" as const,
       id: event.id,
-      title: event.title.rendered,
+      title: event.title?.rendered || "Sans titre",
       excerpt: event.acf?.description
         ? stripHtml(event.acf.description).substring(0, 150) + "..."
-        : stripHtml(event.excerpt.rendered).substring(0, 150) + "...",
+        : event.excerpt?.rendered
+          ? stripHtml(event.excerpt.rendered).substring(0, 150) + "..."
+          : "Aucune description disponible",
       url: `/evenements/${event.slug}`,
       date: event.acf?.date,
       location: event.acf?.lieu?.address,
@@ -47,10 +51,12 @@ export async function GET(request: Request) {
     const resourceResults = resources.slice(0, 5).map((resource) => ({
       type: "resource" as const,
       id: resource.id,
-      title: resource.title.rendered,
+      title: resource.title?.rendered || "Sans titre",
       excerpt: resource.acf?.descriptif
         ? stripHtml(resource.acf.descriptif).substring(0, 150) + "..."
-        : stripHtml(resource.content.rendered).substring(0, 150) + "...",
+        : resource.content?.rendered
+          ? stripHtml(resource.content.rendered).substring(0, 150) + "..."
+          : "Aucune description disponible",
       url: `/ressources/${resource.id}`,
       fileType: resource.acf?.video ? "video" : resource.acf?.fichiers?.[0] ? "pdf" : "document",
     }))

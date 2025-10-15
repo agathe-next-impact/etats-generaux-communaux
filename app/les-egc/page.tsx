@@ -244,6 +244,7 @@ export default async function LesEGCPage() {
                   acf.what_section?.image?.url ||
                   "/placeholder.svg?height=400&width=600&query=assemblée citoyenne village français démocratie participative" ||
                   "/placeholder.svg" ||
+                  "/placeholder.svg" ||
                   "/placeholder.svg"
                 }
                 alt={acf.what_section?.image?.alt || "Assemblée citoyenne"}
@@ -265,6 +266,7 @@ export default async function LesEGCPage() {
                 src={
                   acf.who_section?.image?.url ||
                   "/placeholder.svg?height=400&width=600&query=citoyens français engagement collectif associations" ||
+                  "/placeholder.svg" ||
                   "/placeholder.svg" ||
                   "/placeholder.svg"
                 }
@@ -438,6 +440,7 @@ export default async function LesEGCPage() {
                 src={
                   acf.how_to_act_section?.image?.url ||
                   "/placeholder.svg?height=400&width=600&query=assemblée citoyenne communale débat démocratique local" ||
+                  "/placeholder.svg" ||
                   "/placeholder.svg" ||
                   "/placeholder.svg"
                 }

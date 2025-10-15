@@ -1,5 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card"
 import Image from "next/image"
+import Link from "next/link"
 import Highlighter from "@/components/ui/highlighter"
 import { getAboutPageData } from "@/lib/wordpress"
 
@@ -140,48 +141,64 @@ export default async function AboutPage() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {acf.fondateurs.map((fondateur, index) => (
-                <Card
-                  key={index}
-                  className="text-center hover:shadow-lg transition-all duration-300 border-2 relative overflow-visible"
-                  style={{ borderColor: colors[index % colors.length] }}
-                >
-                  <Image
-                    src={pictos[index % pictos.length] || "/placeholder.svg"}
-                    alt=""
-                    width={32}
-                    height={32}
-                    className="absolute top-0 left-0 -translate-x-1/2 -translate-y-1/2 z-30 pointer-events-none"
-                  />
-                  <CardContent className="p-6">
-                    {fondateur.logo?.url ? (
-                      <div className="w-24 h-24 mx-auto mb-4 relative">
-                        <Image
-                          src={fondateur.logo.url || "/placeholder.svg"}
-                          alt={fondateur.logo.alt || fondateur.nom || "Logo"}
-                          fill
-                          className="object-contain"
-                        />
-                      </div>
-                    ) : (
-                      <div
-                        className="w-20 h-20 rounded-full mx-auto mb-4 flex items-center justify-center"
-                        style={{ backgroundColor: `${colors[index % colors.length]}10` }}
-                      >
-                        <span className="text-2xl font-semibold" style={{ color: colors[index % colors.length] }}>
-                          {fondateur.nom?.substring(0, 2).toUpperCase()}
-                        </span>
-                      </div>
-                    )}
-                    {fondateur.nom && (
-                      <h3 className="font-black text-foreground mb-2 uppercase text-lg">{fondateur.nom}</h3>
-                    )}
-                    {fondateur.descriptif && (
-                      <p className="text-sm text-muted-foreground leading-relaxed">{fondateur.descriptif}</p>
-                    )}
-                  </CardContent>
-                </Card>
-              ))}
+              {acf.fondateurs.map((fondateur, index) => {
+                const cardContent = (
+                  <Card
+                    key={index}
+                    className="text-center hover:shadow-lg transition-all duration-300 border-2 relative overflow-visible"
+                    style={{ borderColor: colors[index % colors.length] }}
+                  >
+                    <Image
+                      src={pictos[index % pictos.length] || "/placeholder.svg"}
+                      alt=""
+                      width={32}
+                      height={32}
+                      className="absolute top-0 left-0 -translate-x-1/2 -translate-y-1/2 z-30 pointer-events-none"
+                    />
+                    <CardContent className="p-6">
+                      {fondateur.logo?.url ? (
+                        <div className="w-24 h-24 mx-auto mb-4 relative">
+                          <Image
+                            src={fondateur.logo.url || "/placeholder.svg"}
+                            alt={fondateur.logo.alt || fondateur.nom || "Logo"}
+                            fill
+                            className="object-contain"
+                          />
+                        </div>
+                      ) : (
+                        <div
+                          className="w-20 h-20 rounded-full mx-auto mb-4 flex items-center justify-center"
+                          style={{ backgroundColor: `${colors[index % colors.length]}10` }}
+                        >
+                          <span className="text-2xl font-semibold" style={{ color: colors[index % colors.length] }}>
+                            {fondateur.nom?.substring(0, 2).toUpperCase()}
+                          </span>
+                        </div>
+                      )}
+                      {fondateur.nom && (
+                        <h3 className="font-black text-foreground mb-2 uppercase text-lg">{fondateur.nom}</h3>
+                      )}
+                      {fondateur.descriptif && (
+                        <p className="text-sm text-muted-foreground leading-relaxed">{fondateur.descriptif}</p>
+                      )}
+                    </CardContent>
+                  </Card>
+                )
+
+                return fondateur.lien ? (
+                  <Link
+                    key={index}
+                    href={fondateur.lien}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block transition-transform hover:scale-105"
+                  >
+                    {cardContent}
+                  </Link>
+                ) : (
+                  cardContent
+                )
+              })}
             </div>
           </div>
         </section>
@@ -210,48 +227,64 @@ export default async function AboutPage() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {acf.partenaires.map((partenaire, index) => (
-                <Card
-                  key={index}
-                  className="text-center hover:shadow-lg transition-all duration-300 border-2 relative overflow-visible"
-                  style={{ borderColor: colors[index % colors.length] }}
-                >
-                  <Image
-                    src={pictos[(index + 3) % pictos.length] || "/placeholder.svg"}
-                    alt=""
-                    width={32}
-                    height={32}
-                    className="absolute top-0 left-0 -translate-x-1/2 -translate-y-1/2 z-30 pointer-events-none"
-                  />
-                  <CardContent className="p-6">
-                    {partenaire.logo?.url ? (
-                      <div className="w-32 h-32 mx-auto mb-4 relative">
-                        <Image
-                          src={partenaire.logo.url || "/placeholder.svg"}
-                          alt={partenaire.logo.alt || partenaire.nom || "Logo"}
-                          fill
-                          className="object-contain"
-                        />
-                      </div>
-                    ) : (
-                      <div
-                        className="w-20 h-20 rounded-full mx-auto mb-4 flex items-center justify-center"
-                        style={{ backgroundColor: `${colors[index % colors.length]}10` }}
-                      >
-                        <span className="text-2xl font-semibold" style={{ color: colors[index % colors.length] }}>
-                          {partenaire.nom?.substring(0, 2).toUpperCase()}
-                        </span>
-                      </div>
-                    )}
-                    {partenaire.nom && (
-                      <h3 className="font-black text-foreground mb-2 uppercase text-lg">{partenaire.nom}</h3>
-                    )}
-                    {partenaire.descriptif && (
-                      <p className="text-sm text-muted-foreground leading-relaxed">{partenaire.descriptif}</p>
-                    )}
-                  </CardContent>
-                </Card>
-              ))}
+              {acf.partenaires.map((partenaire, index) => {
+                const cardContent = (
+                  <Card
+                    key={index}
+                    className="text-center hover:shadow-lg transition-all duration-300 border-2 relative overflow-visible"
+                    style={{ borderColor: colors[index % colors.length] }}
+                  >
+                    <Image
+                      src={pictos[(index + 3) % pictos.length] || "/placeholder.svg"}
+                      alt=""
+                      width={32}
+                      height={32}
+                      className="absolute top-0 left-0 -translate-x-1/2 -translate-y-1/2 z-30 pointer-events-none"
+                    />
+                    <CardContent className="p-6">
+                      {partenaire.logo?.url ? (
+                        <div className="w-32 h-32 mx-auto mb-4 relative">
+                          <Image
+                            src={partenaire.logo.url || "/placeholder.svg"}
+                            alt={partenaire.logo.alt || partenaire.nom || "Logo"}
+                            fill
+                            className="object-contain"
+                          />
+                        </div>
+                      ) : (
+                        <div
+                          className="w-20 h-20 rounded-full mx-auto mb-4 flex items-center justify-center"
+                          style={{ backgroundColor: `${colors[index % colors.length]}10` }}
+                        >
+                          <span className="text-2xl font-semibold" style={{ color: colors[index % colors.length] }}>
+                            {partenaire.nom?.substring(0, 2).toUpperCase()}
+                          </span>
+                        </div>
+                      )}
+                      {partenaire.nom && (
+                        <h3 className="font-black text-foreground mb-2 uppercase text-lg">{partenaire.nom}</h3>
+                      )}
+                      {partenaire.descriptif && (
+                        <p className="text-sm text-muted-foreground leading-relaxed">{partenaire.descriptif}</p>
+                      )}
+                    </CardContent>
+                  </Card>
+                )
+
+                return partenaire.lien ? (
+                  <Link
+                    key={index}
+                    href={partenaire.lien}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block transition-transform hover:scale-105"
+                  >
+                    {cardContent}
+                  </Link>
+                ) : (
+                  cardContent
+                )
+              })}
             </div>
           </div>
         </section>

@@ -306,6 +306,7 @@ export interface AboutPageACF {
       width: number
       height: number
     }
+    lien?: string
   }>
   partenaires?: Array<{
     nom?: string
@@ -316,6 +317,7 @@ export interface AboutPageACF {
       width: number
       height: number
     }
+    lien?: string
   }>
 }
 
@@ -1297,7 +1299,7 @@ export async function getArchivePageTitles(): Promise<ArchivePageTitles | null> 
   try {
     console.log("[v0] Fetching archive page titles from custom theme endpoint")
 
-    const baseUrl = WP_API_URL.replace(/\/wp\/v2\/?$/, "")
+    const baseUrl = WP_API_URL.replace(/\/wp-json\/wp\/v2\/?$/, "")
     const customEndpoint = `${baseUrl}/mytheme/v1/titres-pages-darchives`
 
     console.log("[v0] Custom endpoint URL:", customEndpoint)

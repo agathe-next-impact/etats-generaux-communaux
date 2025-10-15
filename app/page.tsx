@@ -170,45 +170,8 @@ async function MapAndEventsSection({ acfData }: { acfData?: HomePageACF["section
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Left Column - Map (2/3) */}
           <div className="lg:col-span-2">
-            <div className="mb-6">
-              {acfData?.titre_groupes_locaux && (
-                <h2 className="text-2xl md:text-3xl uppercase text-foreground mb-2">
-                  <Highlighter
-                    action="underline"
-                    color="#E73628"
-                    strokeWidth={3}
-                    animationDuration={600}
-                    iterations={1}
-                    isView={true}
-                  >
-                    {acfData.titre_groupes_locaux}
-                  </Highlighter>
-                </h2>
-              )}
-              {acfData?.soustitre_groupes_locaux && (
-                <p className="text-muted-foreground">{acfData.soustitre_groupes_locaux}</p>
-              )}
-            </div>
             <div className="h-[500px] w-full overflow-hidden border shadow-lg">
               <GoogleMap groups={groups} />
-            </div>
-            <div className="mt-4 text-center">
-              <Button asChild variant="outline">
-                <Link href="/groupes-locaux">
-                  <Highlighter
-                    action="highlight"
-                    color="#B4D19F"
-                    strokeWidth={4}
-                    animationDuration={600}
-                    iterations={1}
-                    padding={12}
-                    isView={true}
-                  >
-                    Voir tous les groupes
-                  </Highlighter>
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
-              </Button>
             </div>
           </div>
 
@@ -415,6 +378,31 @@ export default async function HomePage() {
 
       <Suspense fallback={null}>
         <UpcomingEvents />
+      </Suspense>
+
+      {/* Map and Local Groups Section */}
+      <Suspense
+        fallback={
+          <section className="py-16 lg:py-24 bg-white">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div className="lg:col-span-2 animate-pulse">
+                  <div className="h-[500px] bg-muted rounded" />
+                </div>
+                <div className="lg:col-span-1 animate-pulse">
+                  <div className="h-8 bg-muted rounded w-48 mb-6" />
+                  <div className="space-y-4">
+                    {Array.from({ length: 5 }).map((_, i) => (
+                      <div key={i} className="h-20 bg-muted rounded" />
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        }
+      >
+        <MapAndEventsSection acfData={acf?.section_groupes_evenements} />
       </Suspense>
     </div>
   )
