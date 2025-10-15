@@ -79,13 +79,8 @@ interface NavBodyProps {
 
 export function NavBody({ children, className }: NavBodyProps) {
   return (
-    <div className={cn("max-w-7xl mx-auto px-4 sm:px-6 lg:px-8", className)}>
-      <div
-        className="flex items-center justify-between h-16 max-w-full overflow-x-hidden gap-2"
-        style={{ paddingLeft: "env(safe-area-inset-left)", paddingRight: "env(safe-area-inset-right)" }}
-      >
-        {children}
-      </div>
+    <div className={cn("max-w-7xl mx-auto px-2 sm:px-4 lg:px-8", className)}>
+      <div className="flex items-center justify-between h-16 w-full gap-1 sm:gap-2">{children}</div>
     </div>
   )
 }
@@ -158,14 +153,21 @@ export function MobileNavToggle({ className }: MobileNavToggleProps) {
     <button
       onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
       className={cn(
-        "md:hidden inline-flex items-center justify-center p-3 rounded-md text-foreground hover:text-primary hover:bg-accent transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 min-w-[44px] min-h-[44px]",
+        "md:hidden inline-flex items-center justify-center p-2 rounded-md text-foreground hover:text-primary hover:bg-accent transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 min-w-[44px] min-h-[44px]",
         className,
       )}
       aria-expanded={isMobileMenuOpen}
       aria-label="Toggle navigation menu"
       type="button"
     >
-      <svg className="h-7 w-7" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" aria-hidden="true">
+      <svg
+        className="h-6 w-6"
+        fill="none"
+        viewBox="0 0 24 24"
+        strokeWidth="2.5"
+        stroke="currentColor"
+        aria-hidden="true"
+      >
         {isMobileMenuOpen ? (
           <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12m-16.5 5.25h16.5" />
         ) : (

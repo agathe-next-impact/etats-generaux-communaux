@@ -98,13 +98,16 @@ export function Navigation() {
         <MobileMenuController />
 
         <NavBody>
-          <Link href="/" className="flex items-center space-x-2 cursor-target flex-shrink-0">
+          <Link
+            href="/"
+            className="flex items-center space-x-2 cursor-target flex-shrink-0 max-w-[140px] sm:max-w-none"
+          >
             <Image
               src="/images/logo-egc.png"
               alt="États Généraux Communaux"
               width={180}
               height={72}
-              className="h-8 md:h-10 w-auto"
+              className="h-7 sm:h-8 md:h-10 w-auto"
               priority
             />
           </Link>
@@ -207,7 +210,7 @@ export function Navigation() {
             </Button>
           </div>
 
-          <div className="md:hidden flex items-center gap-2 flex-shrink-0">
+          <div className="md:hidden flex items-center flex-shrink-0">
             <MobileNavToggle />
           </div>
         </NavBody>
