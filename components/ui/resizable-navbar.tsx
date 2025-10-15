@@ -81,7 +81,7 @@ export function NavBody({ children, className }: NavBodyProps) {
   return (
     <div className={cn("max-w-7xl mx-auto px-4 sm:px-6 lg:px-8", className)}>
       <div
-        className="flex items-center justify-between h-16"
+        className="flex items-center justify-between h-16 max-w-full overflow-x-hidden gap-2"
         style={{ paddingLeft: "env(safe-area-inset-left)", paddingRight: "env(safe-area-inset-right)" }}
       >
         {children}
@@ -167,7 +167,7 @@ export function MobileNavToggle({ className }: MobileNavToggleProps) {
     >
       <svg className="h-7 w-7" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" aria-hidden="true">
         {isMobileMenuOpen ? (
-          <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+          <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12m-16.5 5.25h16.5" />
         ) : (
           <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
         )}
