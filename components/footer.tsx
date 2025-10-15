@@ -51,10 +51,9 @@ export function Footer() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 relative">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          {/* Brand */}
-          <div className="space-y-4 relative">
-            {/* Small picto on top left corner of brand section */}
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+          {/* Logo */}
+          <div className="relative">
             <Image
               src="/images/design-mode/picto%201(1).png"
               alt=""
@@ -71,12 +70,10 @@ export function Footer() {
                 className="h-12 w-auto"
               />
             </Link>
-            <p className="text-sm text-black/80 leading-relaxed"></p>
           </div>
 
-          {/* Navigation */}
+          {/* Navigation Links */}
           <div className="space-y-4 relative">
-            {/* Small picto on top right corner of navigation section */}
             <Image
               src="/images/design-mode/picto%202.png"
               alt=""

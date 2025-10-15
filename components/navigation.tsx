@@ -102,9 +102,9 @@ export function Navigation() {
             <Image
               src="/images/logo-egc.png"
               alt="États Généraux Communaux"
-              width={120}
-              height={48}
-              className="h-12 w-auto"
+              width={180}
+              height={72}
+              className="h-10 w-auto"
               priority
             />
           </Link>
@@ -208,16 +208,6 @@ export function Navigation() {
           </div>
 
           <div className="md:hidden flex items-center gap-2">
-            <Button variant="ghost" size="sm" onClick={handleSearchClick} className="hover:bg-[#F4E63C]/20">
-              <Search className="h-5 w-5" />
-            </Button>
-            <Button variant="ghost" size="sm" asChild className="hover:bg-transparent">
-              <Link href="/participer">
-                <ContactButtonWithHighlight>
-                  <span className="text-sm">Participer</span>
-                </ContactButtonWithHighlight>
-              </Link>
-            </Button>
             <MobileNavToggle />
           </div>
         </NavBody>
@@ -273,6 +263,16 @@ export function Navigation() {
                 className="block pl-4 text-sm text-foreground hover:text-[#E73628] transition-colors font-medium"
               >
                 Groupes communaux
+              </Link>
+            </div>
+
+            <div className="px-4 pt-4 border-t border-gray-200">
+              <Link href="/participer" className="block w-full">
+                <div className="text-center py-3">
+                  <ContactButtonWithHighlight>
+                    <span className="text-base font-semibold">Participer</span>
+                  </ContactButtonWithHighlight>
+                </div>
               </Link>
             </div>
           </MobileNavMenu>
