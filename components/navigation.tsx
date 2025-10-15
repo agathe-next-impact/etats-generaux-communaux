@@ -201,7 +201,7 @@ export function Navigation() {
               size="sm"
               className="border-transparent hover:bg-transparent bg-transparent cursor-target"
             >
-              <Link href="/participer">
+              <Link href="/contact">
                 <ContactButtonWithHighlight>Participer</ContactButtonWithHighlight>
               </Link>
             </Button>
@@ -267,7 +267,7 @@ export function Navigation() {
             </div>
 
             <div className="px-4 pt-4 border-t border-gray-200">
-              <Link href="/participer" className="block w-full">
+              <Link href="/contact" className="block w-full">
                 <div className="text-center py-3">
                   <ContactButtonWithHighlight>
                     <span className="text-base font-semibold">Participer</span>
