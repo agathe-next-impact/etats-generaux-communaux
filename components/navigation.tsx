@@ -217,73 +217,121 @@ export function Navigation() {
 
         <MobileNav>
           <MobileNavMenu
-            className="px-2"
+            className="bg-white"
             style={{
-              paddingLeft: "max(1rem, env(safe-area-inset-left))",
-              paddingRight: "max(1rem, env(safe-area-inset-right))",
+              paddingLeft: "max(1.5rem, env(safe-area-inset-left))",
+              paddingRight: "max(1.5rem, env(safe-area-inset-right))",
             }}
           >
-            <Link
-              href="/les-egc"
-              className="text-foreground hover:text-[#E73628] transition-colors font-semibold px-4 py-2 block"
-            >
-              Notre ambition
-            </Link>
-
-            <div className="space-y-2 px-4 py-2">
-              <div className="font-bold text-sm text-[#44843F] uppercase">S'organiser & Agir</div>
-              <Link
-                href="/les-doleances"
-                className="block pl-4 py-1 text-sm text-foreground hover:text-[#E73628] transition-colors font-medium"
+            {/* Search Button */}
+            <div className="px-4 pt-6 pb-4">
+              <button
+                onClick={() => setIsSearchOpen(true)}
+                className="w-full flex items-center gap-3 px-4 py-3 bg-[#F4E63C]/20 hover:bg-[#F4E63C]/40 rounded-lg transition-colors border border-[#44843F]/20"
               >
-                Les Doléances
-              </Link>
-              <Link
-                href="/ressources"
-                className="block pl-4 py-1 text-sm text-foreground hover:text-[#E73628] transition-colors font-medium"
-              >
-                Assemblées citoyennes communales
-              </Link>
+                <Search className="h-5 w-5 text-[#44843F]" />
+                <span className="text-sm font-medium text-[#44843F]">Rechercher...</span>
+                <kbd className="ml-auto h-6 select-none items-center gap-1 rounded border border-[#44843F]/30 bg-white px-2 font-mono text-xs font-medium flex">
+                  ⌘K
+                </kbd>
+              </button>
             </div>
 
-            <div className="space-y-2 px-4 py-2">
-              <div className="font-bold text-sm text-[#44843F] uppercase">S'informer</div>
+            {/* Main Navigation */}
+            <div className="px-4 space-y-1">
               <Link
-                href="/evenements"
-                className="block pl-4 py-1 text-sm text-foreground hover:text-[#E73628] transition-colors font-medium"
+                href="/les-egc"
+                className="block px-4 py-3 text-base font-bold text-foreground hover:bg-[#F4E63C]/30 rounded-lg transition-all group relative overflow-hidden"
               >
-                Evénements
+                <span className="relative z-10">Notre ambition</span>
+                <span className="absolute inset-0 bg-[#F4E63C] opacity-0 group-hover:opacity-20 transition-opacity rounded-lg" />
               </Link>
-              <Link
-                href="/blog"
-                className="block pl-4 py-1 text-sm text-foreground hover:text-[#E73628] transition-colors font-medium"
-              >
-                Actus
-              </Link>
+
+              {/* S'organiser & Agir Section */}
+              <div className="py-2">
+                <div className="px-4 py-2 flex items-center gap-2">
+                  <div className="h-px flex-1 bg-gradient-to-r from-[#E73628] to-transparent" />
+                  <span className="text-xs font-bold text-[#E73628] uppercase tracking-wider">S'organiser & Agir</span>
+                  <div className="h-px flex-1 bg-gradient-to-l from-[#E73628] to-transparent" />
+                </div>
+                <div className="space-y-1 mt-2">
+                  <Link
+                    href="/les-doleances"
+                    className="block px-6 py-2.5 text-sm font-semibold text-foreground hover:text-[#E73628] hover:bg-[#B4D19F]/20 rounded-lg transition-all relative group"
+                  >
+                    <span className="relative z-10">Les Doléances</span>
+                    <span className="absolute left-4 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-[#44843F] opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </Link>
+                  <Link
+                    href="/ressources"
+                    className="block px-6 py-2.5 text-sm font-semibold text-foreground hover:text-[#E73628] hover:bg-[#B4D19F]/20 rounded-lg transition-all relative group"
+                  >
+                    <span className="relative z-10">Assemblées citoyennes communales</span>
+                    <span className="absolute left-4 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-[#44843F] opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </Link>
+                </div>
+              </div>
+
+              {/* S'informer Section */}
+              <div className="py-2">
+                <div className="px-4 py-2 flex items-center gap-2">
+                  <div className="h-px flex-1 bg-gradient-to-r from-[#E73628] to-transparent" />
+                  <span className="text-xs font-bold text-[#E73628] uppercase tracking-wider">S'informer</span>
+                  <div className="h-px flex-1 bg-gradient-to-l from-[#E73628] to-transparent" />
+                </div>
+                <div className="space-y-1 mt-2">
+                  <Link
+                    href="/evenements"
+                    className="block px-6 py-2.5 text-sm font-semibold text-foreground hover:text-[#E73628] hover:bg-[#B4D19F]/20 rounded-lg transition-all relative group"
+                  >
+                    <span className="relative z-10">Evénements</span>
+                    <span className="absolute left-4 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-[#44843F] opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </Link>
+                  <Link
+                    href="/blog"
+                    className="block px-6 py-2.5 text-sm font-semibold text-foreground hover:text-[#E73628] hover:bg-[#B4D19F]/20 rounded-lg transition-all relative group"
+                  >
+                    <span className="relative z-10">Actus</span>
+                    <span className="absolute left-4 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-[#44843F] opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </Link>
+                </div>
+              </div>
+
+              {/* Faire Rhizome Section */}
+              <div className="py-2">
+                <div className="px-4 py-2 flex items-center gap-2">
+                  <div className="h-px flex-1 bg-gradient-to-r from-[#E73628] to-transparent" />
+                  <span className="text-xs font-bold text-[#E73628] uppercase tracking-wider">Faire Rhizome</span>
+                  <div className="h-px flex-1 bg-gradient-to-l from-[#E73628] to-transparent" />
+                </div>
+                <div className="space-y-1 mt-2">
+                  <Link
+                    href="/a-propos"
+                    className="block px-6 py-2.5 text-sm font-semibold text-foreground hover:text-[#E73628] hover:bg-[#B4D19F]/20 rounded-lg transition-all relative group"
+                  >
+                    <span className="relative z-10">A propos</span>
+                    <span className="absolute left-4 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-[#44843F] opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </Link>
+                  <Link
+                    href="/groupes-locaux"
+                    className="block px-6 py-2.5 text-sm font-semibold text-foreground hover:text-[#E73628] hover:bg-[#B4D19F]/20 rounded-lg transition-all relative group"
+                  >
+                    <span className="relative z-10">Groupes communaux</span>
+                    <span className="absolute left-4 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-[#44843F] opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </Link>
+                </div>
+              </div>
             </div>
 
-            <div className="space-y-2 px-4 py-2">
-              <div className="font-bold text-sm text-[#44843F] uppercase">Faire Rhizome</div>
-              <Link
-                href="/a-propos"
-                className="block pl-4 py-1 text-sm text-foreground hover:text-[#E73628] transition-colors font-medium"
-              >
-                A propos
-              </Link>
-              <Link
-                href="/groupes-locaux"
-                className="block pl-4 py-1 text-sm text-foreground hover:text-[#E73628] transition-colors font-medium"
-              >
-                Groupes communaux
-              </Link>
-            </div>
-
-            <div className="px-4 pt-4 pb-2 border-t border-gray-200">
-              <Link href="/contact" className="block w-full">
-                <div className="text-center py-3">
-                  <ContactButtonWithHighlight>
-                    <span className="text-base font-semibold">Participer</span>
-                  </ContactButtonWithHighlight>
+            {/* CTA Button */}
+            <div className="px-4 pt-6 pb-8 mt-4 border-t-2 border-[#E73628]/20">
+              <Link href="/contact" className="block">
+                <div className="relative group overflow-hidden rounded-lg">
+                  <div className="absolute inset-0 bg-gradient-to-r from-[#B4D19F] to-[#94BF7E] opacity-90 group-hover:opacity-100 transition-opacity" />
+                  <div className="relative z-10 px-6 py-4 text-center">
+                    <span className="text-lg font-bold text-[#44843F] uppercase tracking-wide">Participer</span>
+                  </div>
+                  <div className="absolute inset-0 border-2 border-[#44843F]/30 rounded-lg group-hover:border-[#44843F]/50 transition-colors" />
                 </div>
               </Link>
             </div>
