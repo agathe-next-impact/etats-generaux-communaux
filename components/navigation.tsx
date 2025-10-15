@@ -207,66 +207,75 @@ export function Navigation() {
             </Button>
           </div>
 
-          <div className="md:hidden flex items-center gap-2">
+          <div className="md:hidden flex items-center gap-2 ml-auto">
             <MobileNavToggle />
           </div>
         </NavBody>
 
         <MobileNav>
-          <MobileNavMenu>
-            <Link href="/les-egc" className="text-foreground hover:text-[#E73628] transition-colors font-semibold px-4">
+          <MobileNavMenu
+            className="px-2"
+            style={{
+              paddingLeft: "max(1rem, env(safe-area-inset-left))",
+              paddingRight: "max(1rem, env(safe-area-inset-right))",
+            }}
+          >
+            <Link
+              href="/les-egc"
+              className="text-foreground hover:text-[#E73628] transition-colors font-semibold px-4 py-2 block"
+            >
               Notre ambition
             </Link>
 
-            <div className="space-y-2 px-4">
+            <div className="space-y-2 px-4 py-2">
               <div className="font-bold text-sm text-[#44843F] uppercase">S'organiser & Agir</div>
               <Link
                 href="/les-doleances"
-                className="block pl-4 text-sm text-foreground hover:text-[#E73628] transition-colors font-medium"
+                className="block pl-4 py-1 text-sm text-foreground hover:text-[#E73628] transition-colors font-medium"
               >
                 Les Doléances
               </Link>
               <Link
                 href="/ressources"
-                className="block pl-4 text-sm text-foreground hover:text-[#E73628] transition-colors font-medium"
+                className="block pl-4 py-1 text-sm text-foreground hover:text-[#E73628] transition-colors font-medium"
               >
                 Assemblées citoyennes communales
               </Link>
             </div>
 
-            <div className="space-y-2 px-4">
+            <div className="space-y-2 px-4 py-2">
               <div className="font-bold text-sm text-[#44843F] uppercase">S'informer</div>
               <Link
                 href="/evenements"
-                className="block pl-4 text-sm text-foreground hover:text-[#E73628] transition-colors font-medium"
+                className="block pl-4 py-1 text-sm text-foreground hover:text-[#E73628] transition-colors font-medium"
               >
                 Evénements
               </Link>
               <Link
                 href="/blog"
-                className="block pl-4 text-sm text-foreground hover:text-[#E73628] transition-colors font-medium"
+                className="block pl-4 py-1 text-sm text-foreground hover:text-[#E73628] transition-colors font-medium"
               >
                 Actus
               </Link>
             </div>
 
-            <div className="space-y-2 px-4">
+            <div className="space-y-2 px-4 py-2">
               <div className="font-bold text-sm text-[#44843F] uppercase">Faire Rhizome</div>
               <Link
                 href="/a-propos"
-                className="block pl-4 text-sm text-foreground hover:text-[#E73628] transition-colors font-medium"
+                className="block pl-4 py-1 text-sm text-foreground hover:text-[#E73628] transition-colors font-medium"
               >
                 A propos
               </Link>
               <Link
                 href="/groupes-locaux"
-                className="block pl-4 text-sm text-foreground hover:text-[#E73628] transition-colors font-medium"
+                className="block pl-4 py-1 text-sm text-foreground hover:text-[#E73628] transition-colors font-medium"
               >
                 Groupes communaux
               </Link>
             </div>
 
-            <div className="px-4 pt-4 border-t border-gray-200">
+            <div className="px-4 pt-4 pb-2 border-t border-gray-200">
               <Link href="/contact" className="block w-full">
                 <div className="text-center py-3">
                   <ContactButtonWithHighlight>
