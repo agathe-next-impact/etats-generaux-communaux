@@ -39,21 +39,21 @@ export const metadata: Metadata = {
   creator: "Les États Généraux Communaux",
   publisher: "Les États Généraux Communaux",
   icons: {
-    icon: "/images/logo.png",
-    shortcut: "/images/logo.png",
-    apple: "/images/logo.png",
+    icon: "/images/logo-egc.png",
+    shortcut: "/images/logo-egc.png",
+    apple: "/images/logo-egc.png",
   },
   openGraph: {
     type: "website",
     locale: "fr_FR",
-    url: "https://etats-generaux-conversion.fr",
+    url: "https://lesetatsgenerauxcommunaux.org",
     siteName: "Les états généraux communaux",
     title: "Les états généraux communaux",
     description:
       "Un mouvement citoyen qui porte la voix des territoires. Découvrez nos doléances, participez aux événements locaux, rejoignez les groupes citoyens et accédez à nos ressources pour construire ensemble un avenir démocratique et solidaire.",
     images: [
       {
-        url: "/images/logo.png",
+        url: "/images/logo-egc.png",
         width: 1200,
         height: 630,
         alt: "Les états généraux communaux",
@@ -65,7 +65,7 @@ export const metadata: Metadata = {
     title: "Les états généraux communaux",
     description:
       "Un mouvement citoyen qui porte la voix des territoires. Découvrez nos doléances, participez aux événements locaux et rejoignez les groupes citoyens.",
-    images: ["/images/logo.png"],
+    images: ["/images/logo-egc.png"],
   },
   robots: {
     index: true,
