@@ -409,6 +409,12 @@ export interface ArchivePageTitles {
     titre?: string
     "sous-titre"?: string
   }
+  page_newsletter?: {
+    titre?: string
+    "sous-titre"?: string
+    email_denvoi_des_inscriptions_a_la_newsletter?: string
+  }
+  email?: string
 }
 
 export interface HomePageData {
@@ -1352,6 +1358,7 @@ export async function getArchivePageTitles(): Promise<ArchivePageTitles | null> 
     console.log("[v0] page_blog:", archiveTitles?.page_blog)
     console.log("[v0] page_communes:", archiveTitles?.page_communes)
     console.log("[v0] page_evenements:", archiveTitles?.page_evenements)
+    console.log("[v0] page_newsletter:", archiveTitles?.page_newsletter)
 
     if (archiveTitles && typeof archiveTitles === "object") {
       return archiveTitles as ArchivePageTitles

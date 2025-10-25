@@ -1,4 +1,7 @@
 import { NewsletterForm } from "./newsletter-form"
+import { getArchivePageTitles } from "@/lib/wordpress"
+import Image from "next/image"
+import Highlighter from "@/components/ui/highlighter"
 
 export const metadata = {
   title: "Inscription à la Newsletter | États Généraux Communaux",
@@ -6,38 +9,102 @@ export const metadata = {
     "Inscrivez-vous à notre newsletter pour recevoir les dernières actualités et informations sur les États Généraux Communaux.",
 }
 
-export default function NewsletterPage() {
+export default async function NewsletterPage() {
+  const archiveTitles = await getArchivePageTitles()
+  const newsletterData = archiveTitles?.page_newsletter
+
+  // Use ACF data or fallback to default values
+  const titre = newsletterData?.titre || "Newsletter"
+  const sousTitre =
+    newsletterData?.["sous-titre"] ||
+    "Restez informé des dernières actualités, événements et initiatives des États Généraux Communaux. Inscrivez-vous à notre newsletter pour ne rien manquer."
+
+  const pictos = {
+    picto1: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%201-YFeeOd4CBQ2S2bGA4pPLgNc6hMYIPd.png",
+    picto2: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%202-XT3JEJBM0RTr1nZ4p7W1zXmIKbvoE1.png",
+    picto3: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%203-iph3iRcbh4GzoswUQo87W7giQs9vrW.png",
+    picto4: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%204-ac6W7GEoGBcgE6fyqHJLr2EBOsnw7u.png",
+    picto5: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%205-1otn1kQK9Cg25uM98EKKPTXzxXhRq2.png",
+  }
+
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white to-[#F4E63C]/10">
-      <div className="container mx-auto px-4 py-16 max-w-3xl">
-        <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-black uppercase mb-4 font-[family-name:var(--font-raleway)]">
-            <span className="relative inline-block">
-              <span className="relative z-10">Newsletter</span>
-              <span
-                className="absolute inset-0 -inset-x-4 -inset-y-2 bg-[#F4E63C] opacity-60 -z-10"
-                style={{
-                  clipPath:
-                    "polygon(2% 5%, 5% 3%, 8% 6%, 12% 2%, 15% 7%, 18% 4%, 22% 8%, 25% 3%, 28% 6%, 32% 4%, 35% 8%, 38% 5%, 42% 9%, 45% 4%, 48% 7%, 52% 3%, 55% 8%, 58% 5%, 62% 9%, 65% 4%, 68% 7%, 72% 3%, 75% 8%, 78% 5%, 82% 9%, 85% 4%, 88% 7%, 92% 3%, 95% 6%, 98% 4%, 100% 7%, 100% 93%, 98% 96%, 95% 94%, 92% 97%, 88% 93%, 85% 96%, 82% 91%, 78% 95%, 75% 92%, 72% 97%, 68% 93%, 65% 96%, 62% 91%, 58% 95%, 55% 92%, 52% 97%, 48% 93%, 45% 96%, 42% 91%, 38% 95%, 35% 92%, 32% 96%, 28% 94%, 25% 97%, 22% 84%, 18% 96%, 15% 93%, 12% 98%, 8% 94%, 5% 97%, 2% 95%, 0% 93%)",
-                }}
-              />
-            </span>
-          </h1>
-          <p className="text-lg text-gray-700 max-w-2xl mx-auto">
-            Restez informé des dernières actualités, événements et initiatives des États Généraux Communaux.
-            Inscrivez-vous à notre newsletter pour ne rien manquer.
-          </p>
-        </div>
+    <div className="min-h-screen pt-[150px]">
+      {/* Hero Section */}
+      <section className="relative py-20 lg:py-32 overflow-hidden bg-white">
+        <Image
+          src={pictos.picto2 || "/placeholder.svg"}
+          alt=""
+          width={120}
+          height={120}
+          className="absolute left-[5%] top-[10%] opacity-20 rotate-12 pointer-events-none"
+        />
+        <Image
+          src={pictos.picto5 || "/placeholder.svg"}
+          alt=""
+          width={100}
+          height={100}
+          className="absolute right-[8%] top-[15%] opacity-15 -rotate-6 pointer-events-none"
+        />
+        <Image
+          src={pictos.picto3 || "/placeholder.svg"}
+          alt=""
+          width={80}
+          height={80}
+          className="absolute left-[10%] bottom-[20%] opacity-25 rotate-45 pointer-events-none"
+        />
+        <Image
+          src={pictos.picto4 || "/placeholder.svg"}
+          alt=""
+          width={90}
+          height={90}
+          className="absolute right-[12%] bottom-[10%] opacity-20 -rotate-12 pointer-events-none"
+        />
 
-        <NewsletterForm />
-
-        <div className="mt-12 text-center text-sm text-gray-600">
-          <p>
-            En vous inscrivant, vous acceptez de recevoir nos communications par email. Vous pouvez vous désinscrire à
-            tout moment.
-          </p>
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center space-y-8 max-w-3xl mx-auto">
+            <div className="space-y-4">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-black uppercase leading-tight font-[family-name:var(--font-raleway)]">
+                <Highlighter
+                  action="underline"
+                  color="#E73628"
+                  strokeWidth={3}
+                  animationDuration={600}
+                  iterations={1}
+                  isView={true}
+                >
+                  {titre}
+                </Highlighter>
+              </h1>
+              <p className="text-xl md:text-2xl text-foreground/90 leading-relaxed font-medium">
+                <Highlighter
+                  action="underline"
+                  color="#F4E63C"
+                  strokeWidth={2}
+                  animationDuration={600}
+                  iterations={1}
+                  isView={true}
+                >
+                  {sousTitre}
+                </Highlighter>
+              </p>
+            </div>
+          </div>
         </div>
-      </div>
+      </section>
+
+      {/* Form Section */}
+      <section className="py-16 bg-white">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+          <NewsletterForm />
+
+          <div className="mt-12 text-center text-sm text-gray-600">
+            <p>
+              En vous inscrivant, vous acceptez de recevoir nos communications par email. Vous pouvez vous désinscrire à
+              tout moment.
+            </p>
+          </div>
+        </div>
+      </section>
     </div>
   )
 }

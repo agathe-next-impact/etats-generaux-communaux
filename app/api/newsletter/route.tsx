@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server"
 import { Resend } from "resend"
+import { getArchivePageTitles } from "@/lib/wordpress"
 
 export async function POST(request: Request) {
   try {
@@ -33,12 +34,19 @@ export async function POST(request: Request) {
       })
     }
 
+    const archiveTitles = await getArchivePageTitles()
+    const recipientEmail =
+      archiveTitles?.page_newsletter?.email_denvoi_des_inscriptions_a_la_newsletter ||
+      "contact@etats-generaux-communaux.fr"
+
+    console.log("[v0] Newsletter recipient email:", recipientEmail)
+
     const resend = new Resend(apiKey)
 
     // Send notification email to admin
     const { data, error } = await resend.emails.send({
       from: "Newsletter EGC <noreply@etats-generaux-communaux.fr>",
-      to: "contact@etats-generaux-communaux.fr", // Replace with your admin email
+      to: recipientEmail, // Use email from page_newsletter ACF field
       subject: "Nouvelle inscription à la newsletter",
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
