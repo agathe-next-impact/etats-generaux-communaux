@@ -34,19 +34,32 @@ export async function POST(request: Request) {
       })
     }
 
-    const archiveTitles = await getArchivePageTitles()
-    const recipientEmail =
-      archiveTitles?.page_newsletter?.email_denvoi_des_inscriptions_a_la_newsletter ||
-      "contact@etats-generaux-communaux.fr"
+    let recipientEmail = "contact@lesetatsgenerauxcommunaux.org" // Default fallback
 
-    console.log("[v0] Newsletter recipient email:", recipientEmail)
+    try {
+      const archiveTitles = await getArchivePageTitles()
+      if (archiveTitles?.page_newsletter?.email_denvoi_des_inscriptions_a_la_newsletter) {
+        recipientEmail = archiveTitles.page_newsletter.email_denvoi_des_inscriptions_a_la_newsletter
+        console.log("[v0] Using newsletter email from WordPress:", recipientEmail)
+      } else {
+        console.log("[v0] No newsletter email in WordPress, using fallback:", recipientEmail)
+      }
+    } catch (wpError) {
+      console.error("[v0] Failed to fetch WordPress data, using fallback email:", wpError)
+      // Continue with fallback email
+    }
 
     const resend = new Resend(apiKey)
 
+    const siteDomain = process.env.SITE_DOMAIN || "lesetatsgenerauxcommunaux.org"
+    const fromEmail = `Newsletter EGC <noreply@${siteDomain}>`
+
+    console.log("[v0] Sending newsletter notification from:", fromEmail, "to:", recipientEmail)
+
     // Send notification email to admin
     const { data, error } = await resend.emails.send({
-      from: "Newsletter EGC <noreply@etats-generaux-communaux.fr>",
-      to: recipientEmail, // Use email from page_newsletter ACF field
+      from: fromEmail,
+      to: recipientEmail,
       subject: "Nouvelle inscription à la newsletter",
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
@@ -67,28 +80,39 @@ export async function POST(request: Request) {
 
     if (error) {
       console.error("[v0] Resend error:", error)
-      return NextResponse.json({ message: "Erreur lors de l'envoi de l'email" }, { status: 500 })
+      return NextResponse.json(
+        {
+          message: "Erreur lors de l'envoi de l'email",
+          error: error.message || "Unknown error",
+        },
+        { status: 500 },
+      )
     }
 
     console.log("[v0] Newsletter subscription email sent successfully:", data)
 
     // Send confirmation email to subscriber
-    await resend.emails.send({
-      from: "Newsletter EGC <noreply@etats-generaux-communaux.fr>",
-      to: email,
-      subject: "Bienvenue à la newsletter des États Généraux Communaux",
-      html: `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-          <h2 style="color: #4AAD33;">Bienvenue ${prenom} !</h2>
-          <p>Merci de vous être inscrit(e) à notre newsletter.</p>
-          <p>Vous recevrez désormais nos actualités, événements et initiatives directement dans votre boîte mail.</p>
-          <p style="margin-top: 30px;">À très bientôt,<br><strong>L'équipe des États Généraux Communaux</strong></p>
-          <p style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #ddd; color: #666; font-size: 12px;">
-            Si vous souhaitez vous désinscrire, vous pouvez le faire à tout moment en cliquant sur le lien de désinscription présent dans nos emails.
-          </p>
-        </div>
-      `,
-    })
+    try {
+      await resend.emails.send({
+        from: fromEmail,
+        to: email,
+        subject: "Bienvenue à la newsletter des États Généraux Communaux",
+        html: `
+          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+            <h2 style="color: #4AAD33;">Bienvenue ${prenom} !</h2>
+            <p>Merci de vous être inscrit(e) à notre newsletter.</p>
+            <p>Vous recevrez désormais nos actualités, événements et initiatives directement dans votre boîte mail.</p>
+            <p style="margin-top: 30px;">À très bientôt,<br><strong>L'équipe des États Généraux Communaux</strong></p>
+            <p style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #ddd; color: #666; font-size: 12px;">
+              Si vous souhaitez vous désinscrire, vous pouvez le faire à tout moment en cliquant sur le lien de désinscription présent dans nos emails.
+            </p>
+          </div>
+        `,
+      })
+    } catch (confirmError) {
+      console.error("[v0] Failed to send confirmation email:", confirmError)
+      // Don't fail the whole request if confirmation email fails
+    }
 
     return NextResponse.json({
       message: "Inscription réussie",
@@ -96,6 +120,12 @@ export async function POST(request: Request) {
     })
   } catch (error) {
     console.error("[v0] Error processing newsletter subscription:", error)
-    return NextResponse.json({ message: "Erreur lors du traitement de l'inscription" }, { status: 500 })
+    return NextResponse.json(
+      {
+        message: "Erreur lors du traitement de l'inscription",
+        error: error instanceof Error ? error.message : "Unknown error",
+      },
+      { status: 500 },
+    )
   }
 }
