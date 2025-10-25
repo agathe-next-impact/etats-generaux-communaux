@@ -1312,27 +1312,28 @@ export async function getArchivePageTitles(): Promise<ArchivePageTitles | null> 
       },
     })
 
-    if (response.ok) {
-      const data = await validateJsonResponse(response)
-      console.log("[v0] ✓ Archive page titles loaded successfully")
+    if (!response.ok) {
+      // Pages will use their default fallback titles
+      return null
+    }
 
-      const archiveTitles = data?.acf || data
+    const data = await validateJsonResponse(response)
+    console.log("[v0] ✓ Archive page titles loaded successfully")
 
-      console.log("[v0] page_ressources_et_kits:", archiveTitles?.page_ressources_et_kits)
-      console.log("[v0] page_blog:", archiveTitles?.page_blog)
-      console.log("[v0] page_communes:", archiveTitles?.page_communes)
-      console.log("[v0] page_evenements:", archiveTitles?.page_evenements)
+    const archiveTitles = data?.acf || data
 
-      if (archiveTitles && typeof archiveTitles === "object") {
-        return archiveTitles as ArchivePageTitles
-      }
-    } else {
-      console.log(`[v0] ✗ Custom endpoint returned ${response.status}`)
+    console.log("[v0] page_ressources_et_kits:", archiveTitles?.page_ressources_et_kits)
+    console.log("[v0] page_blog:", archiveTitles?.page_blog)
+    console.log("[v0] page_communes:", archiveTitles?.page_communes)
+    console.log("[v0] page_evenements:", archiveTitles?.page_evenements)
+
+    if (archiveTitles && typeof archiveTitles === "object") {
+      return archiveTitles as ArchivePageTitles
     }
 
     return null
   } catch (error) {
-    console.error("[v0] Error fetching archive page titles:", error instanceof Error ? error.message : String(error))
+    // The app works fine with default titles
     return null
   }
 }

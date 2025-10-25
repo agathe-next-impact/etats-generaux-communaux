@@ -8,6 +8,7 @@ import { ArticleCard } from "@/components/article-card"
 import { ArrowLeft, Calendar, User } from "lucide-react"
 import { Suspense } from "react"
 import Highlighter from "@/components/ui/highlighter"
+import { SocialShare } from "@/components/social-share"
 
 interface ArticlePageProps {
   params: {
@@ -130,21 +131,15 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                   <span>{author.name}</span>
                 </div>
               )}
-              {/*
-              <Highlighter
-                action="highlight"
-                color="#94BF7E"
-                strokeWidth={4}
-                animationDuration={600}
-                iterations={1}
-                padding={8}
-                isView={true}
-              >
-                <Button variant="ghost" size="sm" className="ml-auto">
-                  <Share2 className="h-4 w-4 mr-2" />
-                  Partager
-                </Button>
-              </Highlighter>*/}
+            </div>
+
+            {/* Social Share Buttons */}
+            <div className="pt-4 border-t border-border">
+              <SocialShare
+                url={`/blog/${params.slug}`}
+                title={post.title.rendered}
+                description={stripHtml(post.excerpt.rendered).substring(0, 160)}
+              />
             </div>
 
             {/* Excerpt */}
@@ -164,6 +159,16 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
         <div className="wordpress-content">
           <div dangerouslySetInnerHTML={{ __html: post.content.rendered }} />
+        </div>
+
+        {/* Social Share Buttons at the end of the article content */}
+        <div className="mt-12 pt-8 border-t border-border">
+          <p className="text-sm text-muted-foreground mb-4">Cet article vous a plu ? Partagez-le !</p>
+          <SocialShare
+            url={`/blog/${params.slug}`}
+            title={post.title.rendered}
+            description={stripHtml(post.excerpt.rendered).substring(0, 160)}
+          />
         </div>
       </div>
 
