@@ -112,24 +112,37 @@ export async function POST(request: Request) {
     `
 
     try {
+      console.log("[v0] Attempting to send admin notification email...")
+      console.log("[v0] From:", smtpFrom)
+      console.log("[v0] To:", recipientEmail)
+      console.log("[v0] SMTP Host:", smtpHost)
+      console.log("[v0] SMTP Port:", smtpPort)
+
       // Send email to admin
-      await transporter.sendMail({
+      const adminEmailResult = await transporter.sendMail({
         from: smtpFrom,
         to: recipientEmail,
         subject: "Nouvelle inscription à la newsletter",
         html: adminEmailHtml,
       })
 
-      console.log("[v0] Admin notification email sent to:", recipientEmail)
+      console.log("[v0] Admin notification email sent successfully!")
+      console.log("[v0] Admin email result:", JSON.stringify(adminEmailResult, null, 2))
+      console.log("[v0] Admin email sent to:", recipientEmail)
+
+      console.log("[v0] Attempting to send confirmation email to subscriber...")
+      console.log("[v0] Subscriber email:", email)
 
       // Send confirmation email to subscriber
-      await transporter.sendMail({
+      const subscriberEmailResult = await transporter.sendMail({
         from: smtpFrom,
         to: email,
         subject: "Confirmation d'inscription à la newsletter",
         html: subscriberEmailHtml,
       })
 
+      console.log("[v0] Confirmation email sent successfully!")
+      console.log("[v0] Subscriber email result:", JSON.stringify(subscriberEmailResult, null, 2))
       console.log("[v0] Confirmation email sent to subscriber:", email)
 
       return NextResponse.json({
@@ -137,6 +150,10 @@ export async function POST(request: Request) {
       })
     } catch (emailError) {
       console.error("[v0] Error sending email:", emailError)
+      console.error("[v0] Error details:", {
+        message: emailError instanceof Error ? emailError.message : "Unknown error",
+        stack: emailError instanceof Error ? emailError.stack : undefined,
+      })
       return NextResponse.json(
         {
           message: "Erreur lors de l'envoi de l'email. Veuillez vérifier la configuration SMTP.",
