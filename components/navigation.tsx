@@ -156,6 +156,7 @@ export function Navigation() {
               <DropdownMenuContent align="start" className="min-w-[180px] border-2 border-[#E73628] bg-white">
                 <DropdownItemWithBrush href="/evenements">Evénements</DropdownItemWithBrush>
                 <DropdownItemWithBrush href="/blog">Actus</DropdownItemWithBrush>
+                <DropdownItemWithBrush href="/newsletter">Newsletter</DropdownItemWithBrush>
               </DropdownMenuContent>
             </DropdownMenu>
 
@@ -292,6 +293,13 @@ export function Navigation() {
                     className="block px-6 py-2.5 text-sm font-semibold text-foreground hover:text-[#E73628] hover:bg-[#B4D19F]/20 rounded-lg transition-all relative group"
                   >
                     <span className="relative z-10">Actus</span>
+                    <span className="absolute left-4 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-[#44843F] opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </Link>
+                  <Link
+                    href="/newsletter"
+                    className="block px-6 py-2.5 text-sm font-semibold text-foreground hover:text-[#E73628] hover:bg-[#B4D19F]/20 rounded-lg transition-all relative group"
+                  >
+                    <span className="relative z-10">Newsletter</span>
                     <span className="absolute left-4 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-[#44843F] opacity-0 group-hover:opacity-100 transition-opacity" />
                   </Link>
                 </div>

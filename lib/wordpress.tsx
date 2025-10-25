@@ -356,6 +356,32 @@ export interface DoleancesPageACF {
       target: string
     }
   }
+  bandeau_synthese?: {
+    titre?: string
+    descriptif?: string
+    image_couleur?: {
+      url: string
+      alt: string
+      width: number
+      height: number
+    }
+    lien_couleur?: {
+      url: string
+      title: string
+      target: string
+    }
+    image_noir_et_blanc?: {
+      url: string
+      alt: string
+      width: number
+      height: number
+    }
+    lien_noir_et_blanc?: {
+      url: string
+      title: string
+      target: string
+    }
+  }
 }
 
 export interface DemanderDoleancesPageACF {

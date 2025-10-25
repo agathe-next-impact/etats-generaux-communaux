@@ -7,6 +7,7 @@ import { ArrowRight } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 import type { DoleancesPageACF } from "@/lib/wordpress"
+import { BandeauSynthese } from "@/components/bandeau-synthese"
 
 interface DoleancesClientProps {
   acf: DoleancesPageACF | null
@@ -15,6 +16,8 @@ interface DoleancesClientProps {
 export function DoleancesClient({ acf }: DoleancesClientProps) {
   console.log("[v0] Les Doléances page ACF data:", acf ? "loaded" : "not found")
   console.log("[v0] Les Doléances CTA data:", acf?.cta)
+  console.log("[v0] Bandeau synthese data:", acf?.bandeau_synthese)
+  console.log("[v0] Full ACF data keys:", acf ? Object.keys(acf) : "no acf")
 
   const icons = [
     "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%201-YFeeOd4CBQ2S2bGA4pPLgNc6hMYIPd.png",
@@ -58,6 +61,13 @@ export function DoleancesClient({ acf }: DoleancesClientProps) {
             width={160}
             height={160}
             className="absolute right-[20%] bottom-20 z-0 opacity-20 -rotate-12"
+          />
+          <Image
+            src="/images/design-mode/picto%207(1).png"
+            alt=""
+            width={140}
+            height={140}
+            className="absolute left-[25%] top-[60%] z-0 opacity-10 -rotate-30"
           />
 
           <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center z-10">
@@ -200,6 +210,8 @@ export function DoleancesClient({ acf }: DoleancesClientProps) {
         </div>
       </section>
 
+      {acf?.bandeau_synthese && <BandeauSynthese data={acf.bandeau_synthese} />}
+
       {/* Axes de réflexion */}
       {acf.axes && acf.axes.length > 0 && (
         <>
@@ -289,21 +301,9 @@ export function DoleancesClient({ acf }: DoleancesClientProps) {
                       )}
 
                       <div className="absolute -bottom-8 -right-8 flex gap-2">
-                        <img
-                          src="/images/design-mode/picto%201(1).png"
-                          alt=""
-                          className="w-16 h-16 object-contain"
-                        />
-                        <img
-                          src="/images/design-mode/picto%205(1).png"
-                          alt=""
-                          className="w-16 h-16 object-contain"
-                        />
-                        <img
-                          src="/images/design-mode/picto%204.png"
-                          alt=""
-                          className="w-16 h-16 object-contain"
-                        />
+                        <img src="/images/design-mode/picto%201(1).png" alt="" className="w-16 h-16 object-contain" />
+                        <img src="/images/design-mode/picto%205(1).png" alt="" className="w-16 h-16 object-contain" />
+                        <img src="/images/design-mode/picto%204.png" alt="" className="w-16 h-16 object-contain" />
                       </div>
                     </div>
                   )}
