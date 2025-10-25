@@ -38,6 +38,9 @@ export const metadata: Metadata = {
   authors: [{ name: "Les États Généraux Communaux" }],
   creator: "Les États Généraux Communaux",
   publisher: "Les États Généraux Communaux",
+  verification: {
+    google: "wM4OUXQLnMdeS6tlxxOedyNYTuJntfmuQtamkProvdQ",
+  },
   icons: {
     icon: "/images/logo-egc.png",
     shortcut: "/images/logo-egc.png",
