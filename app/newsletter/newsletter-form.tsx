@@ -22,6 +22,11 @@ export function NewsletterForm() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle")
   const [errorMessage, setErrorMessage] = useState("")
+  const [debugInfo, setDebugInfo] = useState<{
+    adminEmailSentTo?: string
+    confirmationEmailSentTo?: string
+    timestamp?: string
+  } | null>(null)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
@@ -50,6 +55,7 @@ export function NewsletterForm() {
     setIsSubmitting(true)
     setSubmitStatus("idle")
     setErrorMessage("")
+    setDebugInfo(null)
 
     try {
       const response = await fetch("/api/newsletter", {
@@ -63,6 +69,11 @@ export function NewsletterForm() {
       if (!response.ok) {
         const error = await response.json()
         throw new Error(error.message || "Erreur lors de l'inscription")
+      }
+
+      const result = await response.json()
+      if (result.debug) {
+        setDebugInfo(result.debug)
       }
 
       setSubmitStatus("success")
@@ -175,11 +186,28 @@ export function NewsletterForm() {
           </div>
 
           {submitStatus === "success" && (
-            <div className="flex items-center gap-2 p-4 bg-green-50 border-2 border-[#4AAD33] rounded-lg">
-              <CheckCircle2 className="h-5 w-5 text-[#4AAD33] flex-shrink-0" />
-              <p className="text-sm text-[#4AAD33] font-medium">
-                Inscription réussie ! Vous recevrez bientôt notre newsletter.
-              </p>
+            <div className="space-y-3">
+              <div className="flex items-center gap-2 p-4 bg-green-50 border-2 border-[#4AAD33] rounded-lg">
+                <CheckCircle2 className="h-5 w-5 text-[#4AAD33] flex-shrink-0" />
+                <p className="text-sm text-[#4AAD33] font-medium">
+                  Inscription réussie ! Vous recevrez bientôt notre newsletter.
+                </p>
+              </div>
+              {debugInfo && (
+                <div className="p-4 bg-blue-50 border-2 border-blue-300 rounded-lg text-xs space-y-1">
+                  <p className="font-semibold text-blue-900">Informations d'envoi :</p>
+                  <p className="text-blue-800">
+                    <strong>Email admin envoyé à :</strong> {debugInfo.adminEmailSentTo}
+                  </p>
+                  <p className="text-blue-800">
+                    <strong>Email de confirmation envoyé à :</strong> {debugInfo.confirmationEmailSentTo}
+                  </p>
+                  <p className="text-blue-700 text-[10px] mt-2">
+                    Si l'email admin n'arrive pas, vérifiez les spams ou l'adresse email configurée dans WordPress ACF
+                    (Page Newsletter → email_denvoi_des_inscriptions_a_la_newsletter)
+                  </p>
+                </div>
+              )}
             </div>
           )}
 

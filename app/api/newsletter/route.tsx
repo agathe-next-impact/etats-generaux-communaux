@@ -172,6 +172,11 @@ export async function POST(request: Request) {
 
       return NextResponse.json({
         message: "Inscription réussie ! Vous recevrez bientôt un email de confirmation.",
+        debug: {
+          adminEmailSentTo: recipientEmail,
+          confirmationEmailSentTo: email,
+          timestamp: new Date().toISOString(),
+        },
       })
     } catch (emailError) {
       console.error("[v0] ✗ Error sending email:", emailError)

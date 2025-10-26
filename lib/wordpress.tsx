@@ -1332,7 +1332,7 @@ export async function getArchivePageTitles(): Promise<ArchivePageTitles | null> 
     console.log("[v0] Fetching archive page titles from custom theme endpoint")
 
     const baseUrl = WP_API_URL.replace(/\/wp-json\/wp\/v2\/?$/, "")
-    const customEndpoint = `${baseUrl}/mytheme/v1/titres-pages-darchives`
+    const customEndpoint = `${baseUrl}/wp-json/mytheme/v1/titres-pages-darchives`
 
     console.log("[v0] Custom endpoint URL:", customEndpoint)
 
@@ -1345,15 +1345,36 @@ export async function getArchivePageTitles(): Promise<ArchivePageTitles | null> 
     })
 
     if (!response.ok) {
-      // Pages will use their default fallback titles
+      console.log(`[v0] ✗ WordPress endpoint returned status ${response.status}`)
       return null
     }
 
     const data = await validateJsonResponse(response)
+
+    console.log("[v0] ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+    console.log("[v0] RAW DATA FROM WORDPRESS:")
+    console.log("[v0] ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+    console.log("[v0] Full data structure:", JSON.stringify(data, null, 2))
+    console.log("[v0] ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+    console.log("[v0] Data type:", typeof data)
+    console.log("[v0] Has 'acf' property:", "acf" in (data || {}))
+    console.log("[v0] Has 'page_newsletter' property:", "page_newsletter" in (data || {}))
+
+    if (data?.acf) {
+      console.log("[v0] data.acf exists:", JSON.stringify(data.acf, null, 2))
+      console.log("[v0] data.acf.page_newsletter:", JSON.stringify(data.acf.page_newsletter, null, 2))
+    }
+
+    if (data?.page_newsletter) {
+      console.log("[v0] data.page_newsletter exists:", JSON.stringify(data.page_newsletter, null, 2))
+    }
+    console.log("[v0] ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+
     console.log("[v0] ✓ Archive page titles loaded successfully")
 
     const archiveTitles = data?.acf || data
 
+    console.log("[v0] Using archiveTitles:", archiveTitles ? "from data.acf or data" : "null")
     console.log("[v0] page_ressources_et_kits:", archiveTitles?.page_ressources_et_kits)
     console.log("[v0] page_blog:", archiveTitles?.page_blog)
     console.log("[v0] page_communes:", archiveTitles?.page_communes)
@@ -1366,7 +1387,7 @@ export async function getArchivePageTitles(): Promise<ArchivePageTitles | null> 
 
     return null
   } catch (error) {
-    // The app works fine with default titles
+    console.error("[v0] ✗ Error fetching archive page titles:", error)
     return null
   }
 }
