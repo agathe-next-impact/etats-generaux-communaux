@@ -7,8 +7,6 @@ export async function POST(request: Request) {
     const body = await request.json()
     const { nom, prenom, email, telephone, accepteConditions } = body
 
-    console.log("[v0] Newsletter subscription received:", { nom, prenom, email, telephone })
-
     // Validation
     if (!nom || !prenom || !email) {
       return NextResponse.json({ message: "Nom, prénom et email sont requis" }, { status: 400 })
@@ -21,30 +19,16 @@ export async function POST(request: Request) {
       )
     }
 
-    let recipientEmail = "contact@lesetatsgenerauxcommunaux.org" // Default fallback
+    let recipientEmail = "contact@lesetatsgenerauxcommunaux.org"
 
     try {
-      console.log("[v0] Fetching archive page titles from WordPress...")
       const archiveTitles = await getArchivePageTitles()
-      console.log("[v0] Archive titles data:", JSON.stringify(archiveTitles, null, 2))
 
-      if (archiveTitles?.page_newsletter) {
-        console.log("[v0] page_newsletter data:", JSON.stringify(archiveTitles.page_newsletter, null, 2))
-
-        if (archiveTitles.page_newsletter.email_denvoi_des_inscriptions_a_la_newsletter) {
-          recipientEmail = archiveTitles.page_newsletter.email_denvoi_des_inscriptions_a_la_newsletter
-          console.log("[v0] ✓ Using recipient email from WordPress ACF:", recipientEmail)
-        } else {
-          console.log("[v0] ⚠ email_denvoi_des_inscriptions_a_la_newsletter field is empty in WordPress")
-          console.log("[v0] Using default recipient email:", recipientEmail)
-        }
-      } else {
-        console.log("[v0] ⚠ page_newsletter group not found in WordPress options")
-        console.log("[v0] Using default recipient email:", recipientEmail)
+      if (archiveTitles?.page_newsletter?.email_denvoi_des_inscriptions_a_la_newsletter) {
+        recipientEmail = archiveTitles.page_newsletter.email_denvoi_des_inscriptions_a_la_newsletter
       }
     } catch (wpError) {
-      console.error("[v0] ✗ Failed to fetch WordPress data:", wpError)
-      console.log("[v0] Using default recipient email:", recipientEmail)
+      console.error("Failed to fetch WordPress data:", wpError)
     }
 
     const smtpHost = process.env.SMTP_HOST
@@ -56,22 +40,7 @@ export async function POST(request: Request) {
 
     // Check if SMTP is configured
     if (!smtpHost || !smtpUser || !smtpPass) {
-      console.log("[v0] ⚠ SMTP not configured. Required environment variables:")
-      console.log("[v0] - SMTP_HOST (e.g., smtp.gmail.com)")
-      console.log("[v0] - SMTP_PORT (e.g., 587)")
-      console.log("[v0] - SMTP_USER (your email address)")
-      console.log("[v0] - SMTP_PASS (your email password or app password)")
-      console.log("[v0] - SMTP_FROM (optional, sender email)")
-      console.log("[v0] Logging subscription data instead:")
-      console.log("=== NOUVELLE INSCRIPTION NEWSLETTER ===")
-      console.log("Nom:", nom)
-      console.log("Prénom:", prenom)
-      console.log("Email:", email)
-      console.log("Téléphone:", telephone || "Non fourni")
-      console.log("Email destinataire:", recipientEmail)
-      console.log("Date:", new Date().toISOString())
-      console.log("=====================================")
-
+      console.error("SMTP not configured. Newsletter subscription logged but not sent via email.")
       return NextResponse.json({
         message: "Inscription enregistrée ! Les données ont été transmises.",
         note: "Pour recevoir les inscriptions par email, configurez les variables d'environnement SMTP.",
@@ -125,65 +94,27 @@ export async function POST(request: Request) {
     `
 
     try {
-      console.log("[v0] ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
-      console.log("[v0] 📧 SENDING ADMIN NOTIFICATION EMAIL")
-      console.log("[v0] ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
-      console.log("[v0] From:", smtpFrom)
-      console.log("[v0] To:", recipientEmail)
-      console.log("[v0] Subject: Nouvelle inscription à la newsletter")
-      console.log("[v0] SMTP Host:", smtpHost)
-      console.log("[v0] SMTP Port:", smtpPort)
-      console.log("[v0] SMTP User:", smtpUser)
-      console.log("[v0] ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
-
       // Send email to admin
-      const adminEmailResult = await transporter.sendMail({
+      await transporter.sendMail({
         from: smtpFrom,
         to: recipientEmail,
         subject: "Nouvelle inscription à la newsletter",
         html: adminEmailHtml,
       })
 
-      console.log("[v0] ✓ Admin notification email sent successfully!")
-      console.log("[v0] Message ID:", adminEmailResult.messageId)
-      console.log("[v0] Response:", adminEmailResult.response)
-      console.log("[v0] ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
-
-      console.log("[v0] ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
-      console.log("[v0] 📧 SENDING CONFIRMATION EMAIL TO SUBSCRIBER")
-      console.log("[v0] ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
-      console.log("[v0] From:", smtpFrom)
-      console.log("[v0] To:", email)
-      console.log("[v0] Subject: Confirmation d'inscription à la newsletter")
-      console.log("[v0] ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
-
       // Send confirmation email to subscriber
-      const subscriberEmailResult = await transporter.sendMail({
+      await transporter.sendMail({
         from: smtpFrom,
         to: email,
         subject: "Confirmation d'inscription à la newsletter",
         html: subscriberEmailHtml,
       })
 
-      console.log("[v0] ✓ Confirmation email sent successfully!")
-      console.log("[v0] Message ID:", subscriberEmailResult.messageId)
-      console.log("[v0] Response:", subscriberEmailResult.response)
-      console.log("[v0] ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
-
       return NextResponse.json({
         message: "Inscription réussie ! Vous recevrez bientôt un email de confirmation.",
-        debug: {
-          adminEmailSentTo: recipientEmail,
-          confirmationEmailSentTo: email,
-          timestamp: new Date().toISOString(),
-        },
       })
     } catch (emailError) {
-      console.error("[v0] ✗ Error sending email:", emailError)
-      console.error("[v0] Error details:", {
-        message: emailError instanceof Error ? emailError.message : "Unknown error",
-        stack: emailError instanceof Error ? emailError.stack : undefined,
-      })
+      console.error("Error sending email:", emailError)
       return NextResponse.json(
         {
           message: "Erreur lors de l'envoi de l'email. Veuillez vérifier la configuration SMTP.",
@@ -193,7 +124,7 @@ export async function POST(request: Request) {
       )
     }
   } catch (error) {
-    console.error("[v0] ✗ Error processing newsletter subscription:", error)
+    console.error("Error processing newsletter subscription:", error)
     return NextResponse.json(
       {
         message: "Erreur lors du traitement de l'inscription",
