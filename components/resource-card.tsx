@@ -5,6 +5,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import type { WordPressResource } from "@/lib/wordpress"
+import { decodeHtmlEntities } from "@/lib/wordpress"
 import { Download, Play, FileText, ExternalLink, Eye, Video } from "lucide-react"
 import Image from "next/image"
 
@@ -22,7 +23,8 @@ const pictos = [
 ]
 
 export function ResourceCard({ resource }: ResourceCardProps) {
-  const description = resource.acf?.descriptif || "Aucune description disponible"
+  const description = decodeHtmlEntities(resource.acf?.descriptif || "Aucune description disponible")
+  const title = decodeHtmlEntities(resource.title.rendered)
   const hasVideo = resource.acf?.video
   const hasFiles = resource.acf?.fichiers && resource.acf.fichiers.length > 0
   const firstFile = hasFiles ? resource.acf.fichiers[0] : null
@@ -68,7 +70,7 @@ export function ResourceCard({ resource }: ResourceCardProps) {
               // Create a temporary link element for proper download
               const link = document.createElement("a")
               link.href = fileUrl
-              link.download = file.titre_du_document || `fichier-${index + 1}`
+              link.download = decodeHtmlEntities(file.titre_du_document || `fichier-${index + 1}`)
               link.target = "_blank"
               document.body.appendChild(link)
               link.click()
@@ -123,7 +125,7 @@ export function ResourceCard({ resource }: ResourceCardProps) {
               className="font-black text-lg leading-tight group-hover:text-[#E73628] transition-colors mb-2 uppercase"
               style={{ fontFamily: "Raleway, sans-serif" }}
             >
-              {resource.title.rendered}
+              {title}
             </h3>
             <Badge variant="outline" className="text-xs">
               {resourceType.toUpperCase()}
@@ -141,7 +143,7 @@ export function ResourceCard({ resource }: ResourceCardProps) {
             <div className="flex flex-wrap gap-1">
               {resource.acf.fichiers.slice(0, 3).map((file, index) => (
                 <Badge key={index} variant="secondary" className="text-xs">
-                  {file.titre_du_document || `Fichier ${index + 1}`}
+                  {decodeHtmlEntities(file.titre_du_document || `Fichier ${index + 1}`)}
                 </Badge>
               ))}
               {resource.acf.fichiers.length > 3 && (

@@ -1407,3 +1407,37 @@ export function transformWordPressUrls(html: string): string {
 
   return html.replace(domainRegex, 'href="$1"')
 }
+
+// Utility function to decode HTML entities
+export function decodeHtmlEntities(text: string): string {
+  if (!text) return text
+
+  // Create a temporary element to decode HTML entities
+  if (typeof document !== "undefined") {
+    const textarea = document.createElement("textarea")
+    textarea.innerHTML = text
+    return textarea.value
+  }
+
+  // Server-side fallback: decode common HTML entities manually
+  return text
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"')
+    .replace(/&#039;/g, "'")
+    .replace(/&#8217;/g, "")
+    .replace(/&#8216;/g, "")
+    .replace(/&#8220;/g, '"')
+    .replace(/&#8221;/g, '"')
+    .replace(/&eacute;/g, "é")
+    .replace(/&egrave;/g, "è")
+    .replace(/&ecirc;/g, "ê")
+    .replace(/&agrave;/g, "à")
+    .replace(/&acirc;/g, "â")
+    .replace(/&ocirc;/g, "ô")
+    .replace(/&ucirc;/g, "û")
+    .replace(/&ccedil;/g, "ç")
+    .replace(/&nbsp;/g, " ")
+    .replace(/&#(\d+);/g, (match, dec) => String.fromCharCode(dec))
+}

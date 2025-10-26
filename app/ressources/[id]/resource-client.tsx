@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
 import { ArrowLeft, Download, FileText, Video } from "lucide-react"
 import type { WordPressResource } from "@/lib/wordpress"
+import { decodeHtmlEntities } from "@/lib/wordpress"
 import { Highlighter } from "@/components/ui/highlighter"
 
 interface ResourcePageClientProps {
@@ -20,7 +21,8 @@ export default function ResourcePageClient({ resource }: ResourcePageClientProps
 
   const hasVideo = resource.acf?.video
   const hasFiles = resource.acf?.fichiers && resource.acf.fichiers.length > 0
-  const description = resource.acf?.descriptif
+  const description = resource.acf?.descriptif ? decodeHtmlEntities(resource.acf.descriptif) : undefined
+  const title = decodeHtmlEntities(resource.title.rendered)
   const resourceType = hasVideo ? "video" : hasFiles ? "document" : "resource"
 
   const getResourceIcon = (type: string) => {
@@ -128,7 +130,7 @@ export default function ResourcePageClient({ resource }: ResourcePageClientProps
                   iterations={1}
                   isView={true}
                 >
-                  {resource.title.rendered}
+                  {title}
                 </Highlighter>
               </h1>
               <Badge variant="outline" className="mb-4 border-[#E73628] text-[#E73628]">
@@ -163,9 +165,13 @@ export default function ResourcePageClient({ resource }: ResourcePageClientProps
                     className="flex items-center justify-between p-4 border-2 border-[#4AAD33] rounded-lg"
                   >
                     <div className="flex-1">
-                      <h3 className="font-black">{file.titre_du_document || `Fichier ${index + 1}`}</h3>
+                      <h3 className="font-black">
+                        {decodeHtmlEntities(file.titre_du_document || `Fichier ${index + 1}`)}
+                      </h3>
                       {file.descriptif_du_document && (
-                        <p className="text-sm text-muted-foreground mt-1">{file.descriptif_du_document}</p>
+                        <p className="text-sm text-muted-foreground mt-1">
+                          {decodeHtmlEntities(file.descriptif_du_document)}
+                        </p>
                       )}
                       {file.document && (
                         <div className="text-xs text-muted-foreground mt-2">

@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import { ResourceCard } from "@/components/resource-card"
 import { ResourceFilters } from "@/components/resource-filters"
 import { Card, CardContent } from "@/components/ui/card"
-import { getResources, getArchivePageTitles, type WordPressResource } from "@/lib/wordpress"
+import { getResources, getArchivePageTitles, decodeHtmlEntities, type WordPressResource } from "@/lib/wordpress"
 import { Highlighter } from "@/components/ui/highlighter"
 import Image from "next/image"
 
@@ -30,10 +30,10 @@ export default function ResourcesPage() {
 
         if (pageTitles?.page_ressources_et_kits) {
           if (pageTitles.page_ressources_et_kits.titre) {
-            setPageTitle(pageTitles.page_ressources_et_kits.titre)
+            setPageTitle(decodeHtmlEntities(pageTitles.page_ressources_et_kits.titre))
           }
           if (pageTitles.page_ressources_et_kits["sous-titre"]) {
-            setPageSubtitle(pageTitles.page_ressources_et_kits["sous-titre"])
+            setPageSubtitle(decodeHtmlEntities(pageTitles.page_ressources_et_kits["sous-titre"]))
           }
         }
       } catch (err) {
