@@ -694,109 +694,7 @@ export async function getLocalGroups(): Promise<WordPressLocalGroup[]> {
       "[v0] Using demo local groups data - Configure WordPress CPT 'groupe-locaux' with ACF fields to see real data",
     )
 
-    // Return demo data with the correct structure
-    return [
-      {
-        id: 1,
-        title: { rendered: "Collectif Paris Centre" },
-        content: { rendered: "<p>Groupe local actif dans le centre de Paris.</p>" },
-        featured_media: 0,
-        acf: {
-          nom_de_groupe: "Collectif Paris Centre",
-          localisation: {
-            address: "Place de la République, 75003 Paris, France",
-            lat: 48.8676,
-            lng: 2.3631,
-          },
-          descriptif:
-            "Groupe local engagé dans les actions citoyennes au cœur de Paris. Nous organisons des événements, des débats et des actions de sensibilisation.",
-          nom_de_contact: "Marie Dubois",
-          email_de_contact: "paris.centre@collectif.org",
-          telephone_de_contact: "01 42 34 56 78",
-          site_web: "https://paris-centre.collectif.org",
-        },
-      },
-      {
-        id: 2,
-        title: { rendered: "Groupe Lyon Solidaire" },
-        content: { rendered: "<p>Collectif lyonnais pour l'action sociale.</p>" },
-        featured_media: 0,
-        acf: {
-          nom_de_groupe: "Groupe Lyon Solidaire",
-          localisation: {
-            address: "Place Bellecour, 69002 Lyon, France",
-            lat: 45.7578,
-            lng: 4.832,
-          },
-          descriptif:
-            "Association lyonnaise dédiée à l'entraide et à l'action sociale. Nous menons des projets de solidarité locale et d'engagement citoyen.",
-          nom_de_contact: "Pierre Martin",
-          email_de_contact: "lyon@collectif.org",
-          telephone_de_contact: "04 78 90 12 34",
-          site_web: "https://lyon.collectif.org",
-        },
-      },
-      {
-        id: 3,
-        title: { rendered: "Collectif Marseille Action" },
-        content: { rendered: "<p>Mouvement citoyen marseillais.</p>" },
-        featured_media: 0,
-        acf: {
-          nom_de_groupe: "Collectif Marseille Action",
-          localisation: {
-            address: "Vieux-Port, 13001 Marseille, France",
-            lat: 43.2965,
-            lng: 5.3698,
-          },
-          descriptif:
-            "Mouvement citoyen marseillais axé sur l'écologie urbaine et la démocratie participative. Nous organisons des actions de terrain et des débats publics.",
-          nom_de_contact: "Sophie Moreau",
-          email_de_contact: "marseille@collectif.org",
-          telephone_de_contact: "04 91 23 45 67",
-          site_web: "https://marseille.collectif.org",
-        },
-      },
-      {
-        id: 4,
-        title: { rendered: "Groupe Toulouse Engagement" },
-        content: { rendered: "<p>Collectif toulousain pour l'engagement citoyen.</p>" },
-        featured_media: 0,
-        acf: {
-          nom_de_groupe: "Groupe Toulouse Engagement",
-          localisation: {
-            address: "Place du Capitole, 31000 Toulouse, France",
-            lat: 43.6043,
-            lng: 1.4437,
-          },
-          descriptif:
-            "Groupe local toulousain focalisé sur l'engagement citoyen et les initiatives participatives. Nous développons des projets collaboratifs et des actions de sensibilisation.",
-          nom_de_contact: "Jean Dupont",
-          email_de_contact: "toulouse@collectif.org",
-          telephone_de_contact: "05 61 78 90 12",
-          site_web: "https://toulouse.collectif.org",
-        },
-      },
-      {
-        id: 5,
-        title: { rendered: "Collectif Bordeaux Citoyen" },
-        content: { rendered: "<p>Association bordelaise pour la citoyenneté active.</p>" },
-        featured_media: 0,
-        acf: {
-          nom_de_groupe: "Collectif Bordeaux Citoyen",
-          localisation: {
-            address: "Place de la Bourse, 33000 Bordeaux, France",
-            lat: 44.8378,
-            lng: -0.5792,
-          },
-          descriptif:
-            "Association bordelaise promouvant la citoyenneté active et l'engagement local. Nous organisons des ateliers, des conférences et des actions citoyennes.",
-          nom_de_contact: "Claire Leroy",
-          email_de_contact: "bordeaux@collectif.org",
-          telephone_de_contact: "05 56 34 78 90",
-          site_web: "https://bordeaux.collectif.org",
-        },
-      },
-    ]
+    return [];
   }
 }
 
@@ -888,93 +786,7 @@ export async function getEvents(params?: {
     console.log("[v0] Events fetched:", events.length, "events")
     return Array.isArray(events) ? events : []
   } catch (error) {
-    console.log("[v0] Using demo events data - Configure WordPress CPT 'evenement' with ACF fields to see real data")
-
-    return [
-      {
-        id: 1,
-        title: { rendered: "Conférence sur l'écologie urbaine" },
-        content: { rendered: "<p>Une conférence passionnante sur les enjeux de l'écologie en ville.</p>" },
-        excerpt: { rendered: "<p>Découvrez les solutions innovantes pour une ville plus verte.</p>" },
-        date: "2024-02-15T10:00:00",
-        slug: "conference-ecologie-urbaine",
-        featured_media: 0,
-        categories: [1],
-        acf: {
-          description: "Une conférence passionnante sur les enjeux de l'écologie en ville avec des experts reconnus.",
-          lien_vers_levenement_en_ligne: "https://www.youtube.com/watch?v=example",
-          date: "15/02/2024",
-          heure: "2:00 pm",
-          lieu: {
-            address: "Centre de conférences de Paris, 123 Avenue des Champs-Élysées, 75008 Paris",
-            lat: 48.8698,
-            lng: 2.3076,
-          },
-        },
-      },
-      {
-        id: 2,
-        title: { rendered: "Atelier de co-construction citoyenne" },
-        content: { rendered: "<p>Participez à un atelier collaboratif pour imaginer la ville de demain.</p>" },
-        excerpt: { rendered: "<p>Atelier participatif ouvert à tous les citoyens.</p>" },
-        date: "2024-02-10T09:00:00",
-        slug: "atelier-coconstruction",
-        featured_media: 0,
-        categories: [2],
-        acf: {
-          description: "Atelier participatif pour co-construire des solutions citoyennes innovantes.",
-          date: "10/02/2024",
-          heure: "9:00 am",
-          lieu: {
-            address: "Mairie du 11ème arrondissement, Place Léon Blum, 75011 Paris",
-            lat: 48.8566,
-            lng: 2.3776,
-          },
-        },
-      },
-      {
-        id: 3,
-        title: { rendered: "Manifestation pour le climat" },
-        content: { rendered: "<p>Rejoignez-nous pour une manifestation pacifique pour le climat.</p>" },
-        excerpt: { rendered: "<p>Mobilisation citoyenne pour l'urgence climatique.</p>" },
-        date: "2024-02-20T14:00:00",
-        slug: "manifestation-climat",
-        featured_media: 0,
-        categories: [3],
-        acf: {
-          description:
-            "Manifestation pacifique pour sensibiliser à l'urgence climatique et demander des actions concrètes.",
-          date: "20/02/2024",
-          heure: "2:00 pm",
-          lieu: {
-            address: "Place de la République, 75003 Paris",
-            lat: 48.8676,
-            lng: 2.3631,
-          },
-        },
-      },
-      {
-        id: 4,
-        title: { rendered: "Formation aux outils numériques citoyens" },
-        content: { rendered: "<p>Apprenez à utiliser les outils numériques pour l'engagement citoyen.</p>" },
-        excerpt: { rendered: "<p>Formation pratique aux outils numériques.</p>" },
-        date: "2024-01-25T10:00:00",
-        slug: "formation-numerique",
-        featured_media: 0,
-        categories: [4],
-        acf: {
-          description: "Formation complète aux outils numériques pour renforcer l'engagement citoyen.",
-          lien_vers_levenement_en_ligne: "https://meet.google.com/example",
-          date: "25/01/2024",
-          heure: "10:00 am",
-          lieu: {
-            address: "Espace numérique citoyen, 45 Rue de Rivoli, 75001 Paris",
-            lat: 48.8566,
-            lng: 2.3522,
-          },
-        },
-      },
-    ]
+    return []
   }
 }
 
@@ -1351,35 +1163,8 @@ export async function getArchivePageTitles(): Promise<ArchivePageTitles | null> 
 
     const data = await validateJsonResponse(response)
 
-    console.log("[v0] ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
-    console.log("[v0] RAW DATA FROM WORDPRESS:")
-    console.log("[v0] ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
-    console.log("[v0] Full data structure:", JSON.stringify(data, null, 2))
-    console.log("[v0] ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
-    console.log("[v0] Data type:", typeof data)
-    console.log("[v0] Has 'acf' property:", "acf" in (data || {}))
-    console.log("[v0] Has 'page_newsletter' property:", "page_newsletter" in (data || {}))
-
-    if (data?.acf) {
-      console.log("[v0] data.acf exists:", JSON.stringify(data.acf, null, 2))
-      console.log("[v0] data.acf.page_newsletter:", JSON.stringify(data.acf.page_newsletter, null, 2))
-    }
-
-    if (data?.page_newsletter) {
-      console.log("[v0] data.page_newsletter exists:", JSON.stringify(data.page_newsletter, null, 2))
-    }
-    console.log("[v0] ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
-
-    console.log("[v0] ✓ Archive page titles loaded successfully")
-
     const archiveTitles = data?.acf || data
 
-    console.log("[v0] Using archiveTitles:", archiveTitles ? "from data.acf or data" : "null")
-    console.log("[v0] page_ressources_et_kits:", archiveTitles?.page_ressources_et_kits)
-    console.log("[v0] page_blog:", archiveTitles?.page_blog)
-    console.log("[v0] page_communes:", archiveTitles?.page_communes)
-    console.log("[v0] page_evenements:", archiveTitles?.page_evenements)
-    console.log("[v0] page_newsletter:", archiveTitles?.page_newsletter)
 
     if (archiveTitles && typeof archiveTitles === "object") {
       return archiveTitles as ArchivePageTitles
@@ -1390,6 +1175,29 @@ export async function getArchivePageTitles(): Promise<ArchivePageTitles | null> 
     console.error("[v0] ✗ Error fetching archive page titles:", error)
     return null
   }
+}
+
+// Correction de la fonction getSocialLinks pour retourner le tableau attendu
+export async function getSocialLinks(): Promise<any[]> {
+  const baseUrl = (process.env.NEXT_PUBLIC_WORDPRESS_API_URL || "https://demo.wp-api.org/wp-json/wp/v2").replace(/\/wp-json\/wp\/v2\/?$/, "");
+  const endpoint = `${baseUrl}/wp-json/mytheme/v1/titres-pages-darchives/reseaux_sociaux`;
+
+  const response = await fetch(endpoint, {
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    next: { revalidate: 3600 },
+  });
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch social links: ${response.status}`);
+  }
+
+  const data = await response.json();
+  // On attend data.acf.reseaux_sociaux (tableau)
+  const socialLinks = data?.acf?.reseaux_sociaux || [];
+  return Array.isArray(socialLinks) ? socialLinks : [];
 }
 
 export function transformWordPressUrls(html: string): string {

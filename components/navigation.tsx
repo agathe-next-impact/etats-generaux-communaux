@@ -6,8 +6,8 @@ import { useState, useEffect } from "react"
 import Link from "next/link"
 import { useRouter, usePathname } from "next/navigation"
 import { Button } from "@/components/ui/button"
-import { GlobalSearch } from "@/components/global-search"
-import { Search, ChevronDown } from "lucide-react"
+import SocialLinks from "@/components/social-links"
+import { ChevronDown } from "lucide-react"
 import Image from "next/image"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Navbar, NavBody, MobileNav, MobileNavMenu, MobileNavToggle, useNavbar } from "@/components/ui/resizable-navbar"
@@ -73,24 +73,7 @@ function MobileMenuController() {
 }
 
 export function Navigation() {
-  const [isSearchOpen, setIsSearchOpen] = useState(false)
-  const router = useRouter()
 
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === "k") {
-        e.preventDefault()
-        setIsSearchOpen(true)
-      }
-    }
-
-    document.addEventListener("keydown", handleKeyDown)
-    return () => document.removeEventListener("keydown", handleKeyDown)
-  }, [])
-
-  const handleSearchClick = () => {
-    router.push("/recherche")
-  }
 
   return (
     <>
@@ -183,22 +166,7 @@ export function Navigation() {
           </div>
 
           <div className="hidden md:flex items-center space-x-2">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setIsSearchOpen(true)}
-              onContextMenu={(e) => {
-                e.preventDefault()
-                handleSearchClick()
-              }}
-              className="gap-2 text-sm font-semibold hover:bg-[#F4E63C]/20 hover:text-[#E73628] cursor-target"
-            >
-              <Search className="h-4 w-4" />
-              <span className="hidden lg:inline">Rechercher</span>
-              <kbd className="hidden lg:inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100">
-                <span className="text-xs">⌘</span>K
-              </kbd>
-            </Button>
+            <SocialLinks />
             <Button
               asChild
               variant="outline"
@@ -206,7 +174,7 @@ export function Navigation() {
               className="border-transparent hover:bg-transparent bg-transparent cursor-target"
             >
               <Link href="/contact">
-                <ContactButtonWithHighlight>Participer</ContactButtonWithHighlight>
+                <ContactButtonWithHighlight>Contact</ContactButtonWithHighlight>
               </Link>
             </Button>
           </div>
@@ -224,19 +192,7 @@ export function Navigation() {
               paddingRight: "max(1.5rem, env(safe-area-inset-right))",
             }}
           >
-            {/* Search Button */}
-            <div className="px-4 pt-6 pb-4">
-              <button
-                onClick={() => setIsSearchOpen(true)}
-                className="w-full flex items-center gap-3 px-4 py-3 bg-[#F4E63C]/20 hover:bg-[#F4E63C]/40 rounded-lg transition-colors border border-[#44843F]/20"
-              >
-                <Search className="h-5 w-5 text-[#44843F]" />
-                <span className="text-sm font-medium text-[#44843F]">Rechercher...</span>
-                <kbd className="ml-auto h-6 select-none items-center gap-1 rounded border border-[#44843F]/30 bg-white px-2 font-mono text-xs font-medium flex">
-                  ⌘K
-                </kbd>
-              </button>
-            </div>
+
 
             {/* Main Navigation */}
             <div className="px-4 space-y-1">
@@ -331,6 +287,11 @@ export function Navigation() {
               </div>
             </div>
 
+            {/* Réseaux sociaux mobile */}
+            <div className="px-4 pt-4 pb-2 flex gap-3">
+              <SocialLinks />
+            </div>
+
             {/* CTA Button */}
             <div className="px-4 pt-6 pb-8 mt-4 border-t-2 border-[#E73628]/20">
               <Link href="/contact" className="block">
@@ -347,7 +308,7 @@ export function Navigation() {
         </MobileNav>
       </Navbar>
 
-      <GlobalSearch isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
+
     </>
   )
 }

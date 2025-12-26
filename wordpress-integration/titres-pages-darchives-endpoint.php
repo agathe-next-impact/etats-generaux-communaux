@@ -1,3 +1,17 @@
+// Endpoint REST API pour la page d'options "Réseaux sociaux"
+add_action('rest_api_init', function() {
+    register_rest_route('mytheme/v1', '/reseaux-sociaux', [
+        'methods'  => 'GET',
+        'callback' => function() {
+            // Récupère tous les champs ACF de la page d'options
+            $fields = get_fields('option');
+            return rest_ensure_response([
+                'acf' => $fields ?: []
+            ]);
+        },
+        'permission_callback' => '__return_true',
+    ]);
+});
 <?php
 /**
  * Endpoint REST API pour la page d'options "Titres Pages d'archives"
@@ -64,4 +78,39 @@ function create_archive_titles_options_page() {
     }
 }
 add_action('acf/init', 'create_archive_titles_options_page');
+
+// Enregistrer l'endpoint REST API pour la sous-page d'options "Réseaux sociaux"
+function register_reseaux_sociaux_rest_route() {
+    register_rest_route('mytheme/v1', '/reseaux-sociaux', [
+        'methods' => 'GET',
+        'callback' => 'get_reseaux_sociaux_rest_data',
+        'permission_callback' => '__return_true'
+    ]);
+}
+add_action('rest_api_init', 'register_reseaux_sociaux_rest_route');
+
+function get_reseaux_sociaux_rest_data($request) {
+    // Vérifier que ACF est actif
+    if (!function_exists('get_field')) {
+        return new WP_Error(
+            'acf_not_active',
+            'Advanced Custom Fields plugin is not active',
+            ['status' => 500]
+        );
+    }
+
+    // Récupérer les champs de la sous-page d'options "Réseaux sociaux"
+    $data = [
+        'facebook' => get_field('facebook', 'option'),
+        'twitter' => get_field('twitter', 'option'),
+        'instagram' => get_field('instagram', 'option'),
+        'linkedin' => get_field('linkedin', 'option'),
+        // Ajoutez d'autres réseaux si besoin
+    ];
+
+    // Log pour debug (visible dans les logs WordPress)
+    error_log('[WordPress] Réseaux sociaux data: ' . print_r($data, true));
+
+    return rest_ensure_response($data);
+}
 ?>
