@@ -15,6 +15,7 @@ import { HorizontalTimeline } from "@/components/horizontal-timeline"
 import { VerticalTimeline } from "@/components/vertical-timeline"
 import { HeroSection } from "@/components/hero-section"
 import { ElectionsMunicipalesSection } from "@/components/elections-municipales-section"
+import RessourcesBannerHomepage from "@/components/ressources-banner-homepage"
 
 async function UpcomingEvents() {
   const events = await getEvents()
@@ -242,6 +243,11 @@ export default async function HomePage() {
   return (
     <div className="min-h-screen pt-[150px]">
       {acf?.section_hero && <HeroSection acf={acf.section_hero} />}
+
+
+      {/* Ressources et Kits Banner Section */}
+      <RessourcesBannerHomepage />
+
       {/* Section élections municipales sous le hero */}
       {acf?.section_municipales && (
         <Suspense>
