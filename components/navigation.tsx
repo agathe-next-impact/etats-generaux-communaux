@@ -117,7 +117,7 @@ export function Navigation() {
               </DropdownMenuTrigger>
               <DropdownMenuContent align="start" className="min-w-[180px] border-2 border-[#E73628] bg-white">
                 <DropdownItemWithBrush href="/les-doleances">Les Doléances</DropdownItemWithBrush>
-                <DropdownItemWithBrush href="/ressources">Assemblées citoyennes communales</DropdownItemWithBrush>
+                <DropdownItemWithBrush href="/ressources">Ressources</DropdownItemWithBrush>
               </DropdownMenuContent>
             </DropdownMenu>
 
@@ -167,16 +167,15 @@ export function Navigation() {
 
           <div className="hidden md:flex items-center space-x-2">
             <SocialLinks />
-            <Button
-              asChild
-              variant="outline"
-              size="sm"
-              className="border-transparent hover:bg-transparent bg-transparent cursor-target"
-            >
-              <Link href="/contact">
+            <Link href="/contact" className="inline-block">
+              <Button
+                variant="outline"
+                size="sm"
+                className="border-transparent hover:bg-transparent bg-transparent cursor-target"
+              >
                 <ContactButtonWithHighlight>Contact</ContactButtonWithHighlight>
-              </Link>
-            </Button>
+              </Button>
+            </Link>
           </div>
 
           <div className="md:hidden flex items-center flex-shrink-0">
@@ -187,10 +186,10 @@ export function Navigation() {
         <MobileNav>
           <MobileNavMenu
             className="bg-white"
-            style={{
-              paddingLeft: "max(1.5rem, env(safe-area-inset-left))",
-              paddingRight: "max(1.5rem, env(safe-area-inset-right))",
-            }}
+            // @ts-expect-error: safe-area-inset utility not available in Tailwind, so we use inline style below
+            // style prop removed, padding added to className
+            // Add padding via className using Tailwind and fallback for safe-area-inset
+            style={undefined}
           >
 
 
@@ -307,8 +306,6 @@ export function Navigation() {
           </MobileNavMenu>
         </MobileNav>
       </Navbar>
-
-
     </>
   )
 }

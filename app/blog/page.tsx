@@ -91,28 +91,28 @@ async function BlogHeader() {
     <div className="text-center mb-12 relative">
       {/* Decorative pictos in background */}
       <Image
-        src="/images/design-mode/picto%201(1).png"
+        src="/images/design-mode/picto200.png"
         alt=""
         width={80}
         height={80}
         className="absolute -top-8 left-[10%] opacity-20 rotate-12 pointer-events-none"
       />
       <Image
-        src="/images/design-mode/picto%205(1).png"
+        src="/images/design-mode/picto205.png"
         alt=""
         width={60}
         height={60}
         className="absolute top-0 right-[15%] opacity-15 -rotate-6 pointer-events-none"
       />
       <Image
-        src="/images/design-mode/picto%207(1).png"
+        src="/images/design-mode/picto207.png"
         alt=""
         width={50}
         height={50}
         className="absolute -bottom-4 left-[20%] opacity-20 rotate-45 pointer-events-none"
       />
       <Image
-        src="/images/design-mode/picto%204.png"
+        src="/images/design-mode/picto204.png"
         alt=""
         width={70}
         height={70}

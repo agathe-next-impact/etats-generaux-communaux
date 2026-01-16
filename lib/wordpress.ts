@@ -1,75 +1,43 @@
-export interface WordPressPost {
-  id: number
-  title: {
-    rendered: string
-  }
-  content: {
-    rendered: string
-  }
-  excerpt: {
-    rendered: string
-  }
-  date: string
-  slug: string
-  featured_media: number
-  categories: number[]
-  tags: number[]
-  author: number
-  _embedded?: {
-    "wp:featuredmedia"?: Array<{
-      source_url: string
-      alt_text: string
-    }>
-    "wp:term"?: Array<
-      Array<{
-        id: number
-        name: string
-        slug: string
-      }>
-    >
-    author?: Array<{
-      name: string
-      slug: string
-    }>
-  }
-}
-
+// Minimal interface for WordPressCategory (used in getCategories)
 export interface WordPressCategory {
-  id: number
-  name: string
-  slug: string
-  count: number
+  id: number;
+  name: string;
+  slug: string;
+  count: number;
 }
 
+// Minimal interface for WordPressResource (used in getResources, getResource)
 export interface WordPressResource {
-  id: number
-  title: {
-    rendered: string
-  }
-  content: {
-    rendered: string
-  }
-  featured_media: number
-  categories: number[]
-  tags: number[]
-  author: number
+  id: number;
+  title: { rendered: string };
+  content: { rendered: string };
+  featured_media: number;
+  categories: number[];
+  tags: number[];
+  author: number;
   _embedded?: {
-    "wp:featuredmedia"?: Array<{
-      source_url: string
-      alt_text: string
-    }>
-    "wp:term"?: Array<
-      Array<{
-        id: number
-        name: string
-        slug: string
-      }>
-    >
-    author?: Array<{
-      name: string
-      slug: string
-    }>
-  }
+    "wp:featuredmedia"?: Array<{ source_url: string; alt_text: string }>;
+    "wp:term"?: Array<Array<{ id: number; name: string; slug: string }>>;
+    author?: Array<{ name: string; slug: string }>;
+  };
+  acf?: Record<string, any>;
+}
+export interface WordPressPost {
+  id: number;
+  title: { rendered: string };
+  content: { rendered: string };
+  excerpt: { rendered: string };
+  date: string;
+  slug: string;
+  featured_media: number;
+  categories: number[];
+  tags: number[];
+  author: number;
+  _embedded?: {
+    "wp:featuredmedia"?: Array<{ source_url: string; alt_text: string }>;
+    "wp:term"?: Array<Array<{ id: number; name: string; slug: string }>>;
+    author?: Array<{ name: string; slug: string }>;
+  };
 }
 
 export interface WordPressLocalGroup {
@@ -171,6 +139,13 @@ export interface WordPressTaxonomy {
 }
 
 export interface HomePageACF {
+    section_municipales?: {
+      video?: string;
+      titre_actus?: string;
+      soustitre_actus?: string;
+      titre_video?: string;
+      soustitre_video?: string;
+    };
   section_hero?: {
     titre?: string
     "sous-titre"?: string

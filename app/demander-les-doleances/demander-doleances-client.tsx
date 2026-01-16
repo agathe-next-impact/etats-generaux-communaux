@@ -31,14 +31,14 @@ export function DemanderDoleancesClient({ acf }: DemanderDoleancesClientProps) {
       <div className="min-h-screen pt-[150px]">
         <section className="relative py-20 lg:py-32 overflow-hidden bg-white">
           <Image
-            src="/images/design-mode/picto%202.png"
+            src="/images/design-mode/picto202.png"
             alt=""
             width={200}
             height={200}
             className="absolute left-[15%] top-12 z-0 opacity-20 rotate-12"
           />
           <Image
-            src="/images/design-mode/picto%203.png"
+            src="/images/design-mode/picto203.png"
             alt=""
             width={150}
             height={150}
@@ -73,35 +73,35 @@ export function DemanderDoleancesClient({ acf }: DemanderDoleancesClientProps) {
       {/* Hero Section */}
       <section className="relative py-20 lg:py-32 overflow-hidden bg-white">
         <Image
-          src="/images/design-mode/picto%202.png"
+          src="/images/design-mode/picto202.png"
           alt=""
           width={200}
           height={200}
           className="absolute left-[15%] top-12 z-0 opacity-20 rotate-12"
         />
         <Image
-          src="/images/design-mode/picto%203.png"
+          src="/images/design-mode/picto203.png"
           alt=""
           width={150}
           height={150}
           className="absolute right-[10%] top-24 z-0 opacity-15 -rotate-6"
         />
         <Image
-          src="/images/design-mode/picto%204.png"
+          src="/images/design-mode/picto204.png"
           alt=""
           width={180}
           height={180}
           className="absolute left-[8%] bottom-32 z-0 opacity-25 rotate-45"
         />
         <Image
-          src="/images/design-mode/picto%205(1).png"
+          src="/images/design-mode/picto205.png"
           alt=""
           width={160}
           height={160}
           className="absolute right-[20%] bottom-20 z-0 opacity-20 -rotate-12"
         />
         <Image
-          src="/images/design-mode/picto%207(1).png"
+          src="/images/design-mode/picto207.png"
           alt=""
           width={140}
           height={140}

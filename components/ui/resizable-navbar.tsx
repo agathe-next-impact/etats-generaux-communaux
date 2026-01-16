@@ -183,7 +183,7 @@ interface NavbarButtonProps {
   as?: React.ElementType
   children: React.ReactNode
   className?: string
-  variant?: "primary" | "secondary" | "dark" | "gradient"
+  variant?: "primary" | "secondary" | "gradient"
   onClick?: () => void
 }
 
@@ -198,7 +198,6 @@ export function NavbarButton({
   const variantStyles = {
     primary: "bg-primary text-primary-foreground hover:bg-primary/90",
     secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-    dark: "bg-foreground text-background hover:bg-foreground/90",
     gradient: "bg-gradient-to-r from-primary to-secondary text-white hover:opacity-90",
   }
 

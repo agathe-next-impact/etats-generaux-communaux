@@ -105,22 +105,22 @@ function SearchPageContent() {
       {/* Hero Section with Search */}
       <section className="py-12 lg:py-16 bg-white border-b relative overflow-hidden">
         <img
-          src="/images/design-mode/picto%201(1).png"
+          src="/images/design-mode/picto200.png"
           alt=""
           className="absolute left-[5%] top-[10%] w-16 h-16 opacity-20 rotate-12 pointer-events-none"
         />
         <img
-          src="/images/design-mode/picto%202.png"
+          src="/images/design-mode/picto202.png"
           alt=""
           className="absolute right-[8%] top-[15%] w-20 h-20 opacity-15 -rotate-6 pointer-events-none"
         />
         <img
-          src="/images/design-mode/picto%203.png"
+          src="/images/design-mode/picto203.png"
           alt=""
           className="absolute left-[15%] bottom-[10%] w-12 h-12 opacity-25 rotate-45 pointer-events-none"
         />
         <img
-          src="/images/design-mode/picto%204.png"
+          src="/images/design-mode/picto204.png"
           alt=""
           className="absolute right-[12%] bottom-[15%] w-16 h-16 opacity-20 -rotate-12 pointer-events-none"
         />

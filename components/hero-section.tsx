@@ -18,7 +18,7 @@ export function HeroSection({ acf }: HeroSectionProps) {
   return (
     <section className="relative py-20 lg:py-32 overflow-hidden bg-white">
       <Image
-        src="/images/design-mode/picto%202.png"
+        src="/images/design-mode/picto202.png"
         alt=""
         width={280}
         height={280}
@@ -27,13 +27,13 @@ export function HeroSection({ acf }: HeroSectionProps) {
 
       <motion.div
         className="absolute top-2 right-2 md:top-4 md:right-8 z-10 scale-75 md:scale-100"
-        initial={{ scale: 0.05 }}
-        animate={{ scale: 1 }}
+        initial={{ scale: 0.2, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
         transition={{
           type: "spring",
-          stiffness: 200,
-          damping: 15,
-          duration: 0.8,
+          stiffness: 220,
+          damping: 18,
+          duration: 0.7,
         }}
       >
         {acf.cta_15?.url ? (
@@ -107,11 +107,12 @@ export function HeroSection({ acf }: HeroSectionProps) {
           {(acf.cta_de_gauche?.libelle_de_gauche || acf.cta_de_droite?.libelle_de_droite) && (
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               {acf.cta_de_gauche?.libelle_de_gauche && (
-                <Button asChild size="lg" className="text-lg bg-[var(--brand-red)] hover:bg-[var(--brand-red)]/90">
-                  <Link
-                    href={acf.cta_de_gauche.lien_de_gauche?.url || "#"}
-                    target={acf.cta_de_gauche.lien_de_gauche?.target || "_self"}
-                  >
+                <Link
+                  href={acf.cta_de_gauche.lien_de_gauche?.url || "#"}
+                  target={acf.cta_de_gauche.lien_de_gauche?.target || "_self"}
+                  className="inline-block"
+                >
+                  <Button size="lg" className="text-lg bg-[var(--brand-red)] hover:bg-[var(--brand-red)]/90">
                     <Highlighter
                       action="highlight"
                       color="#B4D19F"
@@ -124,15 +125,16 @@ export function HeroSection({ acf }: HeroSectionProps) {
                       {acf.cta_de_gauche.libelle_de_gauche}
                     </Highlighter>
                     <ArrowRight className="ml-2 h-4 w-4" />
-                  </Link>
-                </Button>
+                  </Button>
+                </Link>
               )}
               {acf.cta_de_droite?.libelle_de_droite && (
-                <Button asChild variant="outline" size="lg" className="border-foreground/20 bg-transparent">
-                  <Link
-                    href={acf.cta_de_droite.lien_de_droite?.url || "#"}
-                    target={acf.cta_de_droite.lien_de_droite?.target || "_self"}
-                  >
+                <Link
+                  href={acf.cta_de_droite.lien_de_droite?.url || "#"}
+                  target={acf.cta_de_droite.lien_de_droite?.target || "_self"}
+                  className="inline-block"
+                >
+                  <Button variant="outline" size="lg" className="border-foreground/20 bg-transparent">
                     <Highlighter
                       action="highlight"
                       color="#94BF7E"
@@ -144,8 +146,8 @@ export function HeroSection({ acf }: HeroSectionProps) {
                     >
                       {acf.cta_de_droite.libelle_de_droite}
                     </Highlighter>
-                  </Link>
-                </Button>
+                  </Button>
+                </Link>
               )}
             </div>
           )}

@@ -19,27 +19,27 @@ export default async function ParticiperPage() {
     <div className="min-h-screen bg-background pt-32 pb-12 relative">
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <img
-          src="/images/design-mode/picto%202.png"
+          src="/images/design-mode/picto202.png"
           alt=""
           className="absolute left-[5%] top-[10%] w-16 h-16 object-contain opacity-20 rotate-12"
         />
         <img
-          src="/images/design-mode/picto%201(1).png"
+          src="/images/design-mode/picto200.png"
           alt=""
           className="absolute right-[8%] top-[15%] w-20 h-20 object-contain opacity-15 -rotate-6"
         />
         <img
-          src="/images/design-mode/picto%204.png"
+          src="/images/design-mode/picto204.png"
           alt=""
           className="absolute left-[10%] bottom-[20%] w-24 h-24 object-contain opacity-10 rotate-45"
         />
         <img
-          src="/images/design-mode/picto%205(1).png"
+          src="/images/design-mode/picto205.png"
           alt=""
           className="absolute right-[5%] bottom-[15%] w-16 h-16 object-contain opacity-20 -rotate-12"
         />
         <img
-          src="/images/design-mode/picto%203.png"
+          src="/images/design-mode/picto203.png"
           alt=""
           className="absolute left-[50%] top-[5%] w-12 h-12 object-contain opacity-15 rotate-90"
         />

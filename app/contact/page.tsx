@@ -16,31 +16,31 @@ export default function ContactPage() {
       {/* Animated background pictos */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <img
-          src="/images/design-mode/picto%202.png"
+          src="/images/design-mode/picto202.png"
           alt=""
           className="absolute left-[5%] top-[10%] w-16 h-16 object-contain opacity-20 animate-float"
           style={{ animationDelay: "0s" }}
         />
         <img
-          src="/images/design-mode/picto%201(1).png"
+          src="/images/design-mode/picto200.png"
           alt=""
           className="absolute right-[8%] top-[15%] w-20 h-20 object-contain opacity-15 animate-float"
           style={{ animationDelay: "1s" }}
         />
         <img
-          src="/images/design-mode/picto%204.png"
+          src="/images/design-mode/picto204.png"
           alt=""
           className="absolute left-[10%] bottom-[20%] w-24 h-24 object-contain opacity-10 animate-float"
           style={{ animationDelay: "2s" }}
         />
         <img
-          src="/images/design-mode/picto%205(1).png"
+          src="/images/design-mode/picto205.png"
           alt=""
           className="absolute right-[5%] bottom-[15%] w-16 h-16 object-contain opacity-20 animate-float"
           style={{ animationDelay: "1.5s" }}
         />
         <img
-          src="/images/design-mode/picto%203.png"
+          src="/images/design-mode/picto203.png"
           alt=""
           className="absolute left-[50%] top-[5%] w-12 h-12 object-contain opacity-15 animate-float"
           style={{ animationDelay: "0.5s" }}
@@ -76,7 +76,7 @@ export default function ContactPage() {
             <div className="bg-white border-4 border-[#4AAD33] rounded-lg p-8 shadow-lg relative overflow-hidden">
               {/* Decorative corner picto */}
               <div className="absolute -top-4 -right-4 z-10">
-                <img src="/images/design-mode/picto%201(1).png" alt="" className="w-16 h-16 object-contain" />
+                <img src="/images/design-mode/picto200.png" alt="" className="w-16 h-16 object-contain" />
               </div>
 
               <div className="flex items-center justify-center gap-4 mb-4">
@@ -99,7 +99,7 @@ export default function ContactPage() {
             {/* Additional Info */}
             <div className="mt-12 grid md:grid-cols-2 gap-6">
               <div className="bg-[#FFF9E6] border-2 border-[#FFD700] rounded-lg p-6">
-                <img src="/images/design-mode/picto%202.png" alt="" className="w-12 h-12 object-contain mx-auto mb-4" />
+                <img src="/images/design-mode/picto202.png" alt="" className="w-12 h-12 object-contain mx-auto mb-4" />
                 <h4 className="font-bold text-lg mb-2 uppercase font-[family-name:var(--font-raleway)]">
                   Rejoignez-nous
                 </h4>
@@ -109,7 +109,7 @@ export default function ContactPage() {
               </div>
 
               <div className="bg-[#FFE6E6] border-2 border-[#E73628] rounded-lg p-6">
-                <img src="/images/design-mode/picto%204.png" alt="" className="w-12 h-12 object-contain mx-auto mb-4" />
+                <img src="/images/design-mode/picto204.png" alt="" className="w-12 h-12 object-contain mx-auto mb-4" />
                 <h4 className="font-bold text-lg mb-2 uppercase font-[family-name:var(--font-raleway)]">
                   Posez vos questions
                 </h4>

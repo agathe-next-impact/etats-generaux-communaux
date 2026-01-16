@@ -128,35 +128,35 @@ export default function EventsPage() {
       {/* Background decorative pictos */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden -z-10">
         <Image
-          src="/images/design-mode/picto%201(1).png"
+          src="/images/design-mode/picto200.png"
           alt=""
           width={120}
           height={120}
           className="absolute top-[5%] left-[8%] opacity-20 rotate-12"
         />
         <Image
-          src="/images/design-mode/picto%205(1).png"
+          src="/images/design-mode/picto205.png"
           alt=""
           width={100}
           height={100}
           className="absolute top-[15%] right-[10%] opacity-15 -rotate-6"
         />
         <Image
-          src="/images/design-mode/picto%207(1).png"
+          src="/images/design-mode/picto207.png"
           alt=""
           width={80}
           height={80}
           className="absolute top-[40%] left-[5%] opacity-25 rotate-45"
         />
         <Image
-          src="/images/design-mode/picto%204.png"
+          src="/images/design-mode/picto204.png"
           alt=""
           width={140}
           height={140}
           className="absolute bottom-[20%] right-[8%] opacity-20 -rotate-12"
         />
         <Image
-          src="/images/design-mode/picto%203.png"
+          src="/images/design-mode/picto203.png"
           alt=""
           width={90}
           height={90}
@@ -168,14 +168,14 @@ export default function EventsPage() {
       <div className="mb-8 relative">
         {/* Small decorative pictos to header corners */}
         <Image
-          src="/images/design-mode/picto%205(1).png"
+          src="/images/design-mode/picto205.png"
           alt=""
           width={16}
           height={16}
           className="absolute -top-4 -right-4 opacity-60 rotate-12"
         />
         <Image
-          src="/images/design-mode/picto%207(1).png"
+          src="/images/design-mode/picto207.png"
           alt=""
           width={16}
           height={16}

@@ -142,7 +142,7 @@ export function VerticalTimeline({ links, title, subtitle }: VerticalTimelinePro
                           className="w-16 h-16 flex-shrink-0"
                         >
                           <Image
-                            src="/images/design-mode/picto%207(1).png"
+                            src="/images/design-mode/picto207.png"
                             alt="Timeline marker"
                             width={64}
                             height={64}
@@ -405,7 +405,7 @@ export function VerticalTimeline({ links, title, subtitle }: VerticalTimelinePro
             className="absolute left-[5%] sm:left-[15%] top-[8%] sm:top-[10%] z-0 pointer-events-none hidden md:block"
           >
             <Image
-              src="/images/design-mode/picto%202.png"
+              src="/images/design-mode/picto202.png"
               alt="Decorative element"
               width={200}
               height={200}
@@ -422,7 +422,7 @@ export function VerticalTimeline({ links, title, subtitle }: VerticalTimelinePro
             className="absolute left-[2%] sm:left-[8%] top-[45%] sm:top-[50%] z-0 pointer-events-none hidden sm:block scale-50 sm:scale-75 md:scale-100"
           >
             <Image
-              src="/images/design-mode/picto%205(1).png"
+              src="/images/design-mode/picto205.png"
               alt="Decorative element"
               width={120}
               height={120}
@@ -439,7 +439,7 @@ export function VerticalTimeline({ links, title, subtitle }: VerticalTimelinePro
             className="absolute left-[25%] top-[40%] z-0 pointer-events-none hidden md:block"
           >
             <Image
-              src="/images/design-mode/picto%201(1).png"
+              src="/images/design-mode/picto200.png"
               alt="Decorative element"
               width={100}
               height={100}
@@ -500,7 +500,7 @@ export function VerticalTimeline({ links, title, subtitle }: VerticalTimelinePro
                         className="w-20 h-20 sm:w-16 sm:h-16 md:w-12 md:h-12"
                       >
                         <Image
-                          src="/images/design-mode/picto%207(1).png"
+                          src="/images/design-mode/picto207.png"
                           alt="Timeline marker"
                           width={80}
                           height={80}

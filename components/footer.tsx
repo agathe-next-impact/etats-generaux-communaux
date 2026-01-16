@@ -7,42 +7,42 @@ export function Footer() {
       {/* Decorative background pictos */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <Image
-          src="/images/design-mode/picto%201(1).png"
+          src="/images/design-mode/picto200.png"
           alt=""
           width={40}
           height={40}
           className="absolute top-8 left-12 opacity-10 rotate-12"
         />
         <Image
-          src="/images/design-mode/picto%202.png"
+          src="/images/design-mode/picto202.png"
           alt=""
           width={32}
           height={32}
           className="absolute top-16 right-24 opacity-15 -rotate-6"
         />
         <Image
-          src="/images/design-mode/picto%203.png"
+          src="/images/design-mode/picto203.png"
           alt=""
           width={36}
           height={36}
           className="absolute bottom-32 left-1/4 opacity-12 rotate-45"
         />
         <Image
-          src="/images/design-mode/picto%204.png"
+          src="/images/design-mode/picto204.png"
           alt=""
           width={28}
           height={28}
           className="absolute top-24 right-1/3 opacity-10 -rotate-12"
         />
         <Image
-          src="/images/design-mode/picto%205(1).png"
+          src="/images/design-mode/picto205.png"
           alt=""
           width={44}
           height={44}
           className="absolute bottom-24 right-16 opacity-15 rotate-20"
         />
         <Image
-          src="/images/design-mode/picto%207(1).png"
+          src="/images/design-mode/picto207.png"
           alt=""
           width={38}
           height={38}
@@ -55,7 +55,7 @@ export function Footer() {
           {/* Logo */}
           <div className="relative">
             <Image
-              src="/images/design-mode/picto%201(1).png"
+              src="/images/design-mode/picto200.png"
               alt=""
               width={24}
               height={24}
@@ -75,7 +75,7 @@ export function Footer() {
           {/* Navigation Links */}
           <div className="space-y-4 relative">
             <Image
-              src="/images/design-mode/picto%202.png"
+              src="/images/design-mode/picto202.png"
               alt=""
               width={20}
               height={20}
@@ -97,7 +97,7 @@ export function Footer() {
         <div className="mt-8 pt-8 border-t border-black/20 relative">
           {/* Small picto on bottom right corner */}
           <Image
-            src="/images/design-mode/picto%205(1).png"
+            src="/images/design-mode/picto205.png"
             alt=""
             width={28}
             height={28}
