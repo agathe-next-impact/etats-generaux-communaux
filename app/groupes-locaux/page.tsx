@@ -24,7 +24,6 @@ export const metadata = {
 async function LocalGroupsMap() {
   const groups = await getLocalGroups()
 
-  console.log("[v0] Local groups loaded:", groups.length)
 
   if (groups.length === 0) {
     return (
@@ -128,41 +127,21 @@ async function LocalGroupsMap() {
               {/* Actions */}
               <div className="flex gap-2 pt-2">
                 {group.acf?.site_web && (
-                  <Highlighter
-                    action="highlight"
-                    color="#B4D19F"
-                    strokeWidth={4}
-                    animationDuration={600}
-                    iterations={1}
-                    padding={6}
-                    isView={true}
-                  >
                     <Button variant="outline" size="sm">
                       <Link href={group.acf.site_web} target="_blank" rel="noopener noreferrer">
                         <Globe className="h-4 w-4 mr-1" />
                         Site web
                       </Link>
                     </Button>
-                  </Highlighter>
                 )}
 
                 {group.acf?.email_de_contact && (
-                  <Highlighter
-                    action="highlight"
-                    color="#94BF7E"
-                    strokeWidth={4}
-                    animationDuration={600}
-                    iterations={1}
-                    padding={6}
-                    isView={true}
-                  >
                     <Button size="sm" variant="ghost">
                       <Link href={`mailto:${group.acf.email_de_contact}`}>
                         <Mail className="h-4 w-4 mr-1" />
                         Contacter
                       </Link>
                     </Button>
-                  </Highlighter>
                 )}
               </div>
             </CardContent>

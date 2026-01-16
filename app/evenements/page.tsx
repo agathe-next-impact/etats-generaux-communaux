@@ -26,10 +26,10 @@ export default function EventsPage() {
   useEffect(() => {
     async function loadEvents() {
       try {
-        console.log("[v0] Loading events...")
+        
         const [eventsData, pageTitles] = await Promise.all([getEvents(), getArchivePageTitles()])
 
-        console.log("[v0] Events loaded:", eventsData.length)
+        
         setEvents(eventsData)
 
         if (pageTitles?.page_evenements) {
@@ -41,7 +41,7 @@ export default function EventsPage() {
           }
         }
       } catch (error) {
-        console.error("[v0] Error loading events:", error)
+        
       } finally {
         setIsLoading(false)
       }
@@ -96,8 +96,8 @@ export default function EventsPage() {
       })
     }
 
-    console.log("[v0] Filtered events:", filtered.length, "from", events.length, "total")
-    console.log("[v0] Applied filters:", filters)
+    
+    
     setFilteredEvents(filtered)
   }, [events, filters])
 
@@ -106,7 +106,7 @@ export default function EventsPage() {
   }, [applyFilters])
 
   const handleFiltersChange = useCallback((newFilters: typeof filters) => {
-    console.log("[v0] Filters changed:", newFilters)
+    
     setFilters(newFilters)
   }, [])
 

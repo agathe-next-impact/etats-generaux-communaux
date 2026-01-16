@@ -495,17 +495,15 @@ export async function getPosts(params?: {
       },
     })
 
-    if (!response.ok) {
-      console.log(`[v0] WordPress posts not available (${response.status}), using demo data`)
-      throw new Error("WordPress not available")
-    }
+      if (!response.ok) {
+        throw new Error("WordPress not available")
+      }
 
     const posts = await validateJsonResponse(response)
     const totalPages = Number.parseInt(response.headers.get("X-WP-TotalPages") || "1")
 
     return { posts: Array.isArray(posts) ? posts : [], totalPages }
   } catch (error) {
-    console.log("[v0] Using demo posts data - Configure WordPress to see real posts")
     return {
       posts: [
         {
@@ -561,15 +559,13 @@ export async function getCategories(): Promise<WordPressCategory[]> {
       },
     })
 
-    if (!response.ok) {
-      console.log(`[v0] WordPress categories not available (${response.status}), using demo data`)
-      throw new Error("WordPress not available")
-    }
+      if (!response.ok) {
+        throw new Error("WordPress not available")
+      }
 
     const categories = await validateJsonResponse(response)
     return Array.isArray(categories) ? categories : []
   } catch (error) {
-    console.log("[v0] Using demo categories - Configure WordPress to see real categories")
     return [
       { id: 1, name: "Actualités", slug: "actualites", count: 5 },
       { id: 2, name: "Actions", slug: "actions", count: 3 },
@@ -602,15 +598,12 @@ export async function getResources(params?: {
           const categoryData = await validateJsonResponse(categoriesResponse)
           if (Array.isArray(categoryData) && categoryData.length > 0) {
             searchParams.set("categorie-de-ressource", categoryData[0].id.toString())
-            console.log("[v0] Using category ID for filtering:", categoryData[0].id)
           }
         } else {
           // Fallback to slug if ID lookup fails
           searchParams.set("categorie-de-ressource", params.categories)
-          console.log("[v0] Using category slug for filtering:", params.categories)
         }
       } catch (error) {
-        console.log("[v0] Category ID lookup failed, using slug:", params.categories)
         searchParams.set("categorie-de-ressource", params.categories)
       }
     }
@@ -619,7 +612,6 @@ export async function getResources(params?: {
       searchParams.set("search", params.search)
     }
 
-    console.log("[v0] Fetching resources with params:", searchParams.toString())
 
     const response = await fetch(`${WP_API_URL}/ressource?${searchParams.toString()}`, {
       next: { revalidate: 3600 },
@@ -635,11 +627,9 @@ export async function getResources(params?: {
     }
 
     const resources = await validateJsonResponse(response)
-    console.log("[v0] Resources fetched with filters:", resources.length, "resources")
     return Array.isArray(resources) ? resources : []
   } catch (error) {
     console.error("[v0] Error fetching WordPress resources:", error)
-    console.log("[v0] No resources found - Configure WordPress CPT 'ressource' with ACF fields to add resources")
 
     return []
   }
@@ -657,17 +647,12 @@ export async function getLocalGroups(): Promise<WordPressLocalGroup[]> {
     })
 
     if (!response.ok) {
-      console.log(`[v0] WordPress local groups not available (${response.status}), using demo data`)
       throw new Error("WordPress not available")
     }
 
     const groups = await validateJsonResponse(response)
-    console.log("[v0] Local groups fetched from WordPress:", groups.length, "groups")
     return Array.isArray(groups) ? groups : []
   } catch (error) {
-    console.log(
-      "[v0] Using demo local groups data - Configure WordPress CPT 'groupe-locaux' with ACF fields to see real data",
-    )
 
     return [];
   }
@@ -845,7 +830,6 @@ export async function getResource(idOrSlug: string): Promise<WordPressResource |
 
     if (isNumericId) {
       // Fetch by ID
-      console.log(`[v0] Fetching resource by ID: ${idOrSlug}`)
       response = await fetch(`${WP_API_URL}/ressource/${idOrSlug}?_embed=true&acf_format=standard`, {
         next: { revalidate: 300 },
         headers: {
@@ -855,7 +839,6 @@ export async function getResource(idOrSlug: string): Promise<WordPressResource |
       })
     } else {
       // Fetch by slug
-      console.log(`[v0] Fetching resource by slug: ${idOrSlug}`)
       response = await fetch(`${WP_API_URL}/ressource?slug=${idOrSlug}&_embed=true&acf_format=standard`, {
         next: { revalidate: 300 },
         headers: {
@@ -873,12 +856,10 @@ export async function getResource(idOrSlug: string): Promise<WordPressResource |
     if (isNumericId) {
       // When fetching by ID, the response is a single object
       const resource = await validateJsonResponse(response)
-      console.log(`[v0] Resource fetched by ID:`, resource?.id)
       return resource
     } else {
       // When fetching by slug, the response is an array
       const resources = await validateJsonResponse(response)
-      console.log(`[v0] Resources fetched by slug:`, resources?.length)
       return Array.isArray(resources) && resources.length > 0 ? resources[0] : null
     }
   } catch (error) {
