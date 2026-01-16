@@ -11,7 +11,6 @@ import Link from "next/link"
 import { ArrowRight } from "lucide-react"
 import { Highlighter } from "@/components/ui/highlighter"
 import { LatestNews } from "@/components/latest-news"
-import { HorizontalTimeline } from "@/components/horizontal-timeline"
 import { VerticalTimeline } from "@/components/vertical-timeline"
 import { HeroSection } from "@/components/hero-section"
 import { ElectionsMunicipalesSection } from "@/components/elections-municipales-section"
@@ -238,7 +237,6 @@ export default async function HomePage() {
   const homePageData = await getHomePageData()
   const acf = homePageData?.acf
 
-  console.log("[v0] Homepage ACF data:", acf ? "loaded" : "not found")
 
   return (
     <div className="min-h-screen pt-[150px]">
@@ -255,104 +253,30 @@ export default async function HomePage() {
         </Suspense>
       )}
 
-      {/* Horizontal Timeline Section */}
-      {((acf?.historique?.liste_des_liens && acf.historique.liste_des_liens.length > 0) ||
-        (acf?.groupe_de_liens?.liste_des_liens && acf.groupe_de_liens.liste_des_liens.length > 0)) && (
-        <HorizontalTimeline
-          links={acf?.historique?.liste_des_liens || acf?.groupe_de_liens?.liste_des_liens || []}
-          title={acf?.historique?.titre}
-          subtitle={acf?.historique?.["sous-titre"]}
-        />
-      )}
-
-      {/* Call to Action Section - Notre plaidoyer */}
-      {acf?.section_manifeste && (
-        <section className="py-16 lg:py-24 bg-white">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <div className="space-y-8">
-              {acf.section_manifeste.titre && (
-                <h2 className="text-3xl md:text-4xl uppercase text-foreground">
-                  <Highlighter
-                    action="underline"
-                    color="#E73628"
-                    strokeWidth={3}
-                    animationDuration={600}
-                    iterations={1}
-                    isView={true}
-                  >
-                    {acf.section_manifeste.titre}
-                  </Highlighter>
-                </h2>
-              )}
-              {acf.section_manifeste.chapeau && (
-                <p className="text-lg leading-relaxed font-medium">{acf.section_manifeste.chapeau}</p>
-              )}
-              {acf.section_manifeste.texte && (
-                <div
-                  className="leading-relaxed prose prose-invert max-w-none"
-                  dangerouslySetInnerHTML={{
-                    __html: acf.section_manifeste.texte.replace(/\$\{/g, "&#36;{").replace(/\}\}/g, "&#125;}"),
-                  }}
-                />
-              )}
-              {(acf.section_manifeste.cta_de_gauche?.libelle_de_gauche ||
-                acf.section_manifeste.cta_de_droite?.libelle_de_droite) && (
-                <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  {acf.section_manifeste.cta_de_gauche?.libelle_de_gauche && (
-                    <Button size="lg" className="bg-white text-[var(--brand-red)] hover:bg-white/90">
-                      <Link
-                        href={acf.section_manifeste.cta_de_gauche.lien_de_gauche?.url || "#"}
-                        target={acf.section_manifeste.cta_de_gauche.lien_de_gauche?.target || "_self"}
-                      >
-                        <Highlighter
-                          action="highlight"
-                          color="#B4D19F"
-                          strokeWidth={4}
-                          animationDuration={600}
-                          iterations={1}
-                          padding={12}
-                          isView={true}
-                        >
-                          {acf.section_manifeste.cta_de_gauche.libelle_de_gauche}
-                        </Highlighter>
-                      </Link>
-                    </Button>
-                  )}
-                  {acf.section_manifeste.cta_de_droite?.libelle_de_droite && (
-                    <Button variant="outline" size="lg" className="border-white text-black bg-transparent">
-                      <Link
-                        href={acf.section_manifeste.cta_de_droite.lien_de_droite?.url || "#"}
-                        target={acf.section_manifeste.cta_de_droite.lien_de_droite?.target || "_self"}
-                      >
-                        <Highlighter
-                          action="highlight"
-                          color="#94BF7E"
-                          strokeWidth={4}
-                          animationDuration={600}
-                          iterations={1}
-                          padding={12}
-                          isView={true}
-                        >
-                          {acf.section_manifeste.cta_de_droite.libelle_de_droite}
-                        </Highlighter>
-                      </Link>
-                    </Button>
-                  )}
+      {/* Map and Local Groups Section */}
+      <Suspense
+        fallback={
+          <section className="py-16 lg:py-24 bg-white">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div className="lg:col-span-2 animate-pulse">
+                  <div className="h-[500px] bg-muted rounded" />
                 </div>
-              )}
+                <div className="lg:col-span-1 animate-pulse">
+                  <div className="h-8 bg-muted rounded w-48 mb-6" />
+                  <div className="space-y-4">
+                    {Array.from({ length: 5 }).map((_, i) => (
+                      <div key={i} className="h-20 bg-muted rounded" />
+                    ))}
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
-        </section>
-      )}
-
-      {/* EGC Timeline Section */}
-      {acf?.historique_egc?.liste_des_liens && acf.historique_egc.liste_des_liens.length > 0 && (
-        <VerticalTimeline
-          links={acf.historique_egc.liste_des_liens}
-          title={acf.historique_egc.titre}
-          subtitle={acf.historique_egc["sous-titre"]}
-        />
-      )}
+          </section>
+        }
+      >
+        <MapAndEventsSection acfData={acf?.section_groupes_evenements} />
+      </Suspense>
 
       {/* Articles and Events Section */}
       <Suspense
@@ -389,34 +313,12 @@ export default async function HomePage() {
         <ArticlesAndEvents acfData={acf?.section_actus_evenements} />
       </Suspense>
 
+      
+
       <Suspense fallback={null}>
         <UpcomingEvents />
       </Suspense>
 
-      {/* Map and Local Groups Section */}
-      <Suspense
-        fallback={
-          <section className="py-16 lg:py-24 bg-white">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <div className="lg:col-span-2 animate-pulse">
-                  <div className="h-[500px] bg-muted rounded" />
-                </div>
-                <div className="lg:col-span-1 animate-pulse">
-                  <div className="h-8 bg-muted rounded w-48 mb-6" />
-                  <div className="space-y-4">
-                    {Array.from({ length: 5 }).map((_, i) => (
-                      <div key={i} className="h-20 bg-muted rounded" />
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-        }
-      >
-        <MapAndEventsSection acfData={acf?.section_groupes_evenements} />
-      </Suspense>
     </div>
   )
 }

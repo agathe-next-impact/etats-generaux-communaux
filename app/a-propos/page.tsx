@@ -1,14 +1,20 @@
 import { Card, CardContent } from "@/components/ui/card"
 import Image from "next/image"
 import Link from "next/link"
+import { Button } from "@/components/ui/button"
 import Highlighter from "@/components/ui/highlighter"
-import { getAboutPageData } from "@/lib/wordpress"
+import { getAboutPageData, getHomePageData } from "@/lib/wordpress"
+import { getArchivePageTitles } from "@/lib/wordpress"
+import { HorizontalTimeline } from "@/components/horizontal-timeline"
+import { VerticalTimeline } from "@/components/vertical-timeline"
 
 export default async function AboutPage() {
   const aboutPageData = await getAboutPageData()
   const acf = aboutPageData?.acf
-
-  console.log("[v0] About page ACF data:", acf ? "loaded" : "not found")
+  const hompageData = await getHomePageData()
+  const acfHomepage = hompageData?.acf
+  const archivePageTitles = await getArchivePageTitles()
+  
 
   if (!acf) {
     return (
@@ -28,7 +34,7 @@ export default async function AboutPage() {
               </Highlighter>
             </h1>
             <p className="text-xl text-muted-foreground leading-relaxed">
-              Configurez les champs ACF dans WordPress pour afficher le contenu de cette page.
+             
             </p>
           </div>
         </section>
@@ -117,6 +123,105 @@ export default async function AboutPage() {
           </div>
         </div>
       </section>
+
+      {/* Horizontal Timeline Section */}
+      {((acfHomepage?.historique?.liste_des_liens && acfHomepage.historique.liste_des_liens.length > 0) ||
+        (acfHomepage?.groupe_de_liens?.liste_des_liens && acfHomepage.groupe_de_liens.liste_des_liens.length > 0)) && (
+        <HorizontalTimeline
+          links={acfHomepage?.historique?.liste_des_liens || acfHomepage?.groupe_de_liens?.liste_des_liens || []}
+          title={acfHomepage?.historique?.titre}
+          subtitle={acfHomepage?.historique?.["sous-titre"]}
+        />
+      )}
+
+      {/* Call to Action Section - Notre plaidoyer */}
+      {acfHomepage?.section_manifeste && (
+        <section className="py-16 lg:py-24 bg-white">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div className="space-y-8">
+              {acfHomepage.section_manifeste.titre && (
+                <h2 className="text-3xl md:text-4xl uppercase text-foreground">
+                  <Highlighter
+                    action="underline"
+                    color="#E73628"
+                    strokeWidth={3}
+                    animationDuration={600}
+                    iterations={1}
+                    isView={true}
+                  >
+                    {acfHomepage.section_manifeste.titre}
+                  </Highlighter>
+                </h2>
+              )}
+              {acfHomepage.section_manifeste.chapeau && (
+                <p className="text-lg leading-relaxed font-medium">{acfHomepage.section_manifeste.chapeau}</p>
+              )}
+              {acfHomepage.section_manifeste.texte && (
+                <div
+                  className="leading-relaxed prose prose-invert max-w-none"
+                  dangerouslySetInnerHTML={{
+                    __html: acfHomepage.section_manifeste.texte.replace(/\$\{/g, "&#36;{").replace(/\}\}/g, "&#125;}"),
+                  }}
+                />
+              )}
+              {(acfHomepage.section_manifeste.cta_de_gauche?.libelle_de_gauche ||
+                acfHomepage.section_manifeste.cta_de_droite?.libelle_de_droite) && (
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                  {acfHomepage.section_manifeste.cta_de_gauche?.libelle_de_gauche && (
+                    <Button size="lg" className="bg-white text-[var(--brand-red)] hover:bg-white/90">
+                      <Link
+                        href={acfHomepage.section_manifeste.cta_de_gauche.lien_de_gauche?.url || "#"}
+                        target={acfHomepage.section_manifeste.cta_de_gauche.lien_de_gauche?.target || "_self"}
+                      >
+                        <Highlighter
+                          action="highlight"
+                          color="#B4D19F"
+                          strokeWidth={4}
+                          animationDuration={600}
+                          iterations={1}
+                          padding={12}
+                          isView={true}
+                        >
+                          {acfHomepage.section_manifeste.cta_de_gauche.libelle_de_gauche}
+                        </Highlighter>
+                      </Link>
+                    </Button>
+                  )}
+                  {acfHomepage.section_manifeste.cta_de_droite?.libelle_de_droite && (
+                    <Button variant="outline" size="lg" className="border-white text-black bg-transparent">
+                      <Link
+                        href={acfHomepage.section_manifeste.cta_de_droite.lien_de_droite?.url || "#"}
+                        target={acfHomepage.section_manifeste.cta_de_droite.lien_de_droite?.target || "_self"}
+                      >
+                        <Highlighter
+                          action="highlight"
+                          color="#94BF7E"
+                          strokeWidth={4}
+                          animationDuration={600}
+                          iterations={1}
+                          padding={12}
+                          isView={true}
+                        >
+                          {acfHomepage.section_manifeste.cta_de_droite.libelle_de_droite}
+                        </Highlighter>
+                      </Link>
+                    </Button>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* EGC Timeline Section */}
+      {acfHomepage?.historique_egc?.liste_des_liens && acfHomepage.historique_egc.liste_des_liens.length > 0 && (
+        <VerticalTimeline
+          links={acfHomepage.historique_egc.liste_des_liens}
+          title={acfHomepage.historique_egc.titre}
+          subtitle={acfHomepage.historique_egc["sous-titre"]}
+        />
+      )}
 
       {/* Fondateurs Section */}
       {acf.fondateurs && acf.fondateurs.length > 0 && (

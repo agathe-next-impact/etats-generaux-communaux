@@ -118,6 +118,7 @@ export function Navigation() {
               <DropdownMenuContent align="start" className="min-w-[180px] border-2 border-[#E73628] bg-white">
                 <DropdownItemWithBrush href="/les-doleances">Les Doléances</DropdownItemWithBrush>
                 <DropdownItemWithBrush href="/ressources">Ressources</DropdownItemWithBrush>
+                <DropdownItemWithBrush href="/groupes-locaux">Groupes locaux</DropdownItemWithBrush>
               </DropdownMenuContent>
             </DropdownMenu>
 
@@ -143,26 +144,10 @@ export function Navigation() {
               </DropdownMenuContent>
             </DropdownMenu>
 
-            <DropdownMenu modal={false}>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="gap-1 text-sm text-black hover:bg-transparent relative group cursor-target"
-                >
-                  <NavItemWithBrush>
-                    <span className="flex items-center gap-1">
-                      Faire Rhizome
-                      <ChevronDown className="h-3.5 w-3.5" />
-                    </span>
-                  </NavItemWithBrush>
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="start" className="min-w-[180px] border-2 border-[#E73628] bg-white">
-                <DropdownItemWithBrush href="/a-propos">A propos</DropdownItemWithBrush>
-                <DropdownItemWithBrush href="/groupes-locaux">Groupes communaux</DropdownItemWithBrush>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <Link href="/a-propos" className="text-sm text-black transition-colors px-3 py-2 rounded-md cursor-target">
+              <NavItemWithBrush>A propos</NavItemWithBrush>
+            </Link>
+
           </div>
 
           <div className="hidden md:flex items-center space-x-2">

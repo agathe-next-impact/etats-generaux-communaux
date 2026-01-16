@@ -137,7 +137,7 @@ async function LocalGroupsMap() {
                     padding={6}
                     isView={true}
                   >
-                    <Button asChild variant="outline" size="sm">
+                    <Button variant="outline" size="sm">
                       <Link href={group.acf.site_web} target="_blank" rel="noopener noreferrer">
                         <Globe className="h-4 w-4 mr-1" />
                         Site web
@@ -156,7 +156,7 @@ async function LocalGroupsMap() {
                     padding={6}
                     isView={true}
                   >
-                    <Button asChild size="sm" variant="ghost">
+                    <Button size="sm" variant="ghost">
                       <Link href={`mailto:${group.acf.email_de_contact}`}>
                         <Mail className="h-4 w-4 mr-1" />
                         Contacter
