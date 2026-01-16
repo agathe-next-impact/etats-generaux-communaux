@@ -27,7 +27,7 @@ export function ResourceCard({ resource }: ResourceCardProps) {
   const title = decodeHtmlEntities(resource.title.rendered)
   const hasVideo = resource.acf?.video
   const hasFiles = resource.acf?.fichiers && resource.acf.fichiers.length > 0
-  const firstFile = hasFiles ? resource.acf.fichiers[0] : null
+  const firstFile = hasFiles && resource.acf ? resource.acf.fichiers[0] : null
 
   // Determine resource type based on available content
   const resourceType = hasVideo ? "video" : hasFiles ? "document" : "resource"
@@ -60,36 +60,41 @@ export function ResourceCard({ resource }: ResourceCardProps) {
     if (hasVideo && resource.acf?.video) {
       // Open video in new tab
       window.open(resource.acf.video, "_blank")
-    } else if (hasFiles && resource.acf.fichiers) {
-      resource.acf.fichiers.forEach((file, index) => {
-        const fileUrl =
-          typeof file.document === "string" ? file.document : file.document?.url || file.document?.guid?.rendered
+    } else if (hasFiles && resource.acf && resource.acf.fichiers) {
+      resource.acf.fichiers.forEach((file: typeof resource.acf.fichiers[number], index: number) => {
+        // Récupère l'URL publique du média WordPress (champ source_url ou url)
+        let fileUrl = undefined;
+        if (typeof file.document === "string") {
+          fileUrl = file.document;
+        } else if (file.document) {
+          fileUrl = file.document.source_url || file.document.url || file.document.guid?.rendered;
+        }
         if (fileUrl && fileUrl.trim()) {
           setTimeout(() => {
             try {
               // Create a temporary link element for proper download
-              const link = document.createElement("a")
-              link.href = fileUrl
-              link.download = decodeHtmlEntities(file.titre_du_document || `fichier-${index + 1}`)
-              link.target = "_blank"
-              document.body.appendChild(link)
-              link.click()
-              document.body.removeChild(link)
+              const link = document.createElement("a");
+              link.href = fileUrl;
+              link.download = decodeHtmlEntities(file.titre_du_document || `fichier-${index + 1}`);
+              link.target = "_blank";
+              document.body.appendChild(link);
+              link.click();
+              document.body.removeChild(link);
             } catch (error) {
-              console.error("Erreur lors du téléchargement:", error)
+              console.error("Erreur lors du téléchargement:", error);
               // Fallback to window.open
-              window.open(fileUrl, "_blank")
+              window.open(fileUrl, "_blank");
             }
-          }, index * 500) // Stagger downloads by 500ms
+          }, index * 500); // Stagger downloads by 500ms
         }
-      })
+      });
     }
   }
 
   const getActionLabel = () => {
     if (hasVideo) return "Regarder"
     if (hasFiles) {
-      const fileCount = resource.acf.fichiers.length
+      const fileCount = resource.acf?.fichiers?.length ?? 0
       return fileCount === 1 ? "Télécharger" : `Télécharger (${fileCount})`
     }
     return "Voir plus"
@@ -137,15 +142,20 @@ export function ResourceCard({ resource }: ResourceCardProps) {
           {description.length > 150 ? `${description.substring(0, 150)}...` : description}
         </p>
 
-        {hasFiles && resource.acf.fichiers.length > 1 && (
+        {hasFiles && resource.acf && resource.acf.fichiers.length > 1 && (
           <div className="mb-4">
             <p className="text-xs text-muted-foreground mb-2">{resource.acf.fichiers.length} fichiers disponibles</p>
             <div className="flex flex-wrap gap-1">
-              {resource.acf.fichiers.slice(0, 3).map((file, index) => (
-                <Badge key={index} variant="secondary" className="text-xs">
-                  {decodeHtmlEntities(file.titre_du_document || `Fichier ${index + 1}`)}
-                </Badge>
-              ))}
+              {resource.acf.fichiers.slice(0, 3).map(
+                (
+                  file: NonNullable<typeof resource.acf>["fichiers"][number],
+                  index: number
+                ) => (
+                  <Badge key={index} variant="secondary" className="text-xs">
+                    {decodeHtmlEntities(file.titre_du_document || `Fichier ${index + 1}`)}
+                  </Badge>
+                )
+              )}
               {resource.acf.fichiers.length > 3 && (
                 <Badge variant="secondary" className="text-xs">
                   +{resource.acf.fichiers.length - 3}
@@ -162,24 +172,23 @@ export function ResourceCard({ resource }: ResourceCardProps) {
               {getActionLabel()}
             </Button>
           ) : (
-            <Button asChild size="sm" className="flex-1 bg-[#4AAD33] hover:bg-[#44843F] text-white">
-              <Link href={`/ressources/${resource.slug}`}>
+            <Link href={`/ressources/${resource.acf?.slug ?? resource.id}`} className="flex-1">
+              <Button size="sm" className="w-full bg-[#4AAD33] hover:bg-[#44843F] text-white flex items-center justify-center">
                 <Eye className="h-4 w-4 mr-2" />
                 Voir plus
-              </Link>
-            </Button>
+              </Button>
+            </Link>
           )}
 
-          <Button
-            asChild
-            variant="outline"
-            size="sm"
-            className="border-2 border-[#E73628] text-[#E73628] hover:bg-[#E73628] hover:text-white bg-transparent"
-          >
-            <Link href={`/ressources/${resource.slug}`}>
+          <Link href={`/ressources/${resource.acf?.slug ?? resource.id}`}>
+            <Button
+              variant="outline"
+              size="sm"
+              className="border-2 border-[#E73628] text-[#E73628] hover:bg-[#E73628] hover:text-white bg-transparent flex items-center justify-center"
+            >
               <ExternalLink className="h-4 w-4" />
-            </Link>
-          </Button>
+            </Button>
+          </Link>
         </div>
       </CardContent>
     </Card>

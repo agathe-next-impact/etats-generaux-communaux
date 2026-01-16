@@ -87,7 +87,7 @@ export async function ElectionsMunicipalesSection({ acfData }: Props) {
                         {acfData.soustitre_video}
                         </p>
                     )}
-                <div className="relative w-full aspect-video rounded-lg overflow-hidden shadow-lg border border-border">
+                <div className="relative w-full aspect-video">
                   {acfData!.video!.includes("iframe") && (
                     <div
                       className="w-full h-full"

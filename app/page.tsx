@@ -57,7 +57,7 @@ async function UpcomingEvents() {
             </h2>
             <p className="text-muted-foreground text-lg">Les prochains rendez-vous pour s'engager ensemble</p>
           </div>
-          <Button asChild variant="outline">
+          <Button variant="outline">
             <Link href="/evenements">
               <Highlighter
                 action="highlight"
@@ -199,7 +199,7 @@ async function MapAndEventsSection({ acfData }: { acfData?: HomePageACF["section
               ))}
             </div>
             <div className="mt-4 text-center">
-              <Button asChild variant="outline" size="sm">
+              <Button variant="outline" size="sm">
                 <Link href="/groupes-locaux">
                   <Highlighter
                     action="highlight"
@@ -293,7 +293,7 @@ export default async function HomePage() {
                 acf.section_manifeste.cta_de_droite?.libelle_de_droite) && (
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   {acf.section_manifeste.cta_de_gauche?.libelle_de_gauche && (
-                    <Button asChild size="lg" className="bg-white text-[var(--brand-red)] hover:bg-white/90">
+                    <Button size="lg" className="bg-white text-[var(--brand-red)] hover:bg-white/90">
                       <Link
                         href={acf.section_manifeste.cta_de_gauche.lien_de_gauche?.url || "#"}
                         target={acf.section_manifeste.cta_de_gauche.lien_de_gauche?.target || "_self"}
@@ -313,7 +313,7 @@ export default async function HomePage() {
                     </Button>
                   )}
                   {acf.section_manifeste.cta_de_droite?.libelle_de_droite && (
-                    <Button asChild variant="outline" size="lg" className="border-white text-black bg-transparent">
+                    <Button variant="outline" size="lg" className="border-white text-black bg-transparent">
                       <Link
                         href={acf.section_manifeste.cta_de_droite.lien_de_droite?.url || "#"}
                         target={acf.section_manifeste.cta_de_droite.lien_de_droite?.target || "_self"}
