@@ -38,8 +38,25 @@ export function EventsCarousel({ events }: EventsCarouselProps) {
     return new Date(year, month - 1, day)
   }
 
-  const eventDate = currentEvent.acf?.date ? parseDate(currentEvent.acf.date) : new Date(currentEvent.date)
-  const isUpcoming = eventDate > new Date()
+  // Set pivot at the start of today (midnight)
+  const now = new Date()
+  const todayAtMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+  const todayTimestamp = todayAtMidnight.getTime()
+
+  let eventTimestamp: number
+  if (currentEvent.acf?.date) {
+    let eventDate = parseDate(currentEvent.acf.date)
+    // Set to midnight for date-only comparison
+    eventDate.setHours(0, 0, 0, 0)
+    eventTimestamp = eventDate.getTime()
+  } else {
+    // For WordPress date, extract only the date part (at midnight)
+    const wpDate = new Date(currentEvent.date)
+    wpDate.setHours(0, 0, 0, 0)
+    eventTimestamp = wpDate.getTime()
+  }
+
+  const isUpcoming = eventTimestamp >= todayTimestamp
 
   const getEventTypeFromCategories = () => {
     if (currentEvent._embedded?.["wp:term"]?.[0]) {

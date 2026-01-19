@@ -11,15 +11,32 @@ interface EventCardProps {
 }
 
 export function EventCard({ event }: EventCardProps) {
-  const eventDate = event.acf?.date ? parseDate(event.acf.date) : new Date(event.date)
-  const isUpcoming = eventDate > new Date()
-  const isPast = eventDate < new Date()
-
   // Parse date from d/m/Y format to Date object
   function parseDate(dateString: string): Date {
     const [day, month, year] = dateString.split("/").map(Number)
     return new Date(year, month - 1, day)
   }
+
+  // Set pivot at the start of today (midnight)
+  const now = new Date()
+  const todayAtMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+  const todayTimestamp = todayAtMidnight.getTime()
+
+  let eventTimestamp: number
+  if (event.acf?.date) {
+    let eventDate = parseDate(event.acf.date)
+    // Set to midnight for date-only comparison
+    eventDate.setHours(0, 0, 0, 0)
+    eventTimestamp = eventDate.getTime()
+  } else {
+    // For WordPress date, extract only the date part (at midnight)
+    const wpDate = new Date(event.date)
+    wpDate.setHours(0, 0, 0, 0)
+    eventTimestamp = wpDate.getTime()
+  }
+
+  const isUpcoming = eventTimestamp >= todayTimestamp
+  const isPast = eventTimestamp < todayTimestamp
 
   const getStatusColor = () => {
     if (isPast) return "bg-gray-500"

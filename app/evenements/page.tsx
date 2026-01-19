@@ -76,21 +76,32 @@ export default function EventsPage() {
 
     // Status filter
     if (filters.status !== "all") {
+      // Set pivot at the start of today (midnight)
       const now = new Date()
+      console.log("Now:", now)
+      const todayAtMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+      const todayTimestamp = todayAtMidnight.getTime()
+      
       filtered = filtered.filter((event) => {
-        let eventDate: Date
+        let eventTimestamp: number
         if (event.acf?.date) {
           // Parse date from d/m/Y format
           const [day, month, year] = event.acf.date.split("/").map(Number)
-          eventDate = new Date(year, month - 1, day)
+          let eventDate = new Date(year, month - 1, day)
+          // Set to midnight for date-only comparison
+          eventDate.setHours(0, 0, 0, 0)
+          eventTimestamp = eventDate.getTime()
         } else {
-          eventDate = new Date(event.date)
+          // For WordPress date, extract only the date part (at midnight)
+          const wpDate = new Date(event.date)
+          wpDate.setHours(0, 0, 0, 0)
+          eventTimestamp = wpDate.getTime()
         }
 
         if (filters.status === "upcoming") {
-          return eventDate > now
+          return eventTimestamp >= todayTimestamp
         } else if (filters.status === "past") {
-          return eventDate < now
+          return eventTimestamp < todayTimestamp
         }
         return true
       })

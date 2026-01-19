@@ -87,9 +87,14 @@ export default async function EventPage({ params }: EventPageProps) {
   const onlineLink = event.acf?.lien_vers_levenement_en_ligne
 
   // Determine if event is past, present, or future
+  // Set pivot at the start of today (midnight)
   const now = new Date()
-  const isUpcoming = eventDate && eventDate > now
-  const isPast = eventDate && eventDate < now
+  const todayAtMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+  const todayTimestamp = todayAtMidnight.getTime()
+
+  const eventTimestamp = eventDate ? new Date(eventDate.getFullYear(), eventDate.getMonth(), eventDate.getDate()).getTime() : null
+  const isUpcoming = eventTimestamp !== null && eventTimestamp >= todayTimestamp
+  const isPast = eventTimestamp !== null && eventTimestamp < todayTimestamp
 
   return (
     <article className="min-h-screen pt-32 pb-12">
