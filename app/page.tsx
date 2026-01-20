@@ -162,8 +162,8 @@ async function ArticlesAndEvents({ acfData }: { acfData?: HomePageACF["section_a
 async function MapAndEventsSection({ acfData }: { acfData?: HomePageACF["section_groupes_evenements"] }) {
   const groups = await getLocalGroups()
 
-  // Limit to 10 groups
-  const displayGroups = groups.slice(0, 10)
+  // Limit to 3 groups
+  const displayGroups = groups.slice(0, 3)
 
   return (
     <section className="py-16 lg:py-24 bg-white">
@@ -212,7 +212,6 @@ async function MapAndEventsSection({ acfData }: { acfData?: HomePageACF["section
                   >
                     Tous les groupes
                   </Highlighter>
-                  <ArrowRight className="ml-2 h-3 w-3" />
                 </Link>
               </Button>
             </div>
