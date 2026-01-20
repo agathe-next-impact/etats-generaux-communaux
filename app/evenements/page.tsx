@@ -134,7 +134,7 @@ export default function EventsPage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 pt-[150px] relative">
+    <div className="container mx-auto px-4 py-8 pt-37.5 relative">
       {/* Background decorative pictos */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden -z-10">
         <Image
