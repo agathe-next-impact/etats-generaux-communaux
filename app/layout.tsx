@@ -5,8 +5,9 @@ import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
 import { Suspense } from "react"
 import { ScrollToTop } from "@/components/scroll-to-top"
-import TargetCursor from "@/components/target-cursor"
+import dynamic from "next/dynamic"
 import "./globals.css"
+import TargetCursor from "@/components/TargetCursorClient"
 
 const raleway = Raleway({
   subsets: ["latin"],
@@ -14,6 +15,7 @@ const raleway = Raleway({
   weight: ["500", "600", "700", "800"],
   display: "swap",
 })
+
 
 export const metadata: Metadata = {
   title: {
@@ -98,7 +100,7 @@ export default function RootLayout({
           <Footer />
           <ScrollToTop />
         </Suspense>
-        <TargetCursor targetSelector=".cursor-target" spinDuration={2} hideDefaultCursor={true} />
+        <TargetCursor /> 
       </body>
     </html>
   )
