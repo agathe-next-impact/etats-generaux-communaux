@@ -78,7 +78,6 @@ export default function EventsPage() {
     if (filters.status !== "all") {
       // Set pivot at the start of today (midnight)
       const now = new Date()
-      console.log("Now:", now)
       const todayAtMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate())
       const todayTimestamp = todayAtMidnight.getTime()
       

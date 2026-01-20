@@ -184,7 +184,7 @@ export function Navigation() {
                 href="/les-egc"
                 className="block px-4 py-3 text-base font-bold text-foreground hover:bg-[#F4E63C]/30 rounded-lg transition-all group relative overflow-hidden"
               >
-                <span className="relative z-10">Notre ambition</span>
+                <span className="relative z-10 font-semibold text-[#E73628] uppercase tracking-wider">Notre ambition</span>
                 <span className="absolute inset-0 bg-[#F4E63C] opacity-0 group-hover:opacity-20 transition-opacity rounded-lg" />
               </Link>
 
@@ -207,7 +207,14 @@ export function Navigation() {
                     href="/ressources"
                     className="block px-6 py-2.5 text-sm font-semibold text-foreground hover:text-[#E73628] hover:bg-[#B4D19F]/20 rounded-lg transition-all relative group"
                   >
-                    <span className="relative z-10">Assemblées citoyennes communales</span>
+                    <span className="relative z-10">Ressources</span>
+                    <span className="absolute left-4 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-[#44843F] opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </Link>
+                  <Link
+                    href="/groupes-locaux"
+                    className="block px-6 py-2.5 text-sm font-semibold text-foreground hover:text-[#E73628] hover:bg-[#B4D19F]/20 rounded-lg transition-all relative group"
+                  >
+                    <span className="relative z-10">Groupes locaux</span>
                     <span className="absolute left-4 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-[#44843F] opacity-0 group-hover:opacity-100 transition-opacity" />
                   </Link>
                 </div>
@@ -245,30 +252,14 @@ export function Navigation() {
                 </div>
               </div>
 
-              {/* Faire Rhizome Section */}
-              <div className="py-2">
-                <div className="px-4 py-2 flex items-center gap-2">
-                  <div className="h-px flex-1 bg-gradient-to-r from-[#E73628] to-transparent" />
-                  <span className="text-xs font-bold text-[#E73628] uppercase tracking-wider">Faire Rhizome</span>
-                  <div className="h-px flex-1 bg-gradient-to-l from-[#E73628] to-transparent" />
-                </div>
-                <div className="space-y-1 mt-2">
-                  <Link
-                    href="/a-propos"
-                    className="block px-6 py-2.5 text-sm font-semibold text-foreground hover:text-[#E73628] hover:bg-[#B4D19F]/20 rounded-lg transition-all relative group"
-                  >
-                    <span className="relative z-10">A propos</span>
-                    <span className="absolute left-4 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-[#44843F] opacity-0 group-hover:opacity-100 transition-opacity" />
-                  </Link>
-                  <Link
-                    href="/groupes-locaux"
-                    className="block px-6 py-2.5 text-sm font-semibold text-foreground hover:text-[#E73628] hover:bg-[#B4D19F]/20 rounded-lg transition-all relative group"
-                  >
-                    <span className="relative z-10">Groupes communaux</span>
-                    <span className="absolute left-4 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-[#44843F] opacity-0 group-hover:opacity-100 transition-opacity" />
-                  </Link>
-                </div>
-              </div>
+              {/* A propos - lien direct comme dans le desktop */}
+              <Link
+                href="/a-propos"
+                className="block px-4 py-3 text-base font-bold text-foreground hover:bg-[#F4E63C]/30 rounded-lg transition-all group relative overflow-hidden"
+              >
+                <span className="relative z-10 font-semibold text-[#E73628] uppercase tracking-wider">A propos</span>
+                <span className="absolute inset-0 bg-[#F4E63C] opacity-0 group-hover:opacity-20 transition-opacity rounded-lg" />
+              </Link>
             </div>
 
             {/* Réseaux sociaux mobile */}
@@ -276,15 +267,14 @@ export function Navigation() {
               <SocialLinks />
             </div>
 
-            {/* CTA Button */}
+            {/* CTA Button - Contact */}
             <div className="px-4 pt-6 pb-8 mt-4 border-t-2 border-[#E73628]/20">
               <Link href="/contact" className="block">
                 <div className="relative group overflow-hidden rounded-lg">
-                  <div className="absolute inset-0 bg-gradient-to-r from-[#B4D19F] to-[#94BF7E] opacity-90 group-hover:opacity-100 transition-opacity" />
+                  <div className="absolute inset-0" />
                   <div className="relative z-10 px-6 py-4 text-center">
-                    <span className="text-lg font-bold text-[#44843F] uppercase tracking-wide">Participer</span>
+                    <span className="text-lg font-bold text-[#E73628] uppercase">Contact</span>
                   </div>
-                  <div className="absolute inset-0 border-2 border-[#44843F]/30 rounded-lg group-hover:border-[#44843F]/50 transition-colors" />
                 </div>
               </Link>
             </div>
