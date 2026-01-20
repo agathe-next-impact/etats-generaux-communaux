@@ -43,7 +43,7 @@ export function LocalGroupCard({ group, index }: LocalGroupCardProps) {
 
   const groupName = group.acf?.nom_de_groupe || group.title.rendered
   const city = getCity(group.acf?.localisation?.address)
-  const description = group.acf?.descriptif || group.content.rendered.replace(/<[^>]*>/g, "").substring(0, 100)
+  const description = group.acf?.descriptif || ""
 
   const pictos = [
     "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%201-YFeeOd4CBQ2S2bGA4pPLgNc6hMYIPd.png", // picto 1
