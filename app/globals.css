@@ -4,6 +4,47 @@
 
 /* Removed @import "tw-animate-css"; - not compatible with Tailwind CSS v4 */
 
+/* Remove default Tailwind ring */
+*,
+*::before,
+*::after {
+  --tw-ring-offset-shadow: 0 0 #0000;
+  --tw-ring-shadow: 0 0 #0000;
+  --tw-shadow: 0 0 #0000;
+  --tw-shadow-colored: 0 0 #0000;
+}
+
+*:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+/* Remove all input outlines and borders */
+input,
+textarea,
+select,
+button {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+input:focus,
+textarea:focus,
+select:focus,
+button:focus {
+  outline: none !important;
+  box-shadow: none !important;
+  border-color: inherit;
+}
+
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+button:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
 :root {
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);

@@ -13,8 +13,8 @@ export default function DoleancesClientPage() {
   const doleancesPageData = use(getDoleancesPageData())
   const acf = doleancesPageData?.acf
 
-  console.log("[v0] Les Doléances page ACF data:", acf ? "loaded" : "not found")
-  console.log("[v0] Les Doléances CTA data:", acf?.cta)
+  console.warn("[v0] Les Doléances page ACF data:", acf ? "loaded" : "not found")
+  console.warn("[v0] Les Doléances CTA data:", acf?.cta)
 
   const icons = [
     "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%202-XT3JEJBM0RTr1nZ4p7W1zXmIKbvoE1.png", // picto 2

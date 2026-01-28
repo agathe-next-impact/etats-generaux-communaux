@@ -35,7 +35,7 @@ export async function ElectionsMunicipalesSection({ acfData }: Props) {
   const hasArticles = posts && posts.length > 0;
   if (!hasVideo && !hasArticles) return null;
 
-  console.log('[ElectionsMunicipalesSection] acfData.video:', acfData?.video);
+  console.warn('[ElectionsMunicipalesSection] acfData.video:', acfData?.video);
 
   return (
     <section className="py-16 lg:py-24 bg-white">

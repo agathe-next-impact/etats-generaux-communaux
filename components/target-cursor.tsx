@@ -46,33 +46,33 @@ const TargetCursor: React.FC<TargetCursorProps> = ({
     const hasHover = window.matchMedia("(hover: hover)").matches
     const hasFinePointer = window.matchMedia("(pointer: fine)").matches
     setHasMouseCapability(hasHover && hasFinePointer)
-    console.log("[v0] TargetCursor mounting on client side")
-    console.log("[v0] Device has mouse capability:", hasHover && hasFinePointer)
+    console.warn("[v0] TargetCursor mounting on client side")
+    console.warn("[v0] Device has mouse capability:", hasHover && hasFinePointer)
   }, [])
 
   useEffect(() => {
     if (!mounted || !hasMouseCapability) {
       if (!hasMouseCapability) {
-        console.log("[v0] TargetCursor disabled on touch device")
+        console.warn("[v0] TargetCursor disabled on touch device")
       }
       return
     }
 
-    console.log("[v0] TargetCursor component mounted")
-    console.log("[v0] cursorRef.current:", cursorRef.current)
-    console.log("[v0] GSAP available:", typeof gsap !== "undefined")
+    console.warn("[v0] TargetCursor component mounted")
+    console.warn("[v0] cursorRef.current:", cursorRef.current)
+    console.warn("[v0] GSAP available:", typeof gsap !== "undefined")
 
     if (!cursorRef.current) {
-      console.log("[v0] cursorRef.current is null, cursor will not initialize")
+      console.warn("[v0] cursorRef.current is null, cursor will not initialize")
       return
     }
 
-    console.log("[v0] Initializing cursor...")
+    console.warn("[v0] Initializing cursor...")
 
     const originalCursor = document.body.style.cursor
     if (hideDefaultCursor) {
       document.body.style.cursor = "none"
-      console.log("[v0] Default cursor hidden")
+      console.warn("[v0] Default cursor hidden")
     }
 
     const cursor = cursorRef.current
@@ -112,7 +112,7 @@ const TargetCursor: React.FC<TargetCursorProps> = ({
     }
 
     createSpinTimeline()
-    console.log("[v0] Spin timeline created")
+    console.warn("[v0] Spin timeline created")
 
     const moveHandler = (e: MouseEvent) => moveCursor(e.clientX, e.clientY)
     window.addEventListener("mousemove", moveHandler)
@@ -334,7 +334,7 @@ const TargetCursor: React.FC<TargetCursorProps> = ({
     window.addEventListener("mouseover", enterHandler, { passive: true })
 
     return () => {
-      console.log("[v0] TargetCursor cleanup")
+      console.warn("[v0] TargetCursor cleanup")
       window.removeEventListener("mousemove", moveHandler)
       window.removeEventListener("mouseover", enterHandler)
       window.removeEventListener("scroll", scrollHandler)
@@ -350,7 +350,7 @@ const TargetCursor: React.FC<TargetCursorProps> = ({
 
   useEffect(() => {
     if (!mounted) {
-      console.log("[v0] TargetCursor not yet mounted, skipping initialization")
+      console.warn("[v0] TargetCursor not yet mounted, skipping initialization")
       return
     }
 

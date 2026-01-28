@@ -9,7 +9,7 @@ export const metadata = {
 }
 
 export default function ContactPage() {
-  const contactEmail = "lesetatsgenerauxcommunaux@gmail.com"
+  const contactEmail = "agathe.karinthi.martin@gmail.com"
 
   return (
     <div className="min-h-screen bg-background pt-32 pb-12 relative overflow-hidden">

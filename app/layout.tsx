@@ -7,6 +7,7 @@ import { Suspense } from "react"
 import { ScrollToTop } from "@/components/scroll-to-top"
 import "./globals.css"
 import TargetCursor from "@/components/TargetCursorClient"
+import { ExitIntentPopup } from "@/components/ui/exit-intent-popup"
 
 const raleway = Raleway({
   subsets: ["latin"],
@@ -93,6 +94,14 @@ export default function RootLayout({
   return (
     <html lang="fr" className={raleway.variable}>
       <body className="font-sans antialiased">
+      {/* Exit Intent Popup */}
+        <ExitIntentPopup
+          title="Rejoignez notre newsletter !"
+          description="Ne manquez rien des actualités des États Généraux Communaux. Inscrivez-vous à notre newsletter pour recevoir les dernières nouvelles, événements et ressources directement dans votre boîte mail."
+          buttonText="S'inscrire"
+          sensitivity={20}
+          showOnce={true}
+        />
         <Suspense fallback={<div>Loading...</div>}>
           <Navigation />
           <main className="min-h-screen">{children}</main>

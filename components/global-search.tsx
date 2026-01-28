@@ -100,7 +100,7 @@ export function GlobalSearch({ isOpen, onClose }: GlobalSearchProps) {
   }
 
   const handleResultClick = (result: SearchResult) => {
-    console.log("[v0] Navigating to result:", result.url)
+    console.warn("[v0] Navigating to result:", result.url)
     router.push(result.url)
     onClose()
   }

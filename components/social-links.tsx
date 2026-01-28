@@ -48,7 +48,7 @@ const SocialLinks: React.FC = () => {
   );
   // Log la structure HTML pour debug
   useEffect(() => {
-    console.log('[SocialLinks] links state:', links);
+    console.warn('[SocialLinks] links state:', links);
   }, [links]);
   return html;
 };

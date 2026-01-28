@@ -669,15 +669,15 @@ export async function getResourceCategories(): Promise<WordPressTaxonomy[]> {
     })
 
     if (!response.ok) {
-      console.log(`[v0] WordPress resource categories not available (${response.status}), using demo data`)
+      console.warn(`[v0] WordPress resource categories not available (${response.status}), using demo data`)
       throw new Error("WordPress not available")
     }
 
     const categories = await validateJsonResponse(response)
-    console.log("[v0] Resource categories fetched:", categories.length, "categories")
+    console.warn("[v0] Resource categories fetched:", categories.length, "categories")
     return Array.isArray(categories) ? categories : []
   } catch (error) {
-    console.log(
+    console.warn(
       "[v0] Using demo event categories - Configure WordPress taxonomy 'categorie-de-ressource' to add categories",
     )
 
@@ -711,14 +711,14 @@ export async function getEvents(params?: {
           const categoryData = await validateJsonResponse(categoriesResponse)
           if (Array.isArray(categoryData) && categoryData.length > 0) {
             searchParams.set("categorie-devenement", categoryData[0].id.toString())
-            console.log("[v0] Using event category ID for filtering:", categoryData[0].id)
+            console.warn("[v0] Using event category ID for filtering:", categoryData[0].id)
           }
         } else {
           searchParams.set("categorie-devenement", params.type)
-          console.log("[v0] Using event category slug for filtering:", params.type)
+          console.warn("[v0] Using event category slug for filtering:", params.type)
         }
       } catch (error) {
-        console.log("[v0] Event category ID lookup failed, using slug:", params.type)
+        console.warn("[v0] Event category ID lookup failed, using slug:", params.type)
         searchParams.set("categorie-devenement", params.type)
       }
     }
@@ -727,7 +727,7 @@ export async function getEvents(params?: {
       searchParams.set("search", params.search)
     }
 
-    console.log("[v0] Fetching events with params:", searchParams.toString())
+    console.warn("[v0] Fetching events with params:", searchParams.toString())
 
     const response = await fetch(`${WP_API_URL}/evenement?${searchParams.toString()}`, {
       next: { revalidate: 300 }, // Revalidate every 5 minutes for events
@@ -738,12 +738,12 @@ export async function getEvents(params?: {
     })
 
     if (!response.ok) {
-      console.log(`[v0] WordPress events not available (${response.status}), using demo data`)
+      console.warn(`[v0] WordPress events not available (${response.status}), using demo data`)
       throw new Error("WordPress not available")
     }
 
     const events = await validateJsonResponse(response)
-    console.log("[v0] Events fetched:", events.length, "events")
+    console.warn("[v0] Events fetched:", events.length, "events")
     return Array.isArray(events) ? events : []
   } catch (error) {
     return []
@@ -761,15 +761,15 @@ export async function getEventCategories(): Promise<WordPressTaxonomy[]> {
     })
 
     if (!response.ok) {
-      console.log(`[v0] WordPress event categories not available (${response.status}), using demo data`)
+      console.warn(`[v0] WordPress event categories not available (${response.status}), using demo data`)
       throw new Error("WordPress not available")
     }
 
     const categories = await validateJsonResponse(response)
-    console.log("[v0] Event categories fetched:", categories.length, "categories")
+    console.warn("[v0] Event categories fetched:", categories.length, "categories")
     return Array.isArray(categories) ? categories : []
   } catch (error) {
-    console.log(
+    console.warn(
       "[v0] Using demo event categories - Configure WordPress taxonomy 'categorie-devenement' to add categories",
     )
 
@@ -886,13 +886,13 @@ export async function getPageBySlug(slug: string): Promise<any | null> {
 
     if (Array.isArray(pages) && pages.length > 0) {
       const page = pages[0]
-      console.log(`[v0] Page "${slug}" loaded successfully`)
+      console.warn(`[v0] Page "${slug}" loaded successfully`)
       return page
     }
 
     return null
   } catch (error) {
-    console.log(`[v0] Could not fetch page "${slug}", trying alternative methods...`)
+    console.warn(`[v0] Could not fetch page "${slug}", trying alternative methods...`)
     return null
   }
 }
@@ -907,7 +907,7 @@ export async function getHomePageData(): Promise<HomePageData | null> {
     }
 
     // Method 2: Try by page ID 771 (from ACF export)
-    console.log("[v0] Trying to fetch homepage by ID 771")
+    console.warn("[v0] Trying to fetch homepage by ID 771")
     try {
       const response = await fetch(`${WP_API_URL}/pages/771?acf_format=standard`, {
         next: { revalidate: 300 },
@@ -919,7 +919,7 @@ export async function getHomePageData(): Promise<HomePageData | null> {
 
       if (response.ok) {
         page = await validateJsonResponse(response)
-        console.log("[v0] Homepage loaded successfully (ID: 771)")
+        console.warn("[v0] Homepage loaded successfully (ID: 771)")
         return page as HomePageData
       }
     } catch (error) {}
@@ -929,7 +929,7 @@ export async function getHomePageData(): Promise<HomePageData | null> {
     for (const slug of commonSlugs) {
       page = await getPageBySlug(slug)
       if (page) {
-        console.log(`[v0] Homepage loaded successfully (slug: ${slug})`)
+        console.warn(`[v0] Homepage loaded successfully (slug: ${slug})`)
         return page as HomePageData
       }
     }
@@ -948,13 +948,13 @@ export async function getHomePageData(): Promise<HomePageData | null> {
         const pages = await validateJsonResponse(response)
 
         if (Array.isArray(pages) && pages.length > 0) {
-          console.log("[v0] Using first available page as homepage")
+          console.warn("[v0] Using first available page as homepage")
           return pages[0] as HomePageData
         }
       }
     } catch (error) {}
 
-    console.log("[v0] Using default homepage structure (WordPress not configured)")
+    console.warn("[v0] Using default homepage structure (WordPress not configured)")
     return {
       id: 0,
       title: { rendered: "Accueil" },
@@ -996,23 +996,23 @@ export async function getHomePageData(): Promise<HomePageData | null> {
 
 export async function getAboutPageData(): Promise<AboutPageData | null> {
   try {
-    console.log("[v0] Fetching about page ACF data")
+    console.warn("[v0] Fetching about page ACF data")
 
     // Try to fetch the about page by slug
     const page = await getPageBySlug("a-propos")
 
     if (page) {
-      console.log("[v0] About page found with slug 'a-propos'")
-      console.log("[v0] About page ACF data:", page.acf ? "found" : "not found")
+      console.warn("[v0] About page found with slug 'a-propos'")
+      console.warn("[v0] About page ACF data:", page.acf ? "found" : "not found")
       return page as AboutPageData
     }
 
-    console.log("[v0] No about page found with slug 'a-propos'")
-    console.log("[v0] Please ensure:")
-    console.log("[v0] 1. A page exists in WordPress with slug 'a-propos'")
-    console.log("[v0] 2. The page is published (not draft)")
-    console.log("[v0] 3. ACF fields are properly configured on the page")
-    console.log("[v0] 4. WordPress REST API is accessible at:", WP_API_URL)
+    console.warn("[v0] No about page found with slug 'a-propos'")
+    console.warn("[v0] Please ensure:")
+    console.warn("[v0] 1. A page exists in WordPress with slug 'a-propos'")
+    console.warn("[v0] 2. The page is published (not draft)")
+    console.warn("[v0] 3. ACF fields are properly configured on the page")
+    console.warn("[v0] 4. WordPress REST API is accessible at:", WP_API_URL)
 
     return null
   } catch (error) {
@@ -1023,23 +1023,23 @@ export async function getAboutPageData(): Promise<AboutPageData | null> {
 
 export async function getParticiperPageData(): Promise<ParticiperPageData | null> {
   try {
-    console.log("[v0] Fetching participer page ACF data")
+    console.warn("[v0] Fetching participer page ACF data")
 
     // Try to fetch the participer page by slug
     const page = await getPageBySlug("participer")
 
     if (page) {
-      console.log("[v0] Participer page found with slug 'participer'")
-      console.log("[v0] Participer page ACF data:", page.acf ? "found" : "not found")
+      console.warn("[v0] Participer page found with slug 'participer'")
+      console.warn("[v0] Participer page ACF data:", page.acf ? "found" : "not found")
       return page as ParticiperPageData
     }
 
-    console.log("[v0] No participer page found with slug 'participer'")
-    console.log("[v0] Please ensure:")
-    console.log("[v0] 1. A page exists in WordPress with slug 'participer'")
-    console.log("[v0] 2. The page is published (not draft)")
-    console.log("[v0] 3. ACF fields are properly configured on the page")
-    console.log("[v0] 4. WordPress REST API is accessible at:", WP_API_URL)
+    console.warn("[v0] No participer page found with slug 'participer'")
+    console.warn("[v0] Please ensure:")
+    console.warn("[v0] 1. A page exists in WordPress with slug 'participer'")
+    console.warn("[v0] 2. The page is published (not draft)")
+    console.warn("[v0] 3. ACF fields are properly configured on the page")
+    console.warn("[v0] 4. WordPress REST API is accessible at:", WP_API_URL)
 
     return null
   } catch (error) {
@@ -1050,23 +1050,23 @@ export async function getParticiperPageData(): Promise<ParticiperPageData | null
 
 export async function getDoleancesPageData(): Promise<DoleancesPageData | null> {
   try {
-    console.log("[v0] Fetching les-doleances page ACF data")
+    console.warn("[v0] Fetching les-doleances page ACF data")
 
     // Try to fetch the doleances page by slug
     const page = await getPageBySlug("les-doleances")
 
     if (page) {
-      console.log("[v0] Les Doléances page found with slug 'les-doleances'")
-      console.log("[v0] Les Doléances page ACF data:", page.acf ? "found" : "not found")
+      console.warn("[v0] Les Doléances page found with slug 'les-doleances'")
+      console.warn("[v0] Les Doléances page ACF data:", page.acf ? "found" : "not found")
       return page as DoleancesPageData
     }
 
-    console.log("[v0] No les-doleances page found with slug 'les-doleances'")
-    console.log("[v0] Please ensure:")
-    console.log("[v0] 1. A page exists in WordPress with slug 'les-doleances'")
-    console.log("[v0] 2. The page is published (not draft)")
-    console.log("[v0] 3. ACF fields are properly configured on the page")
-    console.log("[v0] 4. WordPress REST API is accessible at:", WP_API_URL)
+    console.warn("[v0] No les-doleances page found with slug 'les-doleances'")
+    console.warn("[v0] Please ensure:")
+    console.warn("[v0] 1. A page exists in WordPress with slug 'les-doleances'")
+    console.warn("[v0] 2. The page is published (not draft)")
+    console.warn("[v0] 3. ACF fields are properly configured on the page")
+    console.warn("[v0] 4. WordPress REST API is accessible at:", WP_API_URL)
 
     return null
   } catch (error) {
@@ -1077,17 +1077,17 @@ export async function getDoleancesPageData(): Promise<DoleancesPageData | null> 
 
 export async function getDemanderDoleancesPageData(): Promise<DemanderDoleancesPageData | null> {
   try {
-    console.log("[v0] Fetching demander-les-doleances page ACF data")
+    console.warn("[v0] Fetching demander-les-doleances page ACF data")
 
     const page = await getPageBySlug("demander-les-doleances")
 
     if (page) {
-      console.log("[v0] Demander les Doléances page found with slug 'demander-les-doleances'")
-      console.log("[v0] Demander les Doléances page ACF data:", page.acf ? "found" : "not found")
+      console.warn("[v0] Demander les Doléances page found with slug 'demander-les-doleances'")
+      console.warn("[v0] Demander les Doléances page ACF data:", page.acf ? "found" : "not found")
       return page as DemanderDoleancesPageData
     }
 
-    console.log("[v0] No demander-les-doleances page found with slug 'demander-les-doleances'")
+    console.warn("[v0] No demander-les-doleances page found with slug 'demander-les-doleances'")
     return null
   } catch (error) {
     console.error("[v0] Error fetching demander-les-doleances page data:", error)
@@ -1097,12 +1097,12 @@ export async function getDemanderDoleancesPageData(): Promise<DemanderDoleancesP
 
 export async function getArchivePageTitles(): Promise<ArchivePageTitles | null> {
   try {
-    console.log("[v0] Fetching archive page titles from custom theme endpoint")
+    console.warn("[v0] Fetching archive page titles from custom theme endpoint")
 
     const baseUrl = WP_API_URL.replace(/\/wp-json\/wp\/v2\/?$/, "")
     const customEndpoint = `${baseUrl}/wp-json/mytheme/v1/titres-pages-darchives`
 
-    console.log("[v0] Custom endpoint URL:", customEndpoint)
+    console.warn("[v0] Custom endpoint URL:", customEndpoint)
 
     const response = await fetch(customEndpoint, {
       next: { revalidate: 3600 },
@@ -1113,7 +1113,7 @@ export async function getArchivePageTitles(): Promise<ArchivePageTitles | null> 
     })
 
     if (!response.ok) {
-      console.log(`[v0] ✗ WordPress endpoint returned status ${response.status}`)
+      console.warn(`[v0] ✗ WordPress endpoint returned status ${response.status}`)
       return null
     }
 

@@ -22,16 +22,16 @@ export async function POST(request: NextRequest) {
     const isDevelopment = !apiKey || apiKey === "" || apiKey === "your-api-key-here"
 
     const sendDevelopmentEmail = () => {
-      console.log("[v0] ⚠️  DEVELOPMENT MODE: Email simulation active")
-      console.log("[v0] 📧 Email details:")
-      console.log(`[v0] From: Les EGC <noreply@${siteDomain}>`)
-      console.log("[v0] To:", emailDestination || "agathe.karinthi.martin@gmail.com")
-      console.log("[v0] Reply-To:", email)
-      console.log("[v0] Subject:", `[Contact] ${sujet}`)
-      console.log("[v0] Message from:", nom, `(${email})`)
-      console.log("[v0] Message:", message)
-      console.log("[v0] 💡 To enable real email sending, add a valid RESEND_API_KEY")
-      console.log("[v0] Get your API key at: https://resend.com/api-keys")
+      console.warn("[v0] ⚠️  DEVELOPMENT MODE: Email simulation active")
+      console.warn("[v0] 📧 Email details:")
+      console.warn(`[v0] From: Les EGC <noreply@${siteDomain}>`)
+      console.warn("[v0] To:", emailDestination || "agathe.karinthi.martin@gmail.com")
+      console.warn("[v0] Reply-To:", email)
+      console.warn("[v0] Subject:", `[Contact] ${sujet}`)
+      console.warn("[v0] Message from:", nom, `(${email})`)
+      console.warn("[v0] Message:", message)
+      console.warn("[v0] 💡 To enable real email sending, add a valid RESEND_API_KEY")
+      console.warn("[v0] Get your API key at: https://resend.com/api-keys")
 
       return NextResponse.json(
         {
@@ -86,13 +86,13 @@ export async function POST(request: NextRequest) {
       if (error) {
         console.error("[v0] Resend error:", error)
         if (error.message?.includes("API key") || error.message?.includes("invalid")) {
-          console.log("[v0] Invalid API key detected, falling back to development mode")
+          console.warn("[v0] Invalid API key detected, falling back to development mode")
           return sendDevelopmentEmail()
         }
         return NextResponse.json({ message: "Erreur lors de l'envoi de l'email. Veuillez réessayer." }, { status: 500 })
       }
 
-      console.log("[v0] Email sent successfully via Resend:", data)
+      console.warn("[v0] Email sent successfully via Resend:", data)
 
       return NextResponse.json(
         {
@@ -110,7 +110,7 @@ export async function POST(request: NextRequest) {
     } catch (emailError: any) {
       console.error("[v0] Error sending email with Resend:", emailError)
       if (emailError.statusCode === 401 || emailError.message?.includes("API key")) {
-        console.log("[v0] Invalid API key (401 error), falling back to development mode")
+        console.warn("[v0] Invalid API key (401 error), falling back to development mode")
         return sendDevelopmentEmail()
       }
       return NextResponse.json({ message: "Erreur lors de l'envoi de l'email. Veuillez réessayer." }, { status: 500 })

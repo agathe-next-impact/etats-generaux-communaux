@@ -11,7 +11,7 @@ interface DemanderDoleancesClientProps {
 }
 
 export function DemanderDoleancesClient({ acf }: DemanderDoleancesClientProps) {
-  console.log("[v0] Demander les Doléances page ACF data:", acf ? "loaded" : "not found")
+  console.warn("[v0] Demander les Doléances page ACF data:", acf ? "loaded" : "not found")
 
   const icons = [
     "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%201-YFeeOd4CBQ2S2bGA4pPLgNc6hMYIPd.png",

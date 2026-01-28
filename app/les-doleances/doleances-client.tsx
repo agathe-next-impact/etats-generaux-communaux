@@ -14,10 +14,10 @@ interface DoleancesClientProps {
 }
 
 export function DoleancesClient({ acf }: DoleancesClientProps) {
-  console.log("[v0] Les Doléances page ACF data:", acf ? "loaded" : "not found")
-  console.log("[v0] Les Doléances CTA data:", acf?.cta)
-  console.log("[v0] Bandeau synthese data:", acf?.bandeau_synthese)
-  console.log("[v0] Full ACF data keys:", acf ? Object.keys(acf) : "no acf")
+  console.warn("[v0] Les Doléances page ACF data:", acf ? "loaded" : "not found")
+  console.warn("[v0] Les Doléances CTA data:", acf?.cta)
+  console.warn("[v0] Bandeau synthese data:", acf?.bandeau_synthese)
+  console.warn("[v0] Full ACF data keys:", acf ? Object.keys(acf) : "no acf")
 
   const icons = [
     "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%201-YFeeOd4CBQ2S2bGA4pPLgNc6hMYIPd.png",

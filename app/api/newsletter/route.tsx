@@ -19,7 +19,7 @@ export async function POST(request: Request) {
       )
     }
 
-    let recipientEmail = "contact@lesetatsgenerauxcommunaux.org"
+    let recipientEmail = "agathe@next-impact.digital"
 
     try {
       const archiveTitles = await getArchivePageTitles()
@@ -35,8 +35,8 @@ export async function POST(request: Request) {
     const smtpPort = process.env.SMTP_PORT
     const smtpUser = process.env.SMTP_USER
     const smtpPass = process.env.SMTP_PASS
-    const smtpFrom =
-      process.env.SMTP_FROM || `Les EGC <noreply@${process.env.SITE_DOMAIN || "lesetatsgenerauxcommunaux.org"}>`
+    // Gmail requires the "from" address to match the authenticated user
+    const smtpFrom = process.env.SMTP_FROM || `Les EGC <${smtpUser}>`
 
     // Check if SMTP is configured
     if (!smtpHost || !smtpUser || !smtpPass) {
@@ -78,37 +78,57 @@ export async function POST(request: Request) {
     `
 
     // Email to subscriber
+    const siteDomain = process.env.SITE_DOMAIN || "lesetatsgenerauxcommunaux.org"
+    const logoUrl = `https://${siteDomain}/images/logo-egc.png`
+
     const subscriberEmailHtml = `
-      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-        <h2 style="color: #333; border-bottom: 2px solid #6CB33F; padding-bottom: 10px;">
-          Bienvenue dans notre newsletter !
-        </h2>
-        <p>Bonjour ${prenom},</p>
-        <p>Merci de vous être inscrit(e) à notre newsletter. Vous recevrez bientôt nos actualités et informations.</p>
-        <p>Si vous n'êtes pas à l'origine de cette inscription, vous pouvez ignorer cet email.</p>
-        <hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0;">
-        <p style="color: #666; font-size: 12px;">
-          Les États Généraux Communaux
-        </p>
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; text-align: center;">
+        <img src="${logoUrl}" alt="Logo Les EGC" style="max-width: 200px; margin-bottom: 20px;" />
+        <div style="text-align: left;">
+          <h2 style="color: #333; border-bottom: 2px solid #6CB33F; padding-bottom: 10px;">
+            Bienvenue dans notre newsletter !
+          </h2>
+          <p>Bonjour ${prenom},</p>
+          <p>Merci de vous être inscrit(e) à notre newsletter. Vous recevrez bientôt nos actualités et informations.</p>
+          <p>Si vous n'êtes pas à l'origine de cette inscription, vous pouvez ignorer cet email.</p>
+          <hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0;">
+          <p style="color: #666; font-size: 12px;">
+            Les États Généraux Communaux
+          </p>
+        </div>
       </div>
     `
 
     try {
+      console.log("[Newsletter] Attempting to send email...")
+      console.log("[Newsletter] SMTP Host:", smtpHost)
+      console.log("[Newsletter] SMTP Port:", smtpPort)
+      console.log("[Newsletter] SMTP User:", smtpUser)
+      console.log("[Newsletter] From:", smtpFrom)
+      console.log("[Newsletter] To Admin:", recipientEmail)
+      console.log("[Newsletter] To Subscriber:", email)
+
+      // Verify SMTP connection first
+      await transporter.verify()
+      console.log("[Newsletter] SMTP connection verified successfully")
+
       // Send email to admin
-      await transporter.sendMail({
+      const adminResult = await transporter.sendMail({
         from: smtpFrom,
         to: recipientEmail,
         subject: "Nouvelle inscription à la newsletter",
         html: adminEmailHtml,
       })
+      console.log("[Newsletter] Admin email sent:", adminResult.messageId)
 
       // Send confirmation email to subscriber
-      await transporter.sendMail({
+      const subscriberResult = await transporter.sendMail({
         from: smtpFrom,
         to: email,
         subject: "Confirmation d'inscription à la newsletter",
         html: subscriberEmailHtml,
       })
+      console.log("[Newsletter] Subscriber email sent:", subscriberResult.messageId)
 
       return NextResponse.json({
         message: "Inscription réussie ! Vous recevrez bientôt un email de confirmation.",
