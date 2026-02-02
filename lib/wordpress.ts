@@ -488,7 +488,7 @@ export async function getPosts(params?: {
 
   try {
     const response = await fetch(`${WP_API_URL}/posts?${searchParams.toString()}`, {
-      next: { revalidate: 300 }, // Revalidate every 5 minutes
+      next: { revalidate: 60 }, // Revalidate every 1 minute
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -530,7 +530,7 @@ export async function getPosts(params?: {
 export async function getPost(slug: string): Promise<WordPressPost | null> {
   try {
     const response = await fetch(`${WP_API_URL}/posts?slug=${slug}&_embed=true`, {
-      next: { revalidate: 300 },
+      next: { revalidate: 60 },
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -552,7 +552,7 @@ export async function getPost(slug: string): Promise<WordPressPost | null> {
 export async function getCategories(): Promise<WordPressCategory[]> {
   try {
     const response = await fetch(`${WP_API_URL}/categories?per_page=100`, {
-      next: { revalidate: 3600 }, // Revalidate every hour
+      next: { revalidate: 60 }, // Revalidate every 1 minute
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -614,7 +614,7 @@ export async function getResources(params?: {
 
 
     const response = await fetch(`${WP_API_URL}/ressource?${searchParams.toString()}`, {
-      next: { revalidate: 3600 },
+      next: { revalidate: 60 },
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -639,7 +639,7 @@ export async function getLocalGroups(): Promise<WordPressLocalGroup[]> {
   try {
     // Try to fetch from the "groupe-locaux" custom post type
     const response = await fetch(`${WP_API_URL}/groupe-locaux?per_page=100&_embed=true&acf_format=standard`, {
-      next: { revalidate: 3600 },
+      next: { revalidate: 60 },
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -661,7 +661,7 @@ export async function getLocalGroups(): Promise<WordPressLocalGroup[]> {
 export async function getResourceCategories(): Promise<WordPressTaxonomy[]> {
   try {
     const response = await fetch(`${WP_API_URL}/categorie-de-ressource?per_page=100`, {
-      next: { revalidate: 3600 },
+      next: { revalidate: 60 },
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -730,7 +730,7 @@ export async function getEvents(params?: {
     console.warn("[v0] Fetching events with params:", searchParams.toString())
 
     const response = await fetch(`${WP_API_URL}/evenement?${searchParams.toString()}`, {
-      next: { revalidate: 300 }, // Revalidate every 5 minutes for events
+      next: { revalidate: 60 }, // Revalidate every 1 minute for events
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -753,7 +753,7 @@ export async function getEvents(params?: {
 export async function getEventCategories(): Promise<WordPressTaxonomy[]> {
   try {
     const response = await fetch(`${WP_API_URL}/categorie-devenement?per_page=100`, {
-      next: { revalidate: 3600 },
+      next: { revalidate: 60 },
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -803,7 +803,7 @@ export function formatDate(dateString: string): string {
 export async function getEvent(slug: string): Promise<WordPressEvent | null> {
   try {
     const response = await fetch(`${WP_API_URL}/evenement?slug=${slug}&_embed=true&acf_format=standard`, {
-      next: { revalidate: 300 },
+      next: { revalidate: 60 },
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -831,7 +831,7 @@ export async function getResource(idOrSlug: string): Promise<WordPressResource |
     if (isNumericId) {
       // Fetch by ID
       response = await fetch(`${WP_API_URL}/ressource/${idOrSlug}?_embed=true&acf_format=standard`, {
-        next: { revalidate: 300 },
+        next: { revalidate: 60 },
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
@@ -840,7 +840,7 @@ export async function getResource(idOrSlug: string): Promise<WordPressResource |
     } else {
       // Fetch by slug
       response = await fetch(`${WP_API_URL}/ressource?slug=${idOrSlug}&_embed=true&acf_format=standard`, {
-        next: { revalidate: 300 },
+        next: { revalidate: 60 },
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
@@ -871,7 +871,7 @@ export async function getResource(idOrSlug: string): Promise<WordPressResource |
 export async function getPageBySlug(slug: string): Promise<any | null> {
   try {
     const response = await fetch(`${WP_API_URL}/pages?slug=${slug}&acf_format=standard`, {
-      next: { revalidate: 300 },
+      next: { revalidate: 60 },
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -910,7 +910,7 @@ export async function getHomePageData(): Promise<HomePageData | null> {
     console.warn("[v0] Trying to fetch homepage by ID 771")
     try {
       const response = await fetch(`${WP_API_URL}/pages/771?acf_format=standard`, {
-        next: { revalidate: 300 },
+        next: { revalidate: 60 },
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
@@ -937,7 +937,7 @@ export async function getHomePageData(): Promise<HomePageData | null> {
     // Method 4: Try to get the front page from WordPress settings
     try {
       const response = await fetch(`${WP_API_URL}/pages?per_page=100&acf_format=standard`, {
-        next: { revalidate: 300 },
+        next: { revalidate: 60 },
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",

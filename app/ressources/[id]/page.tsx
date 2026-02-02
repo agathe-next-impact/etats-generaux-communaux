@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic"
 import { notFound } from "next/navigation"
 import { getResource, stripHtml } from "@/lib/wordpress"
 import ResourcePageClient from "./resource-client"

@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic"
 import { notFound } from "next/navigation"
 import Image from "next/image"
 import Link from "next/link"
@@ -103,25 +104,15 @@ export default async function EventPage({ params }: EventPageProps) {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="space-y-6">
             {/* Back Button */}
-            <Highlighter
-              action="highlight"
-              color="#B4D19F"
-              strokeWidth={4}
-              animationDuration={600}
-              iterations={1}
-              padding={6}
-              isView={true}
-            >
-              <Button asChild variant="ghost" size="sm" className="mb-4">
+              <Button variant="ghost" size="sm" className="mb-4" asChild>
                 <Link href="/evenements" className="flex items-center gap-2">
                   <ArrowLeft className="h-4 w-4" />
                   Retour aux événements
                 </Link>
               </Button>
-            </Highlighter>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-              {/* Left Column - Featured Image */}
+            {/* Left Column - Featured Image */}
+            <div className={`grid grid-cols-1 ${featuredImage ? 'lg:grid-cols-2' : ''} gap-8 items-start`}>
               {featuredImage && (
                 <div className="relative h-64 md:h-80 lg:h-96 rounded-lg overflow-hidden">
                   <Image
@@ -135,7 +126,7 @@ export default async function EventPage({ params }: EventPageProps) {
               )}
 
               {/* Right Column - Event Info */}
-              <div className="space-y-6">
+              <div className="w-full space-y-6">
                 {/* Event Status & Categories */}
                 <div className="flex flex-wrap items-center gap-2">
                   {isUpcoming && (
@@ -173,22 +164,12 @@ export default async function EventPage({ params }: EventPageProps) {
                 {/* Action Buttons */}
                 <div className="flex flex-wrap gap-3">
                   {onlineLink && (
-                    <Highlighter
-                      action="highlight"
-                      color="#94BF7E"
-                      strokeWidth={4}
-                      animationDuration={600}
-                      iterations={1}
-                      padding={8}
-                      isView={true}
-                    >
-                      <Button asChild variant="ghost">
+                      <Button variant="ghost" asChild>
                         <a href={onlineLink} target="_blank" rel="noopener noreferrer">
                           <ExternalLink className="h-4 w-4 mr-2" />
                           Rejoindre en ligne
                         </a>
                       </Button>
-                    </Highlighter>
                   )}
 
                   {eventLocation && (
@@ -201,7 +182,7 @@ export default async function EventPage({ params }: EventPageProps) {
                       padding={8}
                       isView={true}
                     >
-                      <Button asChild variant="ghost">
+                      <Button variant="ghost" asChild>
                         <a
                           href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(eventLocation.address)}`}
                           target="_blank"
@@ -289,8 +270,6 @@ export async function generateMetadata({ params }: EventPageProps) {
         ? [
             {
               url: featuredImage.source_url,
-              width: featuredImage.media_details?.width,
-              height: featuredImage.media_details?.height,
               alt: featuredImage.alt_text || eventTitle,
             },
           ]

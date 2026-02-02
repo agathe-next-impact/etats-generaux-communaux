@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic"
 import { getDoleancesPageData } from "@/lib/wordpress"
 import { DoleancesClient } from "./doleances-client"
 

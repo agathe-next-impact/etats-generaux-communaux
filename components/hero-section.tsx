@@ -112,18 +112,8 @@ export function HeroSection({ acf }: HeroSectionProps) {
                   target={acf.cta_de_gauche.lien_de_gauche?.target || "_self"}
                   className="inline-block"
                 >
-                  <Button size="lg" className="text-lg bg-[var(--brand-red)] hover:bg-[var(--brand-red)]/90">
-                    <Highlighter
-                      action="highlight"
-                      color="#B4D19F"
-                      strokeWidth={4}
-                      animationDuration={600}
-                      iterations={1}
-                      padding={12}
-                      isView={true}
-                    >
+                  <Button size="lg" className="text-lg text-red-600 uppercase font-bold bg-[var(--brand-red)] hover:bg-[var(--brand-red)]/90">
                       {acf.cta_de_gauche.libelle_de_gauche}
-                    </Highlighter>
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
                 </Link>
@@ -134,18 +124,10 @@ export function HeroSection({ acf }: HeroSectionProps) {
                   target={acf.cta_de_droite.lien_de_droite?.target || "_self"}
                   className="inline-block"
                 >
-                  <Button variant="outline" size="lg" className="border-foreground/20 bg-transparent">
-                    <Highlighter
-                      action="highlight"
-                      color="#94BF7E"
-                      strokeWidth={4}
-                      animationDuration={600}
-                      iterations={1}
-                      padding={12}
-                      isView={true}
-                    >
+                  <Button variant="outline" size="lg" className="border-foreground/20 bg-transparent text-red-600 uppercase font-bold">
                       {acf.cta_de_droite.libelle_de_droite}
-                    </Highlighter>
+                      
+                    <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
                 </Link>
               )}

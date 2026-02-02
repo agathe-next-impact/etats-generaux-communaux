@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic"
 import { Card, CardContent } from "@/components/ui/card"
 import Image from "next/image"
 import Link from "next/link"
@@ -261,11 +262,11 @@ export default async function AboutPage() {
                       className="absolute top-0 left-0 -translate-x-1/2 -translate-y-1/2 z-30 pointer-events-none"
                     />
                     <CardContent className="p-6">
-                      {fondateur.warno?.url ? (
+                      {fondateur.logo?.url ? (
                         <div className="w-24 h-24 mx-auto mb-4 relative">
                           <Image
-                            src={fondateur.warno.url || "/placeholder.svg"}
-                            alt={fondateur.warno.alt || fondateur.nom || "Logo"}
+                            src={fondateur.logo.url || "/placeholder.svg"}
+                            alt={fondateur.logo.alt || fondateur.nom || "Logo"}
                             fill
                             className="object-contain"
                           />
@@ -347,11 +348,11 @@ export default async function AboutPage() {
                       className="absolute top-0 left-0 -translate-x-1/2 -translate-y-1/2 z-30 pointer-events-none"
                     />
                     <CardContent className="p-6">
-                      {partenaire.warno?.url ? (
+                      {partenaire.logo?.url ? (
                         <div className="w-32 h-32 mx-auto mb-4 relative">
                           <Image
-                            src={partenaire.warno.url || "/placeholder.svg"}
-                            alt={partenaire.warno.alt || partenaire.nom || "Logo"}
+                            src={partenaire.logo.url || "/placeholder.svg"}
+                            alt={partenaire.logo.alt || partenaire.nom || "Logo"}
                             fill
                             className="object-contain"
                           />

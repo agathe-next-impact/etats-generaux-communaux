@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic"
 import { NewsletterForm } from "./newsletter-form"
 import { getArchivePageTitles } from "@/lib/wordpress"
 import Image from "next/image"

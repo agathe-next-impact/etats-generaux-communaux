@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic"
 import { getParticiperPageData } from "@/lib/wordpress"
 import { Highlighter } from "@/components/ui/highlighter"
 import { ParticiperForm } from "./participer-form"

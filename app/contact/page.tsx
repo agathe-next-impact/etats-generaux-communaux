@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic"
 import { Highlighter } from "@/components/ui/highlighter"
 import { Mail } from "lucide-react"
 import { AnimatedContactHero } from "@/components/animated-contact-hero"

@@ -6,6 +6,7 @@ import { Footer } from "@/components/footer"
 import { Suspense } from "react"
 import { ScrollToTop } from "@/components/scroll-to-top"
 import "./globals.css"
+import '@wordpress/block-library/build-style/style.css';
 import TargetCursor from "@/components/TargetCursorClient"
 import { ExitIntentPopup } from "@/components/ui/exit-intent-popup"
 

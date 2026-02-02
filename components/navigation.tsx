@@ -31,7 +31,7 @@ function DropdownItemWithBrush({ children, href }: { children: React.ReactNode; 
   return (
     <DropdownMenuItem asChild className="cursor-pointer p-0 focus:bg-transparent">
       <Link href={href} className="w-full block cursor-target">
-        <span className="relative inline-block font-semibold text-black group w-full px-3 py-2">
+        <span className="relative inline-block font-semibold text-black group w-full px-3 py-2 text-base">
           <span className="relative z-10">{children}</span>
           <span
             className="absolute inset-0 bg-[#F4E63C] opacity-0 group-hover:opacity-60 transition-opacity duration-150 -z-10 rounded-sm"
@@ -96,7 +96,7 @@ export function Navigation() {
           </Link>
 
           <div className="hidden md:flex items-center space-x-1">
-            <Link href="/les-egc" className="text-sm text-black transition-colors px-3 py-2 rounded-md cursor-target">
+            <Link href="/les-egc" className="text-base text-black transition-colors px-3 py-2 rounded-md cursor-target">
               <NavItemWithBrush>Notre ambition</NavItemWithBrush>
             </Link>
 
@@ -105,7 +105,7 @@ export function Navigation() {
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="gap-1 text-sm text-black hover:bg-transparent relative group cursor-target"
+                  className="gap-1 text-base text-black hover:bg-transparent relative group cursor-target"
                 >
                   <NavItemWithBrush>
                     <span className="flex items-center gap-1">
@@ -127,7 +127,7 @@ export function Navigation() {
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="gap-1 text-sm text-black hover:bg-transparent relative group cursor-target"
+                  className="gap-1 text-base text-black hover:bg-transparent relative group cursor-target"
                 >
                   <NavItemWithBrush>
                     <span className="flex items-center gap-1">
@@ -144,7 +144,7 @@ export function Navigation() {
               </DropdownMenuContent>
             </DropdownMenu>
 
-            <Link href="/a-propos" className="text-sm text-black transition-colors px-3 py-2 rounded-md cursor-target">
+            <Link href="/a-propos" className="text-base text-black transition-colors px-3 py-2 rounded-md cursor-target">
               <NavItemWithBrush>A propos</NavItemWithBrush>
             </Link>
 
@@ -156,9 +156,9 @@ export function Navigation() {
               <Button
                 variant="outline"
                 size="sm"
-                className="border-transparent hover:bg-transparent bg-transparent cursor-target"
+                className="border-transparent hover:bg-transparent bg-transparent cursor-target text-red-600 font-bold uppercase underline underline-offset-4 underline-yellow-400"
               >
-                <ContactButtonWithHighlight>Contact</ContactButtonWithHighlight>
+                Contact
               </Button>
             </Link>
           </div>
@@ -198,21 +198,21 @@ export function Navigation() {
                 <div className="space-y-1 mt-2">
                   <Link
                     href="/les-doleances"
-                    className="block px-6 py-2.5 text-sm font-semibold text-foreground hover:text-[#E73628] hover:bg-[#B4D19F]/20 rounded-lg transition-all relative group"
+                    className="block px-6 py-2.5 text-base font-semibold text-foreground hover:text-[#E73628] hover:bg-[#B4D19F]/20 rounded-lg transition-all relative group"
                   >
                     <span className="relative z-10">Les Doléances</span>
                     <span className="absolute left-4 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-[#44843F] opacity-0 group-hover:opacity-100 transition-opacity" />
                   </Link>
                   <Link
                     href="/ressources"
-                    className="block px-6 py-2.5 text-sm font-semibold text-foreground hover:text-[#E73628] hover:bg-[#B4D19F]/20 rounded-lg transition-all relative group"
+                    className="block px-6 py-2.5 text-base font-semibold text-foreground hover:text-[#E73628] hover:bg-[#B4D19F]/20 rounded-lg transition-all relative group"
                   >
                     <span className="relative z-10">Ressources</span>
                     <span className="absolute left-4 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-[#44843F] opacity-0 group-hover:opacity-100 transition-opacity" />
                   </Link>
                   <Link
                     href="/groupes-locaux"
-                    className="block px-6 py-2.5 text-sm font-semibold text-foreground hover:text-[#E73628] hover:bg-[#B4D19F]/20 rounded-lg transition-all relative group"
+                    className="block px-6 py-2.5 text-base font-semibold text-foreground hover:text-[#E73628] hover:bg-[#B4D19F]/20 rounded-lg transition-all relative group"
                   >
                     <span className="relative z-10">Groupes locaux</span>
                     <span className="absolute left-4 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-[#44843F] opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -230,21 +230,21 @@ export function Navigation() {
                 <div className="space-y-1 mt-2">
                   <Link
                     href="/evenements"
-                    className="block px-6 py-2.5 text-sm font-semibold text-foreground hover:text-[#E73628] hover:bg-[#B4D19F]/20 rounded-lg transition-all relative group"
+                    className="block px-6 py-2.5 text-base font-semibold text-foreground hover:text-[#E73628] hover:bg-[#B4D19F]/20 rounded-lg transition-all relative group"
                   >
                     <span className="relative z-10">Evénements</span>
                     <span className="absolute left-4 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-[#44843F] opacity-0 group-hover:opacity-100 transition-opacity" />
                   </Link>
                   <Link
                     href="/blog"
-                    className="block px-6 py-2.5 text-sm font-semibold text-foreground hover:text-[#E73628] hover:bg-[#B4D19F]/20 rounded-lg transition-all relative group"
+                    className="block px-6 py-2.5 text-base font-semibold text-foreground hover:text-[#E73628] hover:bg-[#B4D19F]/20 rounded-lg transition-all relative group"
                   >
                     <span className="relative z-10">Actus</span>
                     <span className="absolute left-4 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-[#44843F] opacity-0 group-hover:opacity-100 transition-opacity" />
                   </Link>
                   <Link
                     href="/newsletter"
-                    className="block px-6 py-2.5 text-sm font-semibold text-foreground hover:text-[#E73628] hover:bg-[#B4D19F]/20 rounded-lg transition-all relative group"
+                    className="block px-6 py-2.5 text-base font-semibold text-foreground hover:text-[#E73628] hover:bg-[#B4D19F]/20 rounded-lg transition-all relative group"
                   >
                     <span className="relative z-10">Newsletter</span>
                     <span className="absolute left-4 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-[#44843F] opacity-0 group-hover:opacity-100 transition-opacity" />

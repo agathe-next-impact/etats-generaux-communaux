@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic"
 import { getDemanderDoleancesPageData } from "@/lib/wordpress"
 import { DemanderDoleancesClient } from "./demander-doleances-client"
 import type { Metadata } from "next"

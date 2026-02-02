@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic"
 import { Suspense } from "react"
 import { getPosts, getCategories, getArchivePageTitles } from "@/lib/wordpress"
 import { ArticleCard } from "@/components/article-card"
