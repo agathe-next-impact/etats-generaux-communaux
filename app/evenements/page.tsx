@@ -21,7 +21,7 @@ interface PageProps {
 
 import { useState, useEffect, useCallback } from "react"
 import { Calendar } from "lucide-react"
-import { getEvents, getArchivePageTitles, type WordPressEvent } from "@/lib/wordpress"
+import { type WordPressEvent } from "@/lib/wordpress"
 import { EventFilters } from "@/components/event-filters"
 import { EventTimeline } from "@/components/event-timeline"
 import { Highlighter } from "@/components/ui/highlighter"
@@ -45,8 +45,12 @@ export default function EventsPage() {
   useEffect(() => {
     async function loadEvents() {
       try {
-        
-        const [eventsData, pageTitles] = await Promise.all([getEvents(), getArchivePageTitles()])
+        // Appel via API route Next.js (proxy sécurisé côté serveur)
+        const response = await fetch("/api/events")
+        if (!response.ok) {
+          throw new Error(`Erreur ${response.status}`)
+        }
+        const { events: eventsData, pageTitles } = await response.json()
 
         
         setEvents(eventsData)
