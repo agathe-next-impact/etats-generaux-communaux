@@ -1,4 +1,27 @@
 export const dynamic = "force-dynamic"
+import { draftMode } from 'next/headers';
+import { notFound } from 'next/navigation';
+import {
+  PreviewProvider,
+  PreviewBanner,
+  PreviewContent,
+  PreviewTitle,
+  PreviewBody,
+  PreviewMeta,
+  PreviewFeaturedImage,
+} from '@/components/preview';
+import { fetchPreviewPost, fetchDraftPost, type WPPost } from '@/lib/wordpress-api';
+
+interface PageProps {
+  params: Promise<{ slug: string }>;
+  searchParams: Promise<{ 
+    preview?: string;
+    id?: string;
+    postType?: string;
+    token?: string;
+  }>;
+}
+
 import { Highlighter } from "@/components/ui/highlighter"
 import { Mail } from "lucide-react"
 import { AnimatedContactHero } from "@/components/animated-contact-hero"
@@ -10,7 +33,7 @@ export const metadata = {
     "Contactez Les États Généraux Communaux. Envoyez-nous un email pour toute question ou pour rejoindre le mouvement.",
 }
 
-export default function ContactPage() {
+export default async function ContactPage({ params, searchParams }: PageProps) {
   const contactEmail = "lesetatsgenerauxcommunaux@gmail.com"
 
   return (
@@ -153,4 +176,61 @@ export default function ContactPage() {
       </div>
     </div>
   )
+}
+
+export async function PageRoute({ params, searchParams }: PageProps) {
+  const { slug } = await params;
+  const { preview, id, postType, token } = await searchParams;
+  const draft = await draftMode();
+  
+  const isPreviewMode = draft.isEnabled || preview === 'true';
+
+  let page: WPPost | null = null;
+
+  if (isPreviewMode && id) {
+    // Fetch draft/preview content
+    page = await fetchDraftPost({
+      id,
+      postType: postType || 'page',
+      token,
+    });
+  } else {
+    // Fetch published content
+    page = await ContactPage({ params, searchParams });
+  }
+
+  if (!page) {
+    notFound();
+  }
+
+  return (
+    <PreviewProvider
+      initialPost={page}
+      postId={id || page.id}
+      postType={postType || 'page'}
+      token={token}
+      isPreview={isPreviewMode}
+    >
+      {/* Preview Banner - Only visible in preview mode */}
+      <PreviewBanner />
+
+      {/* Main Content */}
+      <main className={`container mx-auto px-4 py-8 ${isPreviewMode ? 'mt-12' : ''}`}>
+        <PreviewContent>
+          {/* Featured Image */}
+          <PreviewFeaturedImage 
+            className="w-full h-64 md:h-96 object-cover rounded-lg mb-8"
+          />
+
+          {/* Page Header */}
+          <header className="mb-8">
+            <PreviewTitle className="text-4xl md:text-5xl font-bold" />
+          </header>
+
+          {/* Page Content */}
+          <PreviewBody className="prose lg:prose-xl max-w-none" />
+        </PreviewContent>
+      </main>
+    </PreviewProvider>
+  );
 }

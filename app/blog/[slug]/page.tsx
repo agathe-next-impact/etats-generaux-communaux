@@ -1,4 +1,23 @@
 export const dynamic = "force-dynamic"
+import {
+  PreviewProvider,
+  PreviewBanner,
+  PreviewContent,
+  PreviewTitle,
+  PreviewBody,
+  PreviewMeta,
+  PreviewFeaturedImage,
+} from '@/components/preview';
+import { fetchPreviewPost, fetchDraftPost, type WPPost } from '@/lib/wordpress-api';
+
+interface PageProps {
+  params: Promise<{ slug: string }>;
+  searchParams: Promise<{ 
+    preview?: string;
+    id?: string;
+  }>;
+}
+
 import { notFound } from "next/navigation"
 import Link from "next/link"
 import { getPost, getPosts, formatDate, stripHtml } from "@/lib/wordpress"
