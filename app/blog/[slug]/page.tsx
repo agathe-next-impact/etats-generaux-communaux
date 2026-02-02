@@ -41,8 +41,8 @@ async function RelatedArticles({ currentSlug }: { currentSlug: string }) {
             Articles similaires
           </Highlighter>
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {relatedPosts.map((post) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {relatedPosts.slice(0, 2).map((post) => (
             <ArticleCard key={post.id} post={post} />
           ))}
         </div>
@@ -69,22 +69,12 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="space-y-6">
             {/* Back Button */}
-            <Highlighter
-              action="highlight"
-              color="#B4D19F"
-              strokeWidth={4}
-              animationDuration={600}
-              iterations={1}
-              padding={6}
-              isView={true}
-            >
-              <Button asChild variant="ghost" size="sm" className="mb-4">
+              <Button asChild size="sm" className="mb-4">
                 <Link href="/blog" className="flex items-center gap-2">
                   <ArrowLeft className="h-4 w-4" />
                   Retour aux articles
                 </Link>
               </Button>
-            </Highlighter>
 
             {/* Categories */}
             {categories.length > 0 && (
@@ -121,7 +111,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
             </h1>
 
             {/* Meta Information */}
-            <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
+            <div className="mt-4 flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
               <div className="flex items-center gap-2">
                 <Calendar className="h-4 w-4" />
                 <time dateTime={post.date}>{formatDate(post.date)}</time>
@@ -193,8 +183,8 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                   Articles similaires
                 </Highlighter>
               </h2>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {Array.from({ length: 3 }).map((_, i) => (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {Array.from({ length: 2 }).map((_, i) => (
                   <Card key={i} className="animate-pulse">
                     <div className="h-48 bg-muted" />
                     <CardContent className="p-6 space-y-3">

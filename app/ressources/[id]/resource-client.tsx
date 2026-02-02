@@ -99,27 +99,14 @@ export default function ResourcePageClient({ resource }: ResourcePageClientProps
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-8">
-          <Highlighter
-            action="highlight"
-            color="#B4D19F"
-            strokeWidth={2}
-            animationDuration={600}
-            iterations={1}
-            padding={6}
-            isView={true}
-          >
-            <Button asChild variant="ghost" size="sm" className="mb-0">
+            <Button asChild size="sm" className="mb-0">
               <Link href="/ressources" className="flex items-center gap-2">
                 <ArrowLeft className="h-4 w-4" />
                 Retour aux ressources
               </Link>
             </Button>
-          </Highlighter>
 
           <div className="flex items-start gap-6 pt-4 mb-6">
-            <div className={`p-4 rounded-lg border-2 ${getResourceColor(resourceType)}`}>
-              {getResourceIcon(resourceType)}
-            </div>
             <div className="flex-1">
               <h1 className="text-3xl md:text-4xl font-black text-foreground mb-4 leading-tight uppercase font-[family-name:var(--font-raleway)]">
                 <Highlighter
@@ -153,7 +140,7 @@ export default function ResourcePageClient({ resource }: ResourcePageClientProps
         )}
 
         {hasFiles && (
-          <Card className="mb-8 border-2 border-[#F4E63C]">
+          <Card className="mb-8 border-none">
             <CardContent className="p-6">
               <h2 className="text-xl font-black mb-4 uppercase font-[family-name:var(--font-raleway)]">
                 Fichiers disponibles

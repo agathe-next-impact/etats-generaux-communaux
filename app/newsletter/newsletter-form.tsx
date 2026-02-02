@@ -155,7 +155,7 @@ export function NewsletterForm() {
             />
           </div>
 
-          <div className="flex items-start space-x-3 p-4 bg-gray-50 rounded-lg border-2 border-gray-200">
+          <div className="flex items-start space-x-3 p-4 ">
             <Checkbox
               id="accepteConditions"
               checked={formData.accepteConditions}
@@ -175,21 +175,11 @@ export function NewsletterForm() {
           </div>
 
           <div className="relative">
-            <Button type="submit" variant="ghost" size="lg" disabled={isSubmitting} className="w-full relative">
-              <Highlighter
-                action="highlight"
-                color="#B4D19F"
-                strokeWidth={4}
-                animationDuration={0}
-                iterations={1}
-                padding={6}
-                isView={true}
-              >
+            <Button type="submit" size="lg" disabled={isSubmitting} className="w-full relative">
                 <span className="inline-flex items-center gap-2">
                   S'inscrire à la newsletter
                   {isSubmitting && <Loader2 className="h-4 w-4 animate-spin" />}
                 </span>
-              </Highlighter>
             </Button>
           </div>
 

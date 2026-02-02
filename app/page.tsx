@@ -58,20 +58,9 @@ async function UpcomingEvents() {
             </h2>
             <p className="text-muted-foreground text-lg">Les prochains rendez-vous pour s'engager ensemble</p>
           </div>
-          <Button variant="outline">
+          <Button>
             <Link href="/evenements">
-              <Highlighter
-                action="highlight"
-                color="#B4D19F"
-                strokeWidth={4}
-                animationDuration={600}
-                iterations={1}
-                padding={12}
-                isView={true}
-              >
                 Tous les événements
-              </Highlighter>
-              <ArrowRight className="ml-2 h-4 w-4" />
             </Link>
           </Button>
         </div>
@@ -200,19 +189,9 @@ async function MapAndEventsSection({ acfData }: { acfData?: HomePageACF["section
               ))}
             </div>
             <div className="mt-4 text-center">
-              <Button variant="outline" size="sm">
+              <Button size="sm">
                 <Link href="/groupes-locaux">
-                  <Highlighter
-                    action="highlight"
-                    color="#94BF7E"
-                    strokeWidth={4}
-                    animationDuration={600}
-                    iterations={1}
-                    padding={12}
-                    isView={true}
-                  >
                     Tous les groupes
-                  </Highlighter>
                 </Link>
               </Button>
             </div>

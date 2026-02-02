@@ -262,9 +262,11 @@ export default function DoleancesClientPage() {
                         </CardContent>
 
                         <div className="absolute -top-6 -right-6 z-10">
-                          <img
+                          <Image
                             src={getRandomIcon(axeIndex * 100 + itemIndex) || "/placeholder.svg"}
                             alt=""
+                            width={48}
+                            height={48}
                             className="w-12 h-12 object-contain"
                           />
                         </div>
@@ -291,13 +293,27 @@ export default function DoleancesClientPage() {
 
                       {/* Decorative icons overlapping bottom right border */}
                       <div className="absolute -bottom-8 -right-8 flex gap-2">
-                        <img
+                        <Image
                           src="/images/design-mode/picto200.png"
                           alt=""
+                          width={64}
+                          height={64}
                           className="w-16 h-16 object-contain"
                         />
-                        <img src="https://blob.v0.app/pCk90.png" alt="" className="w-16 h-16 object-contain" />
-                        <img src="https://blob.v0.app/pCk89.png" alt="" className="w-16 h-16 object-contain" />
+                        <Image
+                          src="https://blob.v0.app/pCk90.png"
+                          alt=""
+                          width={64}
+                          height={64}
+                          className="w-16 h-16 object-contain"
+                        />
+                        <Image
+                          src="https://blob.v0.app/pCk89.png"
+                          alt=""
+                          width={64}
+                          height={64}
+                          className="w-16 h-16 object-contain"
+                        />
                       </div>
                     </div>
                   )}

@@ -11,6 +11,7 @@ import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Search, FileText, Calendar, Download, Play, MapPin, ArrowRight, Loader2 } from "lucide-react"
 import Link from "next/link"
+import Image from "next/image"
 import { formatDate } from "@/lib/wordpress"
 
 interface SearchResult {
@@ -104,24 +105,32 @@ function SearchPageContent() {
     <div className="min-h-screen bg-background pt-32">
       {/* Hero Section with Search */}
       <section className="py-12 lg:py-16 bg-white border-b relative overflow-hidden">
-        <img
+        <Image
           src="/images/design-mode/picto200.png"
           alt=""
+          width={64}
+          height={64}
           className="absolute left-[5%] top-[10%] w-16 h-16 opacity-20 rotate-12 pointer-events-none"
         />
-        <img
+        <Image
           src="/images/design-mode/picto202.png"
           alt=""
+          width={80}
+          height={80}
           className="absolute right-[8%] top-[15%] w-20 h-20 opacity-15 -rotate-6 pointer-events-none"
         />
-        <img
+        <Image
           src="/images/design-mode/picto203.png"
           alt=""
+          width={48}
+          height={48}
           className="absolute left-[15%] bottom-[10%] w-12 h-12 opacity-25 rotate-45 pointer-events-none"
         />
-        <img
+        <Image
           src="/images/design-mode/picto204.png"
           alt=""
+          width={64}
+          height={64}
           className="absolute right-[12%] bottom-[15%] w-16 h-16 opacity-20 -rotate-12 pointer-events-none"
         />
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -214,7 +223,7 @@ function SearchPageContent() {
                             result.type === "article" ? "#E73628" : result.type === "event" ? "#F4E63C" : "#4AAD33",
                         }}
                       >
-                        <img
+                        <Image
                           src={
                             [
                               "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/picto%201-YFeeOd4CBQ2S2bGA4pPLgNc6hMYIPd.png",
@@ -225,6 +234,8 @@ function SearchPageContent() {
                             ][result.id % 5] || "/placeholder.svg"
                           }
                           alt=""
+                          width={48}
+                          height={48}
                           className="absolute -top-6 -right-6 w-12 h-12 z-10 pointer-events-none"
                         />
                         <CardContent className="p-6">

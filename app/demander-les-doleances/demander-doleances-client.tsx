@@ -161,7 +161,7 @@ export function DemanderDoleancesClient({ acf }: DemanderDoleancesClientProps) {
                   </CardContent>
 
                   <div className="absolute -top-6 -right-6 z-10">
-                    <img src={getRandomIcon(index) || "/placeholder.svg"} alt="" className="w-16 h-16 object-contain" />
+                    <Image src={getRandomIcon(index) || "/placeholder.svg"} alt="" width={64} height={64} className="w-16 h-16 object-contain" />
                   </div>
                 </Card>
               ))}

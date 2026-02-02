@@ -136,9 +136,9 @@ export function EventCard({ event }: EventCardProps) {
         )}
 
         {/* Actions */}
-        <div className="flex gap-2">
+        <div className="flex flex-col items-start gap-6">
           {event.acf?.lien_vers_levenement_en_ligne && (
-            <Button variant="outline" size="xs" asChild>
+            <Button size="xs" asChild>
               <a
                 href={event.acf.lien_vers_levenement_en_ligne}
                 target="_blank"
@@ -150,7 +150,7 @@ export function EventCard({ event }: EventCardProps) {
               </a>
             </Button>
           )}
-          <Button variant="outline" size="xs" asChild>
+          <Button size="xs" asChild>
             <Link href={`/evenements/${event.slug}`} scroll={true} className="flex items-center gap-2">
               <ExternalLink className="h-4 w-4" />
               Détails

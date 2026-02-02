@@ -2,6 +2,7 @@ export const dynamic = "force-dynamic"
 import { getParticiperPageData } from "@/lib/wordpress"
 import { Highlighter } from "@/components/ui/highlighter"
 import { ParticiperForm } from "./participer-form"
+import Image from "next/image"
 
 export const metadata = {
   title: "Participer",
@@ -19,29 +20,39 @@ export default async function ParticiperPage() {
   return (
     <div className="min-h-screen bg-background pt-32 pb-12 relative">
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <img
+        <Image
           src="/images/design-mode/picto202.png"
           alt=""
+          width={64}
+          height={64}
           className="absolute left-[5%] top-[10%] w-16 h-16 object-contain opacity-20 rotate-12"
         />
-        <img
+        <Image
           src="/images/design-mode/picto200.png"
           alt=""
+          width={80}
+          height={80}
           className="absolute right-[8%] top-[15%] w-20 h-20 object-contain opacity-15 -rotate-6"
         />
-        <img
+        <Image
           src="/images/design-mode/picto204.png"
           alt=""
+          width={96}
+          height={96}
           className="absolute left-[10%] bottom-[20%] w-24 h-24 object-contain opacity-10 rotate-45"
         />
-        <img
+        <Image
           src="/images/design-mode/picto205.png"
           alt=""
+          width={64}
+          height={64}
           className="absolute right-[5%] bottom-[15%] w-16 h-16 object-contain opacity-20 -rotate-12"
         />
-        <img
+        <Image
           src="/images/design-mode/picto203.png"
           alt=""
+          width={48}
+          height={48}
           className="absolute left-[50%] top-[5%] w-12 h-12 object-contain opacity-15 rotate-90"
         />
       </div>

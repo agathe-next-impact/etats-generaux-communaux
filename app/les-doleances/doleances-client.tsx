@@ -167,41 +167,21 @@ export function DoleancesClient({ acf }: DoleancesClientProps) {
 
             {acf.cta && (acf.cta.texte_du_cta_gauche || acf.cta.texte_du_cta_droite) && (
               <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
-                <Button asChild size="lg" className="text-lg bg-[var(--brand-red)] hover:bg-[var(--brand-red)]/90">
+                <Button asChild size="lg">
                   <Link
                     href={acf?.cta?.lien_du_cta_de_gauche?.url || "#"}
                     target={acf?.cta?.lien_du_cta_de_gauche?.target || "_self"}
                   >
-                    <Highlighter
-                      action="highlight"
-                      color="#B4D19F"
-                      strokeWidth={4}
-                      animationDuration={600}
-                      iterations={1}
-                      padding={12}
-                      isView={true}
-                    >
                       {acf?.cta?.texte_du_cta_gauche || "CTA Gauche"}
-                    </Highlighter>
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Link>
                 </Button>
-                <Button asChild variant="outline" size="lg" className="border-foreground/20 bg-transparent">
+                <Button asChild size="lg" className="border-foreground/20 bg-transparent">
                   <Link
                     href={acf?.cta?.lien_du_cta_de_droite?.url || "#"}
                     target={acf?.cta?.lien_du_cta_de_droite?.target || "_self"}
                   >
-                    <Highlighter
-                      action="highlight"
-                      color="#94BF7E"
-                      strokeWidth={4}
-                      animationDuration={600}
-                      iterations={1}
-                      padding={12}
-                      isView={true}
-                    >
                       {acf?.cta?.texte_du_cta_droite || "CTA Droite"}
-                    </Highlighter>
                   </Link>
                 </Button>
               </div>
@@ -273,9 +253,11 @@ export function DoleancesClient({ acf }: DoleancesClientProps) {
                         </CardContent>
 
                         <div className="absolute -top-6 -right-6 z-10">
-                          <img
+                          <Image
                             src={getRandomIcon(axeIndex * 100 + itemIndex) || "/placeholder.svg"}
                             alt=""
+                            width={48}
+                            height={48}
                             className="w-12 h-12 object-contain"
                           />
                         </div>
@@ -301,9 +283,9 @@ export function DoleancesClient({ acf }: DoleancesClientProps) {
                       )}
 
                       <div className="absolute -bottom-8 -right-8 flex gap-2">
-                        <img src="/images/design-mode/picto200.png" alt="" className="w-16 h-16 object-contain" />
-                        <img src="/images/design-mode/picto205.png" alt="" className="w-16 h-16 object-contain" />
-                        <img src="/images/design-mode/picto204.png" alt="" className="w-16 h-16 object-contain" />
+                        <Image src="/images/design-mode/picto200.png" alt="" width={64} height={64} className="w-16 h-16 object-contain" />
+                        <Image src="/images/design-mode/picto205.png" alt="" width={64} height={64} className="w-16 h-16 object-contain" />
+                        <Image src="/images/design-mode/picto204.png" alt="" width={64} height={64} className="w-16 h-16 object-contain" />
                       </div>
                     </div>
                   )}

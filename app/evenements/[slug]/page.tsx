@@ -26,7 +26,7 @@ async function RelatedEvents({ currentSlug }: { currentSlug: string }) {
   return (
     <section className="py-12 border-t border-border">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-2xl font-black text-foreground mb-8 uppercase font-[family-name:var(--font-raleway)]">
+        <h2 className="mb-4 text-2xl font-black text-foreground mb-8 uppercase font-[family-name:var(--font-raleway)]">
           <Highlighter
             action="underline"
             color="#E73628"
@@ -39,8 +39,8 @@ async function RelatedEvents({ currentSlug }: { currentSlug: string }) {
             Événements similaires
           </Highlighter>
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {filteredEvents.map((event) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {filteredEvents.slice(0, 2).map((event) => (
             <EventCard key={event.id} event={event} />
           ))}
         </div>
@@ -104,7 +104,7 @@ export default async function EventPage({ params }: EventPageProps) {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="space-y-6">
             {/* Back Button */}
-              <Button variant="ghost" size="sm" className="mb-4" asChild>
+              <Button size="xs" className="mb-4" asChild>
                 <Link href="/evenements" className="flex items-center gap-2">
                   <ArrowLeft className="h-4 w-4" />
                   Retour aux événements
@@ -164,7 +164,7 @@ export default async function EventPage({ params }: EventPageProps) {
                 {/* Action Buttons */}
                 <div className="flex flex-wrap gap-3">
                   {onlineLink && (
-                      <Button variant="ghost" asChild>
+                      <Button asChild>
                         <a href={onlineLink} target="_blank" rel="noopener noreferrer">
                           <ExternalLink className="h-4 w-4 mr-2" />
                           Rejoindre en ligne
@@ -216,8 +216,8 @@ export default async function EventPage({ params }: EventPageProps) {
           <section className="py-12 border-t border-border">
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
               <h2 className="text-2xl font-black text-foreground mb-8">Événements similaires</h2>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {Array.from({ length: 3 }).map((_, i) => (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {Array.from({ length: 2 }).map((_, i) => ( 
                   <Card key={i} className="animate-pulse">
                     <div className="h-48 bg-muted" />
                     <CardContent className="p-6 space-y-3">

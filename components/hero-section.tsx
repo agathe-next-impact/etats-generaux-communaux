@@ -112,7 +112,7 @@ export function HeroSection({ acf }: HeroSectionProps) {
                   target={acf.cta_de_gauche.lien_de_gauche?.target || "_self"}
                   className="inline-block"
                 >
-                  <Button size="lg" className="text-lg text-red-600 uppercase font-bold bg-[var(--brand-red)] hover:bg-[var(--brand-red)]/90">
+                  <Button size="lg" className="text-lg text-black underline uppercase font-bold bg-[var(--brand-red)] hover:bg-[var(--brand-red)]/90">
                       {acf.cta_de_gauche.libelle_de_gauche}
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
@@ -124,7 +124,7 @@ export function HeroSection({ acf }: HeroSectionProps) {
                   target={acf.cta_de_droite.lien_de_droite?.target || "_self"}
                   className="inline-block"
                 >
-                  <Button variant="outline" size="lg" className="border-foreground/20 bg-transparent text-red-600 uppercase font-bold">
+                  <Button variant="outline" size="lg" className="border-foreground/20 bg-transparent text-black underline uppercase font-bold">
                       {acf.cta_de_droite.libelle_de_droite}
                       
                     <ArrowRight className="ml-2 h-4 w-4" />

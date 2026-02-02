@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getSocialLinks } from "../lib/wordpress";
+import Image from "next/image";
 
 interface SocialLink {
   reseau_social_url?: string;
@@ -39,7 +40,7 @@ const SocialLinks: React.FC = () => {
             className="text-gray-500 hover:text-[#E73628] transition-colors"
           >
             {item.icone?.url ? (
-              <img src={item.icone.url} alt={item.icone.alt || ''} className="w-5 h-5 object-contain" />
+              <Image src={item.icone.url} alt={item.icone.alt || ''} width={20} height={20} className="w-5 h-5 object-contain" />
             ) : null}
           </a>
         ) : null

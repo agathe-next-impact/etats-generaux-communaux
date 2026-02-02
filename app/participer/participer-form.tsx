@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Highlighter } from "@/components/ui/highlighter"
 import { Loader2, CheckCircle2, AlertCircle } from "lucide-react"
+import Image from "next/image"
 
 interface ParticiperFormProps {
   emailDestination: string
@@ -75,9 +76,11 @@ export function ParticiperForm({ emailDestination }: ParticiperFormProps) {
   return (
     <Card className="border-4 border-[#E73628] relative overflow-visible">
       <div className="absolute -top-6 -right-6 z-10">
-        <img
+        <Image
           src="/images/design-mode/picto200.png"
           alt=""
+          width={48}
+          height={48}
           className="w-12 h-12 object-contain"
         />
       </div>

@@ -120,11 +120,6 @@ export function ResourceCard({ resource }: ResourceCardProps) {
 
       <CardContent className="p-6 h-full flex flex-col">
         <div className="flex items-start gap-4 mb-4">
-          <div
-            className={`p-3 rounded-lg border-2 ${getResourceColor(resourceType)} group-hover:scale-105 transition-transform`}
-          >
-            {getResourceIcon(resourceType)}
-          </div>
           <div className="flex-1 min-w-0">
             <h3
               className="font-black text-lg leading-tight group-hover:text-[#E73628] transition-colors mb-2 uppercase"
@@ -167,13 +162,13 @@ export function ResourceCard({ resource }: ResourceCardProps) {
 
         <div className="flex gap-2 mt-auto">
           {hasVideo || hasFiles ? (
-            <Button onClick={handleAction} size="sm" className="flex-1 bg-[#4AAD33] hover:bg-[#44843F] text-white">
+            <Button onClick={handleAction} size="sm" className="flex-1">
               {getActionIcon()}
               {getActionLabel()}
             </Button>
           ) : (
             <Link href={`/ressources/${resource.acf?.slug ?? resource.id}`} className="flex-1">
-              <Button size="sm" className="w-full bg-[#4AAD33] hover:bg-[#44843F] text-white flex items-center justify-center">
+              <Button size="sm" className="w-full flex items-center justify-center">
                 <Eye className="h-4 w-4 mr-2" />
                 Voir plus
               </Button>
@@ -184,9 +179,9 @@ export function ResourceCard({ resource }: ResourceCardProps) {
             <Button
               variant="outline"
               size="sm"
-              className="border-2 border-[#E73628] text-[#E73628] hover:bg-[#E73628] hover:text-white bg-transparent flex items-center justify-center"
+              className="text-[#E73628] hover:bg-[#E73628] hover:text-white flex items-center justify-center"
             >
-              <ExternalLink className="h-4 w-4" />
+              <ExternalLink className="h-6 w-6" />
             </Button>
           </Link>
         </div>

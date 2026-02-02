@@ -165,14 +165,18 @@ export default async function LesEGCPage() {
     <div className="min-h-screen pt-[150px]">
       {/* Hero Section */}
       <section className="relative py-20 lg:py-32 overflow-hidden bg-white">
-        <img
+        <Image
           src={pictos.picto2 || "/placeholder.svg"}
           alt=""
+          width={128}
+          height={128}
           className="absolute top-[10%] left-[5%] w-32 h-32 object-contain opacity-20 pointer-events-none"
         />
-        <img
+        <Image
           src={pictos.picto7 || "/placeholder.svg"}
           alt=""
+          width={96}
+          height={96}
           className="absolute top-[20%] right-[8%] w-24 h-24 object-contain opacity-20 pointer-events-none"
         />
 
@@ -337,7 +341,7 @@ export default async function LesEGCPage() {
               </div>
             </CardContent>
             <div className="absolute -top-6 -right-6 z-10">
-              <img src={pictos.picto5 || "/placeholder.svg"} alt="" className="w-16 h-16 object-contain" />
+              <Image src={pictos.picto5 || "/placeholder.svg"} alt="" width={64} height={64} className="w-16 h-16 object-contain" />
             </div>
           </Card>
         </div>
@@ -380,7 +384,7 @@ export default async function LesEGCPage() {
                     <p className="text-muted-foreground">{card.content}</p>
                   </CardContent>
                   <div className="absolute -top-6 -right-6 z-10">
-                    <img src={cardPictos[index] || "/placeholder.svg"} alt="" className="w-12 h-12 object-contain" />
+                    <Image src={cardPictos[index] || "/placeholder.svg"} alt="" width={48} height={48} className="w-12 h-12 object-contain" />
                   </div>
                 </Card>
               )
@@ -431,7 +435,7 @@ export default async function LesEGCPage() {
               <div className="p-6 rounded-lg relative" style={{ backgroundColor: "#4AAD3310" }}>
                 <p className="text-foreground font-medium">{acf.how_to_act_section?.highlight || ""}</p>
                 <div className="absolute -bottom-4 -right-4">
-                  <img src={pictos.picto3 || "/placeholder.svg"} alt="" className="w-12 h-12 object-contain" />
+                  <Image src={pictos.picto3 || "/placeholder.svg"} alt="" width={48} height={48} className="w-12 h-12 object-contain" />
                 </div>
               </div>
             </div>
@@ -486,9 +490,9 @@ export default async function LesEGCPage() {
               </div>
             </CardContent>
             <div className="absolute -bottom-8 -right-8 flex gap-2">
-              <img src={pictos.picto1 || "/placeholder.svg"} alt="" className="w-16 h-16 object-contain" />
-              <img src={pictos.picto5 || "/placeholder.svg"} alt="" className="w-16 h-16 object-contain" />
-              <img src={pictos.picto7 || "/placeholder.svg"} alt="" className="w-16 h-16 object-contain" />
+              <Image src={pictos.picto1 || "/placeholder.svg"} alt="" width={64} height={64} className="w-16 h-16 object-contain" />
+              <Image src={pictos.picto5 || "/placeholder.svg"} alt="" width={64} height={64} className="w-16 h-16 object-contain" />
+              <Image src={pictos.picto7 || "/placeholder.svg"} alt="" width={64} height={64} className="w-16 h-16 object-contain" />
             </div>
           </Card>
         </div>
@@ -531,7 +535,7 @@ export default async function LesEGCPage() {
                     <p className="text-sm text-muted-foreground">{card.description}</p>
                   </CardContent>
                   <div className="absolute -top-6 -right-6 z-10">
-                    <img src={cardPictos[index] || "/placeholder.svg"} alt="" className="w-12 h-12 object-contain" />
+                    <Image src={cardPictos[index] || "/placeholder.svg"} alt="" width={48} height={48} className="w-12 h-12 object-contain" />
                   </div>
                 </Card>
               )
@@ -553,7 +557,7 @@ export default async function LesEGCPage() {
               </div>
             </CardContent>
             <div className="absolute -top-6 -right-6 z-10">
-              <img src={pictos.picto7 || "/placeholder.svg"} alt="" className="w-16 h-16 object-contain" />
+              <Image src={pictos.picto7 || "/placeholder.svg"} alt="" width={64} height={64} className="w-16 h-16 object-contain" />
             </div>
           </Card>
         </div>
@@ -596,7 +600,7 @@ export default async function LesEGCPage() {
                 </p>
               </CardContent>
               <div className="absolute -top-6 -right-6 z-10">
-                <img src={pictos.picto1 || "/placeholder.svg"} alt="" className="w-12 h-12 object-contain" />
+                <Image src={pictos.picto1 || "/placeholder.svg"} alt="" width={48} height={48} className="w-12 h-12 object-contain" />
               </div>
             </Card>
             <Card className="border-2 relative overflow-visible" style={{ borderColor: "#F4E63C" }}>
@@ -617,7 +621,7 @@ export default async function LesEGCPage() {
                 </p>
               </CardContent>
               <div className="absolute -top-6 -right-6 z-10">
-                <img src={pictos.picto4 || "/placeholder.svg"} alt="" className="w-12 h-12 object-contain" />
+                <Image src={pictos.picto4 || "/placeholder.svg"} alt="" width={48} height={48} className="w-12 h-12 object-contain" />
               </div>
             </Card>
           </div>
@@ -654,13 +658,13 @@ export default async function LesEGCPage() {
               </div>
             </CardContent>
             <div className="absolute -top-6 -right-6 z-10">
-              <img src={pictos.picto6 || "/placeholder.svg"} alt="" className="w-16 h-16 object-contain" />
+              <Image src={pictos.picto6 || "/placeholder.svg"} alt="" width={64} height={64} className="w-16 h-16 object-contain" />
             </div>
           </Card>
         </div>
       </section>
 
-      {/* How to get help Section */}
+      {/* How to get help Section 
       <section className="py-16 lg:py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
@@ -688,34 +692,14 @@ export default async function LesEGCPage() {
                 <div className="bg-background p-6 rounded-lg border">
                   <h3 className="text-xl font-black mb-4 text-center uppercase">Informations et contact</h3>
                   <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                    <Button variant="outline">
+                    <Button>
                       <Link href={acf.help_section?.website_url || "#"} target="_blank" rel="noopener noreferrer">
-                        <Highlighter
-                          action="highlight"
-                          color="#B4D19F"
-                          strokeWidth={4}
-                          animationDuration={600}
-                          iterations={1}
-                          padding={12}
-                          isView={true}
-                        >
                           {acf.help_section?.website_text || "Visiter le site"}
-                        </Highlighter>
                       </Link>
                     </Button>
-                    <Button variant="outline">
+                    <Button>
                       <Link href={`tel:${acf.help_section?.phone || ""}`}>
-                        <Highlighter
-                          action="highlight"
-                          color="#94BF7E"
-                          strokeWidth={4}
-                          animationDuration={600}
-                          iterations={1}
-                          padding={12}
-                          isView={true}
-                        >
                           {acf.help_section?.phone_text || "Nous appeler"}
-                        </Highlighter>
                       </Link>
                     </Button>
                   </div>
@@ -723,22 +707,27 @@ export default async function LesEGCPage() {
               </div>
             </CardContent>
             <div className="absolute -bottom-8 -right-8">
-              <img src={pictos.picto2 || "/placeholder.svg"} alt="" className="w-16 h-16 object-contain" />
+              <Image src={pictos.picto2 || "/placeholder.svg"} alt="" width={64} height={64} className="w-16 h-16 object-contain" />
             </div>
           </Card>
         </div>
       </section>
+      */}
 
       {/* Call to Action */}
       <section className="py-16 lg:py-24 bg-white relative">
-        <img
+        <Image
           src={pictos.picto5 || "/placeholder.svg"}
           alt=""
+          width={96}
+          height={96}
           className="absolute bottom-[10%] left-[5%] w-24 h-24 object-contain opacity-20 pointer-events-none"
         />
-        <img
+        <Image
           src={pictos.picto3 || "/placeholder.svg"}
           alt=""
+          width={128}
+          height={128}
           className="absolute bottom-[15%] right-[8%] w-32 h-32 object-contain opacity-20 pointer-events-none"
         />
 
@@ -761,19 +750,9 @@ export default async function LesEGCPage() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               {(acf.cta_section?.buttons || []).map((button, index) => (
-                <Button key={index} variant="outline" size="lg">
+                <Button key={index} size="lg">
                   <Link href={button.url || "#"}>
-                    <Highlighter
-                      action="highlight"
-                      color={index % 2 === 0 ? "#B4D19F" : "#94BF7E"}
-                      strokeWidth={4}
-                      animationDuration={600}
-                      iterations={1}
-                      padding={12}
-                      isView={true}
-                    >
                       {button.text}
-                    </Highlighter>
                   </Link>
                 </Button>
               ))}

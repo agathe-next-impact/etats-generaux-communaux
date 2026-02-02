@@ -2,6 +2,7 @@ export const dynamic = "force-dynamic"
 import { Highlighter } from "@/components/ui/highlighter"
 import { Mail } from "lucide-react"
 import { AnimatedContactHero } from "@/components/animated-contact-hero"
+import Image from "next/image"
 
 export const metadata = {
   title: "Contact",
@@ -10,39 +11,49 @@ export const metadata = {
 }
 
 export default function ContactPage() {
-  const contactEmail = "agathe.karinthi.martin@gmail.com"
+  const contactEmail = "lesetatsgenerauxcommunaux@gmail.com"
 
   return (
     <div className="min-h-screen bg-background pt-32 pb-12 relative overflow-hidden">
       {/* Animated background pictos */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <img
+        <Image
           src="/images/design-mode/picto202.png"
           alt=""
+          width={64}
+          height={64}
           className="absolute left-[5%] top-[10%] w-16 h-16 object-contain opacity-20 animate-float"
           style={{ animationDelay: "0s" }}
         />
-        <img
+        <Image
           src="/images/design-mode/picto200.png"
           alt=""
+          width={80}
+          height={80}
           className="absolute right-[8%] top-[15%] w-20 h-20 object-contain opacity-15 animate-float"
           style={{ animationDelay: "1s" }}
         />
-        <img
+        <Image
           src="/images/design-mode/picto204.png"
           alt=""
+          width={96}
+          height={96}
           className="absolute left-[10%] bottom-[20%] w-24 h-24 object-contain opacity-10 animate-float"
           style={{ animationDelay: "2s" }}
         />
-        <img
+        <Image
           src="/images/design-mode/picto205.png"
           alt=""
+          width={64}
+          height={64}
           className="absolute right-[5%] bottom-[15%] w-16 h-16 object-contain opacity-20 animate-float"
           style={{ animationDelay: "1.5s" }}
         />
-        <img
+        <Image
           src="/images/design-mode/picto203.png"
           alt=""
+          width={48}
+          height={48}
           className="absolute left-[50%] top-[5%] w-12 h-12 object-contain opacity-15 animate-float"
           style={{ animationDelay: "0.5s" }}
         />
@@ -77,7 +88,13 @@ export default function ContactPage() {
             <div className="bg-white border-4 border-[#4AAD33] rounded-lg p-8 shadow-lg relative overflow-hidden">
               {/* Decorative corner picto */}
               <div className="absolute -top-4 -right-4 z-10">
-                <img src="/images/design-mode/picto200.png" alt="" className="w-16 h-16 object-contain" />
+                <Image
+                  src="/images/design-mode/picto200.png"
+                  alt=""
+                  width={64}
+                  height={64}
+                  className="w-16 h-16 object-contain"
+                />
               </div>
 
               <div className="flex items-center justify-center gap-4 mb-4">
@@ -100,7 +117,13 @@ export default function ContactPage() {
             {/* Additional Info */}
             <div className="mt-12 grid md:grid-cols-2 gap-6">
               <div className="bg-[#FFF9E6] border-2 border-[#FFD700] rounded-lg p-6">
-                <img src="/images/design-mode/picto202.png" alt="" className="w-12 h-12 object-contain mx-auto mb-4" />
+                <Image
+                  src="/images/design-mode/picto202.png"
+                  alt=""
+                  width={48}
+                  height={48}
+                  className="w-12 h-12 object-contain mx-auto mb-4"
+                />
                 <h4 className="font-bold text-lg mb-2 uppercase font-[family-name:var(--font-raleway)]">
                   Rejoignez-nous
                 </h4>
@@ -110,7 +133,13 @@ export default function ContactPage() {
               </div>
 
               <div className="bg-[#FFE6E6] border-2 border-[#E73628] rounded-lg p-6">
-                <img src="/images/design-mode/picto204.png" alt="" className="w-12 h-12 object-contain mx-auto mb-4" />
+                <Image
+                  src="/images/design-mode/picto204.png"
+                  alt=""
+                  width={48}
+                  height={48}
+                  className="w-12 h-12 object-contain mx-auto mb-4"
+                />
                 <h4 className="font-bold text-lg mb-2 uppercase font-[family-name:var(--font-raleway)]">
                   Posez vos questions
                 </h4>

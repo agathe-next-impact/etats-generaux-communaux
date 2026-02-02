@@ -33,13 +33,6 @@ function DropdownItemWithBrush({ children, href }: { children: React.ReactNode; 
       <Link href={href} className="w-full block cursor-target">
         <span className="relative inline-block font-semibold text-black group w-full px-3 py-2 text-base">
           <span className="relative z-10">{children}</span>
-          <span
-            className="absolute inset-0 bg-[#F4E63C] opacity-0 group-hover:opacity-60 transition-opacity duration-150 -z-10 rounded-sm"
-            style={{
-              clipPath:
-                "polygon(0% 10%, 2% 8%, 5% 12%, 8% 6%, 12% 10%, 15% 5%, 18% 11%, 22% 7%, 25% 12%, 28% 8%, 32% 11%, 35% 6%, 38% 10%, 42% 8%, 45% 12%, 48% 7%, 52% 11%, 55% 9%, 58% 13%, 62% 8%, 65% 11%, 68% 7%, 72% 10%, 75% 6%, 78% 11%, 82% 8%, 85% 12%, 88% 7%, 92% 10%, 95% 8%, 98% 11%, 100% 9%, 100% 90%, 98% 92%, 95% 88%, 92% 94%, 88% 90%, 85% 95%, 82% 89%, 78% 93%, 75% 88%, 72% 94%, 68% 90%, 65% 95%, 62% 91%, 58% 94%, 55% 89%, 52% 93%, 48% 88%, 45% 92%, 42% 87%, 38% 91%, 35% 86%, 32% 90%, 28% 85%, 25% 89%, 22% 84%, 18% 88%, 15% 83%, 12% 87%, 8% 82%, 5% 86%, 2% 81%, 0% 85%)",
-            }}
-          />
         </span>
       </Link>
     </DropdownMenuItem>
@@ -50,13 +43,6 @@ function ContactButtonWithHighlight({ children }: { children: React.ReactNode })
   return (
     <span className="relative inline-block font-semibold">
       <span className="relative z-10">{children}</span>
-      <span
-        className="absolute inset-0 -inset-x-3 -inset-y-2 bg-[#B4D19F] opacity-80 -z-10 rounded-sm"
-        style={{
-          clipPath:
-            "polygon(2% 5%, 5% 3%, 8% 6%, 12% 2%, 15% 7%, 18% 4%, 22% 8%, 25% 3%, 28% 6%, 32% 4%, 35% 8%, 38% 5%, 42% 9%, 45% 4%, 48% 7%, 52% 3%, 55% 8%, 58% 5%, 62% 9%, 65% 4%, 68% 7%, 72% 3%, 75% 8%, 78% 5%, 82% 9%, 85% 4%, 88% 7%, 92% 3%, 95% 6%, 98% 4%, 100% 7%, 100% 93%, 98% 96%, 95% 94%, 92% 97%, 88% 93%, 85% 96%, 82% 91%, 78% 95%, 75% 92%, 72% 97%, 68% 93%, 65% 96%, 62% 91%, 58% 95%, 55% 92%, 52% 97%, 48% 93%, 45% 96%, 42% 91%, 38% 95%, 35% 92%, 32% 96%, 28% 94%, 25% 97%, 22% 84%, 18% 96%, 15% 93%, 12% 98%, 8% 94%, 5% 97%, 2% 95%, 0% 93%)",
-        }}
-      />
     </span>
   )
 }

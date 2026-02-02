@@ -169,43 +169,22 @@ export default async function AboutPage() {
                 acfHomepage.section_manifeste.cta_de_droite?.libelle_de_droite) && (
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   {acfHomepage.section_manifeste.cta_de_gauche?.libelle_de_gauche && (
-                    <Button size="lg" className="bg-white text-[var(--brand-red)] hover:bg-white/90">
+                    <Button className="bg-white text-[var(--brand-red)] hover:bg-white/90">
                       <Link
                         href={acfHomepage.section_manifeste.cta_de_gauche.lien_de_gauche?.url || "#"}
                         target={acfHomepage.section_manifeste.cta_de_gauche.lien_de_gauche?.target || "_self"}
                       >
-                        <Highlighter
-                          action="highlight"
-                          color="#B4D19F"
-                          strokeWidth={4}
-                          animationDuration={600}
-                          iterations={1}
-                          padding={12}
-                          isView={true}
-                        >
                           {acfHomepage.section_manifeste.cta_de_gauche.libelle_de_gauche}
-                        </Highlighter>
                       </Link>
                     </Button>
                   )}
                   {acfHomepage.section_manifeste.cta_de_droite?.libelle_de_droite && (
-                    <Button variant="outline" size="lg" className="border-white text-black bg-transparent">
+                    <Button className="border-white text-black bg-transparent">
                       <Link
                         href={acfHomepage.section_manifeste.cta_de_droite.lien_de_droite?.url || "#"}
                         target={acfHomepage.section_manifeste.cta_de_droite.lien_de_droite?.target || "_self"}
                       >
-                        <Highlighter
-                          action="highlight"
-                          color="#94BF7E"
-                          strokeWidth={4}
-                          animationDuration={600}
-                          iterations={1}
-                          padding={12}
-                          isView={true}
-                        >
-                          {acfHomepage.section_manifeste.cta_de_droite.libelle_de_droite}
-                        </Highlighter>
-                      </Link>
+                          {acfHomepage.section_manifeste.cta_de_droite.libelle_de_droite}                      </Link>
                     </Button>
                   )}
                 </div>

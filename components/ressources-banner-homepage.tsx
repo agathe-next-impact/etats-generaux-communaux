@@ -94,18 +94,9 @@ export default async function ResourcesBanner() {
                   href="/ressources"        
                   className="inline-block"
                 >
-                  <Button size="lg" className="text-lg bg-[var(--brand-red)] hover:bg-[var(--brand-red)]/90">
-                    <Highlighter
-                      action="highlight"
-                      color="#B4D19F"
-                      strokeWidth={4}
-                      animationDuration={600}
-                      iterations={1}
-                      padding={12}
-                      isView={true}
-                    >
+                  <Button size="lg" className="text-lg">
                       Toutes les ressources et kits
-                    </Highlighter>
+
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
                 </Link>

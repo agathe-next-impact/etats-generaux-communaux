@@ -81,21 +81,10 @@ async function LocalGroupsMap() {
                     <span>{group.acf?.localisation?.address || "Localisation non définie"}</span>
                   </div>
                 </div>
-                <Badge
-                  variant="outline"
-                  className="text-xs border-2"
-                  style={{ borderColor: "#4AAD33", color: "#4AAD33" }}
-                >
-                  <Users className="h-3 w-3 mr-1" />
-                  Groupe local
-                </Badge>
               </div>
             </CardHeader>
 
             <CardContent className="space-y-4">
-              <p className="text-sm text-muted-foreground line-clamp-3">
-                {group.acf?.descriptif || "Description du groupe local"}
-              </p>
 
               {/* Contact Information */}
               <div className="space-y-2">
@@ -126,21 +115,19 @@ async function LocalGroupsMap() {
               </div>
 
               {/* Actions */}
-              <div className="flex gap-2 pt-2">
+              <div className="flex items-start gap-2 pt-2">
                 {group.acf?.site_web && (
-                    <Button variant="outline" size="sm">
+                    <Button size="sm" className="flex items-end">
                       <Link href={group.acf.site_web} target="_blank" rel="noopener noreferrer">
-                        <Globe className="h-4 w-4 mr-1" />
-                        Site web
+                        <Globe className="h-12 w-12 mr-1" />
                       </Link>
                     </Button>
                 )}
 
                 {group.acf?.email_de_contact && (
-                    <Button size="sm" variant="ghost">
+                    <Button size="sm" className="flex items-end">
                       <Link href={`mailto:${group.acf.email_de_contact}`}>
-                        <Mail className="h-4 w-4 mr-1" />
-                        Contacter
+                        <Mail className="h-12 w-12 mr-1" />
                       </Link>
                     </Button>
                 )}
