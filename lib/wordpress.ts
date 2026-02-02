@@ -11,12 +11,22 @@ export interface WordPressResource {
   id: number;
   title: { rendered: string };
   content: { rendered: string };
+  date: string;
+  modified: string;
+  slug: string;
   featured_media: number;
   categories: number[];
   tags: number[];
   author: number;
   _embedded?: {
-    "wp:featuredmedia"?: Array<{ source_url: string; alt_text: string }>;
+    "wp:featuredmedia"?: Array<{ 
+      source_url: string; 
+      alt_text: string;
+      media_details?: {
+        width: number;
+        height: number;
+      };
+    }>;
     "wp:term"?: Array<Array<{ id: number; name: string; slug: string }>>;
     author?: Array<{ name: string; slug: string }>;
   };
