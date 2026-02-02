@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { ResourceCard } from "@/components/resource-card";
 import { ResourceSearchBar } from "@/components/resource-search-bar";
 import { Card, CardContent } from "@/components/ui/card";
-import { getResources, type WordPressResource } from "@/lib/wordpress";
+import { type WordPressResource } from "@/lib/wordpress";
 
 export default function ResourcesBannerClient() {
   const [resources, setResources] = useState<WordPressResource[]>([]);
@@ -16,7 +16,12 @@ export default function ResourcesBannerClient() {
       try {
         setIsLoading(true);
         setError(null);
-        const fetchedResources = await getResources();
+        // Appel via API route Next.js (proxy sécurisé côté serveur)
+        const response = await fetch("/api/resources");
+        if (!response.ok) {
+          throw new Error(`Erreur ${response.status}`);
+        }
+        const fetchedResources = await response.json();
         setResources(fetchedResources);
         setFilteredResources(fetchedResources);
       } catch (err) {
@@ -28,6 +33,7 @@ export default function ResourcesBannerClient() {
     };
     fetchResources();
   }, []);
+
 
   const handleSearch = async (search: string) => {
     setIsLoading(true);
