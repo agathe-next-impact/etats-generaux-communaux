@@ -48,7 +48,7 @@ export interface WPPreviewData {
   postType: string;
 }
 
-const WP_API_URL = process.env.WORDPRESS_API_URL || process.env.NEXT_PUBLIC_WORDPRESS_API_URL;
+const WP_API_URL = process.env.WP_PREVIEW_API || process.env.NEXT_PUBLIC_WORDPRESS_API_URL;
 const WP_PREVIEW_SECRET = process.env.WP_PREVIEW_SECRET;
 
 /**
