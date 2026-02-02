@@ -46,6 +46,7 @@ export default function ResourcesBannerClient() {
     }
   };
 
+
   if (error) {
     return (
       <div className="text-center py-12">

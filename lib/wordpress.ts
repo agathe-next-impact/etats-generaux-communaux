@@ -457,8 +457,44 @@ export interface DemanderDoleancesPageData {
   acf?: DemanderDoleancesPageACF;
 }
 
-const WP_API_URL = process.env.NEXT_PUBLIC_WORDPRESS_API_URL ||
-  "https://admin.lesetatsgenerauxcommunaux.org/wp-json/wp/v2";
+// Liste blanche des URLs WordPress autorisées (sécurité)
+const ALLOWED_WORDPRESS_URLS = [
+  "https://admin.lesetatsgenerauxcommunaux.org/wp-json/wp/v2",
+  "https://staging.lesetatsgenerauxcommunaux.org/wp-json/wp/v2",
+];
+
+const DEFAULT_WP_API_URL = "https://admin.lesetatsgenerauxcommunaux.org/wp-json/wp/v2";
+
+// Validation de l'URL WordPress pour éviter les injections
+function getSecureWordPressApiUrl(): string {
+  const envUrl = process.env.NEXT_PUBLIC_WORDPRESS_API_URL;
+  
+  // Si pas d'URL en variable d'environnement, utiliser l'URL par défaut
+  if (!envUrl) {
+    return DEFAULT_WP_API_URL;
+  }
+  
+  // Vérifier que l'URL est dans la liste blanche
+  if (ALLOWED_WORDPRESS_URLS.includes(envUrl)) {
+    return envUrl;
+  }
+  
+  // En développement, on peut autoriser localhost
+  if (process.env.NODE_ENV === "development" && envUrl.startsWith("http://localhost")) {
+    console.warn("[WordPress API] Using localhost URL in development mode:", envUrl);
+    return envUrl;
+  }
+  
+  // URL non autorisée : log d'avertissement et fallback vers l'URL par défaut
+  console.error(
+    `[WordPress API] URL non autorisée détectée: "${envUrl}". ` +
+    `Utilisation de l'URL par défaut. ` +
+    `URLs autorisées: ${ALLOWED_WORDPRESS_URLS.join(", ")}`
+  );
+  return DEFAULT_WP_API_URL;
+}
+
+const WP_API_URL = getSecureWordPressApiUrl();
 
 async function validateJsonResponse(response: Response): Promise<any> {
   const contentType = response.headers.get("content-type");
