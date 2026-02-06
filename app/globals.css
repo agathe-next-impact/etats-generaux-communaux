@@ -834,6 +834,10 @@ button:focus-visible {
   .wordpress-content .wp-block-file__button:hover {
     @apply opacity-90;
   }
+
+  .prose a {
+    @apply underline;
+  }
 }
 
 @layer base {

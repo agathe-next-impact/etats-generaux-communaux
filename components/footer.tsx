@@ -53,7 +53,7 @@ export function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 relative">
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
           {/* Logo */}
-          <div className="relative">
+          <div className="relative flex flex-col md:flex-row ">
             <Image
               src="/images/design-mode/picto200.png"
               alt=""
@@ -70,6 +70,17 @@ export function Footer() {
                 className="h-12 w-auto"
               />
             </Link>
+            <div className="ml-8">
+            <h3 className="font-bold text-sm uppercase tracking-wider font-[family-name:var(--font-raleway)]">Liens</h3>
+            <div className="space-y-2">
+              <Link href="/les-egc" className="block text-sm hover:text-[#E73628] transition-colors">
+                Les Etats Generaux Communaux
+              </Link>
+              <Link href="https://lesdoleances.fr" className="block text-sm hover:text-[#E73628] transition-colors">
+                Les Doléances
+              </Link>
+            </div>
+            </div>
           </div>
 
           {/* Navigation Links */}
@@ -81,14 +92,18 @@ export function Footer() {
               height={20}
               className="absolute -top-2 -right-2 opacity-20 -rotate-6 z-10"
             />
-            <h3 className="font-bold text-sm uppercase tracking-wider font-[family-name:var(--font-raleway)]">Liens</h3>
+            <div className="ml-8">
             <div className="space-y-2">
-              <Link href="/les-egc" className="block text-sm hover:text-[#E73628] transition-colors">
-                Les Etats Generaux Communaux
+              <Link href="/mentions-legales" className="block text-sm hover:text-[#E73628] transition-colors">
+                Mentions légales
               </Link>
-              <Link href="https://lesdoleances.fr" className="block text-sm hover:text-[#E73628] transition-colors">
-                Les Doléances
+              <Link href="/politique-confidentialite" className="block text-sm hover:text-[#E73628] transition-colors">
+                Politique de confidentialité
               </Link>
+              <Link href="/politique-cookies" className="block text-sm hover:text-[#E73628] transition-colors">
+                Politique de cookies
+              </Link>
+            </div>
             </div>
           </div>
         </div>

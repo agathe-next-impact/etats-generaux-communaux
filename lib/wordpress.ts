@@ -457,6 +457,19 @@ export interface DemanderDoleancesPageData {
   acf?: DemanderDoleancesPageACF;
 }
 
+export interface LegalNoticePageData {
+  id: number;
+  title: {
+    rendered: string;
+  };
+  content: {
+    rendered: string;
+  };
+  acf?: {
+    contenu: string;
+  };
+}
+
 // Liste blanche des URLs WordPress autorisées (sécurité)
 const ALLOWED_WORDPRESS_URLS = [
   "https://admin.lesetatsgenerauxcommunaux.org/wp-json/wp/v2",
@@ -1325,6 +1338,19 @@ export async function getSocialLinks(): Promise<any[]> {
   // On attend data.acf.reseaux_sociaux (tableau)
   const socialLinks = data?.acf?.reseaux_sociaux || [];
   return Array.isArray(socialLinks) ? socialLinks : [];
+}
+
+export async function getLegalNoticePageData(slug: string = "mentions-legales"): Promise<LegalNoticePageData | null> {
+  try {
+    const page = await getPageBySlug(slug);
+
+    if (page) {
+      return page as LegalNoticePageData;
+    }
+    return null;
+  } catch (error) {
+    return null;
+  }
 }
 
 export function transformWordPressUrls(html: string): string {
