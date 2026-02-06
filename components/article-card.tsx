@@ -26,7 +26,7 @@ export function ArticleCard({ post, featured = false }: ArticleCardProps) {
 
   return (
     <Card
-      className={`group overflow-visible relative hover:shadow-lg transition-all duration-300 border-2 border-[#E73628] ${featured ? "md:col-span-2 md:row-span-2" : ""}`}
+      className={`group overflow-visible relative hover:shadow-lg transition-all duration-300 border border-[#E73628] ${featured ? "md:col-span-2 md:row-span-2" : ""}`}
     >
       <Image
         src={pictoUrl || "/placeholder.svg"}

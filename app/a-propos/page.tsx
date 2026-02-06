@@ -249,7 +249,7 @@ export default async function AboutPage() {
                 const cardContent = (
                   <Card
                     key={index}
-                    className="text-center hover:shadow-lg transition-all duration-300 border-2 relative overflow-visible"
+                    className="text-center hover:shadow-lg transition-all duration-300 border relative overflow-visible"
                     style={{ borderColor: colors[index % colors.length] }}
                   >
                     <Image
@@ -335,7 +335,7 @@ export default async function AboutPage() {
                 const cardContent = (
                   <Card
                     key={index}
-                    className="text-center hover:shadow-lg transition-all duration-300 border-2 relative overflow-visible"
+                    className="text-center hover:shadow-lg transition-all duration-300 border relative overflow-visible"
                     style={{ borderColor: colors[index % colors.length] }}
                   >
                     <Image

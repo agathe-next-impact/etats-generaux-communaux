@@ -97,7 +97,7 @@ export function ResourceFilters({ onFilterChange, totalResources }: ResourceFilt
           placeholder="Rechercher dans les ressources..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="pr-12 border-2 border-[#E73628] focus-visible:ring-[#4AAD33] focus-visible:ring-2 focus-visible:ring-offset-2"
+          className="pr-12 border border-[#E73628] focus-visible:ring-[#4AAD33] focus-visible:ring-2 focus-visible:ring-offset-2"
         />
         <Button
           type="submit"
@@ -124,7 +124,7 @@ export function ResourceFilters({ onFilterChange, totalResources }: ResourceFilt
           variant="outline"
           size="sm"
           onClick={() => setIsFiltersOpen(!isFiltersOpen)}
-          className="md:hidden border-2 border-[#E73628]"
+          className="md:hidden border border-[#E73628]"
         >
           <Filter className="h-4 w-4 mr-2" />
           <Highlighter
@@ -145,7 +145,7 @@ export function ResourceFilters({ onFilterChange, totalResources }: ResourceFilt
         <div className="flex flex-col md:flex-row gap-4">
           <div className="flex-1">
             <Select value={selectedCategory} onValueChange={handleCategoryChange} disabled={isLoadingTaxonomies}>
-              <SelectTrigger className="border-2 border-[#F4E63C] focus:ring-[#4AAD33]">
+              <SelectTrigger className="border border-[#F4E63C] focus:ring-[#4AAD33]">
                 <SelectValue placeholder={isLoadingTaxonomies ? "Chargement..." : "Toutes les catégories"} />
               </SelectTrigger>
               <SelectContent>
@@ -162,7 +162,7 @@ export function ResourceFilters({ onFilterChange, totalResources }: ResourceFilt
           {/* Sort Filter */}
           <div className="flex-1">
             <Select value={sortBy} onValueChange={handleSortChange}>
-              <SelectTrigger className="border-2 border-[#4AAD33] focus:ring-[#4AAD33]">
+              <SelectTrigger className="border border-[#4AAD33] focus:ring-[#4AAD33]">
                 <SelectValue placeholder="Trier par" />
               </SelectTrigger>
               <SelectContent>
@@ -180,7 +180,7 @@ export function ResourceFilters({ onFilterChange, totalResources }: ResourceFilt
               variant="outline"
               size="sm"
               onClick={clearFilters}
-              className="flex items-center gap-2 bg-transparent border-2 border-[#E73628] hover:bg-[#E73628]/10"
+              className="flex items-center gap-2 bg-transparent border border-[#E73628] hover:bg-[#E73628]/10"
             >
               <X className="h-4 w-4" />
               Effacer

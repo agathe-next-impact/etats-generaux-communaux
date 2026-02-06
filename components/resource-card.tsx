@@ -109,7 +109,7 @@ export function ResourceCard({ resource }: ResourceCardProps) {
   const pictoUrl = pictos[resource.id % pictos.length]
 
   return (
-    <Card className="group hover:shadow-lg transition-all duration-300 h-full border-2 border-[#E73628] relative overflow-visible">
+    <Card className="group hover:shadow-lg transition-all duration-300 h-full border border-[#E73628] relative overflow-visible">
       <Image
         src={pictoUrl || "/placeholder.svg"}
         alt=""
@@ -125,7 +125,7 @@ export function ResourceCard({ resource }: ResourceCardProps) {
               className="font-black text-lg leading-tight group-hover:text-[#E73628] transition-colors mb-2 uppercase"
               style={{ fontFamily: "Raleway, sans-serif" }}
             >
-              {title}
+              {decodeHtmlEntities(title)}
             </h3>
             <Badge variant="outline" className="text-xs">
               {resourceType.toUpperCase()}

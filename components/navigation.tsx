@@ -12,6 +12,13 @@ import Image from "next/image"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Navbar, NavBody, MobileNav, MobileNavMenu, MobileNavToggle, useNavbar } from "@/components/ui/resizable-navbar"
 
+function TopbarWrapper({ children }: { children: React.ReactNode }) {
+  const { isScrolled } = useNavbar()
+  // Hide topbar when scrolled to avoid layout issues in the floating pill
+  if (isScrolled) return null
+  return <>{children}</>
+}
+
 function NavItemWithBrush({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return (
     <span className={`relative inline-block font-semibold text-black group ${className}`}>
@@ -58,12 +65,13 @@ function MobileMenuController() {
   return null
 }
 
-export function Navigation() {
+export function Navigation({ topBar }: { topBar?: React.ReactNode }) {
 
 
   return (
     <>
       <Navbar className="bg-white border-b-2 border-[#E73628]">
+        <TopbarWrapper>{topBar}</TopbarWrapper>
         <MobileMenuController />
 
         <NavBody>
@@ -133,20 +141,13 @@ export function Navigation() {
             <Link href="/a-propos" className="text-base text-black transition-colors px-3 py-2 rounded-md cursor-target">
               <NavItemWithBrush>A propos</NavItemWithBrush>
             </Link>
-
+            <Link href="/contact" className="text-base text-black transition-colors px-3 py-2 rounded-md cursor-target">
+              <NavItemWithBrush>Contact</NavItemWithBrush>
+            </Link>
           </div>
 
           <div className="hidden md:flex items-center space-x-2">
             <SocialLinks />
-            <Link href="/contact" className="inline-block">
-              <Button
-                variant="outline"
-                size="sm"
-                className="border-transparent hover:bg-transparent bg-transparent cursor-target text-red-600 font-bold uppercase underline underline-offset-4 underline-yellow-400"
-              >
-                Contact
-              </Button>
-            </Link>
           </div>
 
           <div className="md:hidden flex items-center flex-shrink-0">
@@ -244,6 +245,12 @@ export function Navigation() {
                 className="block px-4 py-3 text-base font-bold text-foreground hover:bg-[#F4E63C]/30 rounded-lg transition-all group relative overflow-hidden"
               >
                 <span className="relative z-10 font-semibold text-[#E73628] uppercase tracking-wider">A propos</span>
+                <span className="absolute inset-0 bg-[#F4E63C] opacity-0 group-hover:opacity-20 transition-opacity rounded-lg" />
+              </Link>
+              <Link href="/contact"
+               className="block px-4 py-3 text-base font-bold text-foreground hover:bg-[#F4E63C]/30 rounded-lg transition-all group relative overflow-hidden"
+              >
+                <span className="relative z-10 font-semibold text-[#E73628] uppercase tracking-wider">Contact</span>
                 <span className="absolute inset-0 bg-[#F4E63C] opacity-0 group-hover:opacity-20 transition-opacity rounded-lg" />
               </Link>
             </div>

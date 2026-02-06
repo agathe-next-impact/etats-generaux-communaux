@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { getSocialLinks } from "../lib/wordpress";
 import Image from "next/image";
 
 interface SocialLink {
@@ -14,7 +13,9 @@ const SocialLinks: React.FC = () => {
   const [links, setLinks] = useState<SocialLink[]>([]);
 
   useEffect(() => {
-    getSocialLinks()
+    // Utilise la route API locale pour éviter les problèmes CORS
+    fetch("/api/social-links")
+      .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data)) {
           setLinks(data);
@@ -23,6 +24,7 @@ const SocialLinks: React.FC = () => {
         }
       })
       .catch((err) => {
+        console.error("[SocialLinks] Error:", err);
         setLinks([]);
       });
   }, []);

@@ -33,7 +33,7 @@ export function ArticlesCarousel({ posts }: ArticlesCarouselProps) {
 
   return (
     <div className="relative">
-      <Card className="group overflow-hidden hover:shadow-lg transition-all duration-300 border-[3px] border-[#E73628]">
+      <Card className="group overflow-hidden hover:shadow-lg transition-all duration-300 border border-[#E73628]">
         <Link href={`/blog/${currentPost.slug}`}>
           <div className="relative h-64 overflow-hidden">
             {currentPost._embedded?.["wp:featuredmedia"]?.[0] ? (

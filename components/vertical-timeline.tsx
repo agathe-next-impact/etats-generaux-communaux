@@ -129,7 +129,7 @@ export function VerticalTimeline({ links, title, subtitle }: VerticalTimelinePro
                     {!isActive && (
                       <motion.div
                         whileTap={{ scale: 0.95 }}
-                        className="flex items-center gap-4 bg-white border-2 border-[#E73628] rounded-lg p-4 shadow-md"
+                        className="flex items-center gap-4 bg-white border border-[#E73628] rounded-lg p-4 shadow-md"
                       >
                         {/* Rotating star icon */}
                         <motion.div
@@ -178,7 +178,7 @@ export function VerticalTimeline({ links, title, subtitle }: VerticalTimelinePro
                           stiffness: 350,
                           damping: 25,
                         }}
-                        className="bg-white border-4 border-[#E73628] rounded-lg p-6 shadow-2xl"
+                        className="bg-white border border-[#E73628] rounded-lg p-6 shadow-2xl"
                         onClick={(e) => e.stopPropagation()}
                       >
                         {/* Icon */}
@@ -510,7 +510,7 @@ export function VerticalTimeline({ links, title, subtitle }: VerticalTimelinePro
 
                       {/* Date Label */}
                       <div className="absolute top-full mt-5 sm:mt-3 md:mt-2 left-1/2 transform -translate-x-1/2 whitespace-nowrap">
-                        <p className="text-base sm:text-sm font-bold text-foreground uppercase bg-white px-5 sm:px-4 py-2.5 sm:py-2 rounded-full shadow-md border-2 border-[#E73628]">
+                        <p className="text-base sm:text-sm font-bold text-foreground uppercase bg-white px-5 sm:px-4 py-2.5 sm:py-2 rounded-full shadow-md border border-[#E73628]">
                           {link.libelle}
                         </p>
                       </div>
@@ -533,7 +533,7 @@ export function VerticalTimeline({ links, title, subtitle }: VerticalTimelinePro
                         damping: 25,
                         mass: 0.8,
                       }}
-                      className="w-64 sm:w-72 md:w-64 bg-white border-4 border-[#E73628] rounded-lg p-5 sm:p-6 shadow-2xl max-w-[90vw]"
+                      className="w-64 sm:w-72 md:w-64 bg-white border border-[#E73628] rounded-lg p-5 sm:p-6 shadow-2xl max-w-[90vw]"
                       onClick={(e) => e.stopPropagation()}
                     >
                       {/* Icon */}
@@ -570,7 +570,7 @@ export function VerticalTimeline({ links, title, subtitle }: VerticalTimelinePro
                         <Link
                           href={link.lien.url}
                           target={link.lien.target || "_self"}
-                          className="mt-4 block text-center text-sm font-bold text-[#E73628] hover:text-[#E73628]/80 transition-colors py-2 px-4 border-2 border-[#E73628] rounded-lg hover:bg-[#E73628]/5"
+                          className="mt-4 block text-center text-sm font-bold text-[#E73628] hover:text-[#E73628]/80 transition-colors py-2 px-4 border border-[#E73628] rounded-lg hover:bg-[#E73628]/5"
                         >
                           En savoir plus →
                         </Link>

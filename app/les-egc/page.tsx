@@ -342,7 +342,7 @@ export default async function LesEGCPage() {
             </p>
           </div>
 
-          <Card className="max-w-4xl mx-auto border-2 relative overflow-visible" style={{ borderColor: "#E73628" }}>
+          <Card className="max-w-4xl mx-auto border border-[#E73628] relative overflow-visible" style={{ borderColor: "#E73628" }}>
             <CardContent className="p-8">
               <div className="flex items-start gap-4 mb-6">
                 <Calendar className="h-8 w-8 flex-shrink-0 mt-1" style={{ color: "#E73628" }} />
@@ -391,7 +391,7 @@ export default async function LesEGCPage() {
               return (
                 <Card
                   key={index}
-                  className="text-center border-2 relative overflow-visible"
+                  className="text-center border border-[#E73628] relative overflow-visible"
                   style={{ borderColor: colors[index % colors.length] }}
                 >
                   <CardContent className="p-6">
@@ -497,7 +497,7 @@ export default async function LesEGCPage() {
             <p className="text-lg text-muted-foreground">{acf.doleances_section?.subtitle || "Un trésor national"}</p>
           </div>
 
-          <Card className="max-w-4xl mx-auto border-2 relative overflow-visible" style={{ borderColor: "#F4E63C" }}>
+          <Card className="max-w-4xl mx-auto border relative overflow-visible" style={{ borderColor: "#F4E63C" }}>
             <CardContent className="p-8">
               <div className="space-y-6">
                 <div className="text-lg text-muted-foreground leading-relaxed">
@@ -542,7 +542,7 @@ export default async function LesEGCPage() {
               return (
                 <Card
                   key={index}
-                  className="text-center border-2 relative overflow-visible"
+                  className="text-center border relative overflow-visible"
                   style={{ borderColor: colors[index % colors.length] }}
                 >
                   <CardContent className="p-6">
@@ -562,7 +562,7 @@ export default async function LesEGCPage() {
           </div>
 
           <Card
-            className="mt-12 max-w-4xl mx-auto border-2 relative overflow-visible"
+            className="mt-12 max-w-4xl mx-auto border relative overflow-visible"
             style={{ borderColor: "#4AAD33" }}
           >
             <CardContent className="p-8">
@@ -601,7 +601,7 @@ export default async function LesEGCPage() {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <Card className="border-2 relative overflow-visible" style={{ borderColor: "#4AAD33" }}>
+            <Card className="border relative overflow-visible" style={{ borderColor: "#4AAD33" }}>
               <CardContent className="p-8">
                 <div className="flex items-start gap-4 mb-4">
                   <div
@@ -622,7 +622,7 @@ export default async function LesEGCPage() {
                 <Image src={pictos.picto1 || "/placeholder.svg"} alt="" width={48} height={48} className="w-12 h-12 object-contain" />
               </div>
             </Card>
-            <Card className="border-2 relative overflow-visible" style={{ borderColor: "#F4E63C" }}>
+            <Card className="border relative overflow-visible" style={{ borderColor: "#F4E63C" }}>
               <CardContent className="p-8">
                 <div className="flex items-start gap-4 mb-4">
                   <div
@@ -665,7 +665,7 @@ export default async function LesEGCPage() {
             </h2>
           </div>
 
-          <Card className="max-w-4xl mx-auto border-2 relative overflow-visible" style={{ borderColor: "#E73628" }}>
+          <Card className="max-w-4xl mx-auto border relative overflow-visible" style={{ borderColor: "#E73628" }}>
             <CardContent className="p-8">
               <div className="space-y-6">
                 <div className="text-lg text-muted-foreground leading-relaxed">

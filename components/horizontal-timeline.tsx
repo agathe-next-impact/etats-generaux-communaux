@@ -216,7 +216,7 @@ export function HorizontalTimeline({ links, title, subtitle }: HorizontalTimelin
                   <div
                     className={`flex flex-col items-center gap-3 relative ${!isMobile && !isAbove ? "flex-col-reverse" : ""}`}
                   >
-                    <div className="relative z-10 w-16 h-16 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 hover:shadow-lg cursor-pointer bg-white overflow-hidden border-2 border-transparent hover:border-[#E73628] active:border-[#E73628]">
+                    <div className="relative z-10 w-16 h-16 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 hover:shadow-lg cursor-pointer bg-white overflow-hidden border border-transparent hover:border-[#E73628] active:border-[#E73628]">
                       {link.icone?.url ? (
                         index === links.length - 1 ? (
                           <motion.div
@@ -273,7 +273,7 @@ export function HorizontalTimeline({ links, title, subtitle }: HorizontalTimelin
                             y: isMobile ? -10 : 0,
                           }}
                           transition={{ duration: 0.2, ease: "easeOut" }}
-                          className={`absolute z-[9999] w-80 max-w-[90vw] bg-white border-2 border-[#E73628] rounded-lg shadow-xl p-4 ${
+                          className={`absolute z-[9999] w-80 max-w-[90vw] bg-white border border-[#E73628] rounded-lg shadow-xl p-4 ${
                             isMobile
                               ? "top-full mt-4 left-1/2 -translate-x-1/2"
                               : `${popupPosition === "right" ? "left-full ml-4" : "right-full mr-4"} top-1/2 -translate-y-1/2`
@@ -282,7 +282,7 @@ export function HorizontalTimeline({ links, title, subtitle }: HorizontalTimelin
                           onClick={(e) => e.stopPropagation()}
                         >
                           <div
-                            className={`absolute w-4 h-4 bg-white border-2 border-[#E73628] ${
+                            className={`absolute w-4 h-4 bg-white border border-[#E73628] ${
                               isMobile
                                 ? "-top-2 left-1/2 -translate-x-1/2 border-b-0 border-r-0 rotate-45"
                                 : `${popupPosition === "right" ? "-left-2" : "-right-2"} top-1/2 -translate-y-1/2 ${popupPosition === "right" ? "border-r-0 border-b-0 -rotate-45" : "border-l-0 border-t-0 rotate-45"}`

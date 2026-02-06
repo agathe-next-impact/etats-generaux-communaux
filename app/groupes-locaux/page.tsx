@@ -66,7 +66,7 @@ async function LocalGroupsMap() {
   return (
     <div className="space-y-8">
       {/* Map Section */}
-      <div className="h-96 w-full rounded-lg overflow-hidden border-4" style={{ borderColor: "#E73628" }}>
+      <div className="h-96 w-full rounded-lg overflow-hidden border" style={{ borderColor: "#E73628" }}>
         <GoogleMap groups={groups} />
       </div>
 
@@ -75,7 +75,7 @@ async function LocalGroupsMap() {
         {groups.map((group, index) => (
           <Card
             key={group.id}
-            className="group hover:shadow-lg transition-all duration-300 border-4 overflow-visible relative"
+            className="group hover:shadow-lg transition-all duration-300 border overflow-visible relative"
             style={{ borderColor: borderColors[index % borderColors.length] }}
           >
             <Image

@@ -1282,7 +1282,6 @@ export async function getArchivePageTitles(): Promise<ArchivePageTitles | null> 
     const baseUrl = WP_API_URL.replace(/\/wp-json\/wp\/v2\/?$/, "");
     const customEndpoint = `${baseUrl}/wp-json/mytheme/v1/titres-pages-darchives`;
 
-    console.warn("[v0] Custom endpoint URL:", customEndpoint);
 
     const response = await fetch(customEndpoint, {
       next: { revalidate: 3600 },
@@ -1316,13 +1315,12 @@ export async function getArchivePageTitles(): Promise<ArchivePageTitles | null> 
 
 // Correction de la fonction getSocialLinks pour retourner le tableau attendu
 export async function getSocialLinks(): Promise<any[]> {
-  const baseUrl = (
-    process.env.NEXT_PUBLIC_WORDPRESS_API_URL ||
-    "https://demo.wp-api.org/wp-json/wp/v2"
-  ).replace(/\/wp-json\/wp\/v2\/?$/, "");
-  const endpoint = `${baseUrl}/wp-json/mytheme/v1/titres-pages-darchives/reseaux_sociaux`;
+  
+    const baseUrl = WP_API_URL.replace(/\/wp-json\/wp\/v2\/?$/, "");
+    const customEndpoint = `${baseUrl}/wp-json/mytheme/v1/titres-pages-darchives`;
 
-  const response = await fetch(endpoint, {
+
+  const response = await fetch(customEndpoint, {
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
@@ -1335,6 +1333,8 @@ export async function getSocialLinks(): Promise<any[]> {
   }
 
   const data = await response.json();
+
+  console.log(data)
   // On attend data.acf.reseaux_sociaux (tableau)
   const socialLinks = data?.acf?.reseaux_sociaux || [];
   return Array.isArray(socialLinks) ? socialLinks : [];

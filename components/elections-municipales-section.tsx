@@ -57,7 +57,7 @@ export async function ElectionsMunicipalesSection({ acfData }: Props) {
                   </Highlighter>
                 </h2>
               {acfData?.soustitre_actus && (
-                <p className="text-muted-foreground">
+                <p className="text-muted-foreground mb-4">
                   {acfData.soustitre_actus}
                 </p>
               )}
@@ -67,9 +67,9 @@ export async function ElectionsMunicipalesSection({ acfData }: Props) {
           
         {hasVideo &&  (
           <div>
-            <div className="mb-6 space-y-4">
+            <div className="mb-6 space-y-2">
                     {acfData.titre_video && (
-                        <h2 className="text-2xl md:text-3xl uppercase text-foreground mb-2">
+                        <h2 className="text-2xl md:text-3xl uppercase text-foreground">
                         <Highlighter
                             action="underline"
                             color="#E73628"
@@ -87,7 +87,7 @@ export async function ElectionsMunicipalesSection({ acfData }: Props) {
                         {acfData.soustitre_video}
                         </p>
                     )}
-                <div className="relative w-full aspect-video">
+                <div className="relative w-full aspect-video mt-4">
                   {acfData!.video!.includes("iframe") && (
                     <div
                       className="w-full h-full"

@@ -25,7 +25,7 @@ export function ResourceSearchBar({ onSearch, totalResources }: ResourceSearchBa
           placeholder="Rechercher dans les ressources..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="pr-12 border-2 border-[#E73628] focus-visible:ring-[#4AAD33] focus-visible:ring-2 focus-visible:ring-offset-2"
+          className="pr-12 border border-[#E73628] focus-visible:ring-[#4AAD33] focus-visible:ring-2 focus-visible:ring-offset-2"
         />
         <Button
           type="submit"

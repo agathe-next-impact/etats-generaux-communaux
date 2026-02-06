@@ -108,7 +108,7 @@ export default async function ContactPage({ params, searchParams }: PageProps) {
             </p>
 
             {/* Email Display */}
-            <div className="bg-white border-4 border-[#4AAD33] rounded-lg p-8 shadow-lg relative overflow-hidden">
+            <div className="bg-white border border-[#4AAD33] rounded-lg p-8 shadow-lg relative overflow-hidden">
               {/* Decorative corner picto */}
               <div className="absolute -top-4 -right-4 z-10">
                 <Image
@@ -139,7 +139,7 @@ export default async function ContactPage({ params, searchParams }: PageProps) {
 
             {/* Additional Info */}
             <div className="mt-12 grid md:grid-cols-2 gap-6">
-              <div className="bg-[#FFF9E6] border-2 border-[#FFD700] rounded-lg p-6">
+              <div className="bg-[#FFF9E6] border border-[#FFD700] rounded-lg p-6">
                 <Image
                   src="/images/design-mode/picto202.png"
                   alt=""
@@ -155,7 +155,7 @@ export default async function ContactPage({ params, searchParams }: PageProps) {
                 </p>
               </div>
 
-              <div className="bg-[#FFE6E6] border-2 border-[#E73628] rounded-lg p-6">
+              <div className="bg-[#FFE6E6] border border-[#E73628] rounded-lg p-6">
                 <Image
                   src="/images/design-mode/picto204.png"
                   alt=""

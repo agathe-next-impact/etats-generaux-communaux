@@ -33,7 +33,7 @@ export function BandeauSynthese({ data }: BandeauSyntheseProps) {
           {/* Left Image with CTA */}
           {hasColorImage && (
             <div className="lg:col-span-3 flex flex-col items-center">
-              <div className="relative w-full aspect-square max-w-[250px] mb-4 rounded-lg overflow-hidden shadow-lg border-4 border-[#E73628] hover:scale-105 transition-transform duration-300">
+              <div className="relative w-full aspect-square max-w-[250px] mb-4 rounded-lg overflow-hidden shadow-lg border border-[#E73628] hover:scale-105 transition-transform duration-300">
                 <Image
                   src={data.image_couleur.url || "/placeholder.svg"}
                   alt={data.image_couleur.alt || "Image couleur"}
@@ -67,7 +67,7 @@ export function BandeauSynthese({ data }: BandeauSyntheseProps) {
           {/* Right Image with CTA */}
           {hasBWImage && (
             <div className="lg:col-span-3 flex flex-col items-center">
-              <div className="relative w-full aspect-square max-w-[250px] mb-4 rounded-lg overflow-hidden shadow-lg border-4 border-gray-400 hover:scale-105 transition-transform duration-300 grayscale">
+              <div className="relative w-full aspect-square max-w-[250px] mb-4 rounded-lg overflow-hidden shadow-lg border border-gray-400 hover:scale-105 transition-transform duration-300 grayscale">
                 <Image
                   src={data.image_noir_et_blanc.url || "/placeholder.svg"}
                   alt={data.image_noir_et_blanc.alt || "Image noir et blanc"}
@@ -80,7 +80,7 @@ export function BandeauSynthese({ data }: BandeauSyntheseProps) {
                   asChild
                   size="lg"
                   variant="outline"
-                  className="border-2 border-foreground/20 font-bold uppercase hover:bg-foreground/5 bg-transparent"
+                  className="border border-foreground/20 font-bold uppercase hover:bg-foreground/5 bg-transparent"
                 >
                   <Link href={data.lien_noir_et_blanc.url} target={data.lien_noir_et_blanc.target || "_self"}>
                     Ouvrir

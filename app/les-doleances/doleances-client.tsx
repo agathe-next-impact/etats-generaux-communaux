@@ -85,7 +85,7 @@ export function DoleancesClient({ acf }: DoleancesClientProps) {
               </Highlighter>
             </h1>
             <p className="text-xl md:text-2xl text-foreground/90 leading-relaxed font-medium">
-              Configurez les champs ACF dans WordPress pour afficher le contenu de cette page.
+             
             </p>
           </div>
         </section>
@@ -176,7 +176,7 @@ export function DoleancesClient({ acf }: DoleancesClientProps) {
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Link>
                 </Button>
-                <Button asChild size="lg" className="border-foreground/20 bg-transparent">
+                <Button asChild size="lg" className="border-1 border-foreground/20 bg-transparent">
                   <Link
                     href={acf?.cta?.lien_du_cta_de_droite?.url || "#"}
                     target={acf?.cta?.lien_du_cta_de_droite?.target || "_self"}
@@ -227,7 +227,7 @@ export function DoleancesClient({ acf }: DoleancesClientProps) {
                     {axe.contenu.map((item, itemIndex) => (
                       <Card
                         key={itemIndex}
-                        className="border-2 border-[#E73628] hover:shadow-lg transition-all duration-300 bg-white relative overflow-visible"
+                        className="border border-[#E73628] hover:shadow-lg transition-all duration-300 bg-white relative overflow-visible"
                       >
                         <CardContent className="p-6">
                           {item.titre && (

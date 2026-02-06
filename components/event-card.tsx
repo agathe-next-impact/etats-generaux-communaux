@@ -75,12 +75,12 @@ export function EventCard({ event }: EventCardProps) {
   const pictoUrl = pictos[pictoIndex]
 
   return (
-    <Card className="w-full hover:shadow-lg transition-shadow border-2 border-[#E73628] relative overflow-visible">
+    <Card className="w-full hover:shadow-lg transition-shadow border border-[#E73628] relative overflow-visible">
       <Image
         src={pictoUrl || "/placeholder.svg"}
         alt=""
-        width={12}
-        height={12}
+        width={48}
+        height={48}
         className="absolute -top-3 -right-3 z-10 opacity-80"
       />
 
@@ -96,7 +96,6 @@ export function EventCard({ event }: EventCardProps) {
               </CardTitle>
             </Link>
             <div className="flex flex-wrap gap-2 mb-3">
-              <Badge className={getTypeColor(eventType)}>{eventType}</Badge>
               <Badge className={`text-white ${getStatusColor()}`}>
                 {isPast ? "Passé" : isUpcoming ? "À venir" : "En cours"}
               </Badge>

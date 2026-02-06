@@ -83,7 +83,7 @@ export function NewsletterForm() {
   }
 
   return (
-    <Card className="border-4 border-[#E73628] relative overflow-visible shadow-xl">
+    <Card className="border border-[#E73628] relative overflow-visible shadow-xl">
       <div className="absolute -top-6 -right-6 z-10">
         <div className="w-16 h-16 bg-[#4AAD33] rounded-full flex items-center justify-center shadow-lg">
           <Mail className="w-8 h-8 text-white" />

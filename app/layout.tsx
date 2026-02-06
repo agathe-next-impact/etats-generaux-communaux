@@ -2,6 +2,7 @@ import type React from "react"
 import type { Metadata } from "next"
 import { Raleway } from "next/font/google"
 import { Navigation } from "@/components/navigation"
+import { Topbar } from "@/components/topbar"
 import { Footer } from "@/components/footer"
 import { Suspense } from "react"
 import { ScrollToTop } from "@/components/scroll-to-top"
@@ -93,8 +94,8 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="fr" className={raleway.variable}>
-      <body className="font-sans antialiased">
+    <html lang="fr" className={raleway.variable} suppressHydrationWarning>
+      <body className="font-sans antialiased" suppressHydrationWarning>
       {/* Exit Intent Popup */}
         <ExitIntentPopup
           title="Rejoignez notre newsletter !"
@@ -104,7 +105,7 @@ export default function RootLayout({
           showOnce={true}
         />
         <Suspense fallback={<div>Loading...</div>}>
-          <Navigation />
+          <Navigation topBar={<Topbar />} />
           <main className="min-h-screen">{children}</main>
           <Footer />
           <ScrollToTop />

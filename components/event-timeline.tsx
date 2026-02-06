@@ -56,7 +56,7 @@ export function EventTimeline({ events }: EventTimelineProps) {
         <div key={monthYear} className="relative">
           {/* Timeline Month Header */}
           <div className="sticky top-4 z-10 mb-6">
-            <div className="bg-background/80 backdrop-blur-sm border-l-4 border-red-600 px-4 py-2 inline-block">
+            <div className="bg-background/80 backdrop-blur-sm px-4 py-2 inline-block">
               <h2 className="text-xl font-semibold capitalize">{monthYear}</h2>
               <p className="text-sm text-muted-foreground">
                 {monthEvents.length} événement{monthEvents.length > 1 ? "s" : ""}
@@ -67,7 +67,7 @@ export function EventTimeline({ events }: EventTimelineProps) {
           {/* Timeline Events */}
           <div className="relative pl-8">
             {/* Timeline Line */}
-            <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-yellow-500"></div>
+            <div className="absolute left-4 top-0 bottom-0 w-[1] bg-yellow-500"></div>
 
             <div className="space-y-6">
               {monthEvents
@@ -93,7 +93,7 @@ export function EventTimeline({ events }: EventTimelineProps) {
                 .map((event, index) => (
                   <div key={event.id} className="relative">
                     {/* Timeline Dot */}
-                    <div className="absolute -left-[21px] top-6 w-3 h-3 bg-red-500 rounded-full border-2 border-background"></div>
+                    <div className="absolute -left-[21px] top-6 w-3 h-3 bg-red-500 rounded-full border border-background"></div>
 
                     {/* Event Card */}
                     <div className="ml-4">
