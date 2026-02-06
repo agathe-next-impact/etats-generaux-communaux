@@ -198,7 +198,7 @@ export default function EventsPage() {
       </div>
 
       {/* Header */}
-      <div className="mb-8 relative">
+      <div className="mb-8 mt-36 relative">
         {/* Small decorative pictos to header corners */}
         <Image
           src="/images/design-mode/picto205.png"
