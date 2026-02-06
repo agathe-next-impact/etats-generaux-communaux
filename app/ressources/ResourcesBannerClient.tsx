@@ -1,13 +1,17 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { ResourceCard } from "@/components/resource-card";
 import { ResourceSearchBar } from "@/components/resource-search-bar";
+import { ResourceCategoryBadges } from "@/components/resource-category-badges";
 import { Card, CardContent } from "@/components/ui/card";
-import { type WordPressResource } from "@/lib/wordpress";
+import { type WordPressResource, type WordPressTaxonomy } from "@/lib/wordpress";
 
 export default function ResourcesBannerClient() {
   const [resources, setResources] = useState<WordPressResource[]>([]);
   const [filteredResources, setFilteredResources] = useState<WordPressResource[]>([]);
+  const [categories, setCategories] = useState<WordPressTaxonomy[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [currentSearch, setCurrentSearch] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -24,6 +28,28 @@ export default function ResourcesBannerClient() {
         const fetchedResources = await response.json();
         setResources(fetchedResources);
         setFilteredResources(fetchedResources);
+
+        // Extract categories from resources
+        const allCategories = new Map<number, WordPressTaxonomy>();
+        fetchedResources.forEach((resource: WordPressResource) => {
+           const terms = resource._embedded?.["wp:term"]?.[0]; // 0 is categories
+           if (terms) {
+             terms.forEach((term: any) => {
+               if (!allCategories.has(term.id)) {
+                 allCategories.set(term.id, {
+                   id: term.id,
+                   name: term.name,
+                   slug: term.slug,
+                   count: 0 
+                 });
+               }
+               const cat = allCategories.get(term.id)!;
+               cat.count++;
+             });
+           }
+        });
+        setCategories(Array.from(allCategories.values()).sort((a, b) => b.count - a.count));
+
       } catch (err) {
         console.error("[v0] Error fetching resources:", err);
         setError("Erreur lors du chargement des ressources");
@@ -34,23 +60,39 @@ export default function ResourcesBannerClient() {
     fetchResources();
   }, []);
 
-
-  const handleSearch = async (search: string) => {
-    setIsLoading(true);
-    try {
+  const applyFilters = useCallback(() => {
       let filtered = [...resources];
-      if (search) {
+      
+      if (currentSearch) {
         filtered = filtered.filter(
           (resource) =>
-            resource.title.rendered.toLowerCase().includes(search.toLowerCase()) ||
-            (resource.acf?.descriptif || "").toLowerCase().includes(search.toLowerCase())
+            resource.title.rendered.toLowerCase().includes(currentSearch.toLowerCase()) ||
+            (resource.acf?.descriptif || "").toLowerCase().includes(currentSearch.toLowerCase())
         );
       }
+
+      if (selectedCategory) {
+         filtered = filtered.filter(resource => {
+            const terms = resource._embedded?.["wp:term"]?.[0];
+            return terms?.some((t: any) => t.slug === selectedCategory);
+         });
+      }
+
       setFilteredResources(filtered);
-    } finally {
-      setIsLoading(false);
-    }
+  }, [resources, currentSearch, selectedCategory]);
+
+  useEffect(() => {
+    applyFilters();
+  }, [applyFilters]);
+
+  const handleSearch = (search: string) => {
+    setCurrentSearch(search);
   };
+  
+  const handleCategorySelect = (categorySlug: string | null) => {
+     setSelectedCategory(categorySlug);
+  };
+
 
 
   if (error) {
@@ -70,7 +112,16 @@ export default function ResourcesBannerClient() {
 
   return (
     <div className="space-y-8">
-      <ResourceSearchBar onSearch={handleSearch} totalResources={filteredResources.length} />
+      <div className="space-y-4">
+        {/*<ResourceSearchBar onSearch={handleSearch} totalResources={filteredResources.length} />*/}
+        <ResourceCategoryBadges 
+          categories={categories} 
+          selectedCategory={selectedCategory} 
+          onSelectCategory={handleCategorySelect}
+          isLoading={isLoading}
+        />
+      </div>
+
       {isLoading ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {Array.from({ length: 6 }).map((_, i) => (
