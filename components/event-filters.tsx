@@ -25,7 +25,7 @@ interface EventFiltersProps {
 export function EventFilters({ onFiltersChange }: EventFiltersProps) {
   const [search, setSearch] = useState("");
   const [selectedType, setSelectedType] = useState("all");
-  const [selectedStatus, setSelectedStatus] = useState("all");
+  const [selectedStatus, setSelectedStatus] = useState("upcoming");
   const [eventTypes, setEventTypes] = useState<WordPressTaxonomy[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 

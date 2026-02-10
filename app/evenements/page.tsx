@@ -38,7 +38,7 @@ export default function EventsPage() {
   const [filters, setFilters] = useState({
     search: "",
     type: "all",
-    status: "all",
+    status: "upcoming",
   })
 
   // Load events
@@ -97,6 +97,22 @@ export default function EventsPage() {
       })
     }
 
+    // Helper to get event timestamp
+    const getEventTimestamp = (event: WordPressEvent) => {
+      if (event.acf?.date) {
+        // Parse date from d/m/Y format
+        const [day, month, year] = event.acf.date.split("/").map(Number)
+        const eventDate = new Date(year, month - 1, day)
+        // Set to midnight for date-only comparison
+        eventDate.setHours(0, 0, 0, 0)
+        return eventDate.getTime()
+      }
+      // For WordPress date, extract only the date part (at midnight)
+      const wpDate = new Date(event.date)
+      wpDate.setHours(0, 0, 0, 0)
+      return wpDate.getTime()
+    }
+
     // Status filter
     if (filters.status !== "all") {
       // Set pivot at the start of today (midnight)
@@ -105,20 +121,7 @@ export default function EventsPage() {
       const todayTimestamp = todayAtMidnight.getTime()
       
       filtered = filtered.filter((event) => {
-        let eventTimestamp: number
-        if (event.acf?.date) {
-          // Parse date from d/m/Y format
-          const [day, month, year] = event.acf.date.split("/").map(Number)
-          let eventDate = new Date(year, month - 1, day)
-          // Set to midnight for date-only comparison
-          eventDate.setHours(0, 0, 0, 0)
-          eventTimestamp = eventDate.getTime()
-        } else {
-          // For WordPress date, extract only the date part (at midnight)
-          const wpDate = new Date(event.date)
-          wpDate.setHours(0, 0, 0, 0)
-          eventTimestamp = wpDate.getTime()
-        }
+        const eventTimestamp = getEventTimestamp(event)
 
         if (filters.status === "upcoming") {
           return eventTimestamp >= todayTimestamp
@@ -129,7 +132,10 @@ export default function EventsPage() {
       })
     }
 
-    
+    // Sort by date (nearest to farthest aka ascending)
+    filtered.sort((a, b) => {
+      return getEventTimestamp(a) - getEventTimestamp(b)
+    })
     
     setFilteredEvents(filtered)
   }, [events, filters])
