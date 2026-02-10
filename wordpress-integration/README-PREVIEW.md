@@ -117,7 +117,7 @@ register_post_type('evenement', [
    ```env
    NEXT_PUBLIC_WORDPRESS_API_URL=https://admin.lesetatsgenerauxcommunaux.org/wp-json/wp/v2
    SITE_DOMAIN=lesetatsgenerauxcommunaux.org
-   GOOGLE_MAPS_API_KEY=AIzaSyAJDr0RO94oujxYDtqXZTL1HIMHEK6WBHo
+   GOOGLE_MAPS_API_KEY=
 
    # Ajouter ces lignes :
    WP_PREVIEW_API=https://admin.lesetatsgenerauxcommunaux.org/wp-json
