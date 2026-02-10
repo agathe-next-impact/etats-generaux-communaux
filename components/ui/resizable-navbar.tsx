@@ -79,7 +79,7 @@ export function Navbar({ children, className }: NavbarProps) {
           width: isScrolled ? "95%" : "100%",
           maxWidth: isScrolled ? "1280px" : "100%",
           borderRadius: isScrolled ? "12px" : "0px",
-          marginTop: isScrolled ? "1rem" : "44px",
+          marginTop: isScrolled ? "41px" : "44px",
           marginLeft: "auto",
           marginRight: "auto",
           marginBottom: "0",

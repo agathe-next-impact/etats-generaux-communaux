@@ -122,7 +122,7 @@ export function ResourceCard({ resource }: ResourceCardProps) {
         <div className="flex items-start gap-4 mb-4">
           <div className="flex-1 min-w-0">
             <h3
-              className="font-black text-lg leading-tight group-hover:text-[#E73628] transition-colors mb-2 uppercase"
+              className="font-black text-lg leading-tight transition-colors mb-2 uppercase"
               style={{ fontFamily: "Raleway, sans-serif" }}
             >
               {decodeHtmlEntities(title)}
