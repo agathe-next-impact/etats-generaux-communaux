@@ -170,7 +170,7 @@ export default function ResourcePageClient({ resource }: ResourcePageClientProps
                       <Button
                         variant="outline"
                         size="sm"
-                        className="cursor-pointer hover:bg-[#4AAD33]/10 hover:border-[#4AAD33] transition-all duration-300 bg-transparent"
+                        className="cursor-target hover:bg-[#4AAD33]/10 hover:border-[#4AAD33] transition-all duration-300 bg-transparent"
                         onClick={() => {
                           const link = document.createElement("a")
                           link.href = file.document.url

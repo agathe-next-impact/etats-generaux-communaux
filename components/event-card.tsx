@@ -87,14 +87,12 @@ export function EventCard({ event }: EventCardProps) {
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between gap-4">
           <div className="flex-1">
-            <Link href={`/evenements/${event.slug}`} scroll={true}>
               <CardTitle
-                className="text-xl mb-2 text-balance hover:text-[#E73628] transition-colors cursor-pointer font-black uppercase"
+                className="text-xl mb-2 text-balance transition-colors cursor-pointer font-black uppercase"
                 style={{ fontFamily: "Raleway, sans-serif" }}
               >
                 {event.title.rendered}
               </CardTitle>
-            </Link>
             <div className="flex flex-wrap gap-2 mb-3">
               <Badge className={`text-white ${getStatusColor()}`}>
                 {isPast ? "Passé" : isUpcoming ? "À venir" : "En cours"}
@@ -145,16 +143,10 @@ export function EventCard({ event }: EventCardProps) {
                 className="flex items-center gap-2"
               >
                 <Play className="h-4 w-4" />
-                Voir en ligne
+                Participer
               </a>
             </Button>
           )}
-          <Button size="xs" asChild>
-            <Link href={`/evenements/${event.slug}`} scroll={true} className="flex items-center gap-2">
-              <ExternalLink className="h-4 w-4" />
-              Détails
-            </Link>
-          </Button>
         </div>
       </CardContent>
     </Card>

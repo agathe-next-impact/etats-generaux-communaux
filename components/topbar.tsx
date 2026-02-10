@@ -46,7 +46,7 @@ export async function Topbar() {
   const isExternal = !!acf?.lien_vers_levenement_en_ligne;
 
   return (
-    <div className="bg-[#E73628] text-white py-2 px-1 md:px-4 text-sm relative z-50">
+    <div className="sticky top-0 bg-[#E73628] text-white py-2 px-1 md:px-4 text-sm z-50">
       <div className="mx-auto flex flex-col sm:flex-row justify-between items-center gap-2 text-center sm:text-left">
         <div className="flex  items-center gap-2 justify-center sm:justify-start flex-wrap">
           <span className="uppercase font-extrabold tracking-wider bg-white text-[#E73628] px-2 py-0.5 text-xs rounded-sm inline-block">

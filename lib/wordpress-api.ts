@@ -190,7 +190,7 @@ export async function fetchDraftPost({
     return null;
   }
 
-  const endpoint = getPostTypeEndpoint(postType);
+  const endpoint = await getPostTypeEndpointAsync(postType);
   
   // First, try to get the latest revision
   const revisionsUrl = `${WP_API_URL}/wp/v2/${endpoint}/${id}/revisions?per_page=1`;

@@ -30,11 +30,33 @@ export function Navbar({ children, className }: NavbarProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false)
 
   React.useEffect(() => {
+    let lastScrollY = window.scrollY
+    const SCROLL_DOWN_THRESHOLD = 60
+    const SCROLL_UP_THRESHOLD = 20
+
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20)
+      const currentScrollY = window.scrollY
+
+      // Use hysteresis: different thresholds for scrolling down vs up
+      if (currentScrollY > lastScrollY) {
+        // Scrolling down
+        if (currentScrollY > SCROLL_DOWN_THRESHOLD) {
+          setIsScrolled(true)
+        }
+      } else {
+        // Scrolling up
+        if (currentScrollY <= SCROLL_UP_THRESHOLD) {
+          setIsScrolled(false)
+        }
+      }
+
+      lastScrollY = currentScrollY
     }
 
-    window.addEventListener("scroll", handleScroll)
+    // Check initial scroll position
+    handleScroll()
+
+    window.addEventListener("scroll", handleScroll, { passive: true })
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
@@ -57,11 +79,18 @@ export function Navbar({ children, className }: NavbarProps) {
           width: isScrolled ? "95%" : "100%",
           maxWidth: isScrolled ? "1280px" : "100%",
           borderRadius: isScrolled ? "12px" : "0px",
-          margin: isScrolled ? "1rem auto" : "0 auto",
+          marginTop: isScrolled ? "1rem" : "44px",
+          marginLeft: "auto",
+          marginRight: "auto",
+          marginBottom: "0",
         }}
-        transition={{ duration: 0.3, ease: "easeInOut" }}
+        transition={{
+          duration: 0.4,
+          ease: [0.25, 0.1, 0.25, 1],
+          type: "tween"
+        }}
         className={cn(
-          "fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border",
+          "fixed top-0 left-0 right-0 z-40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border",
           isScrolled && "shadow-lg",
           className,
         )}

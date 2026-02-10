@@ -105,7 +105,8 @@ export default function RootLayout({
           showOnce={true}
         />
         <Suspense fallback={<div>Loading...</div>}>
-          <Navigation topBar={<Topbar />} />
+          <Topbar />
+          <Navigation />
           <main className="min-h-screen">{children}</main>
           <Footer />
           <ScrollToTop />

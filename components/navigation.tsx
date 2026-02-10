@@ -12,13 +12,6 @@ import Image from "next/image"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Navbar, NavBody, MobileNav, MobileNavMenu, MobileNavToggle, useNavbar } from "@/components/ui/resizable-navbar"
 
-function TopbarWrapper({ children }: { children: React.ReactNode }) {
-  const { isScrolled } = useNavbar()
-  // Hide topbar when scrolled to avoid layout issues in the floating pill
-  if (isScrolled) return null
-  return <>{children}</>
-}
-
 function NavItemWithBrush({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return (
     <span className={`relative inline-block font-semibold text-black group ${className}`}>
@@ -65,13 +58,12 @@ function MobileMenuController() {
   return null
 }
 
-export function Navigation({ topBar }: { topBar?: React.ReactNode }) {
+export function Navigation() {
 
 
   return (
     <>
       <Navbar className="bg-white border-b-2 border-[#E73628]">
-        <TopbarWrapper>{topBar}</TopbarWrapper>
         <MobileMenuController />
 
         <NavBody>
@@ -99,7 +91,7 @@ export function Navigation({ topBar }: { topBar?: React.ReactNode }) {
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="gap-1 text-base text-black hover:bg-transparent relative group cursor-target"
+                  className="gap-1 text-base text-black hover:bg-transparent relative group"
                 >
                   <NavItemWithBrush>
                     <span className="flex items-center gap-1">
@@ -121,7 +113,7 @@ export function Navigation({ topBar }: { topBar?: React.ReactNode }) {
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="gap-1 text-base text-black hover:bg-transparent relative group cursor-target"
+                  className="gap-1 text-base text-black hover:bg-transparent relative group"
                 >
                   <NavItemWithBrush>
                     <span className="flex items-center gap-1">

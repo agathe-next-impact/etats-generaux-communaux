@@ -162,7 +162,7 @@ export function ResourceCard({ resource }: ResourceCardProps) {
 
         <div className="flex gap-2 mt-auto">
           {hasVideo || hasFiles ? (
-            <Button onClick={handleAction} size="sm" className="flex-1">
+            <Button onClick={handleAction} size="sm" className="flex-1 cursor-target">
               {getActionIcon()}
               {getActionLabel()}
             </Button>

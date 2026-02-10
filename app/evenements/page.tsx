@@ -1,45 +1,20 @@
 "use client"
 
-import {
-  PreviewProvider,
-  PreviewBanner,
-  PreviewContent,
-  PreviewTitle,
-  PreviewBody,
-  PreviewMeta,
-  PreviewFeaturedImage,
-} from '@/components/preview';
-import { fetchPreviewPost, fetchDraftPost, type WPPost } from '@/lib/wordpress-api';
-
-interface PageProps {
-  params: Promise<{ slug: string }>;
-  searchParams: Promise<{ 
-    preview?: string;
-    id?: string;
-  }>;
-}
-
-import { useState, useEffect, useCallback } from "react"
+import { useState, useEffect } from "react"
 import { Calendar } from "lucide-react"
 import { type WordPressEvent } from "@/lib/wordpress"
-import { EventFilters } from "@/components/event-filters"
 import { EventTimeline } from "@/components/event-timeline"
 import { Highlighter } from "@/components/ui/highlighter"
 import Image from "next/image"
 
 export default function EventsPage() {
   const [events, setEvents] = useState<WordPressEvent[]>([])
-  const [filteredEvents, setFilteredEvents] = useState<WordPressEvent[]>([])
+  const [upcomingEvents, setUpcomingEvents] = useState<WordPressEvent[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [pageTitle, setPageTitle] = useState("Événements")
   const [pageSubtitle, setPageSubtitle] = useState(
     "Découvrez tous nos événements, conférences, ateliers et manifestations.",
   )
-  const [filters, setFilters] = useState({
-    search: "",
-    type: "all",
-    status: "upcoming",
-  })
 
   // Load events
   useEffect(() => {
@@ -73,30 +48,8 @@ export default function EventsPage() {
     loadEvents()
   }, [])
 
-  // Apply filters
-  const applyFilters = useCallback(() => {
-    let filtered = [...events]
-
-    // Text search
-    if (filters.search) {
-      const searchLower = filters.search.toLowerCase()
-      filtered = filtered.filter(
-        (event) =>
-          event.title.rendered.toLowerCase().includes(searchLower) ||
-          event.content.rendered.toLowerCase().includes(searchLower) ||
-          event.acf?.description?.toLowerCase().includes(searchLower) ||
-          event.acf?.lieu?.address?.toLowerCase().includes(searchLower),
-      )
-    }
-
-    if (filters.type !== "all") {
-      filtered = filtered.filter((event) => {
-        // Get event type from categories in _embedded data
-        const eventCategories = event._embedded?.["wp:term"]?.[0] || []
-        return eventCategories.some((category) => category.slug === filters.type)
-      })
-    }
-
+  // Filter upcoming events and sort by date
+  useEffect(() => {
     // Helper to get event timestamp
     const getEventTimestamp = (event: WordPressEvent) => {
       if (event.acf?.date) {
@@ -113,41 +66,24 @@ export default function EventsPage() {
       return wpDate.getTime()
     }
 
-    // Status filter
-    if (filters.status !== "all") {
-      // Set pivot at the start of today (midnight)
-      const now = new Date()
-      const todayAtMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate())
-      const todayTimestamp = todayAtMidnight.getTime()
-      
-      filtered = filtered.filter((event) => {
-        const eventTimestamp = getEventTimestamp(event)
+    // Set pivot at the start of today (midnight)
+    const now = new Date()
+    const todayAtMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+    const todayTimestamp = todayAtMidnight.getTime()
 
-        if (filters.status === "upcoming") {
-          return eventTimestamp >= todayTimestamp
-        } else if (filters.status === "past") {
-          return eventTimestamp < todayTimestamp
-        }
-        return true
-      })
-    }
+    // Filter upcoming events only
+    const filtered = events.filter((event) => {
+      const eventTimestamp = getEventTimestamp(event)
+      return eventTimestamp >= todayTimestamp
+    })
 
     // Sort by date (nearest to farthest aka ascending)
     filtered.sort((a, b) => {
       return getEventTimestamp(a) - getEventTimestamp(b)
     })
-    
-    setFilteredEvents(filtered)
-  }, [events, filters])
 
-  useEffect(() => {
-    applyFilters()
-  }, [applyFilters])
-
-  const handleFiltersChange = useCallback((newFilters: typeof filters) => {
-    
-    setFilters(newFilters)
-  }, [])
+    setUpcomingEvents(filtered)
+  }, [events])
 
   if (isLoading) {
     return (
@@ -239,22 +175,8 @@ export default function EventsPage() {
         <p className="text-muted-foreground text-lg">{pageSubtitle}</p>
       </div>
 
-      {/* Filters */}
-      <div className="mb-8">
-        <EventFilters onFiltersChange={handleFiltersChange} />
-      </div>
-
-      {/* Results Summary */}
-      <div className="mb-6">
-        <p className="text-sm text-muted-foreground">
-          {filteredEvents.length} événement{filteredEvents.length > 1 ? "s" : ""} trouvé
-          {filteredEvents.length > 1 ? "s" : ""}
-          {filters.search || filters.type !== "all" || filters.status !== "all" ? ` sur ${events.length} total` : ""}
-        </p>
-      </div>
-
       {/* Timeline */}
-      <EventTimeline events={filteredEvents} />
+      <EventTimeline events={upcomingEvents} />
     </div>
   )
 }

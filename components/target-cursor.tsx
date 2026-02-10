@@ -12,7 +12,7 @@ export interface TargetCursorProps {
 }
 
 const TargetCursor: React.FC<TargetCursorProps> = ({
-  targetSelector = ".cursor-target",
+  targetSelector = "a[href], .cursor-target",
   spinDuration = 2,
   hideDefaultCursor = true,
 }) => {

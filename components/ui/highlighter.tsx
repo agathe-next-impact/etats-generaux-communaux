@@ -83,7 +83,7 @@ export function Highlighter({
   }, [])
 
   return (
-    <span ref={elementRef} className="relative inline-block bg-transparent z-0 cursor-target">
+    <span ref={elementRef} className="relative inline-block bg-transparent z-0">
       <span className="relative z-10">{children}</span>
     </span>
   )

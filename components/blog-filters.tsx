@@ -75,7 +75,7 @@ export function BlogFilters({ categories, totalPosts }: BlogFiltersProps) {
           placeholder="Rechercher dans les articles..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="pr-12 border-2 border-[#E73628] focus-visible:ring-[#E73628]"
+          className="pr-12 border border-[#E73628] focus-visible:ring-[#E73628]"
         />
         <Button
           type="submit"
@@ -117,7 +117,7 @@ export function BlogFilters({ categories, totalPosts }: BlogFiltersProps) {
           {/* Category Filter */}
           <div className="flex-1">
             <Select value={selectedCategory} onValueChange={handleCategoryChange}>
-              <SelectTrigger className="border-2 border-[#F4E63C] focus:ring-[#F4E63C]">
+              <SelectTrigger className="border border-[#F4E63C] focus:ring-[#F4E63C]">
                 <SelectValue placeholder="Toutes les catégories" />
               </SelectTrigger>
               <SelectContent>
@@ -134,7 +134,7 @@ export function BlogFilters({ categories, totalPosts }: BlogFiltersProps) {
           {/* Sort Filter */}
           <div className="flex-1">
             <Select value={sortBy} onValueChange={handleSortChange}>
-              <SelectTrigger className="border-2 border-[#4AAD33] focus:ring-[#4AAD33]">
+              <SelectTrigger className="border border-[#4AAD33] focus:ring-[#4AAD33]">
                 <SelectValue placeholder="Trier par" />
               </SelectTrigger>
               <SelectContent>
