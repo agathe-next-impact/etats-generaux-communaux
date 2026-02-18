@@ -2,11 +2,11 @@
 
 import Script from "next/script"
 
-const CLARITY_ID = process.env.NEXT_PUBLIC_CLARITY_ID
+interface ClarityProps {
+  clarityId: string
+}
 
-export function Clarity() {
-  if (!CLARITY_ID) return null
-
+export function Clarity({ clarityId }: ClarityProps) {
   return (
     <Script id="microsoft-clarity" strategy="afterInteractive">
       {`
@@ -14,7 +14,7 @@ export function Clarity() {
           c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
           t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
           y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-        })(window, document, "clarity", "script", "${CLARITY_ID}");
+        })(window, document, "clarity", "script", "${clarityId}");
       `}
     </Script>
   )

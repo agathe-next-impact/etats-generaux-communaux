@@ -98,8 +98,8 @@ export default function RootLayout({
   return (
     <html lang="fr" className={raleway.variable} suppressHydrationWarning>
       <body className="font-sans antialiased" suppressHydrationWarning>
-        <GoogleAnalytics />
-        <Clarity />
+        {process.env.GA_ID && <GoogleAnalytics gaId={process.env.GA_ID} />}
+        {process.env.CLARITY_ID && <Clarity clarityId={process.env.CLARITY_ID} />}
       {/* Exit Intent Popup */}
         <ExitIntentPopup
           title="Rejoignez notre newsletter !"
