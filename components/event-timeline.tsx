@@ -40,8 +40,7 @@ export function EventTimeline({ events }: EventTimelineProps) {
   if (events.length === 0) {
     return (
       <div className="text-center py-12">
-        <p className="text-muted-foreground text-lg">Aucun événement trouvé.</p>
-        <p className="text-sm text-muted-foreground mt-2">Essayez de modifier vos critères de recherche.</p>
+        <p className="text-muted-foreground text-lg">Aucun événement à venir.</p>
       </div>
     )
   }
