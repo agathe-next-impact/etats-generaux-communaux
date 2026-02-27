@@ -148,7 +148,10 @@ export function ResourceCard({ resource }: ResourceCardProps) {
                   index: number
                 ) => (
                   <Badge key={index} variant="secondary" className="text-xs">
-                    {decodeHtmlEntities(file.titre_du_document || `Fichier ${index + 1}`)}
+                    {(() => {
+                      const name = decodeHtmlEntities(file.titre_du_document || `Fichier ${index + 1}`)
+                      return name.length > 25 ? `${name.substring(0, 25)}…` : name
+                    })()}
                   </Badge>
                 )
               )}

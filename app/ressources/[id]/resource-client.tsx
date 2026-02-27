@@ -169,7 +169,7 @@ export default function ResourcePageClient({ resource }: ResourcePageClientProps
             <h2 className="text-xl font-black mb-4 uppercase font-[family-name:var(--font-raleway)]">
               Fichiers disponibles
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 gap-4">
               {resource.acf!.fichiers.map((file: any, index: number) => (
                 <Card
                   key={index}
