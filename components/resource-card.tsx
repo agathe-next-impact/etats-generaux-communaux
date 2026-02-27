@@ -25,12 +25,11 @@ const pictos = [
 export function ResourceCard({ resource }: ResourceCardProps) {
   const description = decodeHtmlEntities(resource.acf?.descriptif || "Aucune description disponible")
   const title = decodeHtmlEntities(resource.title.rendered)
-  const hasVideo = resource.acf?.video
+  const hasVideos = resource.acf?.videos && resource.acf.videos.length > 0
   const hasFiles = resource.acf?.fichiers && resource.acf.fichiers.length > 0
-  const firstFile = hasFiles && resource.acf ? resource.acf.fichiers[0] : null
 
   // Determine resource type based on available content
-  const resourceType = hasVideo ? "video" : hasFiles ? "document" : "resource"
+  const resourceType = hasVideos ? "video" : hasFiles ? "document" : "resource"
 
   const getResourceIcon = (type: string) => {
     switch (type) {
@@ -57,9 +56,9 @@ export function ResourceCard({ resource }: ResourceCardProps) {
   const handleAction = () => {
     if (typeof window === "undefined") return
 
-    if (hasVideo && resource.acf?.video) {
-      // Open video in new tab
-      window.open(resource.acf.video, "_blank")
+    if (hasVideos) {
+      // Navigate to resource detail page for videos
+      window.location.href = `/ressources/${resource.acf?.slug ?? resource.id}`
     } else if (hasFiles && resource.acf && resource.acf.fichiers) {
       resource.acf.fichiers.forEach((file: typeof resource.acf.fichiers[number], index: number) => {
         // Récupère l'URL publique du média WordPress (champ source_url ou url)
@@ -92,7 +91,7 @@ export function ResourceCard({ resource }: ResourceCardProps) {
   }
 
   const getActionLabel = () => {
-    if (hasVideo) return "Regarder"
+    if (hasVideos) return "Regarder"
     if (hasFiles) {
       const fileCount = resource.acf?.fichiers?.length ?? 0
       return fileCount === 1 ? "Télécharger" : `Télécharger (${fileCount})`
@@ -101,7 +100,7 @@ export function ResourceCard({ resource }: ResourceCardProps) {
   }
 
   const getActionIcon = () => {
-    if (hasVideo) return <Play className="h-4 w-4 mr-2" />
+    if (hasVideos) return <Play className="h-4 w-4 mr-2" />
     if (hasFiles) return <Download className="h-4 w-4 mr-2" />
     return <Eye className="h-4 w-4 mr-2" />
   }
@@ -121,12 +120,14 @@ export function ResourceCard({ resource }: ResourceCardProps) {
       <CardContent className="p-6 h-full flex flex-col">
         <div className="flex items-start gap-4 mb-4">
           <div className="flex-1 min-w-0">
-            <h3
-              className="font-black text-lg leading-tight transition-colors mb-2 uppercase"
-              style={{ fontFamily: "Raleway, sans-serif" }}
-            >
-              {decodeHtmlEntities(title)}
-            </h3>
+            <Link href={`/ressources/${resource.acf?.slug ?? resource.id}`}>
+              <h3
+                className="font-black text-lg leading-tight transition-colors mb-2 uppercase hover:text-[#E73628]"
+                style={{ fontFamily: "Raleway, sans-serif" }}
+              >
+                {decodeHtmlEntities(title)}
+              </h3>
+            </Link>
             <Badge variant="outline" className="text-xs">
               {resourceType.toUpperCase()}
             </Badge>
@@ -161,7 +162,7 @@ export function ResourceCard({ resource }: ResourceCardProps) {
         )}
 
         <div className="flex gap-2 mt-auto">
-          {hasVideo || hasFiles ? (
+          {hasVideos || hasFiles ? (
             <Button onClick={handleAction} size="sm" className="flex-1 cursor-target">
               {getActionIcon()}
               {getActionLabel()}

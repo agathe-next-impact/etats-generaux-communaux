@@ -19,11 +19,18 @@ export default function ResourcePageClient({ resource }: ResourcePageClientProps
     notFound()
   }
 
-  const hasVideo = resource.acf?.video
+  const videos = (resource.acf?.videos || [])
+    .map((v: { video: string }) => {
+      if (!v.video) return null
+      const match = v.video.match(/src=["']([^"']+)["']/)
+      return match ? match[1] : null
+    })
+    .filter(Boolean) as string[]
+  const hasVideos = videos.length > 0
   const hasFiles = resource.acf?.fichiers && resource.acf.fichiers.length > 0
   const description = resource.acf?.descriptif ? decodeHtmlEntities(resource.acf.descriptif) : undefined
   const title = decodeHtmlEntities(resource.title.rendered)
-  const resourceType = hasVideo ? "video" : hasFiles ? "document" : "resource"
+  const resourceType = hasVideos ? "video" : hasFiles ? "document" : "resource"
 
   const getResourceIcon = (type: string) => {
     switch (type) {
@@ -47,10 +54,8 @@ export default function ResourcePageClient({ resource }: ResourcePageClientProps
     }
   }
 
-  const handleVideoAction = () => {
-    if (hasVideo && resource.acf?.video) {
-      window.open(resource.acf.video, "_blank")
-    }
+  const handleVideoAction = (url: string) => {
+    window.open(url, "_blank")
   }
 
   const handleFileDownloads = () => {
@@ -139,24 +144,44 @@ export default function ResourcePageClient({ resource }: ResourcePageClientProps
           </Card>
         )}
 
+        {hasVideos && (
+          <div className="mb-8">
+            <h2 className="text-xl font-black mb-4 uppercase font-[family-name:var(--font-raleway)]">
+              Vidéos
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {videos.map((url, index) => (
+                <div key={index} className="aspect-video rounded-lg overflow-hidden border-2 border-[#E73628]">
+                  <iframe
+                    src={url}
+                    className="w-full h-full"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         {hasFiles && (
-          <Card className="mb-8 border-none">
-            <CardContent className="p-6">
-              <h2 className="text-xl font-black mb-4 uppercase font-[family-name:var(--font-raleway)]">
-                Fichiers disponibles
-              </h2>
-              <div className="space-y-4">
-                {resource.acf.fichiers.map((file, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center justify-between p-4 border-2 border-[#4AAD33] rounded-lg"
-                  >
-                    <div className="flex-1">
-                      <h3 className="font-black">
+          <div className="mb-8">
+            <h2 className="text-xl font-black mb-4 uppercase font-[family-name:var(--font-raleway)]">
+              Fichiers disponibles
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {resource.acf!.fichiers.map((file: any, index: number) => (
+                <Card
+                  key={index}
+                  className="border-2 border-[#4AAD33] hover:shadow-md transition-shadow"
+                >
+                  <CardContent className="p-4 flex items-center justify-between gap-4">
+                    <div className="flex-1 min-w-0">
+                      <h3 className="font-black truncate">
                         {decodeHtmlEntities(file.titre_du_document || `Fichier ${index + 1}`)}
                       </h3>
                       {file.descriptif_du_document && (
-                        <p className="text-sm text-muted-foreground mt-1">
+                        <p className="text-sm text-muted-foreground mt-1 line-clamp-2">
                           {decodeHtmlEntities(file.descriptif_du_document)}
                         </p>
                       )}
@@ -170,7 +195,7 @@ export default function ResourcePageClient({ resource }: ResourcePageClientProps
                       <Button
                         variant="outline"
                         size="sm"
-                        className="cursor-target hover:bg-[#4AAD33]/10 hover:border-[#4AAD33] transition-all duration-300 bg-transparent"
+                        className="cursor-target hover:bg-[#4AAD33]/10 hover:border-[#4AAD33] transition-all duration-300 bg-transparent shrink-0"
                         onClick={() => {
                           const link = document.createElement("a")
                           link.href = file.document.url
@@ -185,11 +210,11 @@ export default function ResourcePageClient({ resource }: ResourcePageClientProps
                         Télécharger
                       </Button>
                     )}
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
         )}
       </div>
     </div>
