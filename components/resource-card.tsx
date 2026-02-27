@@ -23,7 +23,7 @@ const pictos = [
 ]
 
 export function ResourceCard({ resource }: ResourceCardProps) {
-  const description = decodeHtmlEntities(resource.acf?.descriptif || "Aucune description disponible")
+  const description = decodeHtmlEntities(resource.acf?.descriptif || "")
   const title = decodeHtmlEntities(resource.title.rendered)
   const hasVideos = resource.acf?.videos && resource.acf.videos.length > 0
   const hasFiles = resource.acf?.fichiers && resource.acf.fichiers.length > 0
