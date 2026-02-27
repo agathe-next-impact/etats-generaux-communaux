@@ -23,9 +23,10 @@ export function useNavbar() {
 interface NavbarProps {
   children: React.ReactNode
   className?: string
+  showTopbar?: boolean
 }
 
-export function Navbar({ children, className }: NavbarProps) {
+export function Navbar({ children, className, showTopbar = false }: NavbarProps) {
   const [isScrolled, setIsScrolled] = React.useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false)
 
@@ -79,7 +80,7 @@ export function Navbar({ children, className }: NavbarProps) {
           width: isScrolled ? "95%" : "100%",
           maxWidth: isScrolled ? "1280px" : "100%",
           borderRadius: isScrolled ? "12px" : "0px",
-          marginTop: isScrolled ? "41px" : "44px",
+          marginTop: showTopbar ? (isScrolled ? "41px" : "44px") : "0px",
           marginLeft: "auto",
           marginRight: "auto",
           marginBottom: "0",

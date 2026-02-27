@@ -6,6 +6,7 @@ import { Topbar } from "@/components/topbar"
 import { Footer } from "@/components/footer"
 import { Suspense } from "react"
 import { ScrollToTop } from "@/components/scroll-to-top"
+import { getArchivePageTitles } from "@/lib/wordpress"
 import "./globals.css"
 import '@wordpress/block-library/build-style/style.css';
 import TargetCursor from "@/components/TargetCursorClient"
@@ -90,11 +91,14 @@ export const metadata: Metadata = {
   generator: "v0.app",
 }
 
-export default function RootLayout({ 
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const archiveOptions = await getArchivePageTitles();
+  const showTopbar = archiveOptions?.affichage_de_la_topbar === true;
+
   return (
     <html lang="fr" className={raleway.variable} suppressHydrationWarning>
       <body className="font-sans antialiased" suppressHydrationWarning>
@@ -108,14 +112,18 @@ export default function RootLayout({
           sensitivity={20}
           showOnce={true}
         />
+        {showTopbar && (
+          <Suspense fallback={null}>
+            <Topbar />
+          </Suspense>
+        )}
         <Suspense fallback={<div>Loading...</div>}>
-          {/*<Topbar />*/}
-          <Navigation />
+          <Navigation showTopbar={showTopbar} />
           <main className="min-h-screen">{children}</main>
           <Footer />
           <ScrollToTop />
         </Suspense>
-        <TargetCursor /> 
+        <TargetCursor />
       </body>
     </html>
   )

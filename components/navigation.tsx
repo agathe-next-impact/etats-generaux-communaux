@@ -58,12 +58,10 @@ function MobileMenuController() {
   return null
 }
 
-export function Navigation() {
-
-
+export function Navigation({ showTopbar = false }: { showTopbar?: boolean }) {
   return (
     <>
-      <Navbar className="bg-white border-b-2 border-[#E73628]">
+      <Navbar className="bg-white border-b-2 border-[#E73628]" showTopbar={showTopbar}>
         <MobileMenuController />
 
         <NavBody>

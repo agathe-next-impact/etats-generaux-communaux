@@ -400,6 +400,7 @@ export interface ArchivePageTitles {
     email_denvoi_des_inscriptions_a_la_newsletter?: string;
   };
   email?: string;
+  affichage_de_la_topbar?: boolean;
 }
 
 export interface HomePageData {
@@ -1284,7 +1285,7 @@ export async function getArchivePageTitles(): Promise<ArchivePageTitles | null> 
 
 
     const response = await fetch(customEndpoint, {
-      next: { revalidate: 3600 },
+      next: { revalidate: 60 },
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
