@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server"
 import { getArchivePageTitles } from "@/lib/wordpress"
 import nodemailer from "nodemailer"
+import { escapeHtml } from "@/lib/sanitize"
 
 export async function POST(request: Request) {
   try {
@@ -65,10 +66,10 @@ export async function POST(request: Request) {
           Nouvelle inscription à la newsletter
         </h2>
         <div style="margin: 20px 0;">
-          <p><strong>Nom:</strong> ${nom}</p>
-          <p><strong>Prénom:</strong> ${prenom}</p>
-          <p><strong>Email:</strong> <a href="mailto:${email}">${email}</a></p>
-          <p><strong>Téléphone:</strong> ${telephone || "Non fourni"}</p>
+          <p><strong>Nom:</strong> ${escapeHtml(nom)}</p>
+          <p><strong>Prénom:</strong> ${escapeHtml(prenom)}</p>
+          <p><strong>Email:</strong> <a href="mailto:${encodeURIComponent(email)}">${escapeHtml(email)}</a></p>
+          <p><strong>Téléphone:</strong> ${escapeHtml(telephone || "Non fourni")}</p>
         </div>
         <hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0;">
         <p style="color: #666; font-size: 12px;">
@@ -88,7 +89,7 @@ export async function POST(request: Request) {
           <h2 style="color: #333; border-bottom: 2px solid #6CB33F; padding-bottom: 10px;">
             Bienvenue dans notre newsletter !
           </h2>
-          <p>Bonjour ${prenom},</p>
+          <p>Bonjour ${escapeHtml(prenom)},</p>
           <p>Merci de vous être inscrit(e) à notre newsletter. Vous recevrez bientôt nos actualités et informations.</p>
           <p>Si vous n'êtes pas à l'origine de cette inscription, vous pouvez ignorer cet email.</p>
           <hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0;">

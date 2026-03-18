@@ -3,6 +3,7 @@ import { Card } from "@/components/ui/card";
 import { Highlighter } from "@/components/ui/highlighter";
 import type { HomePageACF } from "@/lib/wordpress";
 import { getPosts } from "@/lib/wordpress";
+import { sanitizeHtml } from "@/lib/sanitize";
 import React from "react";
 
 interface Props {
@@ -91,7 +92,7 @@ export async function ElectionsMunicipalesSection({ acfData }: Props) {
                   {acfData!.video!.includes("iframe") && (
                     <div
                       className="w-full h-full"
-                      dangerouslySetInnerHTML={{ __html: acfData!.video! }}
+                      dangerouslySetInnerHTML={{ __html: sanitizeHtml(acfData!.video!) }}
                     />)}
                 </div>
               

@@ -911,9 +911,10 @@ export async function getEventCategories(): Promise<WordPressTaxonomy[]> {
 
 export const getEventTypes = getEventCategories;
 
-// Utility function to strip HTML tags from content
+// Utility function to strip HTML tags from content and decode HTML entities
 export function stripHtml(html: string): string {
-  return html.replace(/<[^>]*>/g, "");
+  const stripped = html.replace(/<[^>]*>/g, "");
+  return decodeHtmlEntities(stripped);
 }
 
 // Utility function to format date
@@ -1391,10 +1392,17 @@ export function decodeHtmlEntities(text: string): string {
     .replace(/&gt;/g, ">")
     .replace(/&quot;/g, '"')
     .replace(/&#039;/g, "'")
-    .replace(/&#8217;/g, "")
-    .replace(/&#8216;/g, "")
-    .replace(/&#8220;/g, '"')
-    .replace(/&#8221;/g, '"')
+    .replace(/&rsquo;/g, "\u2019")
+    .replace(/&lsquo;/g, "\u2018")
+    .replace(/&rdquo;/g, "\u201D")
+    .replace(/&ldquo;/g, "\u201C")
+    .replace(/&mdash;/g, "\u2014")
+    .replace(/&ndash;/g, "\u2013")
+    .replace(/&hellip;/g, "\u2026")
+    .replace(/&#8217;/g, "\u2019")
+    .replace(/&#8216;/g, "\u2018")
+    .replace(/&#8220;/g, "\u201C")
+    .replace(/&#8221;/g, "\u201D")
     .replace(/&eacute;/g, "é")
     .replace(/&egrave;/g, "è")
     .replace(/&ecirc;/g, "ê")

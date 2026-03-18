@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { getEvents } from '@/lib/wordpress';
 import { ArrowRight } from 'lucide-react';
+import { sanitizeHtml } from '@/lib/sanitize';
 
 export async function Topbar() {
   const events = await getEvents();
@@ -57,7 +58,7 @@ export async function Topbar() {
             target={isExternal ? "_blank" : undefined}
             rel={isExternal ? "noopener noreferrer" : undefined}
             className="hover:underline font-semibold truncate md:max-w-[200px] sm:max-w-md max-w-[200px]"
-            dangerouslySetInnerHTML={{ __html: title.rendered }}
+            dangerouslySetInnerHTML={{ __html: sanitizeHtml(title.rendered) }}
           />
           {date && (
              <span className="opacity-90 inline">

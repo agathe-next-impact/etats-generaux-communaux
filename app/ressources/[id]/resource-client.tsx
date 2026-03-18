@@ -8,6 +8,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { ArrowLeft, Download, FileText, Video } from "lucide-react"
 import type { WordPressResource } from "@/lib/wordpress"
 import { decodeHtmlEntities } from "@/lib/wordpress"
+import { sanitizeHtml, validateUrl } from "@/lib/sanitize"
 import { Highlighter } from "@/components/ui/highlighter"
 
 interface ResourcePageClientProps {
@@ -23,7 +24,7 @@ export default function ResourcePageClient({ resource }: ResourcePageClientProps
     .map((v: { video: string }) => {
       if (!v.video) return null
       const match = v.video.match(/src=["']([^"']+)["']/)
-      return match ? match[1] : null
+      return match ? validateUrl(match[1]) : null
     })
     .filter(Boolean) as string[]
   const hasVideos = videos.length > 0
@@ -61,8 +62,8 @@ export default function ResourcePageClient({ resource }: ResourcePageClientProps
   const handleFileDownloads = () => {
     if (hasFiles && resource.acf?.fichiers) {
       resource.acf.fichiers.forEach((file, index) => {
-        const fileUrl = file.document?.url
-        if (fileUrl && fileUrl.trim()) {
+        const fileUrl = validateUrl(file.document?.url)
+        if (fileUrl) {
           setTimeout(() => {
             try {
               const link = document.createElement("a")
@@ -138,7 +139,7 @@ export default function ResourcePageClient({ resource }: ResourcePageClientProps
             <CardContent className="p-8">
               <div
                 className="prose prose-lg max-w-none article-content"
-                dangerouslySetInnerHTML={{ __html: resource.content.rendered }}
+                dangerouslySetInnerHTML={{ __html: sanitizeHtml(resource.content.rendered) }}
               />
             </CardContent>
           </Card>

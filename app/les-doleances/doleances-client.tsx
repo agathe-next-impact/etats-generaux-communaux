@@ -7,6 +7,7 @@ import { ArrowRight } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 import type { DoleancesPageACF } from "@/lib/wordpress"
+import { sanitizeHtml } from "@/lib/sanitize"
 import { BandeauSynthese } from "@/components/bandeau-synthese"
 
 interface DoleancesClientProps {
@@ -160,7 +161,7 @@ export function DoleancesClient({ acf }: DoleancesClientProps) {
                   iterations={1}
                   isView={true}
                 >
-                  <div dangerouslySetInnerHTML={{ __html: acf.chapeau }} />
+                  <div dangerouslySetInnerHTML={{ __html: sanitizeHtml(acf.chapeau) }} />
                 </Highlighter>
               </div>
             )}
@@ -216,7 +217,7 @@ export function DoleancesClient({ acf }: DoleancesClientProps) {
                   {axe.chapeau && (
                     <div
                       className="text-muted-foreground text-lg leading-relaxed prose prose-lg max-w-none"
-                      dangerouslySetInnerHTML={{ __html: axe.chapeau }}
+                      dangerouslySetInnerHTML={{ __html: sanitizeHtml(axe.chapeau) }}
                     />
                   )}
                 </div>
@@ -247,7 +248,7 @@ export function DoleancesClient({ acf }: DoleancesClientProps) {
                           {item.texte && (
                             <div
                               className="text-muted-foreground leading-relaxed prose prose-sm"
-                              dangerouslySetInnerHTML={{ __html: item.texte }}
+                              dangerouslySetInnerHTML={{ __html: sanitizeHtml(item.texte) }}
                             />
                           )}
                         </CardContent>
@@ -278,7 +279,7 @@ export function DoleancesClient({ acf }: DoleancesClientProps) {
                       {axe.encadre_comment_agir.contenu && (
                         <div
                           className="text-foreground leading-relaxed prose prose-lg max-w-none font-semibold"
-                          dangerouslySetInnerHTML={{ __html: axe.encadre_comment_agir.contenu }}
+                          dangerouslySetInnerHTML={{ __html: sanitizeHtml(axe.encadre_comment_agir.contenu) }}
                         />
                       )}
 

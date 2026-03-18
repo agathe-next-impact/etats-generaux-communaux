@@ -24,6 +24,7 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import Highlighter from "@/components/ui/highlighter"
 import { getAboutPageData, getHomePageData } from "@/lib/wordpress"
+import { sanitizeHtml } from "@/lib/sanitize"
 import { getArchivePageTitles } from "@/lib/wordpress"
 import { HorizontalTimeline } from "@/components/horizontal-timeline"
 import { VerticalTimeline } from "@/components/vertical-timeline"
@@ -180,7 +181,7 @@ export default async function AboutPage() {
                 <div
                   className="leading-relaxed prose prose-invert max-w-none"
                   dangerouslySetInnerHTML={{
-                    __html: acfHomepage.section_manifeste.texte.replace(/\$\{/g, "&#36;{").replace(/\}\}/g, "&#125;}"),
+                    __html: sanitizeHtml(acfHomepage.section_manifeste.texte),
                   }}
                 />
               )}

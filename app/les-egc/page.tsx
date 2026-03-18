@@ -25,6 +25,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { Users, MapPin, Calendar, FileText, Target, Heart } from "lucide-react"
 import { getPageBySlug } from "@/lib/wordpress"
+import { sanitizeHtml } from "@/lib/sanitize"
 import Highlighter from "@/components/ui/highlighter"
 import type { Metadata } from "next"
 
@@ -259,7 +260,7 @@ export default async function LesEGCPage() {
                 </Highlighter>
               </h2>
               <div className="space-y-4 text-lg text-muted-foreground leading-relaxed">
-                <div dangerouslySetInnerHTML={{ __html: acf.what_section?.content || "" }} />
+                <div dangerouslySetInnerHTML={{ __html: sanitizeHtml(acf.what_section?.content || "") }} />
               </div>
             </div>
             <div className="relative">
@@ -314,7 +315,7 @@ export default async function LesEGCPage() {
                 </Highlighter>
               </h2>
               <div className="space-y-4 text-lg text-muted-foreground leading-relaxed">
-                <div dangerouslySetInnerHTML={{ __html: acf.who_section?.content || "" }} />
+                <div dangerouslySetInnerHTML={{ __html: sanitizeHtml(acf.who_section?.content || "") }} />
               </div>
             </div>
           </div>
@@ -351,7 +352,7 @@ export default async function LesEGCPage() {
                     {acf.context_section?.election_title || "Élections municipales 2026"}
                   </h3>
                   <div className="text-muted-foreground leading-relaxed">
-                    <div dangerouslySetInnerHTML={{ __html: acf.context_section?.election_content || "" }} />
+                    <div dangerouslySetInnerHTML={{ __html: sanitizeHtml(acf.context_section?.election_content || "") }} />
                   </div>
                 </div>
               </div>
@@ -501,7 +502,7 @@ export default async function LesEGCPage() {
             <CardContent className="p-8">
               <div className="space-y-6">
                 <div className="text-lg text-muted-foreground leading-relaxed">
-                  <div dangerouslySetInnerHTML={{ __html: acf.doleances_section?.content || "" }} />
+                  <div dangerouslySetInnerHTML={{ __html: sanitizeHtml(acf.doleances_section?.content || "") }} />
                 </div>
                 <div className="p-6 rounded-lg" style={{ backgroundColor: "#F4E63C10" }}>
                   <p className="text-foreground font-medium">{acf.doleances_section?.highlight || ""}</p>
@@ -669,7 +670,7 @@ export default async function LesEGCPage() {
             <CardContent className="p-8">
               <div className="space-y-6">
                 <div className="text-lg text-muted-foreground leading-relaxed">
-                  <div dangerouslySetInnerHTML={{ __html: acf.link_egc_acc_section?.content || "" }} />
+                  <div dangerouslySetInnerHTML={{ __html: sanitizeHtml(acf.link_egc_acc_section?.content || "") }} />
                 </div>
                 <div className="p-6 rounded-lg" style={{ backgroundColor: "#E7362810" }}>
                   <p className="text-foreground font-medium text-center">{acf.link_egc_acc_section?.highlight || ""}</p>

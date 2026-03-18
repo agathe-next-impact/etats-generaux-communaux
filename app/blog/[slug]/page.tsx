@@ -21,6 +21,7 @@ interface PageProps {
 import { notFound } from "next/navigation"
 import Link from "next/link"
 import { getPost, getPosts, formatDate, stripHtml } from "@/lib/wordpress"
+import { sanitizeHtml } from "@/lib/sanitize"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -158,7 +159,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                 className="text-lg text-muted-foreground leading-relaxed border-l-4 pl-6"
                 style={{ borderColor: "#E73628" }}
               >
-                <div dangerouslySetInnerHTML={{ __html: post.excerpt.rendered }} />
+                <div dangerouslySetInnerHTML={{ __html: sanitizeHtml(post.excerpt.rendered) }} />
               </div>
             )}
           </div>
@@ -168,7 +169,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
       {/* Article Content */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
         <div className="wordpress-content">
-          <div dangerouslySetInnerHTML={{ __html: post.content.rendered }} />
+          <div dangerouslySetInnerHTML={{ __html: sanitizeHtml(post.content.rendered) }} />
         </div>
 
         {/* Social Share Buttons at the end of the article content */}

@@ -1,5 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server"
 import { Resend } from "resend"
+import { escapeHtml } from "@/lib/sanitize"
 
 export async function POST(request: NextRequest) {
   try {
@@ -67,13 +68,13 @@ export async function POST(request: NextRequest) {
               Nouveau message de contact
             </h2>
             <div style="margin: 20px 0;">
-              <p><strong>Nom:</strong> ${nom}</p>
-              <p><strong>Email:</strong> <a href="mailto:${email}">${email}</a></p>
-              <p><strong>Sujet:</strong> ${sujet}</p>
+              <p><strong>Nom:</strong> ${escapeHtml(nom)}</p>
+              <p><strong>Email:</strong> <a href="mailto:${encodeURIComponent(email)}">${escapeHtml(email)}</a></p>
+              <p><strong>Sujet:</strong> ${escapeHtml(sujet)}</p>
             </div>
             <div style="background-color: #f5f5f5; padding: 15px; border-radius: 5px; margin: 20px 0;">
               <p style="margin: 0;"><strong>Message:</strong></p>
-              <p style="margin: 10px 0 0 0; white-space: pre-wrap;">${message}</p>
+              <p style="margin: 10px 0 0 0; white-space: pre-wrap;">${escapeHtml(message)}</p>
             </div>
             <hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0;">
             <p style="color: #666; font-size: 12px;">

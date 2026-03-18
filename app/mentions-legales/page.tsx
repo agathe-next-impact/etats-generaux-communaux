@@ -9,6 +9,7 @@ interface PageProps {
 }
 
 import { getLegalNoticePageData } from "@/lib/wordpress"
+import { sanitizeHtml } from "@/lib/sanitize"
 
 
 export default async function LegalNoticePage() {
@@ -21,7 +22,7 @@ export default async function LegalNoticePage() {
             <div className="container mx-auto px-4">
                 <h1 className="text-4xl font-bold mb-8">{title}</h1>
                 <div className="prose max-w-none">
-                    {acf && <div dangerouslySetInnerHTML={{ __html: acf }} />}
+                    {acf && <div dangerouslySetInnerHTML={{ __html: sanitizeHtml(acf) }} />}
                 </div>
             </div>
         </div>

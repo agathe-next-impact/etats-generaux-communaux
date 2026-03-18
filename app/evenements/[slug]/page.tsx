@@ -22,6 +22,7 @@ import { notFound } from "next/navigation"
 import Image from "next/image"
 import Link from "next/link"
 import { getEvent, getEvents, stripHtml } from "@/lib/wordpress"
+import { sanitizeHtml } from "@/lib/sanitize"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -224,7 +225,7 @@ export default async function EventPage({ params }: EventPageProps) {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         {eventContent && (
           <div className="prose prose-lg max-w-none article-content prose-headings:text-foreground prose-p:text-foreground prose-strong:text-foreground prose-a:text-primary">
-            <div dangerouslySetInnerHTML={{ __html: eventContent }} className="wordpress-content" />
+            <div dangerouslySetInnerHTML={{ __html: sanitizeHtml(eventContent) }} className="wordpress-content" />
           </div>
         )}
       </div>
