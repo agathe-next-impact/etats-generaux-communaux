@@ -1,4 +1,4 @@
-import DOMPurify from "isomorphic-dompurify"
+import sanitize from "sanitize-html"
 
 /**
  * Sanitize HTML content from WordPress to prevent XSS attacks.
@@ -6,10 +6,19 @@ import DOMPurify from "isomorphic-dompurify"
  */
 export function sanitizeHtml(html: string): string {
   if (!html) return ""
-  return DOMPurify.sanitize(html, {
-    ADD_TAGS: ["iframe"],
-    ADD_ATTR: ["allow", "allowfullscreen", "frameborder", "scrolling", "target"],
-    ALLOWED_URI_REGEXP: /^(?:(?:https?|mailto|tel):|[^a-z]|[a-z+.-]+(?:[^a-z+.\-:]|$))/i,
+  return sanitize(html, {
+    allowedTags: [
+      ...sanitize.defaults.allowedTags,
+      "img", "iframe", "h1", "h2", "figure", "figcaption",
+    ],
+    allowedAttributes: {
+      ...sanitize.defaults.allowedAttributes,
+      iframe: ["src", "allow", "allowfullscreen", "frameborder", "scrolling", "width", "height"],
+      img: ["src", "srcset", "alt", "title", "width", "height", "loading"],
+      a: ["href", "name", "target", "rel"],
+      "*": ["class", "id", "style"],
+    },
+    allowedSchemes: ["http", "https", "mailto", "tel"],
   })
 }
 
