@@ -2,7 +2,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { type WordPressPost, stripHtml, formatDate } from "@/lib/wordpress"
+import { type WordPressPost, stripHtml, formatDate, decodeHtmlEntities } from "@/lib/wordpress"
 
 interface ArticleCardProps {
   post: WordPressPost
@@ -41,7 +41,7 @@ export function ArticleCard({ post, featured = false }: ArticleCardProps) {
           {featuredImage ? (
             <Image
               src={featuredImage.source_url || "/placeholder.svg"}
-              alt={featuredImage.alt_text || post.title.rendered}
+              alt={featuredImage.alt_text || decodeHtmlEntities(post.title.rendered)}
               fill
               className="object-cover group-hover:scale-105 transition-transform duration-300"
             />
@@ -80,7 +80,7 @@ export function ArticleCard({ post, featured = false }: ArticleCardProps) {
               className={`font-black leading-tight group-hover:text-[#E73628] transition-colors uppercase ${featured ? "text-2xl md:text-3xl" : "text-lg"}`}
               style={{ fontFamily: "Raleway, sans-serif" }}
             >
-              {post.title.rendered}
+              {decodeHtmlEntities(post.title.rendered)}
             </h3>
 
             <p className={`text-muted-foreground leading-relaxed ${featured ? "text-base md:text-lg" : "text-sm"}`}>

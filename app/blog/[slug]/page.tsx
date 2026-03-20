@@ -20,7 +20,7 @@ interface PageProps {
 
 import { notFound } from "next/navigation"
 import Link from "next/link"
-import { getPost, getPosts, formatDate, stripHtml } from "@/lib/wordpress"
+import { getPost, getPosts, formatDate, stripHtml, decodeHtmlEntities } from "@/lib/wordpress"
 import { sanitizeHtml } from "@/lib/sanitize"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -126,7 +126,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                 iterations={1}
                 isView={true}
               >
-                {post.title.rendered}
+                {decodeHtmlEntities(post.title.rendered)}
               </Highlighter>
             </h1>
 
@@ -148,7 +148,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
             <div className="pt-4 border-t border-border">
               <SocialShare
                 url={`/blog/${params.slug}`}
-                title={post.title.rendered}
+                title={decodeHtmlEntities(post.title.rendered)}
                 description={stripHtml(post.excerpt.rendered).substring(0, 160)}
               />
             </div>
@@ -177,7 +177,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
           <p className="text-sm text-muted-foreground mb-4">Cet article vous a plu ? Partagez-le !</p>
           <SocialShare
             url={`/blog/${params.slug}`}
-            title={post.title.rendered}
+            title={decodeHtmlEntities(post.title.rendered)}
             description={stripHtml(post.excerpt.rendered).substring(0, 160)}
           />
         </div>
@@ -240,11 +240,11 @@ export async function generateMetadata({ params }: ArticlePageProps) {
   const author = post._embedded?.author?.[0]
 
   return {
-    title: `${post.title.rendered} | Magazine Collectif`,
+    title: `${decodeHtmlEntities(post.title.rendered)} | Magazine Collectif`,
     description,
     authors: author ? [{ name: author.name }] : undefined,
     openGraph: {
-      title: post.title.rendered,
+      title: decodeHtmlEntities(post.title.rendered),
       description,
       type: "article",
       publishedTime: post.date,
@@ -256,14 +256,14 @@ export async function generateMetadata({ params }: ArticlePageProps) {
               url: featuredImage.source_url,
               width: featuredImage.media_details?.width,
               height: featuredImage.media_details?.height,
-              alt: featuredImage.alt_text || post.title.rendered,
+              alt: featuredImage.alt_text || decodeHtmlEntities(post.title.rendered),
             },
           ]
         : undefined,
     },
     twitter: {
       card: "summary_large_image",
-      title: post.title.rendered,
+      title: decodeHtmlEntities(post.title.rendered),
       description,
       images: featuredImage ? [featuredImage.source_url] : undefined,
     },
