@@ -1,5 +1,4 @@
 import { ArticlesCarousel } from "./articles-carousel";
-import { Card } from "@/components/ui/card";
 import { Highlighter } from "@/components/ui/highlighter";
 import type { HomePageACF } from "@/lib/wordpress";
 import { getPosts } from "@/lib/wordpress";
@@ -33,18 +32,42 @@ export async function ElectionsMunicipalesSection({ acfData }: Props) {
     order: "desc",
   });
   const hasVideo = acfData?.video;
+  const hasWebinaire = acfData?.video_webinaire;
   const hasArticles = posts && posts.length > 0;
-  if (!hasVideo && !hasArticles) return null;
-
-  console.warn('[ElectionsMunicipalesSection] acfData.video:', acfData?.video);
+  if (!hasVideo && !hasWebinaire && !hasArticles) return null;
 
   return (
     <section className="py-16 lg:py-24 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Colonne gauche - Diaporama articles */}
-        {acfData?.titre_actus && (
-          <div>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+          {/* Colonne 1 (4/12) - Dernière actualité */}
+          <div className="lg:col-span-4">
+            {acfData?.titre_actus && (
+              <h2 className="text-2xl md:text-3xl uppercase text-foreground mb-2">
+                <Highlighter
+                  action="underline"
+                  color="#E73628"
+                  strokeWidth={3}
+                  animationDuration={600}
+                  iterations={1}
+                  isView={true}
+                >
+                  {acfData.titre_actus}
+                </Highlighter>
+              </h2>
+            )}
+            {acfData?.soustitre_actus && (
+              <p className="text-muted-foreground mb-4">
+                {acfData.soustitre_actus}
+              </p>
+            )}
+            {hasArticles && <ArticlesCarousel posts={posts} />}
+          </div>
+
+          {/* Colonnes 2+3 (8/12) - Vidéos avec titre commun */}
+          {(hasVideo || hasWebinaire) && (
+            <div className="lg:col-span-8">
+              {acfData?.titre_video && (
                 <h2 className="text-2xl md:text-3xl uppercase text-foreground mb-2">
                   <Highlighter
                     action="underline"
@@ -54,52 +77,46 @@ export async function ElectionsMunicipalesSection({ acfData }: Props) {
                     iterations={1}
                     isView={true}
                   >
-                    {acfData.titre_actus}
+                    {acfData.titre_video}
                   </Highlighter>
                 </h2>
-              {acfData?.soustitre_actus && (
+              )}
+              {acfData?.soustitre_video && (
                 <p className="text-muted-foreground mb-4">
-                  {acfData.soustitre_actus}
+                  {acfData.soustitre_video}
                 </p>
               )}
-            {hasArticles && <ArticlesCarousel posts={posts} />}</div>
-              )}
-          {/* Colonne droite - Vidéo */}
-          
-        {hasVideo &&  (
-          <div>
-            <div className="mb-6 space-y-2">
-                    {acfData.titre_video && (
-                        <h2 className="text-2xl md:text-3xl uppercase text-foreground">
-                        <Highlighter
-                            action="underline"
-                            color="#E73628"
-                            strokeWidth={3}
-                            animationDuration={600}
-                            iterations={1}
-                            isView={true}
-                        >
-                            {acfData.titre_video}
-                        </Highlighter>
-                        </h2>
-                    )}
-                    {acfData.soustitre_video && (
-                        <p className="text-muted-foreground">
-                        {acfData.soustitre_video}
-                        </p>
-                    )}
-                <div className="relative w-full aspect-video mt-4">
-                  {acfData!.video!.includes("iframe") && (
-                    <div
-                      className="w-full h-full"
-                      dangerouslySetInnerHTML={{ __html: sanitizeHtml(acfData!.video!) }}
-                    />)}
-                </div>
-              
+              <div className="grid grid-cols-1 lg:grid-cols-8 gap-6">
+                {/* Short (2/8 = 2/12 du total) */}
+                {hasVideo && (
+                  <div className="lg:col-span-2">
+                    <div className="relative w-full aspect-[9/16] rounded-2xl shadow-lg overflow-hidden">
+                      {acfData!.video!.includes("iframe") && (
+                        <div
+                          className="w-full h-full [&_iframe]:w-full [&_iframe]:h-full"
+                          dangerouslySetInnerHTML={{ __html: sanitizeHtml(acfData!.video!) }}
+                        />
+                      )}
+                    </div>
+                  </div>
+                )}
 
+                {/* Webinaire (6/8 = 6/12 du total) */}
+                {hasWebinaire && (
+                  <div className="lg:col-span-6">
+                    <div className="relative w-full aspect-video rounded-2xl shadow-lg overflow-hidden">
+                      {acfData!.video_webinaire!.includes("iframe") && (
+                        <div
+                          className="w-full h-full [&_iframe]:w-full [&_iframe]:h-full"
+                          dangerouslySetInnerHTML={{ __html: sanitizeHtml(acfData!.video_webinaire!) }}
+                        />
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
-        )}
+          )}
         </div>
       </div>
     </section>

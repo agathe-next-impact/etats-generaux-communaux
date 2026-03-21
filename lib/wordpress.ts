@@ -151,6 +151,7 @@ export interface WordPressTaxonomy {
 export interface HomePageACF {
   section_municipales?: {
     video?: string;
+    video_webinaire?: string;
     titre_actus?: string;
     soustitre_actus?: string;
     titre_video?: string;
