@@ -8,7 +8,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { Badge } from "@/components/ui/badge"
 import type { WordPressPost } from "@/lib/wordpress"
-import { formatDate, stripHtml } from "@/lib/wordpress"
+import { formatDate, stripHtml, decodeHtmlEntities } from "@/lib/wordpress"
 
 interface ArticlesCarouselProps {
   posts: WordPressPost[]
@@ -39,7 +39,7 @@ export function ArticlesCarousel({ posts }: ArticlesCarouselProps) {
             {currentPost._embedded?.["wp:featuredmedia"]?.[0] ? (
               <Image
                 src={currentPost._embedded["wp:featuredmedia"][0].source_url || "/placeholder.svg"}
-                alt={currentPost._embedded["wp:featuredmedia"][0].alt_text || currentPost.title.rendered}
+                alt={currentPost._embedded["wp:featuredmedia"][0].alt_text || decodeHtmlEntities(currentPost.title.rendered)}
                 fill
                 className="object-cover group-hover:scale-105 transition-transform duration-300"
               />
@@ -74,7 +74,7 @@ export function ArticlesCarousel({ posts }: ArticlesCarouselProps) {
               </div>
 
               <h3 className="text-xl font-bold leading-tight group-hover:text-[#E73628] transition-colors line-clamp-2">
-                {currentPost.title.rendered}
+                {decodeHtmlEntities(currentPost.title.rendered)}
               </h3>
 
               <p className="text-sm text-muted-foreground leading-relaxed line-clamp-3">

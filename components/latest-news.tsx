@@ -4,7 +4,7 @@ import { ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import type { WordPressPost } from "@/lib/wordpress"
-import { formatDate, stripHtml } from "@/lib/wordpress"
+import { formatDate, stripHtml, decodeHtmlEntities } from "@/lib/wordpress"
 
 interface LatestNewsProps {
   posts: WordPressPost[]
@@ -47,7 +47,7 @@ export function LatestNews({ posts }: LatestNewsProps) {
                     <div className="relative h-48 w-full overflow-hidden">
                       <Image
                         src={featuredImage || "/placeholder.svg"}
-                        alt={post.title.rendered}
+                        alt={decodeHtmlEntities(post.title.rendered)}
                         fill
                         className="object-cover transition-transform duration-300 group-hover:scale-105"
                       />
@@ -64,7 +64,7 @@ export function LatestNews({ posts }: LatestNewsProps) {
                       )}
                     </div>
                     <h3 className="text-xl font-extrabold text-foreground mb-3 line-clamp-2 group-hover:text-[#E73628] transition-colors uppercase">
-                      {post.title.rendered}
+                      {decodeHtmlEntities(post.title.rendered)}
                     </h3>
                     <p className="text-muted-foreground line-clamp-3 leading-relaxed font-medium">{excerpt}</p>
                     <div className="mt-4 flex items-center text-[#E73628] font-bold text-sm group-hover:gap-2 transition-all">
