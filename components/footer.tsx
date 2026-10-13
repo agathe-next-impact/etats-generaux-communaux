@@ -79,6 +79,9 @@ export function Footer() {
               <Link href="https://lesdoleances.fr" className="block text-sm hover:text-[#E73628] transition-colors">
                 Les Doléances
               </Link>
+              <Link href="https://www.localos.fr/" className="block text-sm hover:text-[#E73628] transition-colors">
+                Les Localos
+              </Link>
             </div>
             </div>
           </div>
