@@ -149,6 +149,24 @@ export interface WordPressTaxonomy {
 }
 
 export interface HomePageACF {
+  section_videos?: {
+    titre?: string;
+    "sous-titre"?: string;
+    cta?: {
+      libelle?: string;
+      lien?: {
+        url: string;
+        title: string;
+        target: string;
+      };
+    };
+    videos?: Array<{
+      titre?: string;
+      /** HTML oEmbed (iframe) renvoyé par ACF, ou URL YouTube/Vimeo */
+      video?: string;
+      format?: "paysage" | "portrait";
+    }>;
+  };
   section_municipales?: {
     video?: string;
     video_webinaire?: string;

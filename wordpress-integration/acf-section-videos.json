@@ -1,0 +1,116 @@
+[
+  {
+    "key": "group_egc_section_videos",
+    "title": "Accueil - Section vidéos (sous le hero)",
+    "fields": [
+      {
+        "key": "field_egc_section_videos",
+        "label": "Section vidéos",
+        "name": "section_videos",
+        "type": "group",
+        "instructions": "Grille de vidéos affichée juste sous le hero de la page d'accueil. La section est masquée si aucune vidéo n'est renseignée.",
+        "layout": "block",
+        "sub_fields": [
+          {
+            "key": "field_egc_section_videos_titre",
+            "label": "Titre",
+            "name": "titre",
+            "type": "text",
+            "default_value": "Nos vidéos"
+          },
+          {
+            "key": "field_egc_section_videos_sous_titre",
+            "label": "Sous-titre",
+            "name": "sous-titre",
+            "type": "text"
+          },
+          {
+            "key": "field_egc_section_videos_cta",
+            "label": "CTA",
+            "name": "cta",
+            "type": "group",
+            "layout": "table",
+            "sub_fields": [
+              {
+                "key": "field_egc_section_videos_cta_libelle",
+                "label": "Libellé",
+                "name": "libelle",
+                "type": "text",
+                "instructions": "Si vide, le titre du lien est utilisé."
+              },
+              {
+                "key": "field_egc_section_videos_cta_lien",
+                "label": "Lien",
+                "name": "lien",
+                "type": "link",
+                "return_format": "array"
+              }
+            ]
+          },
+          {
+            "key": "field_egc_section_videos_videos",
+            "label": "Vidéos",
+            "name": "videos",
+            "type": "repeater",
+            "layout": "block",
+            "button_label": "Ajouter une vidéo",
+            "max": 6,
+            "sub_fields": [
+              {
+                "key": "field_egc_section_videos_item_titre",
+                "label": "Titre de la vidéo",
+                "name": "titre",
+                "type": "text",
+                "instructions": "Affiché sous la vidéo (optionnel)."
+              },
+              {
+                "key": "field_egc_section_videos_item_video",
+                "label": "Vidéo",
+                "name": "video",
+                "type": "oembed",
+                "required": 1,
+                "instructions": "Collez l'URL YouTube, Vimeo, etc.",
+                "width": "",
+                "height": ""
+              },
+              {
+                "key": "field_egc_section_videos_item_format",
+                "label": "Format",
+                "name": "format",
+                "type": "select",
+                "choices": {
+                  "paysage": "Paysage (16/9)",
+                  "portrait": "Portrait (9/16, short)"
+                },
+                "default_value": "paysage",
+                "return_format": "value"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "location": [
+      [
+        {
+          "param": "page_type",
+          "operator": "==",
+          "value": "front_page"
+        }
+      ],
+      [
+        {
+          "param": "page",
+          "operator": "==",
+          "value": "771"
+        }
+      ]
+    ],
+    "menu_order": 1,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "active": true,
+    "show_in_rest": 1
+  }
+]

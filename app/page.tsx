@@ -35,6 +35,7 @@ import { VerticalTimeline } from "@/components/vertical-timeline"
 import { HeroSection } from "@/components/hero-section"
 import { ElectionsMunicipalesSection } from "@/components/elections-municipales-section"
 import RessourcesBannerHomepage from "@/components/ressources-banner-homepage"
+import { VideosGridSection } from "@/components/videos-grid-section"
 
 async function UpcomingEvents() {
   const events = await getEvents()
@@ -240,6 +241,8 @@ export default async function HomePage() {
     <div className="min-h-screen pt-[150px]">
       {acf?.section_hero && <HeroSection acf={acf.section_hero} />}
 
+      {/* Grille de vidéos (champs ACF section_videos) sous le hero */}
+      {acf?.section_videos && <VideosGridSection acfData={acf.section_videos} />}
 
       {/* Ressources et Kits Banner Section */}
       <RessourcesBannerHomepage />
