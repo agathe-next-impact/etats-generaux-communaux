@@ -706,7 +706,7 @@ export default async function LesEGCPage() {
             <CardContent className="p-8">
               <div className="space-y-6">
                 <div className="text-lg text-muted-foreground leading-relaxed">
-                  <div dangerouslySetInnerHTML={{ __html: acf.help_section?.content || "" }} />
+                  <div dangerouslySetInnerHTML={{ __html: sanitizeHtml(acf.help_section?.content || "") }} />
                 </div>
 
                 <div className="bg-background p-6 rounded-lg border">

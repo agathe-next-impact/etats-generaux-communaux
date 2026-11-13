@@ -2,15 +2,34 @@ import { NextResponse } from "next/server"
 import { getArchivePageTitles } from "@/lib/wordpress"
 import nodemailer from "nodemailer"
 import { escapeHtml } from "@/lib/sanitize"
+import { EMAIL_REGEX, getClientIp, isHoneypotTriggered, isRateLimited, isValidText } from "@/lib/form-guard"
 
 export async function POST(request: Request) {
   try {
     const body = await request.json()
+
+    // Robot détecté : on répond OK sans rien envoyer
+    if (isHoneypotTriggered(body)) {
+      return NextResponse.json({ message: "Inscription réussie ! Vous recevrez bientôt un email de confirmation." })
+    }
+
+    if (isRateLimited(`newsletter:${getClientIp(request)}`, 3)) {
+      return NextResponse.json({ message: "Trop de tentatives. Merci de réessayer plus tard." }, { status: 429 })
+    }
+
     const { nom, prenom, email, telephone, accepteConditions } = body
 
     // Validation
-    if (!nom || !prenom || !email) {
+    if (!isValidText(nom, 100) || !isValidText(prenom, 100) || !isValidText(email, 254)) {
       return NextResponse.json({ message: "Nom, prénom et email sont requis" }, { status: 400 })
+    }
+
+    if (!EMAIL_REGEX.test(email)) {
+      return NextResponse.json({ message: "Format d'email invalide" }, { status: 400 })
+    }
+
+    if (telephone !== undefined && telephone !== "" && !isValidText(telephone, 30)) {
+      return NextResponse.json({ message: "Numéro de téléphone invalide" }, { status: 400 })
     }
 
     if (!accepteConditions) {
@@ -41,11 +60,14 @@ export async function POST(request: Request) {
 
     // Check if SMTP is configured
     if (!smtpHost || !smtpUser || !smtpPass) {
-      console.error("SMTP not configured. Newsletter subscription logged but not sent via email.")
-      return NextResponse.json({
-        message: "Inscription enregistrée ! Les données ont été transmises.",
-        note: "Pour recevoir les inscriptions par email, configurez les variables d'environnement SMTP.",
-      })
+      console.error("[Newsletter] SMTP non configuré : inscription non transmise.")
+      if (process.env.NODE_ENV !== "production") {
+        return NextResponse.json({ message: "Inscription simulée (mode développement, SMTP non configuré)." })
+      }
+      return NextResponse.json(
+        { message: "Le service d'inscription est indisponible. Veuillez réessayer plus tard." },
+        { status: 503 },
+      )
     }
 
     // Create transporter
@@ -101,56 +123,39 @@ export async function POST(request: Request) {
     `
 
     try {
-      console.log("[Newsletter] Attempting to send email...")
-      console.log("[Newsletter] SMTP Host:", smtpHost)
-      console.log("[Newsletter] SMTP Port:", smtpPort)
-      console.log("[Newsletter] SMTP User:", smtpUser)
-      console.log("[Newsletter] From:", smtpFrom)
-      console.log("[Newsletter] To Admin:", recipientEmail)
-      console.log("[Newsletter] To Subscriber:", email)
-
       // Verify SMTP connection first
       await transporter.verify()
-      console.log("[Newsletter] SMTP connection verified successfully")
 
       // Send email to admin
-      const adminResult = await transporter.sendMail({
+      await transporter.sendMail({
         from: smtpFrom,
         to: recipientEmail,
         subject: "Nouvelle inscription à la newsletter",
         html: adminEmailHtml,
       })
-      console.log("[Newsletter] Admin email sent:", adminResult.messageId)
 
       // Send confirmation email to subscriber
-      const subscriberResult = await transporter.sendMail({
+      await transporter.sendMail({
         from: smtpFrom,
         to: email,
         subject: "Confirmation d'inscription à la newsletter",
         html: subscriberEmailHtml,
       })
-      console.log("[Newsletter] Subscriber email sent:", subscriberResult.messageId)
 
       return NextResponse.json({
         message: "Inscription réussie ! Vous recevrez bientôt un email de confirmation.",
       })
     } catch (emailError) {
-      console.error("Error sending email:", emailError)
+      console.error("[Newsletter] Error sending email:", emailError instanceof Error ? emailError.message : emailError)
       return NextResponse.json(
-        {
-          message: "Erreur lors de l'envoi de l'email. Veuillez vérifier la configuration SMTP.",
-          error: emailError instanceof Error ? emailError.message : "Unknown error",
-        },
+        { message: "Erreur lors de l'inscription. Veuillez réessayer plus tard." },
         { status: 500 },
       )
     }
   } catch (error) {
     console.error("Error processing newsletter subscription:", error)
     return NextResponse.json(
-      {
-        message: "Erreur lors du traitement de l'inscription",
-        error: error instanceof Error ? error.message : "Unknown error",
-      },
+      { message: "Erreur lors du traitement de l'inscription" },
       { status: 500 },
     )
   }

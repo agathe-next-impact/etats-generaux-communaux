@@ -38,8 +38,9 @@ export function NewsletterForm() {
     }))
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    const website = new FormData(e.currentTarget).get("website") || ""
 
     if (!formData.accepteConditions) {
       setSubmitStatus("error")
@@ -57,7 +58,7 @@ export function NewsletterForm() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({ ...formData, website }),
       })
 
       if (!response.ok) {
@@ -98,6 +99,11 @@ export function NewsletterForm() {
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Honeypot anti-spam : invisible pour les humains */}
+          <div aria-hidden="true" className="absolute -left-[9999px] w-px h-px overflow-hidden">
+            <label htmlFor="website">Ne pas remplir</label>
+            <input id="website" name="website" type="text" tabIndex={-1} autoComplete="off" defaultValue="" />
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-2">
               <Label htmlFor="nom">Nom *</Label>

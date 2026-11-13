@@ -12,11 +12,7 @@ import { Highlighter } from "@/components/ui/highlighter"
 import { Loader2, CheckCircle2, AlertCircle } from "lucide-react"
 import Image from "next/image"
 
-interface ParticiperFormProps {
-  emailDestination: string
-}
-
-export function ParticiperForm({ emailDestination }: ParticiperFormProps) {
+export function ParticiperForm() {
   const [formData, setFormData] = useState({
     nom: "",
     email: "",
@@ -34,8 +30,9 @@ export function ParticiperForm({ emailDestination }: ParticiperFormProps) {
     }))
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    const website = new FormData(e.currentTarget).get("website") || ""
     setIsSubmitting(true)
     setSubmitStatus("idle")
     setErrorMessage("")
@@ -48,7 +45,7 @@ export function ParticiperForm({ emailDestination }: ParticiperFormProps) {
         },
         body: JSON.stringify({
           ...formData,
-          emailDestination,
+          website,
         }),
       })
 
@@ -93,6 +90,11 @@ export function ParticiperForm({ emailDestination }: ParticiperFormProps) {
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Honeypot anti-spam : invisible pour les humains */}
+          <div aria-hidden="true" className="absolute -left-[9999px] w-px h-px overflow-hidden">
+            <label htmlFor="website">Ne pas remplir</label>
+            <input id="website" name="website" type="text" tabIndex={-1} autoComplete="off" defaultValue="" />
+          </div>
           <div className="space-y-2">
             <Label htmlFor="nom">Nom complet *</Label>
             <Input

@@ -83,8 +83,9 @@ export function ExitIntentPopup({
     }
   }, [handleMouseMove])
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    const website = new FormData(e.currentTarget).get("website") || ""
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     if (!formData.email || !emailRegex.test(formData.email)) {
@@ -109,7 +110,7 @@ export function ExitIntentPopup({
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({ ...formData, website }),
       })
 
       if (!response.ok) {
@@ -174,6 +175,11 @@ export function ExitIntentPopup({
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-4">
+          {/* Honeypot anti-spam : invisible pour les humains */}
+          <div aria-hidden="true" className="absolute -left-[9999px] w-px h-px overflow-hidden">
+            <label htmlFor="website">Ne pas remplir</label>
+            <input id="website" name="website" type="text" tabIndex={-1} autoComplete="off" defaultValue="" />
+          </div>
               <div className="grid grid-cols-2 gap-3">
                 <div className="space-y-2">
                   <Label htmlFor="prenom" className="text-sm">

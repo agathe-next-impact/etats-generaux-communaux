@@ -9,7 +9,12 @@ import { draftMode } from 'next/headers';
  */
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
-  const redirectTo = searchParams.get('redirect') || '/';
+  const requested = searchParams.get('redirect') || '/';
+  // N'autoriser que des chemins internes (évite la redirection ouverte : //evil.com, /\evil.com, https://…)
+  const redirectTo =
+    requested.startsWith('/') && !requested.startsWith('//') && !requested.startsWith('/\\')
+      ? requested
+      : '/';
 
   // Disable Draft Mode
   const draft = await draftMode();

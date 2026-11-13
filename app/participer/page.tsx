@@ -34,7 +34,6 @@ export default async function ParticiperPage() {
 
   const titre = pageData?.acf?.titre || "Participer"
   const chapeau = pageData?.acf?.chapeau || "Rejoignez-nous et participez à nos actions citoyennes."
-  const emailDestination = pageData?.acf?.adresse_mail_denvoi_du_formulaire || "agathe.karinthi.martin@gmail.com"
 
   return (
     <div className="min-h-screen bg-background pt-32 pb-12 relative">
@@ -95,7 +94,7 @@ export default async function ParticiperPage() {
         </div>
 
         {/* Contact Form */}
-        <ParticiperForm emailDestination={emailDestination} />
+        <ParticiperForm />
       </div>
     </div>
   )
