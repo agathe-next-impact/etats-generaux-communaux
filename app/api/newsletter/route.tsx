@@ -1,9 +1,11 @@
 import { NextResponse } from "next/server"
-import { getFormRecipient } from "@/lib/form-recipient"
-import { isMailerConfigured, sendMail } from "@/lib/mailer"
-import { escapeHtml } from "@/lib/sanitize"
+import { isWordPressMailerConfigured, sendFormViaWordPress } from "@/lib/wordpress-mailer"
 import { EMAIL_REGEX, getClientIp, isHoneypotTriggered, isRateLimited, isValidText } from "@/lib/form-guard"
 
+/**
+ * Inscription newsletter : validation et anti-abus ici, envoi des deux emails
+ * (admin + confirmation abonné) par WordPress.
+ */
 export async function POST(request: Request) {
   try {
     const body = await request.json()
@@ -19,7 +21,6 @@ export async function POST(request: Request) {
 
     const { nom, prenom, email, telephone, accepteConditions } = body
 
-    // Validation
     if (!isValidText(nom, 100) || !isValidText(prenom, 100) || !isValidText(email, 254)) {
       return NextResponse.json({ message: "Nom, prénom et email sont requis" }, { status: 400 })
     }
@@ -39,91 +40,28 @@ export async function POST(request: Request) {
       )
     }
 
-    const recipientEmail = await getFormRecipient()
-
-    // Check if SMTP is configured
-    if (!isMailerConfigured()) {
-      console.error("[Newsletter] SMTP non configuré : inscription non transmise.")
+    if (!isWordPressMailerConfigured()) {
       if (process.env.NODE_ENV !== "production") {
-        return NextResponse.json({ message: "Inscription simulée (mode développement, SMTP non configuré)." })
+        console.warn("[newsletter] Mode développement : inscription simulée (WP_FORMS_SECRET non défini)")
+        return NextResponse.json({ message: "Inscription simulée (mode développement)." })
       }
+      console.error("[newsletter] WP_FORMS_SECRET non défini")
       return NextResponse.json(
         { message: "Le service d'inscription est indisponible. Veuillez réessayer plus tard." },
         { status: 503 },
       )
     }
 
-    // Email to admin
-    const adminEmailHtml = `
-      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-        <h2 style="color: #333; border-bottom: 2px solid #6CB33F; padding-bottom: 10px;">
-          Nouvelle inscription à la newsletter
-        </h2>
-        <div style="margin: 20px 0;">
-          <p><strong>Nom:</strong> ${escapeHtml(nom)}</p>
-          <p><strong>Prénom:</strong> ${escapeHtml(prenom)}</p>
-          <p><strong>Email:</strong> <a href="mailto:${encodeURIComponent(email)}">${escapeHtml(email)}</a></p>
-          <p><strong>Téléphone:</strong> ${escapeHtml(telephone || "Non fourni")}</p>
-        </div>
-        <hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0;">
-        <p style="color: #666; font-size: 12px;">
-          Cette inscription a été effectuée le ${new Date().toLocaleDateString("fr-FR")} à ${new Date().toLocaleTimeString("fr-FR")}.
-        </p>
-      </div>
-    `
-
-    // Email to subscriber
-    const siteDomain = process.env.SITE_DOMAIN || "lesetatsgenerauxcommunaux.org"
-    const logoUrl = `https://${siteDomain}/images/logo-egc.png`
-
-    const subscriberEmailHtml = `
-      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; text-align: center;">
-        <img src="${logoUrl}" alt="Logo Les EGC" style="max-width: 200px; margin-bottom: 20px;" />
-        <div style="text-align: left;">
-          <h2 style="color: #333; border-bottom: 2px solid #6CB33F; padding-bottom: 10px;">
-            Bienvenue dans notre newsletter !
-          </h2>
-          <p>Bonjour ${escapeHtml(prenom)},</p>
-          <p>Merci de vous être inscrit(e) à notre newsletter. Vous recevrez bientôt nos actualités et informations.</p>
-          <p>Si vous n'êtes pas à l'origine de cette inscription, vous pouvez ignorer cet email.</p>
-          <hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0;">
-          <p style="color: #666; font-size: 12px;">
-            Les États Généraux Communaux
-          </p>
-        </div>
-      </div>
-    `
-
     try {
-      // Send email to admin
-      await sendMail({
-        to: recipientEmail,
-        subject: "Nouvelle inscription à la newsletter",
-        html: adminEmailHtml,
-      })
-
-      // Send confirmation email to subscriber
-      await sendMail({
-        to: email,
-        subject: "Confirmation d'inscription à la newsletter",
-        html: subscriberEmailHtml,
-      })
-
-      return NextResponse.json({
-        message: "Inscription réussie ! Vous recevrez bientôt un email de confirmation.",
-      })
-    } catch (emailError) {
-      console.error("[Newsletter] Error sending email:", emailError instanceof Error ? emailError.message : emailError)
-      return NextResponse.json(
-        { message: "Erreur lors de l'inscription. Veuillez réessayer plus tard." },
-        { status: 500 },
-      )
+      await sendFormViaWordPress({ type: "newsletter", nom, prenom, email, telephone: telephone || "" })
+    } catch (sendError) {
+      console.error("[newsletter] Échec de l'envoi via WordPress:", sendError instanceof Error ? sendError.message : sendError)
+      return NextResponse.json({ message: "Erreur lors de l'inscription. Veuillez réessayer plus tard." }, { status: 500 })
     }
+
+    return NextResponse.json({ message: "Inscription réussie ! Vous recevrez bientôt un email de confirmation." })
   } catch (error) {
-    console.error("Error processing newsletter subscription:", error)
-    return NextResponse.json(
-      { message: "Erreur lors du traitement de l'inscription" },
-      { status: 500 },
-    )
+    console.error("[newsletter] Erreur de traitement:", error instanceof Error ? error.message : error)
+    return NextResponse.json({ message: "Erreur lors du traitement de l'inscription" }, { status: 500 })
   }
 }

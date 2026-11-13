@@ -529,6 +529,11 @@ function getSecureWordPressApiUrl(): string {
 
 const WP_API_URL = getSecureWordPressApiUrl();
 
+/** Racine du site WordPress (sans /wp-json/wp/v2), issue de la liste blanche. */
+export function getWordPressBaseUrl(): string {
+  return WP_API_URL.replace(/\/wp-json\/wp\/v2\/?$/, "");
+}
+
 async function validateJsonResponse(response: Response): Promise<any> {
   const contentType = response.headers.get("content-type");
 

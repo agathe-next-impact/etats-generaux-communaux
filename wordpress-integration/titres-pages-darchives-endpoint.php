@@ -65,8 +65,12 @@ add_action('acf/init', 'create_archive_titles_options_page');
 add_action('acf/save_post', function($post_id) {
     if ($post_id !== 'options') return;
 
+    // Secret défini dans wp-config.php : define('EGC_REVALIDATE_SECRET', '...');
+    // (même valeur que REVALIDATE_SECRET sur Vercel). Ne jamais l'écrire en dur ici.
+    if (!defined('EGC_REVALIDATE_SECRET')) return;
+
     $vercel_url = 'https://lesetatsgenerauxcommunaux.org/api/revalidate';
-    $secret_token = '5NlL5F9iyje6RFmoSOlY3DND';
+    $secret_token = EGC_REVALIDATE_SECRET;
 
     wp_remote_get(add_query_arg([
         'path'   => '/',
