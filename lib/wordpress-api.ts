@@ -1,3 +1,4 @@
+import { safeCompareSecret } from '@/lib/secrets';
 /**
  * WordPress API utilities for headless preview
  */
@@ -242,5 +243,5 @@ export function validatePreviewSecret(secret: string | undefined): boolean {
     console.warn('WP_PREVIEW_SECRET is not configured');
     return true; // Allow preview if no secret is configured (development)
   }
-  return secret === WP_PREVIEW_SECRET;
+  return safeCompareSecret(secret, WP_PREVIEW_SECRET);
 }

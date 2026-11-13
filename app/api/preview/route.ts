@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { draftMode } from 'next/headers';
-import { validatePreviewSecret, fetchPreviewPost, getPostTypeEndpointAsync } from '@/lib/wordpress-api';
+import { validatePreviewSecret, fetchPreviewPost } from '@/lib/wordpress-api';
 
 /**
  * API Route: Enable Preview Mode
@@ -48,20 +48,9 @@ export async function GET(request: NextRequest) {
   });
 
   if (!post) {
-    const endpoint = await getPostTypeEndpointAsync(postType);
-    return NextResponse.json(
-      { 
-        message: 'Post not found',
-        debug: {
-          id,
-          postType,
-          endpoint,
-          apiUrl: `${process.env.WORDPRESS_API_URL}/wp/v2/${endpoint}/${id}`,
-          hint: 'Vérifiez que le CPT est exposé dans l\'API REST WordPress (show_in_rest = true)'
-        }
-      },
-      { status: 404 }
-    );
+    // Détails techniques uniquement dans les logs serveur
+    console.error(`[preview] Contenu introuvable : id=${id} postType=${postType}`);
+    return NextResponse.json({ message: 'Post not found' }, { status: 404 });
   }
 
   // Enable Draft Mode

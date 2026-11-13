@@ -11,8 +11,7 @@ import "./globals.css"
 import '@wordpress/block-library/build-style/style.css';
 import TargetCursor from "@/components/TargetCursorClient"
 import { ExitIntentPopup } from "@/components/ui/exit-intent-popup"
-import { GoogleAnalytics } from "@/components/google-analytics"
-import { Clarity } from "@/components/clarity"
+import { CookieConsent } from "@/components/cookie-consent"
 
 const raleway = Raleway({
   subsets: ["latin"],
@@ -102,8 +101,7 @@ export default async function RootLayout({
   return (
     <html lang="fr" className={raleway.variable} suppressHydrationWarning>
       <body className="font-sans antialiased" suppressHydrationWarning>
-        {process.env.GA_ID && <GoogleAnalytics gaId={process.env.GA_ID} />}
-        {process.env.CLARITY_ID && <Clarity clarityId={process.env.CLARITY_ID} />}
+        <CookieConsent gaId={process.env.GA_ID} clarityId={process.env.CLARITY_ID} />
       {/* Exit Intent Popup */}
         <ExitIntentPopup
           title="Rejoignez notre newsletter !"

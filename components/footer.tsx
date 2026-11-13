@@ -1,5 +1,6 @@
 import Link from "next/link"
 import Image from "next/image"
+import { CookieSettingsButton } from "@/components/cookie-consent"
 
 export function Footer() {
   return (
@@ -106,6 +107,7 @@ export function Footer() {
               <Link href="/politique-cookies" className="block text-sm hover:text-[#E73628] transition-colors">
                 Politique de cookies
               </Link>
+              <CookieSettingsButton className="block text-left text-sm hover:text-[#E73628] transition-colors" />
             </div>
             </div>
           </div>

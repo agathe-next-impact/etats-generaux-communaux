@@ -19,6 +19,9 @@ export function sanitizeHtml(html: string): string {
       "*": ["class", "id", "style"],
     },
     allowedSchemes: ["http", "https", "mailto", "tel"],
+    // Seules les intégrations vidéo connues sont autorisées en iframe
+    allowedIframeHostnames: ["www.youtube.com", "youtube.com", "www.youtube-nocookie.com", "player.vimeo.com"],
+    allowIframeRelativeUrls: false,
   })
 }
 
