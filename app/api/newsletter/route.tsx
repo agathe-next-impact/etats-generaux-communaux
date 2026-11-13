@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server"
-import { getArchivePageTitles } from "@/lib/wordpress"
+import { getFormRecipient } from "@/lib/form-recipient"
 import { isMailerConfigured, sendMail } from "@/lib/mailer"
 import { escapeHtml } from "@/lib/sanitize"
 import { EMAIL_REGEX, getClientIp, isHoneypotTriggered, isRateLimited, isValidText } from "@/lib/form-guard"
@@ -39,17 +39,7 @@ export async function POST(request: Request) {
       )
     }
 
-    let recipientEmail = "agathe@next-impact.digital"
-
-    try {
-      const archiveTitles = await getArchivePageTitles()
-
-      if (archiveTitles?.page_newsletter?.email_denvoi_des_inscriptions_a_la_newsletter) {
-        recipientEmail = archiveTitles.page_newsletter.email_denvoi_des_inscriptions_a_la_newsletter
-      }
-    } catch (wpError) {
-      console.error("Failed to fetch WordPress data:", wpError)
-    }
+    const recipientEmail = await getFormRecipient()
 
     // Check if SMTP is configured
     if (!isMailerConfigured()) {

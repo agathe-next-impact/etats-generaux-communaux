@@ -1,23 +1,8 @@
 import { type NextRequest, NextResponse } from "next/server"
 import { escapeHtml } from "@/lib/sanitize"
-import { getParticiperPageData } from "@/lib/wordpress"
 import { isMailerConfigured, sendMail } from "@/lib/mailer"
+import { getFormRecipient } from "@/lib/form-recipient"
 import { EMAIL_REGEX, getClientIp, isHoneypotTriggered, isRateLimited, isValidText } from "@/lib/form-guard"
-
-/**
- * Le destinataire est TOUJOURS déterminé côté serveur (ACF de la page "participer",
- * puis variable CONTACT_EMAIL). Il ne doit jamais provenir de la requête client.
- */
-async function getRecipient(): Promise<string | null> {
-  try {
-    const page = await getParticiperPageData()
-    const fromWp = page?.acf?.adresse_mail_denvoi_du_formulaire
-    if (typeof fromWp === "string" && EMAIL_REGEX.test(fromWp)) return fromWp
-  } catch (error) {
-    console.error("[contact] Impossible de lire le destinataire WordPress:", error)
-  }
-  return process.env.CONTACT_EMAIL || null
-}
 
 export async function POST(request: NextRequest) {
   try {
@@ -45,19 +30,19 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ message: "Format d'email invalide" }, { status: 400 })
     }
 
-    const recipient = await getRecipient()
-
-    if (!recipient || !isMailerConfigured()) {
+    if (!isMailerConfigured()) {
       if (process.env.NODE_ENV !== "production") {
-        console.warn("[contact] Mode développement : email simulé (SMTP ou destinataire non configuré)")
+        console.warn("[contact] Mode développement : email simulé (SMTP non configuré)")
         return NextResponse.json({ message: "Message envoyé avec succès (mode développement)" }, { status: 200 })
       }
-      console.error("[contact] Configuration incomplète : SMTP_HOST/SMTP_USER/SMTP_PASS ou destinataire manquant")
+      console.error("[contact] SMTP non configuré : SMTP_HOST/SMTP_USER/SMTP_PASS manquant")
       return NextResponse.json(
         { message: "Le service d'envoi est indisponible. Veuillez réessayer plus tard." },
         { status: 503 },
       )
     }
+
+    const recipient = await getFormRecipient()
 
     try {
       await sendMail({
