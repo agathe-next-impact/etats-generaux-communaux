@@ -1,6 +1,6 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Raleway } from "next/font/google"
+import localFont from "next/font/local"
 import { Navigation } from "@/components/navigation"
 import { Topbar } from "@/components/topbar"
 import { Footer } from "@/components/footer"
@@ -14,11 +14,15 @@ import { ExitIntentPopup } from "@/components/ui/exit-intent-popup"
 import { CookieConsent } from "@/components/cookie-consent"
 import { SITE_URL } from "@/lib/site"
 
-const raleway = Raleway({
-  subsets: ["latin"],
+// Raleway auto-hébergée (police variable 500→800, sous-ensemble latin, licence OFL) :
+// pas d'appel à Google Fonts, ni au build (qui échouait sur Vercel) ni chez le visiteur.
+const raleway = localFont({
+  src: "./fonts/raleway-latin-500-800.woff2",
+  weight: "500 800",
+  style: "normal",
   variable: "--font-raleway",
-  weight: ["500", "600", "700", "800"],
   display: "swap",
+  fallback: ["system-ui", "Arial", "sans-serif"],
 })
 
 
