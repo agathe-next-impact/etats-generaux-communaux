@@ -12,12 +12,13 @@ import { getResource, stripHtml } from "@/lib/wordpress"
 import ResourcePageClient from "./resource-client"
 
 interface ResourcePageProps {
-  params: {
+  params: Promise<{
     id: string
-  }
+  }>
 }
 
-export default async function ResourcePage({ params }: ResourcePageProps) {
+export default async function ResourcePage(props: ResourcePageProps) {
+  const params = await props.params;
   const resource = await getResource(params.id)
 
   if (!resource) {
@@ -27,7 +28,8 @@ export default async function ResourcePage({ params }: ResourcePageProps) {
   return <ResourcePageClient resource={resource} />
 }
 
-export async function generateMetadata({ params }: ResourcePageProps) {
+export async function generateMetadata(props: ResourcePageProps) {
+  const params = await props.params;
   const resource = await getResource(params.id)
 
   if (!resource) {

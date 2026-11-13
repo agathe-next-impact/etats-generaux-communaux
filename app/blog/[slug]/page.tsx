@@ -32,9 +32,9 @@ import Highlighter from "@/components/ui/highlighter"
 import { SocialShare } from "@/components/social-share"
 
 interface ArticlePageProps {
-  params: {
+  params: Promise<{
     slug: string
-  }
+  }>
 }
 
 async function RelatedArticles({ currentSlug }: { currentSlug: string }) {
@@ -71,7 +71,8 @@ async function RelatedArticles({ currentSlug }: { currentSlug: string }) {
   )
 }
 
-export default async function ArticlePage({ params }: ArticlePageProps) {
+export default async function ArticlePage(props: ArticlePageProps) {
+  const params = await props.params;
   const post = await getPost(params.slug)
 
   if (!post) {
@@ -226,7 +227,8 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 }
 
 // Generate metadata for SEO
-export async function generateMetadata({ params }: ArticlePageProps) {
+export async function generateMetadata(props: ArticlePageProps) {
+  const params = await props.params;
   const post = await getPost(params.slug)
 
   if (!post) {

@@ -32,9 +32,9 @@ import { Suspense } from "react"
 import Highlighter from "@/components/ui/highlighter"
 
 interface EventPageProps {
-  params: {
+  params: Promise<{
     slug: string
-  }
+  }>
 }
 
 async function RelatedEvents({ currentSlug }: { currentSlug: string }) {
@@ -90,7 +90,8 @@ function formatEventTime(timeStr: string): string {
   return timeStr
 }
 
-export default async function EventPage({ params }: EventPageProps) {
+export default async function EventPage(props: EventPageProps) {
+  const params = await props.params;
   const event = await getEvent(params.slug)
 
   if (!event) {
@@ -259,7 +260,8 @@ export default async function EventPage({ params }: EventPageProps) {
 }
 
 // Generate metadata for SEO
-export async function generateMetadata({ params }: EventPageProps) {
+export async function generateMetadata(props: EventPageProps) {
+  const params = await props.params;
   const event = await getEvent(params.slug)
 
   if (!event) {

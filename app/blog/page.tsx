@@ -28,15 +28,15 @@ import { Highlighter } from "@/components/ui/highlighter"
 import Image from "next/image"
 
 interface BlogPageProps {
-  searchParams: {
+  searchParams: Promise<{
     page?: string
     search?: string
     category?: string
     sort?: string
-  }
+  }>
 }
 
-async function BlogContent({ searchParams }: BlogPageProps) {
+async function BlogContent({ searchParams }: { searchParams: Awaited<BlogPageProps["searchParams"]> }) {
   const page = Number.parseInt(searchParams.page || "1")
   const search = searchParams.search || ""
   const category = searchParams.category || ""
@@ -156,7 +156,8 @@ async function BlogHeader() {
   )
 }
 
-export default function BlogPage({ searchParams }: BlogPageProps) {
+export default async function BlogPage(props: BlogPageProps) {
+  const searchParams = await props.searchParams;
   return (
     <div className="min-h-screen py-12 pt-[150px]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

@@ -14,10 +14,6 @@ const securityHeaders = [
 
 const nextConfig = {
   poweredByHeader: false,
-  eslint: {
-    // ESLint n'est pas encore installé ni configuré dans le projet
-    ignoreDuringBuilds: true,
-  },
   // Vérification TypeScript réactivée : le build échoue désormais en cas d'erreur de type
   images: {
     // Optimisation Next/Vercel (AVIF/WebP, redimensionnement) limitée aux deux sources réelles
