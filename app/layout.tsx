@@ -12,6 +12,7 @@ import '@wordpress/block-library/build-style/style.css';
 import TargetCursor from "@/components/TargetCursorClient"
 import { ExitIntentPopup } from "@/components/ui/exit-intent-popup"
 import { CookieConsent } from "@/components/cookie-consent"
+import { SITE_URL } from "@/lib/site"
 
 const raleway = Raleway({
   subsets: ["latin"],
@@ -22,6 +23,7 @@ const raleway = Raleway({
 
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: {
     default: "Les états généraux communaux",
     template: "%s | Les états généraux communaux",
@@ -55,7 +57,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "fr_FR",
-    url: "https://lesetatsgenerauxcommunaux.org",
+    url: SITE_URL,
     siteName: "Les états généraux communaux",
     title: "Les états généraux communaux",
     description:

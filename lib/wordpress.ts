@@ -529,6 +529,15 @@ function getSecureWordPressApiUrl(): string {
 
 const WP_API_URL = getSecureWordPressApiUrl();
 
+/** Encode un slug pour une requête, sans double encodage (WordPress renvoie parfois des slugs déjà encodés). */
+function encodeSlug(value: string): string {
+  try {
+    return encodeURIComponent(decodeURIComponent(value));
+  } catch {
+    return encodeURIComponent(value);
+  }
+}
+
 /** Racine du site WordPress (sans /wp-json/wp/v2), issue de la liste blanche. */
 export function getWordPressBaseUrl(): string {
   return WP_API_URL.replace(/\/wp-json\/wp\/v2\/?$/, "");
@@ -621,7 +630,7 @@ export async function getPosts(params?: {
 export async function getPost(slug: string): Promise<WordPressPost | null> {
   try {
     const response = await fetch(
-      `${WP_API_URL}/posts?slug=${slug}&_embed=true`,
+      `${WP_API_URL}/posts?slug=${encodeSlug(slug)}&_embed=true`,
       {
         next: { revalidate: 60 },
         headers: {
@@ -684,7 +693,7 @@ export async function getResources(params?: {
       // Try to get category ID from slug for proper API filtering
       try {
         const categoriesResponse = await fetch(
-          `${WP_API_URL}/categorie-de-ressource?slug=${params.categories}`,
+          `${WP_API_URL}/categorie-de-ressource?slug=${encodeSlug(params.categories)}`,
           {
             headers: {
               Accept: "application/json",
@@ -822,7 +831,7 @@ export async function getEvents(params?: {
     if (params?.type && params.type !== "all") {
       try {
         const categoriesResponse = await fetch(
-          `${WP_API_URL}/categorie-devenement?slug=${params.type}`,
+          `${WP_API_URL}/categorie-devenement?slug=${encodeSlug(params.type)}`,
           {
             headers: {
               Accept: "application/json",
@@ -954,7 +963,7 @@ export function formatDate(dateString: string): string {
 export async function getEvent(slug: string): Promise<WordPressEvent | null> {
   try {
     const response = await fetch(
-      `${WP_API_URL}/evenement?slug=${slug}&_embed=true&acf_format=standard`,
+      `${WP_API_URL}/evenement?slug=${encodeSlug(slug)}&_embed=true&acf_format=standard`,
       {
         next: { revalidate: 60 },
         headers: {
@@ -1001,7 +1010,7 @@ export async function getResource(
     } else {
       // Fetch by slug
       response = await fetch(
-        `${WP_API_URL}/ressource?slug=${idOrSlug}&_embed=true&acf_format=standard`,
+        `${WP_API_URL}/ressource?slug=${encodeSlug(idOrSlug)}&_embed=true&acf_format=standard`,
         {
           next: { revalidate: 60 },
           headers: {

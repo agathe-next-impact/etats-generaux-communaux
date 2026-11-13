@@ -40,13 +40,14 @@ export async function generateMetadata({ params }: ResourcePageProps) {
     resource.acf?.descriptif ||
     (resource.content?.rendered
       ? stripHtml(resource.content.rendered).substring(0, 160)
-      : "Ressource disponible sur Magazine Collectif")
+      : "Ressource disponible sur le site des États Généraux Communaux")
 
   const featuredImage = resource._embedded?.["wp:featuredmedia"]?.[0]
 
   return {
-    title: `${resource.title.rendered} | Ressources - Magazine Collectif`,
-    description,
+    title: `${stripHtml(resource.title.rendered)} | Ressources`,
+    description: stripHtml(description).substring(0, 160),
+    alternates: { canonical: `/ressources/${params.id}` },
     openGraph: {
       title: resource.title.rendered,
       description,

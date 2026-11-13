@@ -20,14 +20,14 @@ function toEmbedUrl(url: string): string | null {
 
     if (host === "youtu.be") {
       const id = parsed.pathname.slice(1).split("/")[0]
-      return id ? `https://www.youtube.com/embed/${id}` : null
+      return id ? `https://www.youtube-nocookie.com/embed/${id}` : null
     }
     if (host === "youtube.com" || host === "m.youtube.com" || host === "youtube-nocookie.com") {
-      if (parsed.pathname.startsWith("/embed/")) return url
+      if (parsed.pathname.startsWith("/embed/")) return `https://www.youtube-nocookie.com${parsed.pathname}${parsed.search}`
       const shorts = parsed.pathname.match(/^\/shorts\/([^/?]+)/)
-      if (shorts) return `https://www.youtube.com/embed/${shorts[1]}`
+      if (shorts) return `https://www.youtube-nocookie.com/embed/${shorts[1]}`
       const id = parsed.searchParams.get("v")
-      return id ? `https://www.youtube.com/embed/${id}` : null
+      return id ? `https://www.youtube-nocookie.com/embed/${id}` : null
     }
     if (host === "vimeo.com") {
       const id = parsed.pathname.split("/").filter(Boolean).pop()

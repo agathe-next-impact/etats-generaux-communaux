@@ -30,11 +30,11 @@ import { Highlighter } from "@/components/ui/highlighter"
 import Image from "next/image"
 
 export const metadata = {
-  title: "Groupes Locaux | Magazine Collectif",
+  title: "Groupes Locaux",
   description:
     "Découvrez les groupes locaux de notre réseau partout en France. Rejoignez une communauté engagée près de chez vous et participez aux actions citoyennes locales.",
   openGraph: {
-    title: "Groupes Locaux | Magazine Collectif",
+    title: "Groupes Locaux",
     description:
       "Découvrez les groupes locaux de notre réseau partout en France. Rejoignez une communauté engagée près de chez vous.",
     type: "website",

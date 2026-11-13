@@ -240,8 +240,9 @@ export async function generateMetadata({ params }: ArticlePageProps) {
   const author = post._embedded?.author?.[0]
 
   return {
-    title: `${decodeHtmlEntities(post.title.rendered)} | Magazine Collectif`,
+    title: decodeHtmlEntities(post.title.rendered),
     description,
+    alternates: { canonical: `/blog/${post.slug}` },
     authors: author ? [{ name: author.name }] : undefined,
     openGraph: {
       title: decodeHtmlEntities(post.title.rendered),

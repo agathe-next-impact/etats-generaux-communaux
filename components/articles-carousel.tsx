@@ -91,6 +91,7 @@ export function ArticlesCarousel({ posts }: ArticlesCarouselProps) {
             variant="outline"
             size="icon"
             onClick={prevSlide}
+            aria-label="Article précédent"
             className="h-10 w-10 border-[#E73628] text-[#E73628] hover:bg-[#E73628] hover:text-white bg-transparent"
           >
             <ChevronLeft className="h-4 w-4" />
@@ -113,6 +114,7 @@ export function ArticlesCarousel({ posts }: ArticlesCarouselProps) {
             variant="outline"
             size="icon"
             onClick={nextSlide}
+            aria-label="Article suivant"
             className="h-10 w-10 border-[#E73628] text-[#E73628] hover:bg-[#E73628] hover:text-white bg-transparent"
           >
             <ChevronRight className="h-4 w-4" />

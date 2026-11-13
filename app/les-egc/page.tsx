@@ -151,10 +151,10 @@ export async function generateMetadata(): Promise<Metadata> {
     "Construisons ensemble une République plus juste, écologique et démocratique. Découvrez les États Généraux Communaux."
 
   return {
-    title: `${title} | Magazine Collectif`,
+    title: title,
     description,
     openGraph: {
-      title: `${title} | Magazine Collectif`,
+      title: title,
       description,
       type: "website",
     },

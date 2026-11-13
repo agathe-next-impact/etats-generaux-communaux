@@ -132,6 +132,7 @@ export function EventsCarousel({ events }: EventsCarouselProps) {
             variant="outline"
             size="icon"
             onClick={prevSlide}
+            aria-label="Événement précédent"
             className="h-10 w-10 border-[#E73628] text-[#E73628] hover:bg-[#E73628] hover:text-white bg-transparent"
           >
             <ChevronLeft className="h-4 w-4" />
@@ -154,6 +155,7 @@ export function EventsCarousel({ events }: EventsCarouselProps) {
             variant="outline"
             size="icon"
             onClick={nextSlide}
+            aria-label="Événement suivant"
             className="h-10 w-10 border-[#E73628] text-[#E73628] hover:bg-[#E73628] hover:text-white bg-transparent"
           >
             <ChevronRight className="h-4 w-4" />

@@ -271,15 +271,19 @@ export async function generateMetadata({ params }: EventPageProps) {
   const eventDate = parseEventDate(event.acf?.date || "")
   const eventTitle = event.title?.rendered || "Événement"
   const eventExcerpt = event.excerpt?.rendered ? stripHtml(event.excerpt.rendered) : ""
-  const description =
-    event.acf?.description || (eventExcerpt ? eventExcerpt.substring(0, 160) : `Découvrez ${eventTitle}`)
+  const description = event.acf?.description
+    ? stripHtml(event.acf.description).substring(0, 160)
+    : eventExcerpt
+      ? eventExcerpt.substring(0, 160)
+      : `Découvrez ${eventTitle}`
 
   const featuredImage = event._embedded?.["wp:featuredmedia"]?.[0]
   const eventLocation = event.acf?.lieu
 
   return {
-    title: `${eventTitle} | Magazine Collectif`,
+    title: stripHtml(eventTitle),
     description,
+    alternates: { canonical: `/evenements/${event.slug}` },
     openGraph: {
       title: eventTitle,
       description,

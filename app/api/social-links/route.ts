@@ -1,11 +1,9 @@
 import { NextResponse } from "next/server"
-
-const WP_API_URL = process.env.NEXT_PUBLIC_WORDPRESS_API_URL || ""
+import { getWordPressBaseUrl } from "@/lib/wordpress"
 
 export async function GET() {
   try {
-    const baseUrl = WP_API_URL.replace(/\/wp-json\/wp\/v2\/?$/, "")
-    const customEndpoint = `${baseUrl}/wp-json/mytheme/v1/titres-pages-darchives`
+    const customEndpoint = `${getWordPressBaseUrl()}/wp-json/mytheme/v1/titres-pages-darchives`
 
     const response = await fetch(customEndpoint, {
       headers: {

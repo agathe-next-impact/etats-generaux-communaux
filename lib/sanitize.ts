@@ -13,7 +13,7 @@ export function sanitizeHtml(html: string): string {
     ],
     allowedAttributes: {
       ...sanitize.defaults.allowedAttributes,
-      iframe: ["src", "allow", "allowfullscreen", "frameborder", "scrolling", "width", "height"],
+      iframe: ["src", "title", "allow", "allowfullscreen", "frameborder", "scrolling", "width", "height", "loading"],
       img: ["src", "srcset", "alt", "title", "width", "height", "loading"],
       a: ["href", "name", "target", "rel"],
       "*": ["class", "id", "style"],
@@ -22,6 +22,22 @@ export function sanitizeHtml(html: string): string {
     // Seules les intégrations vidéo connues sont autorisées en iframe
     allowedIframeHostnames: ["www.youtube.com", "youtube.com", "www.youtube-nocookie.com", "player.vimeo.com"],
     allowIframeRelativeUrls: false,
+    // Accessibilité : toute iframe doit avoir un titre
+    transformTags: {
+      iframe: (tagName, attribs) => ({
+        tagName,
+        attribs: {
+          ...attribs,
+          // RGPD : mode « confidentialité renforcée » de YouTube (pas de cookie avant lecture)
+          src: (attribs.src || "").replace(
+            /^https:\/\/(www\.)?youtube\.com\/embed\//,
+            "https://www.youtube-nocookie.com/embed/",
+          ),
+          title: attribs.title || "Vidéo intégrée",
+          loading: "lazy",
+        },
+      }),
+    },
   })
 }
 

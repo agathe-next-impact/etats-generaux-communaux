@@ -179,15 +179,19 @@ export function ResourceCard({ resource }: ResourceCardProps) {
             </Link>
           )}
 
-          <Link href={`/ressources/${resource.acf?.slug ?? resource.id}`}>
-            <Button
-              variant="outline"
-              size="sm"
-              className="text-[#E73628] hover:bg-[#E73628] hover:text-white flex items-center justify-center"
+          <Button
+            asChild
+            variant="outline"
+            size="sm"
+            className="text-[#E73628] hover:bg-[#E73628] hover:text-white flex items-center justify-center"
+          >
+            <Link
+              href={`/ressources/${resource.acf?.slug ?? resource.id}`}
+              aria-label={`Voir la ressource : ${resource.title?.rendered ?? ""}`.replace(/<[^>]*>/g, "")}
             >
-              <ExternalLink className="h-6 w-6" />
-            </Button>
-          </Link>
+              <ExternalLink className="h-6 w-6" aria-hidden="true" />
+            </Link>
+          </Button>
         </div>
       </CardContent>
     </Card>
