@@ -1,102 +1,42 @@
-"use client"
-
-import { useState, useEffect } from "react"
 import { Calendar } from "lucide-react"
-import { type WordPressEvent } from "@/lib/wordpress"
+import { getEvents, getArchivePageTitles, type WordPressEvent } from "@/lib/wordpress"
 import { EventTimeline } from "@/components/event-timeline"
 import { Highlighter } from "@/components/ui/highlighter"
 import Image from "next/image"
 
-export default function EventsPage() {
-  const [events, setEvents] = useState<WordPressEvent[]>([])
-  const [upcomingEvents, setUpcomingEvents] = useState<WordPressEvent[]>([])
-  const [isLoading, setIsLoading] = useState(true)
-  const [pageTitle, setPageTitle] = useState("Événements")
-  const [pageSubtitle, setPageSubtitle] = useState(
-    "Découvrez tous nos événements, conférences, ateliers et manifestations.",
-  )
+// Rendu serveur (contenu présent dans le HTML pour l'indexation), régénéré toutes les 60 s
+export const revalidate = 60
 
-  // Load events
-  useEffect(() => {
-    async function loadEvents() {
-      try {
-        // Appel via API route Next.js (proxy sécurisé côté serveur)
-        const response = await fetch("/api/events")
-        if (!response.ok) {
-          throw new Error(`Erreur ${response.status}`)
-        }
-        const { events: eventsData, pageTitles } = await response.json()
-
-        
-        setEvents(eventsData)
-
-        if (pageTitles?.page_evenements) {
-          if (pageTitles.page_evenements.titre) {
-            setPageTitle(pageTitles.page_evenements.titre)
-          }
-          if (pageTitles.page_evenements["sous-titre"]) {
-            setPageSubtitle(pageTitles.page_evenements["sous-titre"])
-          }
-        }
-      } catch (error) {
-        
-      } finally {
-        setIsLoading(false)
-      }
-    }
-
-    loadEvents()
-  }, [])
-
-  // Filter upcoming events and sort by date
-  useEffect(() => {
-    // Helper to get event timestamp
-    const getEventTimestamp = (event: WordPressEvent) => {
-      if (event.acf?.date) {
-        // Parse date from d/m/Y format
-        const [day, month, year] = event.acf.date.split("/").map(Number)
-        const eventDate = new Date(year, month - 1, day)
-        // Set to midnight for date-only comparison
-        eventDate.setHours(0, 0, 0, 0)
-        return eventDate.getTime()
-      }
-      // For WordPress date, extract only the date part (at midnight)
-      const wpDate = new Date(event.date)
-      wpDate.setHours(0, 0, 0, 0)
-      return wpDate.getTime()
-    }
-
-    // Set pivot at the start of today (midnight)
-    const now = new Date()
-    const todayAtMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate())
-    const todayTimestamp = todayAtMidnight.getTime()
-
-    // Filter upcoming events only
-    const filtered = events.filter((event) => {
-      const eventTimestamp = getEventTimestamp(event)
-      return eventTimestamp >= todayTimestamp
-    })
-
-    // Sort by date (nearest to farthest aka ascending)
-    filtered.sort((a, b) => {
-      return getEventTimestamp(a) - getEventTimestamp(b)
-    })
-
-    setUpcomingEvents(filtered)
-  }, [events])
-
-  if (isLoading) {
-    return (
-      <div className="container mx-auto px-4 py-8">
-        <div className="flex items-center justify-center min-h-[400px]">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-8 w-8 border border-primary mx-auto mb-4"></div>
-            <p className="text-muted-foreground">Chargement des événements...</p>
-          </div>
-        </div>
-      </div>
-    )
+/** Date d'un événement au format AAAA-MM-JJ (champ ACF « d/m/Y », sinon date WordPress). */
+function getEventDay(event: WordPressEvent): string {
+  if (event.acf?.date) {
+    const [day, month, year] = event.acf.date.split("/")
+    if (day && month && year) return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`
   }
+  return (event.date || "").slice(0, 10)
+}
+
+/** Aujourd'hui à l'heure de Paris, au format AAAA-MM-JJ. */
+function getTodayInParis(): string {
+  return new Intl.DateTimeFormat("en-CA", { timeZone: "Europe/Paris" }).format(new Date())
+}
+
+export default async function EventsPage() {
+  const [events, pageTitles] = await Promise.all([
+    getEvents().catch(() => [] as WordPressEvent[]),
+    getArchivePageTitles().catch(() => null),
+  ])
+
+  const pageTitle = pageTitles?.page_evenements?.titre || "Événements"
+  const pageSubtitle =
+    pageTitles?.page_evenements?.["sous-titre"] ||
+    "Découvrez tous nos événements, conférences, ateliers et manifestations."
+
+  // Événements à venir (y compris aujourd'hui), du plus proche au plus lointain
+  const today = getTodayInParis()
+  const upcomingEvents = (events || [])
+    .filter((event) => getEventDay(event) >= today)
+    .sort((a, b) => getEventDay(a).localeCompare(getEventDay(b)))
 
   return (
     <div className="container mx-auto px-4 py-8 pt-37.5 relative">
