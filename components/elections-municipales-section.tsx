@@ -1,3 +1,4 @@
+import { VideoEmbed } from "@/components/video-embed"
 import { ArticlesCarousel } from "./articles-carousel";
 import { Highlighter } from "@/components/ui/highlighter";
 import type { HomePageACF } from "@/lib/wordpress";
@@ -91,12 +92,7 @@ export async function ElectionsMunicipalesSection({ acfData }: Props) {
                 {hasVideo && (
                   <div className="lg:col-span-2">
                     <div className="relative w-full aspect-[9/16] rounded-2xl shadow-lg overflow-hidden">
-                      {acfData!.video!.includes("iframe") && (
-                        <div
-                          className="w-full h-full [&_iframe]:w-full [&_iframe]:h-full"
-                          dangerouslySetInnerHTML={{ __html: sanitizeHtml(acfData!.video!) }}
-                        />
-                      )}
+                      <VideoEmbed video={acfData!.video!} />
                     </div>
                   </div>
                 )}
@@ -105,12 +101,7 @@ export async function ElectionsMunicipalesSection({ acfData }: Props) {
                 {hasWebinaire && (
                   <div className="lg:col-span-6">
                     <div className="relative w-full aspect-video rounded-2xl shadow-lg overflow-hidden">
-                      {acfData!.video_webinaire!.includes("iframe") && (
-                        <div
-                          className="w-full h-full [&_iframe]:w-full [&_iframe]:h-full"
-                          dangerouslySetInnerHTML={{ __html: sanitizeHtml(acfData!.video_webinaire!) }}
-                        />
-                      )}
+                      <VideoEmbed video={acfData!.video_webinaire!} />
                     </div>
                   </div>
                 )}

@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react"
 import type { WordPressLocalGroup } from "@/lib/wordpress"
 import { getGoogleMapsApiKey } from "@/app/actions/maps"
+import { escapeHtml, validateUrl } from "@/lib/sanitize"
 
 interface GoogleMapProps {
   groups: WordPressLocalGroup[]
@@ -15,7 +16,47 @@ declare global {
   }
 }
 
+/**
+ * Ne charge l'API Google Maps (~150 Ko de JS) que lorsque la carte approche de l'écran.
+ */
 export function GoogleMap({ groups }: GoogleMapProps) {
+  const containerRef = useRef<HTMLDivElement>(null)
+  const [isVisible, setIsVisible] = useState(false)
+
+  useEffect(() => {
+    const node = containerRef.current
+    if (!node) return
+    if (typeof IntersectionObserver === "undefined") {
+      setIsVisible(true)
+      return
+    }
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          setIsVisible(true)
+          observer.disconnect()
+        }
+      },
+      { rootMargin: "300px" },
+    )
+    observer.observe(node)
+    return () => observer.disconnect()
+  }, [])
+
+  return (
+    <div ref={containerRef} className="h-full w-full">
+      {isVisible ? (
+        <GoogleMapInner groups={groups} />
+      ) : (
+        <div className="h-full w-full flex items-center justify-center bg-muted rounded-lg" style={{ minHeight: "400px" }}>
+          <p className="text-muted-foreground">Carte des groupes locaux</p>
+        </div>
+      )}
+    </div>
+  )
+}
+
+function GoogleMapInner({ groups }: GoogleMapProps) {
   const mapRef = useRef<HTMLDivElement>(null)
   const [isLoaded, setIsLoaded] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -188,52 +229,7 @@ export function GoogleMap({ groups }: GoogleMapProps) {
           markersAdded++
 
           const infoWindow = new window.google.maps.InfoWindow({
-            content: `
-              <div style="padding: 12px; max-width: 300px;">
-                <h3 style="margin: 0 0 8px 0; font-size: 16px; font-weight: 600; color: #1f2937;">
-                  ${group.acf?.nom_de_groupe || group.title.rendered}
-                </h3>
-                <p style="margin: 0 0 8px 0; font-size: 14px; color: #6b7280; line-height: 1.4;">
-                  ${group.acf?.descriptif || "Description du groupe local"}
-                </p>
-                <div style="font-size: 12px; color: #9ca3af;">
-                  <div style="margin-bottom: 4px;">
-                    📍 ${group.acf?.localisation?.address || "Adresse non définie"}
-                  </div>
-                  ${
-                    group.acf?.nom_de_contact
-                      ? `
-                    <div style="margin-bottom: 4px;">
-                      👤 ${group.acf.nom_de_contact}
-                    </div>
-                  `
-                      : ""
-                  }
-                  ${
-                    group.acf?.email_de_contact
-                      ? `
-                    <div style="margin-bottom: 4px;">
-                      ✉️ <a href="mailto:${group.acf.email_de_contact}" style="color: #3b82f6; text-decoration: none;">
-                        ${group.acf.email_de_contact}
-                      </a>
-                    </div>
-                  `
-                      : ""
-                  }
-                  ${
-                    group.acf?.site_web
-                      ? `
-                    <div>
-                      🌐 <a href="${group.acf.site_web}" target="_blank" rel="noopener noreferrer" style="color: #3b82f6; text-decoration: none;">
-                        Site web
-                      </a>
-                    </div>
-                  `
-                      : ""
-                  }
-                </div>
-              </div>
-            `,
+            content: buildInfoWindowContent(group),
           })
 
           marker.addListener("click", () => {
@@ -317,4 +313,41 @@ export function GoogleMap({ groups }: GoogleMapProps) {
       <div ref={mapRef} className="h-full w-full rounded-lg" style={{ minHeight: "400px" }} />
     </div>
   )
+}
+
+/** Contenu de l'infobulle : les champs WordPress sont échappés avant d'être injectés en HTML. */
+function buildInfoWindowContent(group: WordPressLocalGroup): string {
+  const acf = group.acf || ({} as WordPressLocalGroup["acf"])
+  const name = escapeHtml(acf?.nom_de_groupe || decodeEntities(group.title.rendered))
+  const description = escapeHtml(acf?.descriptif || "Description du groupe local")
+  const address = escapeHtml(acf?.localisation?.address || "Adresse non définie")
+  const contact = acf?.nom_de_contact ? escapeHtml(acf.nom_de_contact) : ""
+  const email = acf?.email_de_contact ? escapeHtml(acf.email_de_contact) : ""
+  const website = acf?.site_web ? validateUrl(acf.site_web) : null
+
+  return `
+    <div style="padding: 12px; max-width: 300px;">
+      <h3 style="margin: 0 0 8px 0; font-size: 16px; font-weight: 600; color: #1f2937;">${name}</h3>
+      <p style="margin: 0 0 8px 0; font-size: 14px; color: #6b7280; line-height: 1.4;">${description}</p>
+      <div style="font-size: 12px; color: #9ca3af;">
+        <div style="margin-bottom: 4px;">📍 ${address}</div>
+        ${contact ? `<div style="margin-bottom: 4px;">👤 ${contact}</div>` : ""}
+        ${email ? `<div style="margin-bottom: 4px;">✉️ <a href="mailto:${email}" style="color: #3b82f6; text-decoration: none;">${email}</a></div>` : ""}
+        ${website ? `<div>🌐 <a href="${escapeHtml(website)}" target="_blank" rel="noopener noreferrer" style="color: #3b82f6; text-decoration: none;">Site web</a></div>` : ""}
+      </div>
+    </div>
+  `
+}
+
+/** Décode les entités HTML que WordPress place dans title.rendered (&#8217;, &amp;…). */
+function decodeEntities(text: string): string {
+  return (text || "")
+    .replace(/&#(\d+);/g, (_, code) => String.fromCodePoint(Number(code)))
+    .replace(/&#x([0-9a-f]+);/gi, (_, code) => String.fromCodePoint(Number.parseInt(code, 16)))
+    .replace(/&quot;/g, '"')
+    .replace(/&apos;|&#039;/g, "'")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&nbsp;/g, " ")
+    .replace(/&amp;/g, "&")
 }

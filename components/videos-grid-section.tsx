@@ -2,67 +2,11 @@ import Link from "next/link"
 import { ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Highlighter } from "@/components/ui/highlighter"
-import { sanitizeHtml } from "@/lib/sanitize"
+import { VideoEmbed } from "@/components/video-embed"
 import type { HomePageACF } from "@/lib/wordpress"
 
 interface VideosGridSectionProps {
   acfData?: HomePageACF["section_videos"]
-}
-
-/**
- * Convertit une URL YouTube / Vimeo en URL d'embed.
- * Utilisé en secours si le champ ACF renvoie une URL brute au lieu du HTML oEmbed.
- */
-function toEmbedUrl(url: string): string | null {
-  try {
-    const parsed = new URL(url.trim())
-    const host = parsed.hostname.replace(/^www\./, "")
-
-    if (host === "youtu.be") {
-      const id = parsed.pathname.slice(1).split("/")[0]
-      return id ? `https://www.youtube-nocookie.com/embed/${id}` : null
-    }
-    if (host === "youtube.com" || host === "m.youtube.com" || host === "youtube-nocookie.com") {
-      if (parsed.pathname.startsWith("/embed/")) return `https://www.youtube-nocookie.com${parsed.pathname}${parsed.search}`
-      const shorts = parsed.pathname.match(/^\/shorts\/([^/?]+)/)
-      if (shorts) return `https://www.youtube-nocookie.com/embed/${shorts[1]}`
-      const id = parsed.searchParams.get("v")
-      return id ? `https://www.youtube-nocookie.com/embed/${id}` : null
-    }
-    if (host === "vimeo.com") {
-      const id = parsed.pathname.split("/").filter(Boolean).pop()
-      return id && /^\d+$/.test(id) ? `https://player.vimeo.com/video/${id}` : null
-    }
-    if (host === "player.vimeo.com") return url
-    return null
-  } catch {
-    return null
-  }
-}
-
-function VideoEmbed({ video, title }: { video: string; title?: string }) {
-  if (video.includes("<iframe")) {
-    return (
-      <div
-        className="w-full h-full [&_iframe]:w-full [&_iframe]:h-full [&_iframe]:absolute [&_iframe]:inset-0"
-        dangerouslySetInnerHTML={{ __html: sanitizeHtml(video) }}
-      />
-    )
-  }
-
-  const embedUrl = toEmbedUrl(video)
-  if (!embedUrl) return null
-
-  return (
-    <iframe
-      src={embedUrl}
-      title={title || "Vidéo"}
-      loading="lazy"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-      allowFullScreen
-      className="absolute inset-0 w-full h-full"
-    />
-  )
 }
 
 export function VideosGridSection({ acfData }: VideosGridSectionProps) {

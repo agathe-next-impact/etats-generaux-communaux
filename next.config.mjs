@@ -21,7 +21,15 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   images: {
-    unoptimized: true,
+    // Optimisation Next/Vercel (AVIF/WebP, redimensionnement) limitée aux deux sources réelles
+    formats: ["image/avif", "image/webp"],
+    minimumCacheTTL: 2678400, // 31 jours : les médias WordPress et Blob ne changent pas d'URL
+    remotePatterns: [
+      { protocol: "https", hostname: "admin.lesetatsgenerauxcommunaux.org", pathname: "/wp-content/uploads/**" },
+      { protocol: "https", hostname: "hebbkx1anhila5yf.public.blob.vercel-storage.com" },
+      // Vignettes de la façade YouTube (servies depuis le domaine du site)
+      { protocol: "https", hostname: "i.ytimg.com", pathname: "/vi/**" },
+    ],
   },
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }]

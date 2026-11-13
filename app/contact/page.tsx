@@ -1,4 +1,4 @@
-export const dynamic = "force-dynamic"
+export const revalidate = 60
 import { draftMode } from 'next/headers';
 import { notFound } from 'next/navigation';
 import {

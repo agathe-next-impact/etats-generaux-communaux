@@ -1,4 +1,4 @@
-export const dynamic = "force-dynamic"
+export const revalidate = 60
 import {
   PreviewProvider,
   PreviewBanner,
@@ -25,6 +25,7 @@ import { EventCard } from "@/components/event-card"
 import { ArticlesCarousel } from "@/components/articles-carousel"
 import { LocalGroupCard } from "@/components/local-group-card"
 import { GoogleMap } from "@/components/google-map"
+import { YouTubeFacade } from "@/components/youtube-facade"
 import { getPosts, getEvents, getLocalGroups, getHomePageData } from "@/lib/wordpress"
 import type { HomePageACF } from "@/lib/wordpress"
 import Link from "next/link"
@@ -148,13 +149,7 @@ async function ArticlesAndEvents({ acfData }: { acfData?: HomePageACF["section_a
 
               {/* YouTube Video Embed */}
               <div className="relative w-full aspect-video rounded-lg overflow-hidden shadow-lg border border-border">
-                <iframe
-                  src="https://www.youtube.com/embed/75DPKvfnGac"
-                  title="Les Doléances - Documentaire"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                  className="absolute inset-0 w-full h-full"
-                />
+                <YouTubeFacade videoId="75DPKvfnGac" title="Les Doléances - Documentaire" />
               </div>
 
               {/* Subtitle */}
