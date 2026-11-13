@@ -103,7 +103,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                   <Badge
                     key={category.id}
                     style={{
-                      backgroundColor: index % 3 === 0 ? "#E73628" : index % 3 === 1 ? "#F4E63C" : "#4AAD33",
+                      backgroundColor: index % 3 === 0 ? "#DE3224" : index % 3 === 1 ? "#F4E63C" : "#4AAD33",
                       color: index % 3 === 1 ? "#000" : "#fff",
                     }}
                   >
@@ -230,9 +230,8 @@ export async function generateMetadata({ params }: ArticlePageProps) {
   const post = await getPost(params.slug)
 
   if (!post) {
-    return {
-      title: "Article non trouvé",
-    }
+    // Appelé ici (avant l'envoi de la réponse) pour que Next renvoie un vrai statut 404
+    notFound()
   }
 
   const description = stripHtml(post.excerpt.rendered).substring(0, 160)

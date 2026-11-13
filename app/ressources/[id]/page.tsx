@@ -31,9 +31,8 @@ export async function generateMetadata({ params }: ResourcePageProps) {
   const resource = await getResource(params.id)
 
   if (!resource) {
-    return {
-      title: "Ressource non trouvée",
-    }
+    // Appelé ici (avant l'envoi de la réponse) pour que Next renvoie un vrai statut 404
+    notFound()
   }
 
   const description =

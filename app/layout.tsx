@@ -82,12 +82,10 @@ export const metadata: Metadata = {
       "Un mouvement citoyen qui porte la voix des territoires. Découvrez nos doléances, participez aux événements locaux et rejoignez les groupes citoyens.",
     images: ["/images/logo-egc.png"],
   },
+  // index/follow est le comportement par défaut : ne pas le forcer, sinon il contredit
+  // le noindex que Next ajoute aux pages 404
   robots: {
-    index: true,
-    follow: true,
     googleBot: {
-      index: true,
-      follow: true,
       "max-video-preview": -1,
       "max-image-preview": "large",
       "max-snippet": -1,
@@ -121,9 +119,12 @@ export default async function RootLayout({
             <Topbar />
           </Suspense>
         )}
-        <Suspense fallback={<div>Loading...</div>}>
+        {/* Pas de Suspense autour des pages : sinon le statut 200 part avant notFound() (fausses 404) */}
+        <Suspense fallback={null}>
           <Navigation showTopbar={showTopbar} />
-          <main className="min-h-screen">{children}</main>
+        </Suspense>
+        <main className="min-h-screen">{children}</main>
+        <Suspense fallback={null}>
           <Footer />
           <ScrollToTop />
         </Suspense>

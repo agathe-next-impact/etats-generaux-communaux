@@ -155,7 +155,7 @@ export default async function EventPage({ params }: EventPageProps) {
                     </Badge>
                   )}
                   {isPast && (
-                    <Badge variant="secondary" className="bg-[#E73628] text-white border-[#E73628]">
+                    <Badge variant="secondary" className="bg-[#DE3224] text-white border-[#E73628]">
                       Passé
                     </Badge>
                   )}
@@ -263,9 +263,8 @@ export async function generateMetadata({ params }: EventPageProps) {
   const event = await getEvent(params.slug)
 
   if (!event) {
-    return {
-      title: "Événement non trouvé",
-    }
+    // Appelé ici (avant l'envoi de la réponse) pour que Next renvoie un vrai statut 404
+    notFound()
   }
 
   const eventDate = parseEventDate(event.acf?.date || "")
