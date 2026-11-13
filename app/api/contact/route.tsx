@@ -1,7 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server"
-import { Resend } from "resend"
 import { escapeHtml } from "@/lib/sanitize"
 import { getParticiperPageData } from "@/lib/wordpress"
+import { isMailerConfigured, sendMail } from "@/lib/mailer"
 import { EMAIL_REGEX, getClientIp, isHoneypotTriggered, isRateLimited, isValidText } from "@/lib/form-guard"
 
 /**
@@ -46,55 +46,51 @@ export async function POST(request: NextRequest) {
     }
 
     const recipient = await getRecipient()
-    // TODO: aligner sur le domaine vérifié dans Resend (défaut historique conservé pour ne rien casser)
-    const siteDomain = process.env.SITE_DOMAIN || "next-event.fr"
-    const apiKey = process.env.RESEND_API_KEY
 
-    if (!recipient || !siteDomain || !apiKey) {
+    if (!recipient || !isMailerConfigured()) {
       if (process.env.NODE_ENV !== "production") {
-        console.warn("[contact] Mode développement : email simulé (RESEND_API_KEY, SITE_DOMAIN ou destinataire manquant)")
+        console.warn("[contact] Mode développement : email simulé (SMTP ou destinataire non configuré)")
         return NextResponse.json({ message: "Message envoyé avec succès (mode développement)" }, { status: 200 })
       }
-      console.error("[contact] Configuration incomplète : RESEND_API_KEY, SITE_DOMAIN ou destinataire manquant")
-      return NextResponse.json({ message: "Le service d'envoi est indisponible. Veuillez réessayer plus tard." }, { status: 503 })
+      console.error("[contact] Configuration incomplète : SMTP_HOST/SMTP_USER/SMTP_PASS ou destinataire manquant")
+      return NextResponse.json(
+        { message: "Le service d'envoi est indisponible. Veuillez réessayer plus tard." },
+        { status: 503 },
+      )
     }
 
-    const resend = new Resend(apiKey)
-    const safeSubject = sujet.replace(/[\r\n]+/g, " ")
-
-    const { data, error } = await resend.emails.send({
-      from: `Les EGC <noreply@${siteDomain}>`,
-      to: recipient,
-      replyTo: email,
-      subject: `[Contact] ${safeSubject}`,
-      html: `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-          <h2 style="color: #333; border-bottom: 2px solid #6CB33F; padding-bottom: 10px;">
-            Nouveau message de contact
-          </h2>
-          <div style="margin: 20px 0;">
-            <p><strong>Nom:</strong> ${escapeHtml(nom)}</p>
-            <p><strong>Email:</strong> <a href="mailto:${encodeURIComponent(email)}">${escapeHtml(email)}</a></p>
-            <p><strong>Sujet:</strong> ${escapeHtml(sujet)}</p>
+    try {
+      await sendMail({
+        to: recipient,
+        replyTo: email,
+        subject: `[Contact] ${sujet}`,
+        html: `
+          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+            <h2 style="color: #333; border-bottom: 2px solid #6CB33F; padding-bottom: 10px;">
+              Nouveau message de contact
+            </h2>
+            <div style="margin: 20px 0;">
+              <p><strong>Nom:</strong> ${escapeHtml(nom)}</p>
+              <p><strong>Email:</strong> <a href="mailto:${encodeURIComponent(email)}">${escapeHtml(email)}</a></p>
+              <p><strong>Sujet:</strong> ${escapeHtml(sujet)}</p>
+            </div>
+            <div style="background-color: #f5f5f5; padding: 15px; border-radius: 5px; margin: 20px 0;">
+              <p style="margin: 0;"><strong>Message:</strong></p>
+              <p style="margin: 10px 0 0 0; white-space: pre-wrap;">${escapeHtml(message)}</p>
+            </div>
+            <hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0;">
+            <p style="color: #666; font-size: 12px;">
+              Ce message a été envoyé depuis le formulaire de contact du site Les EGC.
+            </p>
           </div>
-          <div style="background-color: #f5f5f5; padding: 15px; border-radius: 5px; margin: 20px 0;">
-            <p style="margin: 0;"><strong>Message:</strong></p>
-            <p style="margin: 10px 0 0 0; white-space: pre-wrap;">${escapeHtml(message)}</p>
-          </div>
-          <hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0;">
-          <p style="color: #666; font-size: 12px;">
-            Ce message a été envoyé depuis le formulaire de contact du site Les EGC.
-          </p>
-        </div>
-      `,
-    })
-
-    if (error) {
-      console.error("[contact] Erreur Resend:", error.name, error.message)
+        `,
+      })
+    } catch (mailError) {
+      console.error("[contact] Erreur SMTP:", mailError instanceof Error ? mailError.message : mailError)
       return NextResponse.json({ message: "Erreur lors de l'envoi de l'email. Veuillez réessayer." }, { status: 500 })
     }
 
-    return NextResponse.json({ message: "Message envoyé avec succès", emailId: data?.id }, { status: 200 })
+    return NextResponse.json({ message: "Message envoyé avec succès" }, { status: 200 })
   } catch (error) {
     console.error("[contact] Erreur de traitement:", error instanceof Error ? error.message : error)
     return NextResponse.json({ message: "Erreur lors de l'envoi du message. Veuillez réessayer." }, { status: 500 })

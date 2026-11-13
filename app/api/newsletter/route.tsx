@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server"
 import { getArchivePageTitles } from "@/lib/wordpress"
-import nodemailer from "nodemailer"
+import { isMailerConfigured, sendMail } from "@/lib/mailer"
 import { escapeHtml } from "@/lib/sanitize"
 import { EMAIL_REGEX, getClientIp, isHoneypotTriggered, isRateLimited, isValidText } from "@/lib/form-guard"
 
@@ -51,15 +51,8 @@ export async function POST(request: Request) {
       console.error("Failed to fetch WordPress data:", wpError)
     }
 
-    const smtpHost = process.env.SMTP_HOST
-    const smtpPort = process.env.SMTP_PORT
-    const smtpUser = process.env.SMTP_USER
-    const smtpPass = process.env.SMTP_PASS
-    // Gmail requires the "from" address to match the authenticated user
-    const smtpFrom = process.env.SMTP_FROM || `Les EGC <${smtpUser}>`
-
     // Check if SMTP is configured
-    if (!smtpHost || !smtpUser || !smtpPass) {
+    if (!isMailerConfigured()) {
       console.error("[Newsletter] SMTP non configuré : inscription non transmise.")
       if (process.env.NODE_ENV !== "production") {
         return NextResponse.json({ message: "Inscription simulée (mode développement, SMTP non configuré)." })
@@ -69,17 +62,6 @@ export async function POST(request: Request) {
         { status: 503 },
       )
     }
-
-    // Create transporter
-    const transporter = nodemailer.createTransport({
-      host: smtpHost,
-      port: Number.parseInt(smtpPort || "587"),
-      secure: smtpPort === "465",
-      auth: {
-        user: smtpUser,
-        pass: smtpPass,
-      },
-    })
 
     // Email to admin
     const adminEmailHtml = `
@@ -123,20 +105,15 @@ export async function POST(request: Request) {
     `
 
     try {
-      // Verify SMTP connection first
-      await transporter.verify()
-
       // Send email to admin
-      await transporter.sendMail({
-        from: smtpFrom,
+      await sendMail({
         to: recipientEmail,
         subject: "Nouvelle inscription à la newsletter",
         html: adminEmailHtml,
       })
 
       // Send confirmation email to subscriber
-      await transporter.sendMail({
-        from: smtpFrom,
+      await sendMail({
         to: email,
         subject: "Confirmation d'inscription à la newsletter",
         html: subscriberEmailHtml,
