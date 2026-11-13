@@ -207,8 +207,8 @@ function GoogleMapInner({ groups }: GoogleMapProps) {
 
           const marker = new window.google.maps.Marker({
             position: {
-              lat: Number.parseFloat(group.acf.localisation.lat),
-              lng: Number.parseFloat(group.acf.localisation.lng),
+              lat: Number(group.acf.localisation.lat),
+              lng: Number(group.acf.localisation.lng),
             },
             map: map,
             title: group.acf?.nom_de_groupe || group.title.rendered,
@@ -244,8 +244,8 @@ function GoogleMapInner({ groups }: GoogleMapProps) {
         groups.forEach((group) => {
           if (group.acf?.localisation?.lat && group.acf?.localisation?.lng) {
             bounds.extend({
-              lat: Number.parseFloat(group.acf.localisation.lat),
-              lng: Number.parseFloat(group.acf.localisation.lng),
+              lat: Number(group.acf.localisation.lat),
+              lng: Number(group.acf.localisation.lng),
             })
           }
         })

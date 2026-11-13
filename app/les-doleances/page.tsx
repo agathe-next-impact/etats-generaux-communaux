@@ -13,7 +13,7 @@ import { DoleancesClient } from "./doleances-client"
 
 export default async function DoleancesPage() {
   const doleancesPageData = await getDoleancesPageData()
-  const acf = doleancesPageData?.acf
+  const acf = doleancesPageData?.acf ?? null
 
   return <DoleancesClient acf={acf} />
 }

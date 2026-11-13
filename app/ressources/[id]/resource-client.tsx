@@ -61,7 +61,7 @@ export default function ResourcePageClient({ resource }: ResourcePageClientProps
 
   const handleFileDownloads = () => {
     if (hasFiles && resource.acf?.fichiers) {
-      resource.acf.fichiers.forEach((file, index) => {
+      resource.acf.fichiers.forEach((file: { document?: { url?: string }; titre_du_document?: string }, index: number) => {
         const fileUrl = validateUrl(file.document?.url)
         if (fileUrl) {
           setTimeout(() => {

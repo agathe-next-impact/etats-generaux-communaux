@@ -58,7 +58,7 @@ export function escapeHtml(text: string): string {
  * Validate that a URL uses a safe protocol (http or https only).
  * Returns the URL if valid, or null if potentially dangerous.
  */
-export function validateUrl(url: string): string | null {
+export function validateUrl(url: string | null | undefined): string | null {
   if (!url || !url.trim()) return null
   try {
     const parsed = new URL(url, "https://placeholder.com")
