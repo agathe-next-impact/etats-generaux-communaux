@@ -35,14 +35,14 @@ export function BandeauSynthese({ data }: BandeauSyntheseProps) {
             <div className="lg:col-span-3 flex flex-col items-center">
               <div className="relative w-full aspect-square max-w-[250px] mb-4 rounded-lg overflow-hidden shadow-lg border border-[#E73628] hover:scale-105 transition-transform duration-300">
                 <Image
-                  src={data.image_couleur.url || "/placeholder.svg"}
-                  alt={data.image_couleur.alt || "Image couleur"}
+                  src={data.image_couleur?.url || "/placeholder.svg"}
+                  alt={data.image_couleur?.alt || "Image couleur"}
                   fill
                   className="object-cover"
                 />
               </div>
               {data.lien_couleur?.url && (
-                <Button asChild size="lg" className="bg-[#E73628] hover:bg-[#E73628]/90 text-white font-bold uppercase">
+                <Button asChild size="lg" className="bg-[#DE3224] hover:bg-[#DE3224]/90 text-white font-bold uppercase">
                   <Link href={data.lien_couleur.url} target={data.lien_couleur.target || "_self"}>
                     Ouvrir
                     <ExternalLink className="ml-2 h-4 w-4" />
@@ -69,8 +69,8 @@ export function BandeauSynthese({ data }: BandeauSyntheseProps) {
             <div className="lg:col-span-3 flex flex-col items-center">
               <div className="relative w-full aspect-square max-w-[250px] mb-4 rounded-lg overflow-hidden shadow-lg border border-gray-400 hover:scale-105 transition-transform duration-300 grayscale">
                 <Image
-                  src={data.image_noir_et_blanc.url || "/placeholder.svg"}
-                  alt={data.image_noir_et_blanc.alt || "Image noir et blanc"}
+                  src={data.image_noir_et_blanc?.url || "/placeholder.svg"}
+                  alt={data.image_noir_et_blanc?.alt || "Image noir et blanc"}
                   fill
                   className="object-cover"
                 />

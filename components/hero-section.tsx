@@ -39,7 +39,7 @@ export function HeroSection({ acf }: HeroSectionProps) {
         {acf.cta_15?.url ? (
           <Link href={acf.cta_15.url} target={acf.cta_15.target || "_self"} className="group block">
             <div className="relative">
-              <div className="bg-[#E73628] text-white px-4 py-3 md:px-6 md:py-4 rounded-lg shadow-xl transform rotate-3 group-hover:rotate-6 transition-transform duration-300 border-4 border-white">
+              <div className="bg-[#DE3224] text-white px-4 py-3 md:px-6 md:py-4 rounded-lg shadow-xl transform rotate-3 group-hover:rotate-6 transition-transform duration-300 border-4 border-white">
                 <div className="text-center">
                   <div className="text-[10px] md:text-xs font-bold uppercase tracking-wider mb-1">Appel du</div>
                   <div className="text-xl md:text-2xl font-black">15 octobre</div>
@@ -55,7 +55,7 @@ export function HeroSection({ acf }: HeroSectionProps) {
           </Link>
         ) : (
           <div className="relative">
-            <div className="bg-[#E73628] text-white px-4 py-3 md:px-6 md:py-4 rounded-lg shadow-xl transform rotate-3 border-4 border-white">
+            <div className="bg-[#DE3224] text-white px-4 py-3 md:px-6 md:py-4 rounded-lg shadow-xl transform rotate-3 border-4 border-white">
               <div className="text-center">
                 <div className="text-[10px] md:text-xs font-bold uppercase tracking-wider mb-1">Appel du</div>
                 <div className="text-xl md:text-2xl font-black">15 octobre</div>

@@ -38,7 +38,7 @@ export function ArticlesCarousel({ posts }: ArticlesCarouselProps) {
           <div className="relative h-64 overflow-hidden">
             {currentPost._embedded?.["wp:featuredmedia"]?.[0] ? (
               <Image
-                src={currentPost._embedded["wp:featuredmedia"][0].source_url || "/placeholder.svg"}
+                src={currentPost._embedded["wp:featuredmedia"]![0].source_url || "/placeholder.svg"}
                 alt={currentPost._embedded["wp:featuredmedia"][0].alt_text || decodeHtmlEntities(currentPost.title.rendered)}
                 fill
                 className="object-cover group-hover:scale-105 transition-transform duration-300"
@@ -50,9 +50,9 @@ export function ArticlesCarousel({ posts }: ArticlesCarouselProps) {
             )}
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
 
-            {currentPost._embedded?.["wp:term"]?.[0]?.length > 0 && (
+            {(currentPost._embedded?.["wp:term"]?.[0]?.length ?? 0) > 0 && (
               <div className="absolute top-4 left-4 flex flex-wrap gap-2">
-                {currentPost._embedded["wp:term"][0].slice(0, 2).map((category) => (
+                {(currentPost._embedded?.["wp:term"]?.[0] ?? []).slice(0, 2).map((category) => (
                   <Badge key={category.id} className="bg-[#F4E63C] text-black hover:bg-[#F4E63C]/90 font-bold">
                     {category.name}
                   </Badge>
@@ -92,21 +92,22 @@ export function ArticlesCarousel({ posts }: ArticlesCarouselProps) {
             size="icon"
             onClick={prevSlide}
             aria-label="Article précédent"
-            className="h-10 w-10 border-[#E73628] text-[#E73628] hover:bg-[#E73628] hover:text-white bg-transparent"
+            className="h-10 w-10 border-[#E73628] text-[#E73628] hover:bg-[#DE3224] hover:text-white bg-transparent"
           >
             <ChevronLeft className="h-4 w-4" />
           </Button>
 
-          <div className="flex gap-2">
+          <div className="flex">
             {posts.map((_, index) => (
               <button
                 key={index}
                 onClick={() => setCurrentIndex(index)}
-                className={`h-2 rounded-full transition-all ${
-                  index === currentIndex ? "w-8 bg-[#E73628]" : "w-2 bg-muted-foreground/30"
-                }`}
+                className="flex h-6 min-w-6 items-center justify-center"
                 aria-label={`Aller à l'article ${index + 1}`}
-              />
+              >
+                {/* Zone cliquable de 24 px (accessibilité), pastille visuelle inchangée */}
+                <span className={`block h-2 rounded-full transition-all ${index === currentIndex ? "w-8 bg-[#E73628]" : "w-2 bg-muted-foreground/30"}`} />
+              </button>
             ))}
           </div>
 
@@ -115,7 +116,7 @@ export function ArticlesCarousel({ posts }: ArticlesCarouselProps) {
             size="icon"
             onClick={nextSlide}
             aria-label="Article suivant"
-            className="h-10 w-10 border-[#E73628] text-[#E73628] hover:bg-[#E73628] hover:text-white bg-transparent"
+            className="h-10 w-10 border-[#E73628] text-[#E73628] hover:bg-[#DE3224] hover:text-white bg-transparent"
           >
             <ChevronRight className="h-4 w-4" />
           </Button>

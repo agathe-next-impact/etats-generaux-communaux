@@ -213,7 +213,7 @@ export function VerticalTimeline({ links, title, subtitle }: VerticalTimelinePro
                           <Link
                             href={link.lien.url}
                             target={link.lien.target || "_self"}
-                            className="block text-center text-sm font-bold text-white bg-[#E73628] hover:bg-[#E73628]/90 transition-colors py-3 px-6 rounded-lg"
+                            className="block text-center text-sm font-bold text-white bg-[#DE3224] hover:bg-[#DE3224]/90 transition-colors py-3 px-6 rounded-lg"
                           >
                             En savoir plus →
                           </Link>
@@ -458,7 +458,6 @@ export function VerticalTimeline({ links, title, subtitle }: VerticalTimelinePro
                 initial={{ opacity: 0, scale: 0 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
                 className="absolute"
                 style={{
                   left: `${position.x}%`,

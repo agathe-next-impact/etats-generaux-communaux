@@ -133,21 +133,22 @@ export function EventsCarousel({ events }: EventsCarouselProps) {
             size="icon"
             onClick={prevSlide}
             aria-label="Événement précédent"
-            className="h-10 w-10 border-[#E73628] text-[#E73628] hover:bg-[#E73628] hover:text-white bg-transparent"
+            className="h-10 w-10 border-[#E73628] text-[#E73628] hover:bg-[#DE3224] hover:text-white bg-transparent"
           >
             <ChevronLeft className="h-4 w-4" />
           </Button>
 
-          <div className="flex gap-2">
+          <div className="flex">
             {events.map((_, index) => (
               <button
                 key={index}
                 onClick={() => setCurrentIndex(index)}
-                className={`h-2 rounded-full transition-all ${
-                  index === currentIndex ? "w-8 bg-[#E73628]" : "w-2 bg-muted-foreground/30"
-                }`}
+                className="flex h-6 min-w-6 items-center justify-center"
                 aria-label={`Aller à l'événement ${index + 1}`}
-              />
+              >
+                {/* Zone cliquable de 24 px (accessibilité), pastille visuelle inchangée */}
+                <span className={`block h-2 rounded-full transition-all ${index === currentIndex ? "w-8 bg-[#E73628]" : "w-2 bg-muted-foreground/30"}`} />
+              </button>
             ))}
           </div>
 
@@ -156,7 +157,7 @@ export function EventsCarousel({ events }: EventsCarouselProps) {
             size="icon"
             onClick={nextSlide}
             aria-label="Événement suivant"
-            className="h-10 w-10 border-[#E73628] text-[#E73628] hover:bg-[#E73628] hover:text-white bg-transparent"
+            className="h-10 w-10 border-[#E73628] text-[#E73628] hover:bg-[#DE3224] hover:text-white bg-transparent"
           >
             <ChevronRight className="h-4 w-4" />
           </Button>

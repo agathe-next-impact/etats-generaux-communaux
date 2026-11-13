@@ -112,7 +112,7 @@ export function EventFilters({ onFiltersChange }: EventFiltersProps) {
           <Button
             variant="outline"
             onClick={clearFilters}
-            className="flex items-center gap-2 bg-transparent border border-[#E73628] text-[#E73628] hover:bg-[#E73628] hover:text-white"
+            className="flex items-center gap-2 bg-transparent border border-[#E73628] text-[#E73628] hover:bg-[#DE3224] hover:text-white"
           >
             <X className="h-4 w-4" />
             Effacer

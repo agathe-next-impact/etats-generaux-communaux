@@ -21,7 +21,7 @@ export function LatestNews({ posts }: LatestNewsProps) {
         <div className="flex items-center justify-between mb-12">
           <div>
             <h2 className="text-3xl md:text-4xl font-extrabold text-foreground mb-4">
-              <span className="bg-[#E73628] text-white px-4 py-2">DERNIÈRES</span>
+              <span className="bg-[#DE3224] text-white px-4 py-2">DERNIÈRES</span>
               <span> actualités</span>
             </h2>
             <p className="text-muted-foreground text-lg">Les articles les plus récents de notre magazine</p>
