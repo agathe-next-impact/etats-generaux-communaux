@@ -45,7 +45,7 @@ export function EventsCarousel({ events }: EventsCarouselProps) {
 
   let eventTimestamp: number
   if (currentEvent.acf?.date) {
-    let eventDate = parseDate(currentEvent.acf.date)
+    const eventDate = parseDate(currentEvent.acf.date)
     // Set to midnight for date-only comparison
     eventDate.setHours(0, 0, 0, 0)
     eventTimestamp = eventDate.getTime()

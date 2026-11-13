@@ -24,7 +24,7 @@ export function EventCard({ event }: EventCardProps) {
 
   let eventTimestamp: number
   if (event.acf?.date) {
-    let eventDate = parseDate(event.acf.date)
+    const eventDate = parseDate(event.acf.date)
     // Set to midnight for date-only comparison
     eventDate.setHours(0, 0, 0, 0)
     eventTimestamp = eventDate.getTime()
